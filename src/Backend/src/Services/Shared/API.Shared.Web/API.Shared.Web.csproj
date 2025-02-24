@@ -7,8 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Shared\API.Shared.Application\API.Shared.Application.csproj" />
-    <ProjectReference Include="..\API.Accounts.Infrastructure\API.Accounts.Infrastructure.csproj" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\API.Shared.Application\API.Shared.Application.csproj" />
   </ItemGroup>
 
 </Project>

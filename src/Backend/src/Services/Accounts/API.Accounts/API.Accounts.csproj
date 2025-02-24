@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Shared\API.Shared.Web\API.Shared.Web.csproj" />
     <ProjectReference Include="..\API.Accounts.Application\API.Accounts.Application.csproj" />
   </ItemGroup>
 
