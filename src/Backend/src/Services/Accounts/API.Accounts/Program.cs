@@ -8,12 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
     .AddAccountsInfrastructure(builder.Configuration)
-    .AddAccountsApplicationLayer();
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+    .AddAccountsApplicationLayer()
+    .ConfigureWebServices();
 
 var app = builder.Build();
 

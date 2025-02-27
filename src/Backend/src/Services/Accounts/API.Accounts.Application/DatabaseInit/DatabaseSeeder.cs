@@ -1,4 +1,4 @@
-﻿using API.Accounts.Application.Features.Roles.Interfaces;
+﻿using API.Accounts.Application.Features.Roles.Seeders;
 using API.Accounts.Domain;
 using API.Shared.Application.DatabaseInit;
 

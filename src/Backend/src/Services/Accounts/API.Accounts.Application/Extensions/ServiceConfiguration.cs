@@ -1,6 +1,6 @@
 ﻿using API.Accounts.Application.DatabaseInit;
-using API.Accounts.Application.Features.Roles;
-using API.Accounts.Application.Features.Roles.Interfaces;
+using API.Accounts.Application.Features.Roles.Factories;
+using API.Accounts.Application.Features.Roles.Seeders;
 using API.Shared.Application.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,6 +15,7 @@ namespace API.Accounts.Application.Extensions
                 .AddMapper();
 
             services.AddTransient<IRoleSeeder, RoleSeeder>();
+            services.AddTransient<IRoleQueryFactory, RoleQueryFactory>();
 
             return services;
         }

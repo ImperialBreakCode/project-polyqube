@@ -1,6 +1,6 @@
 ﻿using API.Accounts.Domain.Repositories;
 
-namespace API.Accounts.Application.Features.Roles.Interfaces
+namespace API.Accounts.Application.Features.Roles.Seeders
 {
     internal interface IRoleSeeder
     {

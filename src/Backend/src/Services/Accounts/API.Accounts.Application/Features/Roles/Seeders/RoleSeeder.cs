@@ -1,9 +1,8 @@
-﻿using API.Accounts.Application.Features.Roles.Interfaces;
-using API.Accounts.Domain.Aggregates;
+﻿using API.Accounts.Domain.Aggregates;
 using API.Accounts.Domain.Repositories;
 using API.Shared.Common.Constants;
 
-namespace API.Accounts.Application.Features.Roles
+namespace API.Accounts.Application.Features.Roles.Seeders
 {
     internal class RoleSeeder : IRoleSeeder
     {

@@ -11,7 +11,9 @@ namespace API.Accounts.Infrastructure.Extensions
     {
         public static IServiceCollection AddAccountsInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDatabase<AccountsDbContext>(configuration);
+            services
+                .AddDatabase<AccountsDbContext>(configuration)
+                .AddMediatRServices();
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IRepositoryFactory, RepositoryFactory>();

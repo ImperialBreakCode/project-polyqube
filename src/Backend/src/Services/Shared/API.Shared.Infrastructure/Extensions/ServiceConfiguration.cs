@@ -27,5 +27,15 @@ namespace API.Shared.Infrastructure.Extensions
 
             return services;
         }
+
+        public static IServiceCollection AddMediatRServices(this IServiceCollection services)
+        {
+            services.AddMediatR(cfg =>
+            {
+                cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
+            });
+
+            return services;
+        }
     }
 }

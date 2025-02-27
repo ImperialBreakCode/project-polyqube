@@ -15,7 +15,7 @@ namespace API.Shared.Application.Extensions
 
         public static IServiceCollection AddMapper(this IServiceCollection services)
         {
-            services.AddAutoMapper(typeof(ServiceConfiguration).Assembly);
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             return services;
         }

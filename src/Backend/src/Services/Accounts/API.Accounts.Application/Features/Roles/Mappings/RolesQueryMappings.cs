@@ -4,9 +4,9 @@ using AutoMapper;
 
 namespace API.Accounts.Application.Features.Roles.Mappings
 {
-    public class RolesQueryProfile : Profile
+    public class RolesQueryMappings : Profile
     {
-        public RolesQueryProfile() 
+        public RolesQueryMappings() 
         {
             CreateMap<Role, RoleQueryViewModel>();
         }
