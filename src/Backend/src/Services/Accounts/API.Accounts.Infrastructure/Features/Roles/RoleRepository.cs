@@ -1,5 +1,5 @@
-﻿using API.Accounts.Domain.Aggregates;
-using API.Accounts.Domain.Exceptions.RoleExceptions;
+﻿using API.Accounts.Common.Features.Roles.Exceptions;
+using API.Accounts.Domain.Aggregates;
 using API.Accounts.Domain.Repositories;
 using API.Shared.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;

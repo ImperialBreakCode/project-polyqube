@@ -1,6 +1,6 @@
 ﻿using API.Shared.Common.Exceptions;
 
-namespace API.Accounts.Domain.Exceptions.EmailExceptions
+namespace API.Accounts.Common.Features.Users.EmailExceptions
 {
     public class EmailAlreadyExists : ConflictException
     {

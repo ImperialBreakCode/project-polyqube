@@ -1,6 +1,6 @@
 ﻿using API.Shared.Common.Exceptions;
 
-namespace API.Accounts.Domain.Exceptions.RoleExceptions
+namespace API.Accounts.Common.Features.Roles.Exceptions
 {
     public class RoleAlreadyExistsException : ConflictException
     {

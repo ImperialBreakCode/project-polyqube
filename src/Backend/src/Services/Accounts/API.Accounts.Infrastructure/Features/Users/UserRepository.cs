@@ -1,8 +1,8 @@
-﻿using API.Accounts.Domain.Aggregates;
+﻿using API.Accounts.Common.Features.Roles.Exceptions;
+using API.Accounts.Common.Features.Users.EmailExceptions;
+using API.Accounts.Common.Features.Users.Exceptions;
+using API.Accounts.Domain.Aggregates;
 using API.Accounts.Domain.Aggregates.UserAggregate;
-using API.Accounts.Domain.Exceptions.EmailExceptions;
-using API.Accounts.Domain.Exceptions.RoleExceptions;
-using API.Accounts.Domain.Exceptions.UserExceptions;
 using API.Accounts.Domain.Repositories;
 using API.Shared.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
