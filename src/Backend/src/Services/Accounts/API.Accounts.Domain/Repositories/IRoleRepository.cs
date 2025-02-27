@@ -8,5 +8,6 @@ namespace API.Accounts.Domain.Repositories
         Role? GetByName(string name);
         ICollection<UserRole> GetActiveUserRoles(string roleId, int startPosition, int amount);
         ICollection<UserRole> GetUserRoles(string roleId, int startPosition, int amount);
+        Task<ICollection<Role>> GetAllRolesAsync();
     }
 }

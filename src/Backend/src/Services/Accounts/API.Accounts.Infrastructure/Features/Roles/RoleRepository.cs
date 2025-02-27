@@ -58,5 +58,12 @@ namespace API.Accounts.Infrastructure.Features.Roles
                 .Skip(startPosition)
                 .Take(amount);
         }
+
+        public async Task<ICollection<Role>> GetAllRolesAsync()
+        {
+            return await DbSet
+                .AsNoTracking()
+                .ToListAsync();
+        }
     }
 }

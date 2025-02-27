@@ -10,7 +10,10 @@ namespace API.Accounts.Application.Extensions
     {
         public static IServiceCollection AddAccountsApplicationLayer(this IServiceCollection services)
         {
-            services.AddDatabaseSeeder<DatabaseSeeder>();
+            services
+                .AddDatabaseSeeder<DatabaseSeeder>()
+                .AddMapper();
+
             services.AddTransient<IRoleSeeder, RoleSeeder>();
 
             return services;

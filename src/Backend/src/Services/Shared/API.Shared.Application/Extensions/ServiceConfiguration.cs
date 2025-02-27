@@ -12,5 +12,12 @@ namespace API.Shared.Application.Extensions
 
             return services;
         }
+
+        public static IServiceCollection AddMapper(this IServiceCollection services)
+        {
+            services.AddAutoMapper(typeof(ServiceConfiguration).Assembly);
+
+            return services;
+        }
     }
 }
