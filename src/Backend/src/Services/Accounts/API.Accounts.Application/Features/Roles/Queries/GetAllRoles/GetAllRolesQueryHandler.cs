@@ -20,7 +20,7 @@ namespace API.Accounts.Application.Features.Roles.Queries.GetAllRoles
 
         public async Task<ICollection<RoleQueryViewModel>> Handle(GetAllRolesQuery request, CancellationToken cancellationToken)
         {
-            ICollection<Role> roles = await _roleRepository.GetAllRolesAsync();
+            ICollection<Role> roles = await _roleRepository.GetAllRolesAsync(cancellationToken);
 
             return _mapper.Map<ICollection<RoleQueryViewModel>>(roles);
         }

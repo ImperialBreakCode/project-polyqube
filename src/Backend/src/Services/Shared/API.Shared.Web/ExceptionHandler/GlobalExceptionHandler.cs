@@ -6,7 +6,7 @@ using System.Net;
 
 namespace API.Shared.Web.ExceptionHandler
 {
-    internal class AppExceptionHandler : IExceptionHandler
+    internal class GlobalExceptionHandler : IExceptionHandler
     {
         public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
         {

@@ -1,4 +1,5 @@
 ﻿using API.Accounts.Application.Features.Roles.Queries.GetAllRoles;
+using API.Accounts.Application.Features.Roles.Queries.GetRoleByName;
 
 namespace API.Accounts.Application.Features.Roles.Factories
 {
@@ -7,6 +8,11 @@ namespace API.Accounts.Application.Features.Roles.Factories
         public GetAllRolesQuery CreateGetAllRolesQuery()
         {
             return new GetAllRolesQuery();
+        }
+
+        public GetRoleByNameQuery CreateGetRoleByNameQuery(string roleName)
+        {
+            return new GetRoleByNameQuery(roleName);
         }
     }
 }

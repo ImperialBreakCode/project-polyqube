@@ -46,7 +46,8 @@ namespace API.Shared.Web.Extensions
 
         public static IServiceCollection AddAppExceptionHandler(this IServiceCollection services)
         {
-            services.AddExceptionHandler<AppExceptionHandler>();
+            services.AddExceptionHandler<GlobalExceptionHandler>();
+            services.AddProblemDetails();
 
             return services;
         }

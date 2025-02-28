@@ -1,6 +1,6 @@
 ﻿namespace API.Shared.Web.Models
 {
-    internal record ProblemResponseDTO
+    public record ProblemResponseDTO
     {
         public string Title { get; init; }
         public string Type { get; init; }

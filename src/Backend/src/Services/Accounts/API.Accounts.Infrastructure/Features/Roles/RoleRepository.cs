@@ -3,6 +3,7 @@ using API.Accounts.Domain.Aggregates;
 using API.Accounts.Domain.Repositories;
 using API.Shared.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
 
 namespace API.Accounts.Infrastructure.Features.Roles
 {
@@ -15,9 +16,14 @@ namespace API.Accounts.Infrastructure.Features.Roles
             _context = context;
         }
 
+        public async Task<Role?> GetByNameAsync(string name, CancellationToken cancellationToken = default)
+        {
+            return await SetGetByNameQuery(name).FirstOrDefaultAsync(cancellationToken);
+        }
+
         public Role? GetByName(string name)
         {
-            return DbSet.Where(x => x.RoleName == name).AsNoTracking().FirstOrDefault();
+            return SetGetByNameQuery(name).FirstOrDefault();
         }
 
         public ICollection<UserRole> GetUserRoles(string roleId, int startPosition, int amount)
@@ -42,7 +48,7 @@ namespace API.Accounts.Infrastructure.Features.Roles
 
         public override void Insert(Role entity)
         {
-            if (GetByName(entity.RoleName) is not null)
+            if (GetByNameAsync(entity.RoleName) is not null)
             {
                 throw new RoleAlreadyExistsException();
             }
@@ -50,6 +56,12 @@ namespace API.Accounts.Infrastructure.Features.Roles
             base.Insert(entity);
         }
 
+        public async Task<ICollection<Role>> GetAllRolesAsync(CancellationToken cancellationToken = default)
+        {
+            return await DbSet
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
+        }
 
         private IQueryable<UserRole> SetUserRoleQuery(int startPosition, int amount)
         {
@@ -59,11 +71,11 @@ namespace API.Accounts.Infrastructure.Features.Roles
                 .Take(amount);
         }
 
-        public async Task<ICollection<Role>> GetAllRolesAsync()
+        private IQueryable<Role> SetGetByNameQuery(string name)
         {
-            return await DbSet
-                .AsNoTracking()
-                .ToListAsync();
+            return DbSet
+                .Where(x => x.RoleName == name)
+                .AsNoTracking();
         }
     }
 }
