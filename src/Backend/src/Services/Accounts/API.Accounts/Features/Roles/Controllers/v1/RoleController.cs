@@ -24,6 +24,7 @@ namespace API.Accounts.Features.Roles.Controllers.v1
         }
 
         [HttpGet("get-all-roles")]
+        [ProducesResponseType<ICollection<RoleDTO>>(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllRoles()
         {
             var roles = await _sender.Send(_roleQueryFactory.CreateGetAllRolesQuery());

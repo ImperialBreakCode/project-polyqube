@@ -1,4 +1,5 @@
-﻿using Asp.Versioning;
+﻿using API.Shared.Web.ExceptionHandler;
+using Asp.Versioning;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace API.Shared.Web.Extensions
@@ -9,7 +10,8 @@ namespace API.Shared.Web.Extensions
         {
             services
                 .AddVersioning()
-                .AddSwagger();
+                .AddSwagger()
+                .AddAppExceptionHandler();
                 
             services.AddControllers();
 
@@ -38,6 +40,13 @@ namespace API.Shared.Web.Extensions
         {
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
+
+            return services;
+        }
+
+        public static IServiceCollection AddAppExceptionHandler(this IServiceCollection services)
+        {
+            services.AddExceptionHandler<AppExceptionHandler>();
 
             return services;
         }

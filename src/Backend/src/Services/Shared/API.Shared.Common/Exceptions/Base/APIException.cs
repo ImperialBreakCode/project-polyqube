@@ -1,6 +1,9 @@
-﻿namespace API.Shared.Common.Exceptions.Base
+﻿using System.Net;
+
+namespace API.Shared.Common.Exceptions.Base
 {
-    public class APIException(string message) : Exception(message)
+    public class APIException(string message, HttpStatusCode statusCode) : Exception(message)
     {
+        public HttpStatusCode StatusCode { get; init; } = statusCode;
     }
 }
