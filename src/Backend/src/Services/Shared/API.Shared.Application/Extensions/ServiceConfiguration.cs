@@ -1,4 +1,5 @@
 ﻿using API.Shared.Application.DatabaseInit;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace API.Shared.Application.Extensions
@@ -16,6 +17,13 @@ namespace API.Shared.Application.Extensions
         public static IServiceCollection AddMapper(this IServiceCollection services)
         {
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            return services;
+        }
+
+        public static IServiceCollection AddFluentValidators(this IServiceCollection services)
+        {
+            services.AddValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
 
             return services;
         }

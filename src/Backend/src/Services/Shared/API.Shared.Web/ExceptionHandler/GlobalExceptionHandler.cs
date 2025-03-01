@@ -1,8 +1,8 @@
-﻿using API.Shared.Common.Exceptions.Base;
+﻿using API.Shared.Common.Exceptions;
+using API.Shared.Common.Exceptions.Base;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace API.Shared.Web.ExceptionHandler
 {
@@ -12,7 +12,11 @@ namespace API.Shared.Web.ExceptionHandler
         {
             httpContext.Response.ContentType = "application/json";
 
-            if (exception is APIException apiException)
+            if (exception is UnprocessableContentException unprocessableException)
+            {
+                await HandleValidationErrorException(httpContext, unprocessableException, cancellationToken);
+            }
+            else if (exception is APIException apiException)
             {
                 await HandleAPIExceptions(httpContext, apiException, cancellationToken);
             }
@@ -24,11 +28,28 @@ namespace API.Shared.Web.ExceptionHandler
             return true;
         }
 
-        private async Task HandleAPIExceptions(HttpContext httpContext, APIException exception, CancellationToken cancellationToken)
+        private async Task HandleValidationErrorException(HttpContext httpContext, UnprocessableContentException exception, CancellationToken cancellationToken)
         {
             var statusCode = (int)exception.StatusCode;
 
             var problemDetails = new ValidationProblemDetails()
+            {
+                Title = "Validation Errors",
+                Detail = exception.Message,
+                Type = exception.GetType().Name,
+                Status = statusCode,
+                Errors = exception.Errors
+            };
+
+            httpContext.Response.StatusCode = statusCode;
+            await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
+        }
+
+        private async Task HandleAPIExceptions(HttpContext httpContext, APIException exception, CancellationToken cancellationToken)
+        {
+            var statusCode = (int)exception.StatusCode;
+
+            var problemDetails = new ProblemDetails()
             {
                 Title = Enum.GetName(exception.StatusCode)!,
                 Type = exception.GetType().Name,
@@ -42,13 +63,13 @@ namespace API.Shared.Web.ExceptionHandler
 
         private async Task HandleUnknownException(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
         {
-            var statusCode = (int)HttpStatusCode.InternalServerError;
+            var statusCode = StatusCodes.Status500InternalServerError;
 
-            var problemDetails = new ValidationProblemDetails()
+            var problemDetails = new ProblemDetails()
             {
                 Title = "InternalServerError",
                 Type = "UnknownException",
-                Detail = "Unknown message",
+                Detail = exception.Message,
                 Status = statusCode,
             };
 

@@ -35,7 +35,7 @@ namespace API.Accounts.Features.Roles.Controllers.v1
 
         [HttpGet("get-by-name/{roleName}")]
         [ProducesResponseType<RoleDTO>(StatusCodes.Status200OK)]
-        [ProducesResponseType<ValidationProblemDetails>(StatusCodes.Status404NotFound)]
+        [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetRoleByName(string roleName)
         {
             var role = await _sender.Send(_roleQueryFactory.CreateGetRoleByNameQuery(roleName));

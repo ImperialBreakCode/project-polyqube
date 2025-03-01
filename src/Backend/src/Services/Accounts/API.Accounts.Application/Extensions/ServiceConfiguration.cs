@@ -12,6 +12,7 @@ namespace API.Accounts.Application.Extensions
         {
             services
                 .AddDatabaseSeeder<DatabaseSeeder>()
+                .AddFluentValidators()
                 .AddMapper();
 
             services.AddTransient<IRoleSeeder, RoleSeeder>();
