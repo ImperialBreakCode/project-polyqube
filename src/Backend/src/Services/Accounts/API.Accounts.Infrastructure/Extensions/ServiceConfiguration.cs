@@ -9,9 +9,11 @@ namespace API.Accounts.Infrastructure.Extensions
 {
     public static class ServiceConfiguration
     {
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddAccountsInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDatabase<AccountsDbContext>(configuration);
+            services
+                .AddDatabase<AccountsDbContext>(configuration)
+                .AddMediatRServices();
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IRepositoryFactory, RepositoryFactory>();

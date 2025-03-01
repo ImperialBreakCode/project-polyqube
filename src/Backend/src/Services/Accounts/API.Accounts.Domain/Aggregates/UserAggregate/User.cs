@@ -1,5 +1,5 @@
 ﻿using API.Shared.Domain.Base;
-using API.Accounts.Domain.Exceptions.EmailExceptions;
+using API.Accounts.Common.Features.Users.EmailExceptions;
 
 namespace API.Accounts.Domain.Aggregates.UserAggregate
 {

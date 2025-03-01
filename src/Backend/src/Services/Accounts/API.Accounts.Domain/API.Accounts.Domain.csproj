@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\API.Shared.Domain\API.Shared.Domain.csproj" />
+    <ProjectReference Include="..\API.Accounts.Common\API.Accounts.Common.csproj" />
   </ItemGroup>
 
 </Project>
