@@ -1,7 +1,7 @@
 ﻿using API.Shared.Common.Exceptions.Base;
-using API.Shared.Web.Models;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
 namespace API.Shared.Web.ExceptionHandler
@@ -28,12 +28,12 @@ namespace API.Shared.Web.ExceptionHandler
         {
             var statusCode = (int)exception.StatusCode;
 
-            var problemDetails = new ProblemResponseDTO()
+            var problemDetails = new ValidationProblemDetails()
             {
                 Title = Enum.GetName(exception.StatusCode)!,
                 Type = exception.GetType().Name,
-                DetailsMessage = exception.Message,
-                StatusCode = statusCode,
+                Detail = exception.Message,
+                Status = statusCode,
             };
 
             httpContext.Response.StatusCode = statusCode;
@@ -44,12 +44,12 @@ namespace API.Shared.Web.ExceptionHandler
         {
             var statusCode = (int)HttpStatusCode.InternalServerError;
 
-            var problemDetails = new ProblemResponseDTO()
+            var problemDetails = new ValidationProblemDetails()
             {
                 Title = "InternalServerError",
                 Type = "UnknownException",
-                DetailsMessage = "Unknown message",
-                StatusCode = statusCode,
+                Detail = "Unknown message",
+                Status = statusCode,
             };
 
             httpContext.Response.StatusCode = statusCode;
