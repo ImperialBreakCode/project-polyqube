@@ -3,7 +3,6 @@ using API.Accounts.Domain.Aggregates;
 using API.Accounts.Domain.Repositories;
 using API.Shared.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
-using System.Threading;
 
 namespace API.Accounts.Infrastructure.Features.Roles
 {
@@ -26,19 +25,19 @@ namespace API.Accounts.Infrastructure.Features.Roles
             return SetGetByNameQuery(name).FirstOrDefault();
         }
 
-        public ICollection<UserRole> GetUserRoles(string roleId, int startPosition, int amount)
+        public async Task<ICollection<UserRole>> GetUserRolesAsync(string roleId, int startPosition, int amount, CancellationToken cancellationToken = default)
         {
-            return SetUserRoleQuery(startPosition, amount)
+            return await SetUserRoleQuery(startPosition, amount)
                 .AsNoTracking()
                 .Where(ur => ur.RoleId == roleId)
-                .ToList();
+                .ToListAsync(cancellationToken);
         }
 
-        public ICollection<UserRole> GetActiveUserRoles(string roleId, int startPosition, int amount)
+        public async Task<ICollection<UserRole>> GetActiveUserRolesAsync(string roleId, int startPosition, int amount, CancellationToken cancellationToken = default)
         {
-            return SetUserRoleQuery(startPosition, amount)
+            return await SetUserRoleQuery(startPosition, amount)
                 .Where(ur => ur.RoleId == roleId && ur.User.DeletedAt == null)
-                .ToList();
+                .ToListAsync(cancellationToken);
         }
 
         public override Role? GetById(string id)

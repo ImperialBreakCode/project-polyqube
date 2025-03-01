@@ -7,8 +7,8 @@ namespace API.Accounts.Domain.Repositories
     {
         Task<Role?> GetByNameAsync(string name, CancellationToken cancellationToken = default);
         Role? GetByName(string name);
-        ICollection<UserRole> GetActiveUserRoles(string roleId, int startPosition, int amount);
-        ICollection<UserRole> GetUserRoles(string roleId, int startPosition, int amount);
+        Task<ICollection<UserRole>> GetActiveUserRolesAsync(string roleId, int startPosition, int amount, CancellationToken cancellationToken = default);
+        Task<ICollection<UserRole>> GetUserRolesAsync(string roleId, int startPosition, int amount, CancellationToken cancellationToken = default);
         Task<ICollection<Role>> GetAllRolesAsync(CancellationToken cancellationToken = default);
     }
 }
