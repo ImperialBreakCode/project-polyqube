@@ -15,6 +15,7 @@ namespace API.Shared.Infrastructure.Extensions
             services
                 .AddOptions<DatabaseOptions>()
                 .BindConfiguration(nameof(DatabaseOptions))
+                .ValidateDataAnnotations()
                 .ValidateOnStart();
 
             services.AddDbContext<TDbContext>(options =>

@@ -1,5 +1,10 @@
-﻿using API.Shared.Web.ExceptionHandler;
+﻿using API.Accounts.Application.Features.Users.Options;
+using API.Shared.Application.Auth.AuthTokenVerifier;
+using API.Shared.Common.Constants;
+using API.Shared.Web.Auth;
+using API.Shared.Web.ExceptionHandler;
 using Asp.Versioning;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace API.Shared.Web.Extensions
@@ -11,14 +16,37 @@ namespace API.Shared.Web.Extensions
             services
                 .AddVersioning()
                 .AddSwagger()
-                .AddAppExceptionHandler();
+                .AddAppExceptionHandler()
+                .AddAPIAuthentication();
                 
             services.AddControllers();
 
             return services;
         }
 
-        public static IServiceCollection AddVersioning(this IServiceCollection services)
+        private static IServiceCollection AddAPIAuthentication(this IServiceCollection services)
+        {
+            services.AddTransient<IAuthTokenVerifier, AuthTokenVerifier>();
+
+            services
+                .AddOptions<AuthTokenOptions>()
+                .BindConfiguration(nameof(AuthTokenOptions))
+                .ValidateDataAnnotations()
+                .ValidateOnStart();
+
+
+            services
+                .AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = APIAuthSchemeNames.APIDefaultAuthScheme;
+                    options.DefaultChallengeScheme = APIAuthSchemeNames.APIDefaultAuthScheme;
+                })
+                .AddScheme<AuthenticationSchemeOptions, APIAuthenticationHandler>(APIAuthSchemeNames.APIDefaultAuthScheme, null);
+
+            return services;
+        }
+
+        private static IServiceCollection AddVersioning(this IServiceCollection services)
         {
             services.AddApiVersioning(options =>
             {
@@ -36,7 +64,7 @@ namespace API.Shared.Web.Extensions
             return services;
         }
 
-        public static IServiceCollection AddSwagger(this IServiceCollection services)
+        private static IServiceCollection AddSwagger(this IServiceCollection services)
         {
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
@@ -44,7 +72,7 @@ namespace API.Shared.Web.Extensions
             return services;
         }
 
-        public static IServiceCollection AddAppExceptionHandler(this IServiceCollection services)
+        private static IServiceCollection AddAppExceptionHandler(this IServiceCollection services)
         {
             services.AddExceptionHandler<GlobalExceptionHandler>();
             services.AddProblemDetails();
