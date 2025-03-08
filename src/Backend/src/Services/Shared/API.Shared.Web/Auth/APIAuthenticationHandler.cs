@@ -2,9 +2,12 @@
 using API.Shared.Application.Auth.Exceptions;
 using API.Shared.Common.Constants;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using System.Net;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 
@@ -13,6 +16,7 @@ namespace API.Shared.Web.Auth
     internal class APIAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
         private readonly IAuthTokenVerifier _authTokenVerifier;
+        private string _failureMessage;
 
         public APIAuthenticationHandler(
             IOptionsMonitor<AuthenticationSchemeOptions> options,
@@ -22,6 +26,7 @@ namespace API.Shared.Web.Auth
             : base(options, logger, encoder)
         {
             _authTokenVerifier = authTokenVerifier;
+            _failureMessage = string.Empty;
         }
 
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
@@ -30,7 +35,8 @@ namespace API.Shared.Web.Auth
 
             if (string.IsNullOrEmpty(token))
             {
-                return Task.FromResult(AuthenticateResult.Fail("Invalid Authorization Header"));
+                _failureMessage = "Invalid Authorization Header";
+                return Task.FromResult(AuthenticateResult.Fail(_failureMessage));
             }
 
             try
@@ -51,13 +57,35 @@ namespace API.Shared.Web.Auth
             }
             catch (InvalidAuthTokenException ex)
             {
+                _failureMessage = ex.Message;
                 return Task.FromResult(AuthenticateResult.Fail(ex.Message));
             }
             catch (Exception)
             {
-
-                return Task.FromResult(AuthenticateResult.Fail("Unknown error occured"));
+                _failureMessage = "Unknown error occured";
+                return Task.FromResult(AuthenticateResult.Fail(_failureMessage));
             }
+        }
+
+        protected override async Task HandleChallengeAsync(AuthenticationProperties properties)
+        {
+
+            await base.HandleChallengeAsync(properties);
+
+            var statusCode = HttpStatusCode.Unauthorized;
+
+            Response.StatusCode = (int)statusCode;
+            Response.ContentType = "application/json";
+
+            var problemDetails = new ProblemDetails()
+            {
+                Title = Enum.GetName(statusCode)!,
+                Type = "AuthError",
+                Detail = _failureMessage,
+                Status = (int)statusCode
+            };
+
+            await Response.WriteAsync(JsonConvert.SerializeObject(problemDetails));
         }
 
         private Claim CreateClaim(string claimName, IDictionary<string, object> claimValues)

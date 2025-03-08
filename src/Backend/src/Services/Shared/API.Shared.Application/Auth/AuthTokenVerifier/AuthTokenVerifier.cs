@@ -48,7 +48,7 @@ namespace API.Shared.Application.Auth.AuthTokenVerifier
 
                 return payload;
             }
-            catch (TokenNotYetValidException)
+            catch (TokenExpiredException)
             {
                 throw new InvalidAuthTokenException("Token has expired");
             }
