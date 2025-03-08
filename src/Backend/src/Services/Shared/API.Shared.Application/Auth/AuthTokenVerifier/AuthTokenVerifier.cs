@@ -22,13 +22,13 @@ namespace API.Shared.Application.Auth.AuthTokenVerifier
             var payload = GetPayload(token);
 
             if (!payload.ContainsKey(APIClaimNames.AudianceClaim) 
-                || (string)payload[APIClaimNames.AudianceClaim] != _authTokenOptions.CurrentValue.Audience)
+                || payload[APIClaimNames.AudianceClaim].ToString() != _authTokenOptions.CurrentValue.Audience)
             {
                 throw new InvalidAuthTokenException("Invalid audiance");
             }
 
             if (!payload.ContainsKey(APIClaimNames.IssuerClaim)
-                || (string)payload[APIClaimNames.IssuerClaim] != _authTokenOptions.CurrentValue.Issuer)
+                || payload[APIClaimNames.IssuerClaim].ToString() != _authTokenOptions.CurrentValue.Issuer)
             {
                 throw new InvalidAuthTokenException("Invalid issuer");
             }

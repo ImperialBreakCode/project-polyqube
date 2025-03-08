@@ -5,6 +5,7 @@ using API.Accounts.Features.Users.Models.Responses;
 using Asp.Versioning;
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Accounts.Features.Users.Controllers.v1
@@ -41,6 +42,13 @@ namespace API.Accounts.Features.Users.Controllers.v1
             var loginResponseDTO = _mapper.Map<LoginResponseDTO>(loginResponse);
 
             return Ok(loginResponseDTO);
+        }
+
+        [Authorize]
+        [HttpGet("test")]
+        public IActionResult Test()
+        {
+            return Ok();
         }
     }
 }

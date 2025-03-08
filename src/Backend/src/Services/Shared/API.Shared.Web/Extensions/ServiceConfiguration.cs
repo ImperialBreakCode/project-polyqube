@@ -6,6 +6,7 @@ using API.Shared.Web.ExceptionHandler;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 
 namespace API.Shared.Web.Extensions
 {
@@ -67,7 +68,32 @@ namespace API.Shared.Web.Extensions
         private static IServiceCollection AddSwagger(this IServiceCollection services)
         {
             services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
+
+            services.AddSwaggerGen(options =>
+            {
+                options.AddSecurityDefinition(APIAuthSchemeNames.APIDefaultAuthScheme, new OpenApiSecurityScheme()
+                {
+                    Name = "Authorization",
+                    Description = "Enter JWT token:",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                });
+
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = APIAuthSchemeNames.APIDefaultAuthScheme
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
+                });
+            });
 
             return services;
         }
