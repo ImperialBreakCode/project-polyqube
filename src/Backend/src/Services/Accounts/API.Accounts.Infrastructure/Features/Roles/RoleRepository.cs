@@ -47,7 +47,7 @@ namespace API.Accounts.Infrastructure.Features.Roles
 
         public override void Insert(Role entity)
         {
-            if (GetByNameAsync(entity.RoleName) is not null)
+            if (GetByName(entity.RoleName) is not null)
             {
                 throw new RoleAlreadyExistsException();
             }

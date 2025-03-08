@@ -3,10 +3,10 @@
     public record UserViewModel(
         string Id, 
         string Username, 
-        string LockedOut, 
+        bool LockedOut, 
         bool Disabled, 
         bool Suspended,
-        ICollection<UserEmailViewModel> UserEmails,
+        ICollection<UserEmailViewModel> Emails,
         UserDetailsViewModel? UserDetails,
         DateTime CreatedAt,
         DateTime UpdatedAt

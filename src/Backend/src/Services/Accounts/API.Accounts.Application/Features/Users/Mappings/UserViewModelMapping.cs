@@ -4,11 +4,13 @@ using AutoMapper;
 
 namespace API.Accounts.Application.Features.Users.Mappings
 {
-    internal class UserMappings : Profile
+    internal class UserViewModelMapping : Profile
     {
-        public UserMappings()
+        public UserViewModelMapping()
         {
             CreateMap<User, UserViewModel>();
+            CreateMap<UserEmail, UserEmailViewModel>();
+            CreateMap<UserDetails, UserDetailsViewModel>();
         }
     }
 }
