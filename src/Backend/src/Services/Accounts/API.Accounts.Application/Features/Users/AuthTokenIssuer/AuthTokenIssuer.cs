@@ -16,7 +16,7 @@ namespace API.Accounts.Application.Features.Users.AuthTokenIssuer
             _optionsMonitor = optionsMonitor;
         }
 
-        public string IssueToken(User user, string role)
+        public string IssueToken(User user, string[] roles)
         {
             string token = JwtBuilder.Create()
                       .WithAlgorithm(new HMACSHA512Algorithm())
@@ -26,7 +26,7 @@ namespace API.Accounts.Application.Features.Users.AuthTokenIssuer
                       .AddClaim(APIClaimNames.AudianceClaim, _optionsMonitor.CurrentValue.Audience)
                       //.AddClaim("sub", user.Id)
                       .AddClaim(APIClaimNames.UsernameClaim, user.Username)
-                      .AddClaim(APIClaimNames.RoleClaim, role)
+                      .AddClaim(APIClaimNames.RoleClaim, roles)
                       .Encode();
 
             return token;

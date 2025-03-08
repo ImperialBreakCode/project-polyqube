@@ -2,6 +2,6 @@
 {
     public interface IAuthTokenVerifier
     {
-        IDictionary<string, string> VerifyToken(string token);
+        IDictionary<string, object> VerifyToken(string token);
     }
 }

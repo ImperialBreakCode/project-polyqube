@@ -4,6 +4,7 @@ using API.Shared.Common.Constants;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 
@@ -59,9 +60,9 @@ namespace API.Shared.Web.Auth
             }
         }
 
-        private Claim CreateClaim(string claimName, IDictionary<string, string> claimValues)
+        private Claim CreateClaim(string claimName, IDictionary<string, object> claimValues)
         {
-            return new Claim(claimName, claimValues[claimName]);
+            return new Claim(claimName, JsonConvert.SerializeObject(claimValues[claimName]));
         }
     }
 }

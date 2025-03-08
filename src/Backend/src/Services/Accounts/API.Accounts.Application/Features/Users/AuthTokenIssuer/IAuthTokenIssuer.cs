@@ -4,6 +4,6 @@ namespace API.Accounts.Application.Features.Users.AuthTokenIssuer
 {
     internal interface IAuthTokenIssuer
     {
-        string IssueToken(User user, string role);
+        string IssueToken(User user, string[] roles);
     }
 }

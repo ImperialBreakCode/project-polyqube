@@ -17,18 +17,18 @@ namespace API.Shared.Application.Auth.AuthTokenVerifier
             _authTokenOptions = authTokenOptions;
         }
 
-        public IDictionary<string, string> VerifyToken(string token)
+        public IDictionary<string, object> VerifyToken(string token)
         {
             var payload = GetPayload(token);
 
             if (!payload.ContainsKey(APIClaimNames.AudianceClaim) 
-                || payload[APIClaimNames.AudianceClaim] != _authTokenOptions.CurrentValue.Audience)
+                || (string)payload[APIClaimNames.AudianceClaim] != _authTokenOptions.CurrentValue.Audience)
             {
                 throw new InvalidAuthTokenException("Invalid audiance");
             }
 
             if (!payload.ContainsKey(APIClaimNames.IssuerClaim)
-                || payload[APIClaimNames.IssuerClaim] != _authTokenOptions.CurrentValue.Issuer)
+                || (string)payload[APIClaimNames.IssuerClaim] != _authTokenOptions.CurrentValue.Issuer)
             {
                 throw new InvalidAuthTokenException("Invalid issuer");
             }
@@ -36,7 +36,7 @@ namespace API.Shared.Application.Auth.AuthTokenVerifier
             return payload;
         }
 
-        private IDictionary<string, string> GetPayload(string token)
+        private IDictionary<string, object> GetPayload(string token)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace API.Shared.Application.Auth.AuthTokenVerifier
                         .WithAlgorithm(new HMACSHA512Algorithm())
                         .WithSecret(_authTokenOptions.CurrentValue.SecretKey)
                         .MustVerifySignature()
-                        .Decode<IDictionary<string, string>>(token);
+                        .Decode<IDictionary<string, object>>(token);
 
                 return payload;
             }

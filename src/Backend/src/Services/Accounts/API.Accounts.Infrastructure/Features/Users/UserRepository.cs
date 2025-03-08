@@ -56,7 +56,7 @@ namespace API.Accounts.Infrastructure.Features.Users
 
             if (GetUserByUsername(entity.Username, true) is not null)
             {
-                throw new UsernameAlreadyExists();
+                throw new UsernameAlreadyExistsException();
             }
 
             base.Insert(entity);
