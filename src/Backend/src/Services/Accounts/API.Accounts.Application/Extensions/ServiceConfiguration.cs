@@ -2,6 +2,7 @@
 using API.Accounts.Application.Features.Roles.Factories;
 using API.Accounts.Application.Features.Roles.Seeders;
 using API.Accounts.Application.Features.Users.AuthTokenIssuer;
+using API.Accounts.Application.Features.Users.PasswordManager;
 using API.Shared.Application.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -26,6 +27,7 @@ namespace API.Accounts.Application.Extensions
         private static IServiceCollection AddUsers(this IServiceCollection services)
         {
             services.AddTransient<IAuthTokenIssuer, AuthTokenIssuer>();
+            services.AddTransient<IPasswordManager, PasswordManager>();
 
             return services;
         }
