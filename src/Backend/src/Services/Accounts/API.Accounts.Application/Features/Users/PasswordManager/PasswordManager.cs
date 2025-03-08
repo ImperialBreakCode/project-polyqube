@@ -27,7 +27,12 @@ namespace API.Accounts.Application.Features.Users.PasswordManager
             byte[] passBytes = new byte[HASH_SIZE];
             Array.Copy(hashBytes, SALT_SIZE, passBytes, 0, HASH_SIZE);
 
-            return CryptographicOperations.FixedTimeEquals(hashBytes, passBytes);
+            byte[] saltBytes = new byte[SALT_SIZE];
+            Array.Copy(hashBytes, 0, saltBytes, 0, SALT_SIZE);
+
+            byte[] guessPassHash = CreatePasswordHash(password, Convert.ToBase64String(saltBytes));
+
+            return CryptographicOperations.FixedTimeEquals(passBytes, guessPassHash);
         }
 
         private byte[] CreatePasswordHash(string password, string salt)

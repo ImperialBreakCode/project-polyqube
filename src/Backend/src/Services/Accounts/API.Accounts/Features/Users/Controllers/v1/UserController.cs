@@ -1,5 +1,5 @@
 ﻿using API.Accounts.Application.Features.Users.Commands.CreateUser;
-using API.Accounts.Application.Features.Users.Models;
+using API.Accounts.Application.Features.Users.Commands.LoginUser;
 using API.Accounts.Features.Users.Models.Requests;
 using API.Accounts.Features.Users.Models.Responses;
 using Asp.Versioning;
@@ -23,14 +23,24 @@ namespace API.Accounts.Features.Users.Controllers.v1
             _sender = sender;
         }
 
-        [HttpPost("register-user")]
-        public async Task<IActionResult> RegisterUser(RegisterUserRequestDTO registerUserRequest)
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(RegisterUserRequestDTO registerUserRequest)
         {
             var createUserCommand = _mapper.Map<CreateUserCommand>(registerUserRequest);
             var user = await _sender.Send(createUserCommand);
             var userDTO = _mapper.Map<UserResponseDTO>(user);
 
             return StatusCode(StatusCodes.Status201Created, userDTO);
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginUserRequestDTO loginUserRequest)
+        {
+            var loginCommand = _mapper.Map<LoginUserCommand>(loginUserRequest);
+            var loginResponse = await _sender.Send(loginCommand);
+            var loginResponseDTO = _mapper.Map<LoginResponseDTO>(loginResponse);
+
+            return Ok(loginResponseDTO);
         }
     }
 }

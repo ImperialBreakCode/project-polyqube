@@ -11,6 +11,8 @@ namespace API.Accounts.Features.Users.Mappings
             CreateMap<UserViewModel, UserResponseDTO>();
             CreateMap<UserEmailViewModel, UserEmailResponseDTO>();
             CreateMap<UserDetailsViewModel, UserDetailsResponseDTO>();
+
+            CreateMap<LoginViewModel, LoginResponseDTO>();
         }
     }
 }
