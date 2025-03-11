@@ -1,4 +1,5 @@
 using API.Accounts.Application.Extensions;
+using API.Accounts.Extensions;
 using API.Accounts.Infrastructure.Extensions;
 using API.Shared.Web.Extensions;
 
@@ -9,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddAccountsInfrastructure(builder.Configuration)
     .AddAccountsApplicationLayer()
-    .ConfigureWebServices();
+    .AddAccountsPresentationLayer();
 
 var app = builder.Build();
 

@@ -8,5 +8,10 @@ namespace API.Accounts.Application.Features.Users.Factories
         {
             return new LoginViewModel(accessToken);
         }
+
+        public TokenVerificationViewModel CreateTokenVerificationViewModel(IDictionary<string, object> payload)
+        {
+            return new TokenVerificationViewModel(payload);
+        }
     }
 }

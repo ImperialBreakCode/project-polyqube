@@ -1,12 +1,12 @@
 ﻿using API.Accounts.Application.Features.Users.Options;
-using API.Shared.Application.Auth.Exceptions;
 using API.Shared.Common.Constants;
+using API.Shared.Common.Exceptions;
 using JWT.Algorithms;
 using JWT.Builder;
 using JWT.Exceptions;
 using Microsoft.Extensions.Options;
 
-namespace API.Shared.Application.Auth.AuthTokenVerifier
+namespace API.Accounts.Application.Features.Users.AuthToken
 {
     public class AuthTokenVerifier : IAuthTokenVerifier
     {
@@ -21,16 +21,16 @@ namespace API.Shared.Application.Auth.AuthTokenVerifier
         {
             var payload = GetPayload(token);
 
-            if (!payload.ContainsKey(APIClaimNames.AudianceClaim) 
+            if (!payload.ContainsKey(APIClaimNames.AudianceClaim)
                 || payload[APIClaimNames.AudianceClaim].ToString() != _authTokenOptions.CurrentValue.Audience)
             {
-                throw new InvalidAuthTokenException("Invalid audiance");
+                throw new UnauthorizedException("Invalid token audiance");
             }
 
             if (!payload.ContainsKey(APIClaimNames.IssuerClaim)
                 || payload[APIClaimNames.IssuerClaim].ToString() != _authTokenOptions.CurrentValue.Issuer)
             {
-                throw new InvalidAuthTokenException("Invalid issuer");
+                throw new UnauthorizedException("Invalid token issuer");
             }
 
             return payload;
@@ -50,11 +50,11 @@ namespace API.Shared.Application.Auth.AuthTokenVerifier
             }
             catch (TokenExpiredException)
             {
-                throw new InvalidAuthTokenException("Token has expired");
+                throw new UnauthorizedException("Token has expired");
             }
             catch (SignatureVerificationException)
             {
-                throw new InvalidAuthTokenException("Token has invalid signature");
+                throw new UnauthorizedException("Token has invalid signature");
             }
         }
     }

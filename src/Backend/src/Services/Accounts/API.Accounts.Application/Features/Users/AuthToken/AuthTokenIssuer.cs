@@ -5,7 +5,7 @@ using JWT.Algorithms;
 using JWT.Builder;
 using Microsoft.Extensions.Options;
 
-namespace API.Accounts.Application.Features.Users.AuthTokenIssuer
+namespace API.Accounts.Application.Features.Users.AuthToken
 {
     internal class AuthTokenIssuer : IAuthTokenIssuer
     {

@@ -1,8 +1,8 @@
-﻿using API.Accounts.Application.Features.Users.Options;
-using API.Shared.Application.Auth.AuthTokenVerifier;
-using API.Shared.Common.Constants;
+﻿using API.Shared.Common.Constants;
 using API.Shared.Web.Auth;
 using API.Shared.Web.ExceptionHandler;
+using API.Shared.Web.Factories;
+using API.Shared.Web.Options;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,29 +12,28 @@ namespace API.Shared.Web.Extensions
 {
     public static class ServiceConfiguration
     {
-        public static IServiceCollection ConfigureWebServices(this IServiceCollection services)
+        public static IServiceCollection AddMainWebServices(this IServiceCollection services)
         {
             services
                 .AddVersioning()
                 .AddSwagger()
-                .AddAppExceptionHandler()
-                .AddAPIAuthentication();
+                .AddAppExceptionHandler();
                 
             services.AddControllers();
 
             return services;
         }
 
-        private static IServiceCollection AddAPIAuthentication(this IServiceCollection services)
+        public static IServiceCollection AddHttpAuthenticationHandler(this IServiceCollection services)
         {
-            services.AddTransient<IAuthTokenVerifier, AuthTokenVerifier>();
+            services.AddTransient<IAuthFactory, AuthFactory>();
+            services.AddTransient<IAccessTokenValidator, HttpAccessTokenValidator>();
 
             services
-                .AddOptions<AuthTokenOptions>()
-                .BindConfiguration(nameof(AuthTokenOptions))
+                .AddOptions<AuthValidationOptions>()
+                .BindConfiguration(nameof(AuthValidationOptions))
                 .ValidateDataAnnotations()
                 .ValidateOnStart();
-
 
             services
                 .AddAuthentication(options =>
@@ -43,24 +42,6 @@ namespace API.Shared.Web.Extensions
                     options.DefaultChallengeScheme = APIAuthSchemeNames.APIDefaultAuthScheme;
                 })
                 .AddScheme<AuthenticationSchemeOptions, APIAuthenticationHandler>(APIAuthSchemeNames.APIDefaultAuthScheme, null);
-
-            return services;
-        }
-
-        private static IServiceCollection AddVersioning(this IServiceCollection services)
-        {
-            services.AddApiVersioning(options =>
-            {
-                options.ReportApiVersions = true;
-                options.AssumeDefaultVersionWhenUnspecified = true;
-                options.DefaultApiVersion = new ApiVersion(1);
-                options.ApiVersionReader = new UrlSegmentApiVersionReader();
-            })
-            .AddApiExplorer(options =>
-            {
-                options.GroupNameFormat = "'v'VVV";
-                options.SubstituteApiVersionInUrl = true;
-            });
 
             return services;
         }
@@ -93,6 +74,24 @@ namespace API.Shared.Web.Extensions
                         Array.Empty<string>()
                     }
                 });
+            });
+
+            return services;
+        }
+
+        private static IServiceCollection AddVersioning(this IServiceCollection services)
+        {
+            services.AddApiVersioning(options =>
+            {
+                options.ReportApiVersions = true;
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.DefaultApiVersion = new ApiVersion(1);
+                options.ApiVersionReader = new UrlSegmentApiVersionReader();
+            })
+            .AddApiExplorer(options =>
+            {
+                options.GroupNameFormat = "'v'VVV";
+                options.SubstituteApiVersionInUrl = true;
             });
 
             return services;

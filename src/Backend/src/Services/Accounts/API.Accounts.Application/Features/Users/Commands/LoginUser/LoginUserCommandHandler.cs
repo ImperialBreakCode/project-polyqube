@@ -1,4 +1,4 @@
-﻿using API.Accounts.Application.Features.Users.AuthTokenIssuer;
+﻿using API.Accounts.Application.Features.Users.AuthToken;
 using API.Accounts.Application.Features.Users.Factories;
 using API.Accounts.Application.Features.Users.Models;
 using API.Accounts.Application.Features.Users.PasswordManager;

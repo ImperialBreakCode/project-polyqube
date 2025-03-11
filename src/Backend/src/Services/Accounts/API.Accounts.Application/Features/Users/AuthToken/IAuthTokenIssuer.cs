@@ -1,6 +1,6 @@
 ﻿using API.Accounts.Domain.Aggregates.UserAggregate;
 
-namespace API.Accounts.Application.Features.Users.AuthTokenIssuer
+namespace API.Accounts.Application.Features.Users.AuthToken
 {
     internal interface IAuthTokenIssuer
     {
