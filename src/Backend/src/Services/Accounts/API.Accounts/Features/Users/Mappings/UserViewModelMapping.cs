@@ -12,8 +12,9 @@ namespace API.Accounts.Features.Users.Mappings
             CreateMap<UserEmailViewModel, UserEmailResponseDTO>();
             CreateMap<UserDetailsViewModel, UserDetailsResponseDTO>();
 
-            CreateMap<LoginViewModel, LoginResponseDTO>();
-            CreateMap<TokenVerificationViewModel, AccessTokenPayloadResponseDTO>();
+            CreateMap<AuthTokensViewModel, LoginResponseDTO>();
+            CreateMap<AuthTokensViewModel, RefreshAuthTokensResponseDTO>();
+            CreateMap<AuthTokenValidationViewModel, AccessTokenPayloadResponseDTO>();
         }
     }
 }

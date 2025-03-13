@@ -4,7 +4,7 @@ namespace API.Accounts.Application.Features.Users.Factories
 {
     internal interface IViewModelFactory
     {
-        LoginViewModel CreateLoginViewModel(string accessToken);
-        TokenVerificationViewModel CreateTokenVerificationViewModel(IDictionary<string, object> payload);
+        AuthTokensViewModel CreateAuthTokensViewModel(string accessToken, string refreshToken);
+        AuthTokenValidationViewModel CreateTokenVerificationViewModel(IDictionary<string, object> payload);
     }
 }

@@ -1,4 +1,4 @@
-﻿using API.Accounts.Application.Features.Users.AuthToken;
+﻿using API.Accounts.Application.Features.Users.AuthToken.Issuer;
 using API.Accounts.Application.Features.Users.Factories;
 using API.Accounts.Application.Features.Users.Models;
 using API.Accounts.Application.Features.Users.PasswordManager;
@@ -9,7 +9,7 @@ using API.Shared.Application.Interfaces;
 
 namespace API.Accounts.Application.Features.Users.Commands.LoginUser
 {
-    internal class LoginUserCommandHandler : ICommandHandler<LoginUserCommand, LoginViewModel>
+    internal class LoginUserCommandHandler : ICommandHandler<LoginUserCommand, AuthTokensViewModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IAuthTokenIssuer _authTokenIssuer;
@@ -24,7 +24,7 @@ namespace API.Accounts.Application.Features.Users.Commands.LoginUser
             _viewModelFactory = viewModelFactory;
         }
 
-        public Task<LoginViewModel> Handle(LoginUserCommand request, CancellationToken cancellationToken)
+        public Task<AuthTokensViewModel> Handle(LoginUserCommand request, CancellationToken cancellationToken)
         {
             User? user = _unitOfWork.UserRepository.GetUserByUsername(request.Username);
 
@@ -39,9 +39,10 @@ namespace API.Accounts.Application.Features.Users.Commands.LoginUser
             }
 
             var userRoles = _unitOfWork.UserRepository.GetUserRoles(user.Id).Select(x => x.Role.RoleName).ToArray();
-            string token = _authTokenIssuer.IssueToken(user, userRoles);
+            string accessToken = _authTokenIssuer.IssueAccessToken(user, userRoles);
+            string refreshToken = _authTokenIssuer.IssueRefreshToken(user);
 
-            return Task.FromResult(_viewModelFactory.CreateLoginViewModel(token));
+            return Task.FromResult(_viewModelFactory.CreateAuthTokensViewModel(accessToken, refreshToken));
         }
     }
 }

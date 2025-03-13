@@ -6,7 +6,7 @@ using JWT.Builder;
 using JWT.Exceptions;
 using Microsoft.Extensions.Options;
 
-namespace API.Accounts.Application.Features.Users.AuthToken
+namespace API.Accounts.Application.Features.Users.AuthToken.Validators
 {
     public class AuthTokenVerifier : IAuthTokenVerifier
     {

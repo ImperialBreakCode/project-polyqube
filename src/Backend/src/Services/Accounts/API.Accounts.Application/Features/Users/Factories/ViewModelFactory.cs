@@ -4,14 +4,14 @@ namespace API.Accounts.Application.Features.Users.Factories
 {
     internal class ViewModelFactory : IViewModelFactory
     {
-        public LoginViewModel CreateLoginViewModel(string accessToken)
+        public AuthTokensViewModel CreateAuthTokensViewModel(string accessToken, string refreshToken)
         {
-            return new LoginViewModel(accessToken);
+            return new AuthTokensViewModel(accessToken, refreshToken);
         }
 
-        public TokenVerificationViewModel CreateTokenVerificationViewModel(IDictionary<string, object> payload)
+        public AuthTokenValidationViewModel CreateTokenVerificationViewModel(IDictionary<string, object> payload)
         {
-            return new TokenVerificationViewModel(payload);
+            return new AuthTokenValidationViewModel(payload);
         }
     }
 }

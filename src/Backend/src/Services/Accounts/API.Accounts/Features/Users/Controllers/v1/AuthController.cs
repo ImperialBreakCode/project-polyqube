@@ -1,4 +1,5 @@
-﻿using API.Accounts.Application.Features.Users.Commands.VerifyAuthToken;
+﻿using API.Accounts.Application.Features.Users.Commands.RefreshAuthTokens;
+using API.Accounts.Application.Features.Users.Commands.ValidateAccessToken;
 using API.Accounts.Features.Users.Models.Requests;
 using API.Accounts.Features.Users.Models.Responses;
 using Asp.Versioning;
@@ -25,11 +26,21 @@ namespace API.Accounts.Features.Users.Controllers.v1
         [HttpPost("validate-access-token")]
         public async Task<IActionResult> VerifyToken(ValidateAccessTokenRequestDTO validateAccessTokenRequest)
         {
-            var validateCommand = _mapper.Map<VerifyAuthTokenCommand>(validateAccessTokenRequest);
+            var validateCommand = _mapper.Map<ValidateAccessTokenCommand>(validateAccessTokenRequest);
             var validationResult = await _sender.Send(validateCommand);
             var reponseDTO = _mapper.Map<AccessTokenPayloadResponseDTO>(validationResult);
 
             return Ok(reponseDTO);
-        } 
+        }
+
+        [HttpPost("refresh")]
+        public async Task<IActionResult> RefreshTokens(RefreshAuthTokensRequestDTO refreshTokensRequestDTO)
+        {
+            var refreshTokensCommand = _mapper.Map<RefreshAuthTokensCommand>(refreshTokensRequestDTO);
+            var result = await _sender.Send(refreshTokensCommand);
+            var responseDTO = _mapper.Map<RefreshAuthTokensResponseDTO>(result);
+
+            return Ok(responseDTO);
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace API.Accounts.Application.Features.Users.AuthToken
+﻿namespace API.Accounts.Application.Features.Users.AuthToken.Validators
 {
     internal interface IAuthTokenVerifier
     {

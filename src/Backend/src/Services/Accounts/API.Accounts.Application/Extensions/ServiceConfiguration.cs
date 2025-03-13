@@ -1,7 +1,8 @@
 ﻿using API.Accounts.Application.DatabaseInit;
 using API.Accounts.Application.Features.Roles.Factories;
 using API.Accounts.Application.Features.Roles.Seeders;
-using API.Accounts.Application.Features.Users.AuthToken;
+using API.Accounts.Application.Features.Users.AuthToken.Issuer;
+using API.Accounts.Application.Features.Users.AuthToken.Validators;
 using API.Accounts.Application.Features.Users.Factories;
 using API.Accounts.Application.Features.Users.Options;
 using API.Accounts.Application.Features.Users.PasswordManager;
