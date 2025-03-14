@@ -8,7 +8,7 @@ namespace API.Accounts.Features.Roles.Mappings
     {
         public RoleQueryMappings()
         {
-            CreateMap<RoleQueryViewModel, RoleDTO>();
+            CreateMap<RoleQueryViewModel, RoleResponseDTO>();
         }
     }
 }

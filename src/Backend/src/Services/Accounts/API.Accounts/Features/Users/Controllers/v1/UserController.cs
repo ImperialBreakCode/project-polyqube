@@ -1,11 +1,9 @@
 ﻿using API.Accounts.Application.Features.Users.Commands.CreateUser;
-using API.Accounts.Application.Features.Users.Commands.LoginUser;
 using API.Accounts.Features.Users.Models.Requests;
 using API.Accounts.Features.Users.Models.Responses;
 using Asp.Versioning;
 using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Accounts.Features.Users.Controllers.v1
@@ -25,6 +23,9 @@ namespace API.Accounts.Features.Users.Controllers.v1
         }
 
         [HttpPost("register")]
+        [ProducesResponseType<UserResponseDTO>(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Register(RegisterUserRequestDTO registerUserRequest)
         {
             var createUserCommand = _mapper.Map<CreateUserCommand>(registerUserRequest);
@@ -32,23 +33,6 @@ namespace API.Accounts.Features.Users.Controllers.v1
             var userDTO = _mapper.Map<UserResponseDTO>(user);
 
             return StatusCode(StatusCodes.Status201Created, userDTO);
-        }
-
-        [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginUserRequestDTO loginUserRequest)
-        {
-            var loginCommand = _mapper.Map<LoginUserCommand>(loginUserRequest);
-            var loginResponse = await _sender.Send(loginCommand);
-            var loginResponseDTO = _mapper.Map<LoginResponseDTO>(loginResponse);
-
-            return Ok(loginResponseDTO);
-        }
-
-        [Authorize]
-        [HttpGet("test")]
-        public IActionResult Test()
-        {
-            return Ok();
         }
     }
 }

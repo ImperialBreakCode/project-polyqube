@@ -1,4 +1,5 @@
-﻿using API.Accounts.Application.Features.Users.Commands.RefreshAuthTokens;
+﻿using API.Accounts.Application.Features.Users.Commands.LoginUser;
+using API.Accounts.Application.Features.Users.Commands.RefreshAuthTokens;
 using API.Accounts.Application.Features.Users.Commands.ValidateAccessToken;
 using API.Accounts.Features.Users.Models.Requests;
 using API.Accounts.Features.Users.Models.Responses;
@@ -23,7 +24,22 @@ namespace API.Accounts.Features.Users.Controllers.v1
             _mapper = mapper;
         }
 
+
+        [HttpPost("login")]
+        [ProducesResponseType<LoginResponseDTO>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Login(LoginUserRequestDTO loginUserRequest)
+        {
+            var loginCommand = _mapper.Map<LoginUserCommand>(loginUserRequest);
+            var loginResponse = await _sender.Send(loginCommand);
+            var loginResponseDTO = _mapper.Map<LoginResponseDTO>(loginResponse);
+
+            return Ok(loginResponseDTO);
+        }
+
         [HttpPost("validate-access-token")]
+        [ProducesResponseType<AccessTokenPayloadResponseDTO>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> VerifyToken(ValidateAccessTokenRequestDTO validateAccessTokenRequest)
         {
             var validateCommand = _mapper.Map<ValidateAccessTokenCommand>(validateAccessTokenRequest);
@@ -34,6 +50,10 @@ namespace API.Accounts.Features.Users.Controllers.v1
         }
 
         [HttpPost("refresh")]
+        [ProducesResponseType<RefreshAuthTokensResponseDTO>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> RefreshTokens(RefreshAuthTokensRequestDTO refreshTokensRequestDTO)
         {
             var refreshTokensCommand = _mapper.Map<RefreshAuthTokensCommand>(refreshTokensRequestDTO);

@@ -24,22 +24,22 @@ namespace API.Accounts.Features.Roles.Controllers.v1
         }
 
         [HttpGet("get-all-roles")]
-        [ProducesResponseType<ICollection<RoleDTO>>(StatusCodes.Status200OK)]
+        [ProducesResponseType<ICollection<RoleResponseDTO>>(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllRoles()
         {
             var roles = await _sender.Send(_roleQueryFactory.CreateGetAllRolesQuery());
-            var roleDTOs = _mapper.Map<ICollection<RoleDTO>>(roles);
+            var roleDTOs = _mapper.Map<ICollection<RoleResponseDTO>>(roles);
 
             return Ok(roleDTOs);
         }
 
         [HttpGet("get-by-name/{roleName}")]
-        [ProducesResponseType<RoleDTO>(StatusCodes.Status200OK)]
+        [ProducesResponseType<RoleResponseDTO>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetRoleByName(string roleName)
         {
             var role = await _sender.Send(_roleQueryFactory.CreateGetRoleByNameQuery(roleName));
-            var roleDTO = _mapper.Map<RoleDTO>(role);
+            var roleDTO = _mapper.Map<RoleResponseDTO>(role);
 
             return Ok(roleDTO);
         }
