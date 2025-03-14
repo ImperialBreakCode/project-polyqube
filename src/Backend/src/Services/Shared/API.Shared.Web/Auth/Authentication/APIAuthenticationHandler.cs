@@ -72,8 +72,6 @@ namespace API.Shared.Web.Auth.Authentication
             Response.ContentType = "application/json";
 
             await Response.WriteAsync(JsonConvert.SerializeObject(_problemDetails));
-
-            //await base.HandleChallengeAsync(properties);
         }
 
         private Claim CreateClaim(string claimName, IDictionary<string, object> claimValues)

@@ -1,6 +1,9 @@
 ﻿using API.Accounts.Application.Features.Users.Commands.CreateUser;
+using API.Accounts.Application.Features.Users.Factories;
 using API.Accounts.Features.Users.Models.Requests;
 using API.Accounts.Features.Users.Models.Responses;
+using API.Shared.Web.Attributes;
+using API.Shared.Web.Extensions;
 using Asp.Versioning;
 using AutoMapper;
 using MediatR;
@@ -15,11 +18,13 @@ namespace API.Accounts.Features.Users.Controllers.v1
     {
         private readonly IMapper _mapper;
         private readonly ISender _sender;
+        private readonly IUserQueryFactory _userQueryFactory;
 
-        public UserController(IMapper mapper, ISender sender)
+        public UserController(IMapper mapper, ISender sender, IUserQueryFactory userQueryFactory)
         {
             _mapper = mapper;
             _sender = sender;
+            _userQueryFactory = userQueryFactory;
         }
 
         [HttpPost("register")]
@@ -33,6 +38,31 @@ namespace API.Accounts.Features.Users.Controllers.v1
             var userDTO = _mapper.Map<UserResponseDTO>(user);
 
             return StatusCode(StatusCodes.Status201Created, userDTO);
+        }
+
+        [HttpGet("get-by-username/{username}")]
+        [AuthorizeAdmin]
+        [ProducesResponseType<UserResponseDTO>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetByUsername(string username)
+        {
+            var user = await _sender.Send(_userQueryFactory.CreateGetByUsernameQuery(username));
+            var userDTO = _mapper.Map<UserResponseDTO>(user);
+
+            return Ok(userDTO);
+        }
+
+        [HttpGet("get-current-user")]
+        [AuthorizeUser]
+        [ProducesResponseType<UserResponseDTO>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetByUsername()
+        {
+            var currentUsername = this.GetUsername();
+            var user = await _sender.Send(_userQueryFactory.CreateGetByUsernameQuery(currentUsername));
+            var userDTO = _mapper.Map<UserResponseDTO>(user);
+
+            return Ok(userDTO);
         }
     }
 }

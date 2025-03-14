@@ -39,6 +39,7 @@ namespace API.Accounts.Application.Extensions
             services.AddTransient<IAuthTokenVerifier, AuthTokenVerifier>();
             services.AddTransient<IPasswordManager, PasswordManager>();
             services.AddTransient<IViewModelFactory, ViewModelFactory>();
+            services.AddTransient<IUserQueryFactory, UserQueryFactory>();
 
             return services;
         }
