@@ -1,10 +1,12 @@
 ﻿using API.Shared.Common.Constants;
-using API.Shared.Web.Auth;
+using API.Shared.Web.Auth.Authentication;
+using API.Shared.Web.Auth.Authorization;
 using API.Shared.Web.ExceptionHandler;
 using API.Shared.Web.Factories;
 using API.Shared.Web.Options;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
@@ -42,6 +44,22 @@ namespace API.Shared.Web.Extensions
                     options.DefaultChallengeScheme = APIAuthSchemeNames.APIDefaultAuthScheme;
                 })
                 .AddScheme<AuthenticationSchemeOptions, APIAuthenticationHandler>(APIAuthSchemeNames.APIDefaultAuthScheme, null);
+
+            return services;
+        }
+
+        public static IServiceCollection AddAuthorizationPolices(this IServiceCollection services)
+        {
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(AuthorizationPolices.USER_ROLE_POLICY, policy 
+                    => policy.AddRequirements(new RoleRequirement(AccountRoleNames.USER_ROLE)));
+
+                options.AddPolicy(AuthorizationPolices.ADMIN_ROLE_POLICY, policy
+                    => policy.AddRequirements(new RoleRequirement(AccountRoleNames.ADMIN_ROLE)));
+            });
+
+            services.AddSingleton<IAuthorizationHandler, RoleRequirementHandler>();
 
             return services;
         }

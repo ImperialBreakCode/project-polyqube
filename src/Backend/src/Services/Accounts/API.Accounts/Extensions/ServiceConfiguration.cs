@@ -8,7 +8,8 @@ namespace API.Accounts.Extensions
         {
             services
                 .AddMainWebServices()
-                .AddHttpAuthenticationHandler();
+                .AddHttpAuthenticationHandler()
+                .AddAuthorizationPolices();
 
             return services;
         }

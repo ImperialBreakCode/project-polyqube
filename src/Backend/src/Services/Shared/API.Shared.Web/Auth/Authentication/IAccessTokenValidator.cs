@@ -1,6 +1,6 @@
 ﻿using API.Shared.Web.Models;
 
-namespace API.Shared.Web.Auth
+namespace API.Shared.Web.Auth.Authentication
 {
     internal interface IAccessTokenValidator
     {

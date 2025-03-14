@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 using API.Shared.Web.Options;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Shared.Web.Auth
+namespace API.Shared.Web.Auth.Authentication
 {
     internal class HttpAccessTokenValidator : IAccessTokenValidator
     {

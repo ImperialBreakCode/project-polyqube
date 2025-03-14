@@ -9,7 +9,7 @@ using System.Net;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 
-namespace API.Shared.Web.Auth
+namespace API.Shared.Web.Auth.Authentication
 {
     internal class APIAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
