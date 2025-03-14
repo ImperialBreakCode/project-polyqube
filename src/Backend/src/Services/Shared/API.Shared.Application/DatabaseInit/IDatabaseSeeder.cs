@@ -2,6 +2,6 @@
 {
     public interface IDatabaseSeeder
     {
-        void SeedDatabase();
+        Task SeedDatabase();
     }
 }

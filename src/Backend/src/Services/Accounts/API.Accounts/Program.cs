@@ -14,7 +14,7 @@ builder.Services
 
 var app = builder.Build();
 
-app.SeedDatabase();
+await app.SeedDatabase();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
