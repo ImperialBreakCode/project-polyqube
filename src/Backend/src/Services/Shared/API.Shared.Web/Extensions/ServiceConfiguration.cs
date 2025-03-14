@@ -52,11 +52,11 @@ namespace API.Shared.Web.Extensions
         {
             services.AddAuthorization(options =>
             {
-                options.AddPolicy(AuthorizationPolices.USER_ROLE_POLICY, policy 
+                options.AddPolicy(AuthorizationPolices.USER_SCOPE_POLICY, policy 
                     => policy.AddRequirements(new RoleRequirement(AccountRoleNames.USER_ROLE)));
 
-                options.AddPolicy(AuthorizationPolices.ADMIN_ROLE_POLICY, policy
-                    => policy.AddRequirements(new RoleRequirement(AccountRoleNames.ADMIN_ROLE)));
+                options.AddPolicy(AuthorizationPolices.ADMIN_SCOPE_POLICY, policy
+                    => policy.AddRequirements(new RoleRequirement(AccountRoleNames.ADMIN_ROLE, AccountRoleNames.SUPERUSER_ROLE)));
             });
 
             services.AddSingleton<IAuthorizationHandler, RoleRequirementHandler>();

@@ -27,16 +27,22 @@ namespace API.Accounts.Infrastructure.Features.Roles
 
         public async Task<ICollection<UserRole>> GetUserRolesAsync(string roleId, int startPosition, int amount, CancellationToken cancellationToken = default)
         {
-            return await SetUserRoleQuery(startPosition, amount)
-                .AsNoTracking()
+            return await _context.UserRoles
                 .Where(ur => ur.RoleId == roleId)
+                .Skip(startPosition)
+                .Take(amount)
+                .Include(ur => ur.User)
+                .AsNoTracking()
                 .ToListAsync(cancellationToken);
         }
 
         public async Task<ICollection<UserRole>> GetActiveUserRolesAsync(string roleId, int startPosition, int amount, CancellationToken cancellationToken = default)
         {
-            return await SetUserRoleQuery(startPosition, amount)
+            return await _context.UserRoles
                 .Where(ur => ur.RoleId == roleId && ur.User.DeletedAt == null)
+                .Skip(startPosition)
+                .Take(amount)
+                .Include(ur => ur.User)
                 .ToListAsync(cancellationToken);
         }
 
@@ -60,14 +66,6 @@ namespace API.Accounts.Infrastructure.Features.Roles
             return await DbSet
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
-        }
-
-        private IQueryable<UserRole> SetUserRoleQuery(int startPosition, int amount)
-        {
-            return _context.UserRoles
-                .Include(ur => ur.User)
-                .Skip(startPosition)
-                .Take(amount);
         }
 
         private IQueryable<Role> SetGetByNameQuery(string name)

@@ -7,6 +7,7 @@ using API.Shared.Web.Extensions;
 using Asp.Versioning;
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Accounts.Features.Users.Controllers.v1
@@ -41,7 +42,7 @@ namespace API.Accounts.Features.Users.Controllers.v1
         }
 
         [HttpGet("get-by-username/{username}")]
-        [AuthorizeAdmin]
+        [AuthorizeAdminScope]
         [ProducesResponseType<UserResponseDTO>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetByUsername(string username)
@@ -53,7 +54,7 @@ namespace API.Accounts.Features.Users.Controllers.v1
         }
 
         [HttpGet("get-current-user")]
-        [AuthorizeUser]
+        [Authorize]
         [ProducesResponseType<UserResponseDTO>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetByUsername()

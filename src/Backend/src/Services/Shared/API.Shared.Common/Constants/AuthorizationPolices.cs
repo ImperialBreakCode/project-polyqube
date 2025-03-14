@@ -2,7 +2,7 @@
 {
     public static class AuthorizationPolices
     {
-        public const string USER_ROLE_POLICY = nameof(USER_ROLE_POLICY);
-        public const string ADMIN_ROLE_POLICY = nameof(ADMIN_ROLE_POLICY);
+        public const string USER_SCOPE_POLICY = nameof(USER_SCOPE_POLICY);
+        public const string ADMIN_SCOPE_POLICY = nameof(ADMIN_SCOPE_POLICY);
     }
 }

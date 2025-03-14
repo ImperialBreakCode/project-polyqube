@@ -21,7 +21,7 @@ namespace API.Shared.Web.Auth.Authorization
                 return Task.CompletedTask;
             }
 
-            if (roleList.Contains(requirement.RequiredRole))
+            if (requirement.RequiredRoles.Any(roleList.Contains))
             {
                 context.Succeed(requirement);
             }

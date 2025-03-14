@@ -2,8 +2,8 @@
 
 namespace API.Shared.Web.Auth.Authorization
 {
-    internal class RoleRequirement(string requiredRole) : IAuthorizationRequirement
+    internal class RoleRequirement(params string[] roles) : IAuthorizationRequirement
     {
-        public string RequiredRole { get; init; } = requiredRole;
+        public string[] RequiredRoles { get; init; } = roles;
     }
 }
