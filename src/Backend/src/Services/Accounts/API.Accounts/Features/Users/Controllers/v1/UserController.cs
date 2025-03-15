@@ -57,7 +57,7 @@ namespace API.Accounts.Features.Users.Controllers.v1
         [Authorize]
         [ProducesResponseType<UserResponseDTO>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetByUsername()
+        public async Task<IActionResult> GetCurrentUser()
         {
             var userId = this.GetUserId();
             var user = await _sender.Send(_userQueryFactory.CreateGetUserByIdQuery(userId));
