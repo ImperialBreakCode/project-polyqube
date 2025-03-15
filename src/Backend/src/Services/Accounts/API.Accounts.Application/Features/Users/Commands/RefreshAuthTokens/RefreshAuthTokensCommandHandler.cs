@@ -32,13 +32,13 @@ namespace API.Accounts.Application.Features.Users.Commands.RefreshAuthTokens
         {
             var refreshPayload = _authTokenVerifier.VerifyToken(request.RefreshToken);
 
-            if (!refreshPayload.ContainsKey(APIClaimNames.UsernameClaim))
+            if (!refreshPayload.ContainsKey(APIClaimNames.SubjectClaim))
             {
                 throw new MissingTokenClaimsException();
             }
 
-            var user = _unitOfWork.UserRepository.GetUserByUsername(refreshPayload[APIClaimNames.UsernameClaim].ToString());
-            if (user is null)
+            var user = _unitOfWork.UserRepository.GetById(refreshPayload[APIClaimNames.SubjectClaim].ToString());
+            if (user is null || user.DeletedAt is not null)
             {
                 throw new UserNotFoundException();
             }

@@ -42,8 +42,7 @@ namespace API.Accounts.Application.Features.Users.AuthToken.Issuer
                 .WithSecret(_optionsMonitor.CurrentValue.SecretKey)
                 .AddClaim(APIClaimNames.IssuerClaim, _optionsMonitor.CurrentValue.Issuer)
                 .AddClaim(APIClaimNames.AudianceClaim, _optionsMonitor.CurrentValue.Audience)
-                //.AddClaim("sub", user.Id)
-                .AddClaim(APIClaimNames.UsernameClaim, user.Username);
+                .AddClaim(APIClaimNames.SubjectClaim, user.Id);
 
         }
     }

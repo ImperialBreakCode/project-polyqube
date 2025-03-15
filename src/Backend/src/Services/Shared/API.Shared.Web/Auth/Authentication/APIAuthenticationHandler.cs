@@ -55,7 +55,7 @@ namespace API.Shared.Web.Auth.Authentication
             var claimsDict = result.Payload!.Payload;
 
             var claims = new[] {
-                CreateClaim(APIClaimNames.UsernameClaim, claimsDict),
+                CreateClaim(APIClaimNames.SubjectClaim, claimsDict),
                 CreateClaim(APIClaimNames.RoleClaim, claimsDict),
             };
 

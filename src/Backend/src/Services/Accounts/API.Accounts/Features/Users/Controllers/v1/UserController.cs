@@ -47,7 +47,7 @@ namespace API.Accounts.Features.Users.Controllers.v1
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetByUsername(string username)
         {
-            var user = await _sender.Send(_userQueryFactory.CreateGetByUsernameQuery(username));
+            var user = await _sender.Send(_userQueryFactory.CreateGetUserByUsernameQuery(username));
             var userDTO = _mapper.Map<UserResponseDTO>(user);
 
             return Ok(userDTO);
@@ -59,8 +59,8 @@ namespace API.Accounts.Features.Users.Controllers.v1
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetByUsername()
         {
-            var currentUsername = this.GetUsername();
-            var user = await _sender.Send(_userQueryFactory.CreateGetByUsernameQuery(currentUsername));
+            var userId = this.GetUserId();
+            var user = await _sender.Send(_userQueryFactory.CreateGetUserByIdQuery(userId));
             var userDTO = _mapper.Map<UserResponseDTO>(user);
 
             return Ok(userDTO);

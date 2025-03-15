@@ -6,18 +6,18 @@ namespace API.Shared.Web.Extensions
 {
     public static class ControllerExtensions
     {
-        public static string GetUsername(this ControllerBase controller)
+        public static string GetUserId(this ControllerBase controller)
         {
-            var usernameClaim = controller.HttpContext.User.FindFirst(APIClaimNames.UsernameClaim);
+            var subjectClaim = controller.HttpContext.User.FindFirst(APIClaimNames.SubjectClaim);
 
-            var username = string.Empty;
+            var id = string.Empty;
 
-            if (usernameClaim is not null)
+            if (subjectClaim is not null)
             {
-                username = JsonConvert.DeserializeObject<string>(usernameClaim.Value) ?? string.Empty;
+                id = JsonConvert.DeserializeObject<string>(subjectClaim.Value) ?? string.Empty;
             }
 
-            return username;
+            return id;
         }
     }
 }
