@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using System.Text.Json.Serialization;
 
 namespace API.Shared.Web.Extensions
 {
@@ -21,7 +22,11 @@ namespace API.Shared.Web.Extensions
                 .AddSwagger()
                 .AddAppExceptionHandler();
                 
-            services.AddControllers();
+            services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                });
 
             return services;
         }
