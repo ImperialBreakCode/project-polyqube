@@ -1,11 +1,11 @@
 ﻿using API.Accounts.Common.Features.Users.Constants;
 using FluentValidation;
 
-namespace API.Accounts.Application.Features.Users.Commands.CreateUserDetails
+namespace API.Accounts.Application.Features.Users.Commands.UpdateUserDetails
 {
-    public class CreateUserDetailsCommandValidator : AbstractValidator<CreateUserDetailsCommand>
+    public class UpdateUserDetailsCommandValidator : AbstractValidator<UpdateUserDetailsCommand>
     {
-        public CreateUserDetailsCommandValidator()
+        public UpdateUserDetailsCommandValidator()
         {
             RuleFor(x => x.FirstName)
                 .NotEmpty()

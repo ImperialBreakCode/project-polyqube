@@ -1,5 +1,6 @@
 ﻿using API.Accounts.Application.Features.Users.Commands.CreateUser;
 using API.Accounts.Application.Features.Users.Commands.CreateUserDetails;
+using API.Accounts.Application.Features.Users.Commands.UpdateUserDetails;
 using API.Accounts.Application.Features.Users.Factories;
 using API.Accounts.Features.Users.Models.Requests;
 using API.Accounts.Features.Users.Models.Responses;
@@ -81,6 +82,20 @@ namespace API.Accounts.Features.Users.Controllers.v1
             var userDTO = _mapper.Map<UserResponseDTO>(user);
 
             return StatusCode(StatusCodes.Status201Created, userDTO);
+        }
+
+        [HttpPut("update-user-details")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> UpdateUserDetails(UpdateUserDetailsRequestDTO updateUserDetailsRequest, CancellationToken cancellationToken)
+        {
+            var userId = this.GetUserId();
+
+            var updateUserDetailsCommand = _mapper.Map<UpdateUserDetailsCommand>((updateUserDetailsRequest, userId));
+            await _sender.Send(updateUserDetailsCommand);
+
+            return Ok();
         }
     }
 }
