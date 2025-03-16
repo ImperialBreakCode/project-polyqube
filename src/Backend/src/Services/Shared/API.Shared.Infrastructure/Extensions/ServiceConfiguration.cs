@@ -1,6 +1,7 @@
 ﻿using API.Shared.Common.PipelineBehaviors;
 using API.Shared.Infrastructure.Interceptors;
 using API.Shared.Infrastructure.Options;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,7 +37,7 @@ namespace API.Shared.Infrastructure.Extensions
             {
                 cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
 
-                cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
+                cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
             });
 
             return services;
