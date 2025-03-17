@@ -6,12 +6,12 @@ namespace API.Shared.Web.Extensions
 {
     public static class DatabaseInitializer
     {
-        public static IHost SeedDatabase(this IHost host)
+        public static async Task<IHost> SeedDatabase(this IHost host)
         {
             using (var scope = host.Services.CreateScope())
             {
                 var seeder = scope.ServiceProvider.GetRequiredService<IDatabaseSeeder>();
-                seeder.SeedDatabase();
+                await seeder.SeedDatabase();
             }
 
             return host;

@@ -56,7 +56,7 @@ namespace API.Accounts.Infrastructure.Features.Users
 
             if (GetUserByUsername(entity.Username, true) is not null)
             {
-                throw new UsernameAlreadyExists();
+                throw new UsernameAlreadyExistsException();
             }
 
             base.Insert(entity);
@@ -65,8 +65,8 @@ namespace API.Accounts.Infrastructure.Features.Users
         public ICollection<UserRole> GetUserRoles(string userId)
         {
             return _context.UserRoles
-                .Include(ur => ur.Role)
                 .Where(ur => ur.UserId == userId)
+                .Include(ur => ur.Role)
                 .AsNoTracking()
                 .ToList();
         }

@@ -2,7 +2,7 @@
 
 namespace API.Shared.Infrastructure.Options
 {
-    internal class DatabaseOptions
+    internal record DatabaseOptions
     {
         [Required]
         public string ConnectionString { get; set; }

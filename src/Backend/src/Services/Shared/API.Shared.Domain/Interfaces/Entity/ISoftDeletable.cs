@@ -2,6 +2,9 @@
 {
     public interface ISoftDeletable
     {
-        DateTime? DeletedAt { get; set; }
+        DateTime? DeletedAt { get; }
+
+        void SoftDelete();
+        void UndoSoftDelete();
     }
 }

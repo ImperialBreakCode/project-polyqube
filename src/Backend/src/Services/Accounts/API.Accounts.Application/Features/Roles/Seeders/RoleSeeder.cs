@@ -8,20 +8,19 @@ namespace API.Accounts.Application.Features.Roles.Seeders
     {
         public void SeedRoles(IRoleRepository roleRepository)
         {
-            Role? adminRole = roleRepository.GetByName(AccountRoleNames.ADMIN_ROLE);
+            SeedRole(roleRepository, AccountRoleNames.SUPERUSER_ROLE);
+            SeedRole(roleRepository, AccountRoleNames.ADMIN_ROLE);
+            SeedRole(roleRepository, AccountRoleNames.USER_ROLE);
+        }
 
-            if (adminRole is null)
+        private void SeedRole(IRoleRepository roleRepository, string roleName)
+        {
+            Role? role = roleRepository.GetByName(roleName);
+
+            if (role is null)
             {
-                adminRole = Role.Create(AccountRoleNames.ADMIN_ROLE);
-                roleRepository.Insert(adminRole);
-            }
-
-            Role? userRole = roleRepository.GetByName(AccountRoleNames.USER_ROLE);
-
-            if (userRole is null)
-            {
-                userRole = Role.Create(AccountRoleNames.USER_ROLE);
-                roleRepository.Insert(userRole);
+                role = Role.Create(roleName);
+                roleRepository.Insert(role);
             }
         }
     }

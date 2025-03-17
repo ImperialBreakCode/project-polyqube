@@ -1,4 +1,5 @@
 using API.Accounts.Application.Extensions;
+using API.Accounts.Extensions;
 using API.Accounts.Infrastructure.Extensions;
 using API.Shared.Web.Extensions;
 
@@ -9,11 +10,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddAccountsInfrastructure(builder.Configuration)
     .AddAccountsApplicationLayer()
-    .ConfigureWebServices();
+    .AddAccountsPresentationLayer();
 
 var app = builder.Build();
 
-app.SeedDatabase();
+await app.SeedDatabase();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -25,6 +26,8 @@ if (app.Environment.IsDevelopment())
 //app.UseRateLimiter();
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

@@ -24,7 +24,7 @@ namespace API.Accounts.Application.Features.Roles.Queries.GetRoleByName
 
             if (role is null)
             {
-                throw new RoleNotFound();
+                throw new RoleNotFoundException();
             }
 
             return _mapper.Map<RoleQueryViewModel>(role);

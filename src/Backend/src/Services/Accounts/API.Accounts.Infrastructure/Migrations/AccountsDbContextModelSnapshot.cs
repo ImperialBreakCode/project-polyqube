@@ -63,11 +63,10 @@ namespace API.Accounts.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Salt")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("Suspended")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("SystemLock")
                         .HasColumnType("bit");
 
                     b.Property<DateTime>("UpdatedAt")

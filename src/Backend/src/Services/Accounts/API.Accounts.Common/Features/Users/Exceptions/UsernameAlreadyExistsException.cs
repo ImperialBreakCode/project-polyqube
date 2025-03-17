@@ -2,11 +2,11 @@
 
 namespace API.Accounts.Common.Features.Users.Exceptions
 {
-    public class UsernameAlreadyExists : ConflictException
+    public class UsernameAlreadyExistsException : ConflictException
     {
         private const string MESSAGE = "Username already taken";
 
-        public UsernameAlreadyExists() : base(MESSAGE)
+        public UsernameAlreadyExistsException() : base(MESSAGE)
         {
         }
     }

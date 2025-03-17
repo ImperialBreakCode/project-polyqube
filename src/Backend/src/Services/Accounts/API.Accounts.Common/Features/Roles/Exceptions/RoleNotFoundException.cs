@@ -2,11 +2,11 @@
 
 namespace API.Accounts.Common.Features.Roles.Exceptions
 {
-    public class RoleNotFound : NotFoundException
+    public class RoleNotFoundException : NotFoundException
     {
         private const string MESSAGE = "Role not found.";
 
-        public RoleNotFound() : base(MESSAGE)
+        public RoleNotFoundException() : base(MESSAGE)
         {
         }
     }

@@ -11,7 +11,7 @@ namespace API.Accounts.Domain.DomainServices
         {
             if (userRepository.GetUserByUsername(newUsername) is not null)
             {
-                throw new UsernameAlreadyExists();
+                throw new UsernameAlreadyExistsException();
             }
 
             user.Username = newUsername;
