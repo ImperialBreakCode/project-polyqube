@@ -17,6 +17,7 @@ namespace API.Accounts.Domain.Aggregates.UserAggregate
         public string Username { get; internal set; }
         public string PasswordHash { get; set; }
         public bool LockedOut { get; set; }
+        public bool SystemLock { get; set; }
         public bool Disabled { get; set; }
         public bool Suspended { get; set; }
 
@@ -33,6 +34,11 @@ namespace API.Accounts.Domain.Aggregates.UserAggregate
             user.AddEmail(UserEmail.Create(email));
 
             return user;
+        }
+
+        public void SetDisabled(bool disabled)
+        {
+            Disabled = disabled;
         }
 
         internal void AddEmail(UserEmail email)

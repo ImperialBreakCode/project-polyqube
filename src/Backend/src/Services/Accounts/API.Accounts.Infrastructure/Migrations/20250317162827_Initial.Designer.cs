@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Accounts.Infrastructure.Migrations
 {
     [DbContext(typeof(AccountsDbContext))]
-    [Migration("20250308154930_Initial")]
+    [Migration("20250317162827_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -67,6 +67,9 @@ namespace API.Accounts.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Suspended")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("SystemLock")
                         .HasColumnType("bit");
 
                     b.Property<DateTime>("UpdatedAt")

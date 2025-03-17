@@ -66,6 +66,9 @@ namespace API.Accounts.Infrastructure.Migrations
                     b.Property<bool>("Suspended")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("SystemLock")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 

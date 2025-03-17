@@ -32,6 +32,7 @@ namespace API.Accounts.Infrastructure.Migrations
                     Username = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LockedOut = table.Column<bool>(type: "bit", nullable: false),
+                    SystemLock = table.Column<bool>(type: "bit", nullable: false),
                     Disabled = table.Column<bool>(type: "bit", nullable: false),
                     Suspended = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
