@@ -1,6 +1,7 @@
 using API.Accounts.Application.Extensions;
 using API.Accounts.Extensions;
 using API.Accounts.Infrastructure.Extensions;
+using API.Shared.Common.Constants;
 using API.Shared.Web.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,11 +11,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddAccountsInfrastructure(builder.Configuration)
     .AddAccountsApplicationLayer()
-    .AddAccountsPresentationLayer();
+    .AddAccountsPresentationLayer(builder.Configuration);
 
 var app = builder.Build();
 
 await app.SeedDatabase();
+
+app.UseCors(CorsPolicies.CorsPolicy);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -7,6 +7,7 @@ using API.Shared.Web.Options;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
@@ -18,7 +19,6 @@ namespace API.Shared.Web.Extensions
         public static IServiceCollection AddMainWebServices(this IServiceCollection services)
         {
             services
-                .AddVersioning()
                 .AddSwagger()
                 .AddAppExceptionHandler();
                 
@@ -69,6 +69,58 @@ namespace API.Shared.Web.Extensions
             return services;
         }
 
+        public static IServiceCollection AddVersioning(this IServiceCollection services)
+        {
+            services.AddApiVersioning(options =>
+            {
+                options.ReportApiVersions = true;
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.DefaultApiVersion = new ApiVersion(1);
+                options.ApiVersionReader = new UrlSegmentApiVersionReader();
+            })
+            .AddApiExplorer(options =>
+            {
+                options.GroupNameFormat = "'v'VVV";
+                options.SubstituteApiVersionInUrl = true;
+            });
+
+            return services;
+        }
+
+        public static IServiceCollection AddCorsPolicies(this IServiceCollection services, IConfiguration configuration)
+        {
+            services
+                .AddOptions<CorsOptions>()
+                .BindConfiguration(nameof(CorsOptions))
+                .ValidateDataAnnotations()
+                .ValidateOnStart();
+
+            var corsOptions = configuration
+                .GetSection(nameof(CorsOptions))
+                .Get<CorsOptions>()!;
+
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
+
+                options.AddPolicy(CorsPolicies.CorsPolicy, builder =>
+                {
+                    builder
+                        .WithOrigins(corsOptions.AllowedOrigins)
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
+            });
+
+            return services;
+        }
+
         private static IServiceCollection AddSwagger(this IServiceCollection services)
         {
             services.AddEndpointsApiExplorer();
@@ -97,24 +149,6 @@ namespace API.Shared.Web.Extensions
                         Array.Empty<string>()
                     }
                 });
-            });
-
-            return services;
-        }
-
-        private static IServiceCollection AddVersioning(this IServiceCollection services)
-        {
-            services.AddApiVersioning(options =>
-            {
-                options.ReportApiVersions = true;
-                options.AssumeDefaultVersionWhenUnspecified = true;
-                options.DefaultApiVersion = new ApiVersion(1);
-                options.ApiVersionReader = new UrlSegmentApiVersionReader();
-            })
-            .AddApiExplorer(options =>
-            {
-                options.GroupNameFormat = "'v'VVV";
-                options.SubstituteApiVersionInUrl = true;
             });
 
             return services;
