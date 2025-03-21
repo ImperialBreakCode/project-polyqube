@@ -2,6 +2,7 @@
 {
     public static class APIAuthSchemeNames
     {
-        public const string APIDefaultAuthScheme = "DefaultAuthScheme";
+        public const string APIDefaultAuthScheme = nameof(APIDefaultAuthScheme);
+        public const string APIAuthWithoutValidationScheme = nameof(APIAuthWithoutValidationScheme);
     }
 }
