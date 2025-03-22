@@ -14,7 +14,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(opt =>
     {
-        opt.SwaggerEndpoint("https://localhost:7210/swagger/v1/swagger.json", "Account endpoints");
+        opt.SwaggerEndpoint("https://localhost:7210/openapi/v1.json", "Account endpoints");
     });
 }
 
@@ -27,5 +27,7 @@ app.UseHttpsRedirection();
 app.UseExceptionHandler();
 
 app.MapReverseProxy();
+
+app.UseRateLimiter();
 
 app.Run();

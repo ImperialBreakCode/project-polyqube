@@ -7,10 +7,13 @@ using API.Shared.Web.Options;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
+using System.Threading.RateLimiting;
 
 namespace API.Shared.Web.Extensions
 {
@@ -116,6 +119,27 @@ namespace API.Shared.Web.Extensions
                         .AllowAnyMethod()
                         .AllowAnyHeader();
                 });
+            });
+
+            return services;
+        }
+
+        public static IServiceCollection AddRateLimitingPolicies(this IServiceCollection services)
+        {
+            services.AddRateLimiter(options =>
+            {
+                options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+                options.AddPolicy(RateLimiterPolicies.DefaultRateLimiterPolicy, context => 
+                    RateLimitPartition.GetFixedWindowLimiter(
+                        partitionKey: context.Connection.RemoteIpAddress,
+                        factory: _ => new FixedWindowRateLimiterOptions()
+                        {
+                            AutoReplenishment = true,
+                            PermitLimit = 20,
+                            QueueLimit = 5,
+                            Window = TimeSpan.FromSeconds(10)
+                        }));
             });
 
             return services;

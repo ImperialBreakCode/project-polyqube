@@ -8,7 +8,8 @@ namespace API.Gateway.Extensions
         {
             services
                 .AddMainWebServices()
-                .AddYarpGateway(configuration);
+                .AddYarpGateway(configuration)
+                .AddRateLimitingPolicies();
 
             return services;
         }
