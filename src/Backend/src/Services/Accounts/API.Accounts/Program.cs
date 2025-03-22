@@ -39,8 +39,6 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-//app.UseRateLimiter();
-
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
