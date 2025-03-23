@@ -6,5 +6,6 @@
         T? Get(string key);
         void Set(string key, T value, TimeSpan timeInterval);
         void Delete(string key);
+        void DeleteMultiple(string[] keys);
     }
 }

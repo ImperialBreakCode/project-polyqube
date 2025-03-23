@@ -21,6 +21,14 @@ namespace API.Shared.Infrastructure.Repositories
             _cache.Remove($"{KeyPrefix}_{key}");
         }
 
+        public void DeleteMultiple(string[] keys)
+        {
+            foreach (var key in keys)
+            {
+                Delete(key);
+            }
+        }
+
         public T? Get(string key)
         {
             var jsonString = _cache.GetString($"{KeyPrefix}_{key}");

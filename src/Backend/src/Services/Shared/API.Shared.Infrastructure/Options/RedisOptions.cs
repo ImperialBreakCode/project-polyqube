@@ -2,7 +2,7 @@
 
 namespace API.Shared.Infrastructure.Options
 {
-    internal record RedisOptions
+    public record RedisOptions
     {
         [Required]
         public string RedisHost { get; set; }
