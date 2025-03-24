@@ -6,5 +6,6 @@ namespace API.Accounts.Application.Features.Users.AuthToken.Issuer
     {
         IssuerResult IssueAccessToken(User user, string[] roles);
         IssuerResult IssueRefreshToken(User user);
+        void RefreshId();
     }
 }
