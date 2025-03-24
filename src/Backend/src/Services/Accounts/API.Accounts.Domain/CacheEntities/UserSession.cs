@@ -4,7 +4,7 @@
     {
         private UserSession() { }
 
-        private UserSession(string sessionId, string userId, TimeSpan expiration)
+        private UserSession(string sessionId, string userId, DateTimeOffset expiration)
         {
             SessionId = sessionId;
             UserId = userId;
@@ -13,9 +13,9 @@
 
         public string SessionId { get; set; }
         public string UserId { get; set; }
-        public TimeSpan Expiration { get; set; }
+        public DateTimeOffset Expiration { get; set; }
 
-        public static UserSession Create(string sessionId, string userId, TimeSpan expiration)
+        public static UserSession Create(string sessionId, string userId, DateTimeOffset expiration)
         {
             return new UserSession(sessionId, userId, expiration);
         }

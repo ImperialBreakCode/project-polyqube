@@ -4,7 +4,7 @@ namespace API.Accounts.Application.Features.Users.AuthToken.Issuer
 {
     internal interface IAuthTokenIssuer
     {
-        string IssueAccessToken(User user, string[] roles);
-        string IssueRefreshToken(User user);
+        IssuerResult IssueAccessToken(User user, string[] roles);
+        IssuerResult IssueRefreshToken(User user);
     }
 }

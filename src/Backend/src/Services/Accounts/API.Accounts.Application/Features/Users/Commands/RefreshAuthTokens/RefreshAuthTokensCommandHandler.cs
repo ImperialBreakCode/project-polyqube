@@ -48,7 +48,7 @@ namespace API.Accounts.Application.Features.Users.Commands.RefreshAuthTokens
             var accessToken = _authTokenIssuer.IssueAccessToken(user, userRoles);
             var newRefreshToken = _authTokenIssuer.IssueRefreshToken(user);
 
-            return Task.FromResult(_viewModelFactory.CreateAuthTokensViewModel(accessToken, newRefreshToken));
+            return Task.FromResult(_viewModelFactory.CreateAuthTokensViewModel(accessToken.Token, newRefreshToken.Token));
         }
     }
 }

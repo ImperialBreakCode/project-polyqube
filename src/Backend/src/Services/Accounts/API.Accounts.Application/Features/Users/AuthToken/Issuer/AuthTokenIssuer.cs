@@ -16,32 +16,39 @@ namespace API.Accounts.Application.Features.Users.AuthToken.Issuer
             _optionsMonitor = optionsMonitor;
         }
 
-        public string IssueAccessToken(User user, string[] roles)
+        public IssuerResult IssueAccessToken(User user, string[] roles)
         {
-            string token = CreateTokenBase(user)
-                .AddClaim(APIClaimNames.ExpirationClaim, DateTimeOffset.UtcNow.AddMinutes(30).ToUnixTimeSeconds())
+            var offset = DateTimeOffset.UtcNow.AddMinutes(30);
+
+            string token = CreateTokenBase(user, out string tokenId)
+                .AddClaim(APIClaimNames.ExpirationClaim, offset.ToUnixTimeSeconds())
                 .AddClaim(APIClaimNames.RoleClaim, roles)
                 .Encode();
 
-            return token;
+            return IssuerResult.Create(token, offset, tokenId);
         }
 
-        public string IssueRefreshToken(User user)
+        public IssuerResult IssueRefreshToken(User user)
         {
-            string token = CreateTokenBase(user)
-                .AddClaim(APIClaimNames.ExpirationClaim, DateTimeOffset.UtcNow.AddHours(2).ToUnixTimeSeconds())
+            var offset = DateTimeOffset.UtcNow.AddHours(2);
+
+            string token = CreateTokenBase(user, out string tokenId)
+                .AddClaim(APIClaimNames.ExpirationClaim, offset.ToUnixTimeSeconds())
                 .Encode();
 
-            return token;
+            return IssuerResult.Create(token, offset, tokenId);
         }
 
-        private JwtBuilder CreateTokenBase(User user)
+        private JwtBuilder CreateTokenBase(User user, out string tokenId)
         {
+            tokenId = Guid.NewGuid().ToString();
+
             return JwtBuilder.Create()
                 .WithAlgorithm(new HMACSHA512Algorithm())
                 .WithSecret(_optionsMonitor.CurrentValue.SecretKey)
                 .AddClaim(APIClaimNames.IssuerClaim, _optionsMonitor.CurrentValue.Issuer)
                 .AddClaim(APIClaimNames.AudianceClaim, _optionsMonitor.CurrentValue.Audience)
+                .AddClaim(APIClaimNames.TokenIdClaim, tokenId)
                 .AddClaim(APIClaimNames.SubjectClaim, user.Id);
 
         }

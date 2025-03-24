@@ -50,12 +50,17 @@ namespace API.Accounts.Application.Features.Users.Commands.LoginUser
                     .ExecuteChain(LoginChecksData.Create(user, request.Password));
 
             var userRoles = _unitOfWork.UserRepository.GetUserRoles(user.Id).Select(x => x.Role.RoleName).ToArray();
-            string accessToken = _authTokenIssuer.IssueAccessToken(user, userRoles);
-            string refreshToken = _authTokenIssuer.IssueRefreshToken(user);
+            var accessTokenResult = _authTokenIssuer.IssueAccessToken(user, userRoles);
+            var refreshTokenResult = _authTokenIssuer.IssueRefreshToken(user);
 
-            _sessionRepository.SetSession(UserSession.Create(user.Id, user.Id, TimeSpan.FromSeconds(10)));
+            _sessionRepository.SetSession(
+                UserSession.Create(
+                    refreshTokenResult.TokenId, 
+                    user.Id,
+                    refreshTokenResult.Expiration
+                    ));
 
-            return _viewModelFactory.CreateAuthTokensViewModel(accessToken, refreshToken);
+            return _viewModelFactory.CreateAuthTokensViewModel(accessTokenResult.Token, refreshTokenResult.Token);
         }
     }
 }

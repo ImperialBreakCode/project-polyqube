@@ -41,13 +41,13 @@ namespace API.Shared.Infrastructure.Repositories
             return JsonConvert.DeserializeObject<T>(jsonString);
         }
 
-        public void Set(string key, T value, TimeSpan timeInterval)
+        public void Set(string key, T value, DateTimeOffset timeOffset)
         {
             var jsonString = JsonConvert.SerializeObject(value);
 
             var options = new DistributedCacheEntryOptions()
             {
-                AbsoluteExpirationRelativeToNow = timeInterval
+                AbsoluteExpiration = timeOffset
             };
 
             _cache.SetString($"{KeyPrefix}_{key}", jsonString, options);
