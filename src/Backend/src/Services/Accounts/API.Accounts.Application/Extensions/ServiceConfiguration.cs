@@ -4,6 +4,7 @@ using API.Accounts.Application.Features.Roles.Seeders;
 using API.Accounts.Application.Features.Users.AuthToken.Issuer;
 using API.Accounts.Application.Features.Users.AuthToken.Validators;
 using API.Accounts.Application.Features.Users.Factories;
+using API.Accounts.Application.Features.Users.LoginChecksChain;
 using API.Accounts.Application.Features.Users.Options;
 using API.Accounts.Application.Features.Users.PasswordManager;
 using API.Accounts.Application.Features.Users.Seeders;
@@ -45,6 +46,7 @@ namespace API.Accounts.Application.Extensions
             services.AddTransient<IAuthTokenIssuer, AuthTokenIssuer>();
             services.AddTransient<IAuthTokenVerifier, AuthTokenVerifier>();
             services.AddTransient<IPasswordManager, PasswordManager>();
+            services.AddTransient<ILoginChecksChainManager, LoginChecksChainManager>();
             services.AddTransient<IViewModelFactory, ViewModelFactory>();
             services.AddTransient<IUserQueryFactory, UserQueryFactory>();
             services.AddTransient<IUserSeeder, UserSeeder>();

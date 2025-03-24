@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using StackExchange.Redis;
 
 namespace API.Shared.Infrastructure.Extensions
 {
@@ -58,6 +59,8 @@ namespace API.Shared.Infrastructure.Extensions
                 options.Configuration = redisOptions.RedisHost;
                 options.InstanceName = "polyqube_";
             });
+
+            services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisOptions.RedisHost));
 
             return services;
         }
