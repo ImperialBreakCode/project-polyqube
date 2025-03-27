@@ -3,6 +3,7 @@ using API.Accounts.Application.Features.Users.AuthToken.Validators;
 using API.Accounts.Application.Features.Users.Factories;
 using API.Accounts.Application.Features.Users.Models;
 using API.Accounts.Common.Features.Users.Exceptions;
+using API.Accounts.Common.Features.Users.Exceptions.SessionExceptions;
 using API.Accounts.Domain;
 using API.Accounts.Domain.CacheEntities;
 using API.Accounts.Domain.Repositories;
@@ -47,6 +48,12 @@ namespace API.Accounts.Application.Features.Users.Commands.RefreshAuthTokens
             if (user is null || user.DeletedAt is not null)
             {
                 throw new UserNotFoundException();
+            }
+
+            if (_cacheSessionRepository
+                .GetSession(refreshPayload[APIClaimNames.TokenIdClaim].ToString()!, user.Id) is null)
+            {
+                throw new InvalidSessionException();
             }
 
             var userRoles = _unitOfWork.UserRepository.GetUserRoles(user.Id).Select(x => x.Role.RoleName).ToArray();
