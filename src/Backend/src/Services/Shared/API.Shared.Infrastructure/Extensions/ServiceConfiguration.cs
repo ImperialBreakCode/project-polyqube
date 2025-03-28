@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using StackExchange.Redis;
 
 namespace API.Shared.Infrastructure.Extensions
 {
@@ -21,7 +22,7 @@ namespace API.Shared.Infrastructure.Extensions
 
             services.AddDbContext<TDbContext>(options =>
             {
-                var databaseOptions = configuration.GetSection(nameof(DatabaseOptions)).Get<DatabaseOptions>();
+                var databaseOptions = configuration.GetSection(nameof(DatabaseOptions)).Get<DatabaseOptions>()!;
 
                 options.UseSqlServer(databaseOptions.ConnectionString);
 
@@ -39,6 +40,27 @@ namespace API.Shared.Infrastructure.Extensions
 
                 cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
             });
+
+            return services;
+        }
+
+        public static IServiceCollection AddReddisServices(this IServiceCollection services, IConfiguration configuration)
+        {
+            services
+                .AddOptions<RedisOptions>()
+                .BindConfiguration(nameof(RedisOptions))
+                .ValidateDataAnnotations()
+                .ValidateOnStart();
+
+            var redisOptions = configuration.GetSection(nameof(RedisOptions)).Get<RedisOptions>()!;
+
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = redisOptions.RedisHost;
+                options.InstanceName = "polyqube_";
+            });
+
+            services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisOptions.RedisHost));
 
             return services;
         }

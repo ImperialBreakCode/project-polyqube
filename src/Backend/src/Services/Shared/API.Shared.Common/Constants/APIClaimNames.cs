@@ -7,5 +7,6 @@
         public const string AudianceClaim = "aud";
         public const string IssuerClaim = "iss";
         public const string ExpirationClaim = "exp";
+        public const string TokenIdClaim = "jti";
     }
 }
