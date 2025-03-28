@@ -49,6 +49,7 @@ namespace API.Accounts.Application.Extensions
             services.AddTransient<ILoginChecksChainManager, LoginChecksChainManager>();
             services.AddTransient<IViewModelFactory, ViewModelFactory>();
             services.AddTransient<IUserQueryFactory, UserQueryFactory>();
+            services.AddTransient<ISessionQueryFactory, SessionQueryFactory>();
             services.AddTransient<IUserSeeder, UserSeeder>();
 
             return services;

@@ -1,11 +1,14 @@
 ﻿using API.Accounts.Application.Features.Users.Commands.LoginUser;
 using API.Accounts.Application.Features.Users.Commands.RefreshAuthTokens;
 using API.Accounts.Application.Features.Users.Commands.ValidateAccessToken;
+using API.Accounts.Application.Features.Users.Factories;
 using API.Accounts.Features.Users.Models.Requests;
 using API.Accounts.Features.Users.Models.Responses;
+using API.Shared.Web.Extensions;
 using Asp.Versioning;
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Accounts.Features.Users.Controllers.v1
@@ -17,11 +20,13 @@ namespace API.Accounts.Features.Users.Controllers.v1
     {
         private readonly ISender _sender;
         private readonly IMapper _mapper;
+        private readonly ISessionQueryFactory _sessionQueryFactory;
 
-        public AuthController(ISender sender, IMapper mapper)
+        public AuthController(ISender sender, IMapper mapper, ISessionQueryFactory sessionQueryFactory)
         {
             _sender = sender;
             _mapper = mapper;
+            _sessionQueryFactory = sessionQueryFactory;
         }
 
 
@@ -61,6 +66,17 @@ namespace API.Accounts.Features.Users.Controllers.v1
             var responseDTO = _mapper.Map<RefreshAuthTokensResponseDTO>(result);
 
             return Ok(responseDTO);
+        }
+
+        [HttpGet("get-current-user-sessions")]
+        [Authorize]
+        public async Task<IActionResult> GetCurrentUserSessions()
+        {
+            var userId = this.GetUserId();
+            var sessions = await _sender.Send(_sessionQueryFactory.CreateGetSessionsByUserIdQuery(userId));
+            var sessionsDTO = _mapper.Map<ICollection<SessionResponseDTO>>(sessions);
+
+            return Ok(sessionsDTO);
         }
     }
 }
