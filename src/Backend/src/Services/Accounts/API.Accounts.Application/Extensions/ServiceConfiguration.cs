@@ -45,11 +45,16 @@ namespace API.Accounts.Application.Extensions
 
             services.AddTransient<IAuthTokenIssuer, AuthTokenIssuer>();
             services.AddTransient<IAuthTokenVerifier, AuthTokenVerifier>();
+
             services.AddTransient<IPasswordManager, PasswordManager>();
+
             services.AddTransient<ILoginChecksChainManager, LoginChecksChainManager>();
+
             services.AddTransient<IViewModelFactory, ViewModelFactory>();
             services.AddTransient<IUserQueryFactory, UserQueryFactory>();
             services.AddTransient<ISessionQueryFactory, SessionQueryFactory>();
+            services.AddTransient<ISessionCommandFactory, SessionCommandFactory>();
+
             services.AddTransient<IUserSeeder, UserSeeder>();
 
             return services;

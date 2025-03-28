@@ -86,7 +86,7 @@ namespace API.Accounts.Features.Users.Controllers.v1
 
         [HttpPut("update-user-details")]
         [Authorize]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateUserDetails(UpdateUserDetailsRequestDTO updateUserDetailsRequest, CancellationToken cancellationToken)
         {
@@ -95,7 +95,7 @@ namespace API.Accounts.Features.Users.Controllers.v1
             var updateUserDetailsCommand = _mapper.Map<UpdateUserDetailsCommand>((updateUserDetailsRequest, userId));
             await _sender.Send(updateUserDetailsCommand);
 
-            return Ok();
+            return NoContent();
         }
     }
 }

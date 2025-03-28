@@ -21,12 +21,18 @@ namespace API.Accounts.Features.Users.Controllers.v1
         private readonly ISender _sender;
         private readonly IMapper _mapper;
         private readonly ISessionQueryFactory _sessionQueryFactory;
+        private readonly ISessionCommandFactory _sessionCommandFactory;
 
-        public AuthController(ISender sender, IMapper mapper, ISessionQueryFactory sessionQueryFactory)
+        public AuthController(
+            ISender sender, 
+            IMapper mapper, 
+            ISessionQueryFactory sessionQueryFactory, 
+            ISessionCommandFactory sessionCommandFactory)
         {
             _sender = sender;
             _mapper = mapper;
             _sessionQueryFactory = sessionQueryFactory;
+            _sessionCommandFactory = sessionCommandFactory;
         }
 
 
@@ -70,6 +76,7 @@ namespace API.Accounts.Features.Users.Controllers.v1
 
         [HttpGet("get-current-user-sessions")]
         [Authorize]
+        [ProducesResponseType<SessionResponseDTO>(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetCurrentUserSessions()
         {
             var userId = this.GetUserId();
@@ -77,6 +84,17 @@ namespace API.Accounts.Features.Users.Controllers.v1
             var sessionsDTO = _mapper.Map<ICollection<SessionResponseDTO>>(sessions);
 
             return Ok(sessionsDTO);
+        }
+
+        [HttpDelete("revoke-current-user-sessions")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> RevokeCurrentUserSessions()
+        {
+            var userId = this.GetUserId();
+            await _sender.Send(_sessionCommandFactory.CreateDeleteSessionsByUserIdCommand(userId));
+
+            return NoContent();
         }
     }
 }
