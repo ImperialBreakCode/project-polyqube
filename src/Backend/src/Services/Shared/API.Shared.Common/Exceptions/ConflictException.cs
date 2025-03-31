@@ -4,7 +4,7 @@ namespace API.Shared.Common.Exceptions
 {
     public class ConflictException : APIException
     {
-        public ConflictException(string message) : base(message)
+        public ConflictException(string message) : base(message, System.Net.HttpStatusCode.Conflict)
         {
         }
     }

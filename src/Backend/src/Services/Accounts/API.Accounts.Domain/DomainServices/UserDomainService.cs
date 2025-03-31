@@ -1,6 +1,6 @@
-﻿using API.Accounts.Domain.Aggregates.UserAggregate;
-using API.Accounts.Domain.Exceptions.EmailExceptions;
-using API.Accounts.Domain.Exceptions.UserExceptions;
+﻿using API.Accounts.Common.Features.Users.EmailExceptions;
+using API.Accounts.Common.Features.Users.Exceptions;
+using API.Accounts.Domain.Aggregates.UserAggregate;
 using API.Accounts.Domain.Repositories;
 
 namespace API.Accounts.Domain.DomainServices
@@ -11,7 +11,7 @@ namespace API.Accounts.Domain.DomainServices
         {
             if (userRepository.GetUserByUsername(newUsername) is not null)
             {
-                throw new UsernameAlreadyExists();
+                throw new UsernameAlreadyExistsException();
             }
 
             user.Username = newUsername;

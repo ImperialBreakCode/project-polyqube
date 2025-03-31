@@ -1,8 +1,8 @@
-﻿using API.Accounts.Domain.Aggregates;
+﻿using API.Accounts.Common.Features.Roles.Exceptions;
+using API.Accounts.Common.Features.Users.EmailExceptions;
+using API.Accounts.Common.Features.Users.Exceptions;
+using API.Accounts.Domain.Aggregates;
 using API.Accounts.Domain.Aggregates.UserAggregate;
-using API.Accounts.Domain.Exceptions.EmailExceptions;
-using API.Accounts.Domain.Exceptions.RoleExceptions;
-using API.Accounts.Domain.Exceptions.UserExceptions;
 using API.Accounts.Domain.Repositories;
 using API.Shared.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -56,7 +56,7 @@ namespace API.Accounts.Infrastructure.Features.Users
 
             if (GetUserByUsername(entity.Username, true) is not null)
             {
-                throw new UsernameAlreadyExists();
+                throw new UsernameAlreadyExistsException();
             }
 
             base.Insert(entity);
@@ -65,8 +65,8 @@ namespace API.Accounts.Infrastructure.Features.Users
         public ICollection<UserRole> GetUserRoles(string userId)
         {
             return _context.UserRoles
-                .Include(ur => ur.Role)
                 .Where(ur => ur.UserId == userId)
+                .Include(ur => ur.Role)
                 .AsNoTracking()
                 .ToList();
         }

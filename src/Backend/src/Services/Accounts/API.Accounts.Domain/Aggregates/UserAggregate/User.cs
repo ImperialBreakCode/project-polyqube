@@ -1,5 +1,5 @@
 ﻿using API.Shared.Domain.Base;
-using API.Accounts.Domain.Exceptions.EmailExceptions;
+using API.Accounts.Common.Features.Users.EmailExceptions;
 
 namespace API.Accounts.Domain.Aggregates.UserAggregate
 {
@@ -7,18 +7,17 @@ namespace API.Accounts.Domain.Aggregates.UserAggregate
     {
         private readonly ICollection<UserEmail> _emails;
 
-        private User(string username, string passwordHash, string salt)
+        private User(string username, string passwordHash)
         {
             _emails = new List<UserEmail>();
             Username = username;
             PasswordHash = passwordHash;
-            Salt = salt;
         }
 
         public string Username { get; internal set; }
         public string PasswordHash { get; set; }
-        public string Salt { get; set; }
         public bool LockedOut { get; set; }
+        public bool SystemLock { get; set; }
         public bool Disabled { get; set; }
         public bool Suspended { get; set; }
 
@@ -29,12 +28,17 @@ namespace API.Accounts.Domain.Aggregates.UserAggregate
 
         public UserDetails? UserDetails { get; set; }
 
-        public static User Create(string username, string passwordHash, string salt, string email)
+        public static User Create(string username, string passwordHash, string email)
         {
-            var user = new User(username, passwordHash, salt);
+            var user = new User(username, passwordHash);
             user.AddEmail(UserEmail.Create(email));
 
             return user;
+        }
+
+        public void SetDisabled(bool disabled)
+        {
+            Disabled = disabled;
         }
 
         internal void AddEmail(UserEmail email)
