@@ -14,11 +14,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(opt =>
     {
-        opt.SwaggerEndpoint("https://localhost:7210/openapi/v1.json", "Account endpoints");
+        opt.SwaggerEndpoint("http://localhost:8080/openapi/v1.json", "Account endpoints");
     });
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 //app.UseAuthorization();
 

@@ -1,4 +1,6 @@
 ﻿using API.Shared.Common.PipelineBehaviors;
+using API.Shared.Domain.Interfaces;
+using API.Shared.Infrastructure.Database;
 using API.Shared.Infrastructure.Interceptors;
 using API.Shared.Infrastructure.Options;
 using MediatR;
@@ -28,6 +30,8 @@ namespace API.Shared.Infrastructure.Extensions
 
                 options.AddInterceptors(new AuditInterceptor());
             });
+
+            services.AddTransient<IDatabaseUpdater, DatabaseUpdater<TDbContext>>();
 
             return services;
         }
