@@ -25,8 +25,6 @@ services:
             - polyqube
         container_name: "Redis"
         image: redis:7.4.2-alpine
-        ports:
-            - 6379:6379
         volumes:
             - redisData:/data
     
@@ -47,10 +45,8 @@ services:
         image: mcr.microsoft.com/mssql/server:2022-latest
         environment:
             - ACCEPT_EULA=Y
-            - SA_PASSWORD=Polyqube123!
+            - SA_PASSWORD=${DB_PASSWORD}
             - MSSQL_PID=Developer
-        ports:
-            - 9000:1433
         volumes:
             - sqlServerData:/var/opt/mssql
 
