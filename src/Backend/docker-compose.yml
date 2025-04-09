@@ -1,0 +1,58 @@
+version: '3.4'
+
+services:
+    api.accounts:
+        depends_on:
+            - redis
+            - sqlServer
+        networks:
+            - polyqube
+        image: ${DOCKER_REGISTRY-}apiaccounts
+        build:
+            context: .
+            dockerfile: src/Services/Accounts/API.Accounts/Dockerfile
+
+    api.gateway:
+        networks:
+            - polyqube
+        image: ${DOCKER_REGISTRY-}apigateway
+        build:
+            context: .
+            dockerfile: src/Gateways/MainGateway/API.Gateway/Dockerfile
+
+    redis:
+        networks:
+            - polyqube
+        container_name: "Redis"
+        image: redis:7.4.2-alpine
+        volumes:
+            - redisData:/data
+    
+    redisinsight:
+        networks:
+            - polyqube
+        container_name: "RedisInsight"
+        image: redis/redisinsight:latest
+        ports:
+            - 5540:5540
+        volumes:
+            - redisinsightData:/data
+    
+    sqlServer:
+        networks:
+            - polyqube
+        container_name: "SqlServer"
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        environment:
+            - ACCEPT_EULA=Y
+            - SA_PASSWORD=${DB_PASSWORD}
+            - MSSQL_PID=Developer
+        volumes:
+            - sqlServerData:/var/opt/mssql
+
+networks:
+    polyqube:
+volumes:
+    redisData:
+    redisinsightData:
+    sqlServerData:

@@ -1,0 +1,31 @@
+version: '3.4'
+
+services:
+    api.accounts:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_HTTP_PORTS=8080
+            - ASPNETCORE_HTTPS_PORTS=8081
+            - AuthValidationOptions__Authority=http://api.accounts:8080
+            - CorsOptions__AllowedOrigins__0=http://localhost:8040
+            - CorsOptions__AllowedOrigins__1=http://api.gateway:8040
+            - RedisOptions__RedisHost=redis:6379
+            - DatabaseOptions__ConnectionString=Server=sqlServer,1433;Database=PolyqubeAccounts;User Id=sa;Password=${DB_PASSWORD};TrustServerCertificate=True;
+        ports:
+            - 8080:8080
+            - 8081:8081
+    api.gateway:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_HTTP_PORTS=8040
+            - ASPNETCORE_HTTPS_PORTS=8041
+            - ReverseProxy__Clusters__AccountsCluser__Destinations__destination1__Address=http://api.accounts:8080
+        ports:
+            - 8040:8040
+            - 8041:8041
+    redis:
+        ports:
+            - 6379:6379
+    sqlServer:
+        ports:
+            - 9000:1433
