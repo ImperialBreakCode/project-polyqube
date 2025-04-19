@@ -4,10 +4,13 @@ using API.Accounts.Infrastructure.Extensions;
 using API.Shared.Common.Constants;
 using API.Shared.Web.Extensions;
 using Scalar.AspNetCore;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Host.AddLogging();
 
 builder.Services
     .AddAccountsInfrastructure(builder.Configuration)
@@ -41,12 +44,14 @@ if (app.Environment.IsDevelopment())
 
 //app.UseHttpsRedirection();
 
+app.UseSerilogRequestLogging();
+
 app.UseAuthentication();
 
 app.UseAuthorization();
 
 app.MapControllers();
 
-app.UseExceptionHandler();
+app.UseExceptionHandlers();
 
 app.Run();

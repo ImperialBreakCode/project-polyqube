@@ -11,7 +11,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using System.Text.Json.Serialization;
 using System.Threading.RateLimiting;
 
@@ -19,6 +21,11 @@ namespace API.Shared.Web.Extensions
 {
     public static class ServiceConfiguration
     {
+        public static void AddLogging(this IHostBuilder host)
+        {
+            host.UseSerilog((context, loggerConfig) => loggerConfig.ReadFrom.Configuration(context.Configuration));
+        }
+
         public static IServiceCollection AddMainWebServices(this IServiceCollection services)
         {
             services

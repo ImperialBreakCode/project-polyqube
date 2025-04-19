@@ -1,9 +1,11 @@
 using API.Gateway.Extensions;
+using API.Shared.Web.Extensions;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Host.AddLogging();
 builder.Services.AddGatewayPresentationLayer(builder.Configuration);
 
 var app = builder.Build();
@@ -24,7 +26,9 @@ if (app.Environment.IsDevelopment())
 
 //app.MapControllers();
 
-app.UseExceptionHandler();
+app.UseSerilogRequestLogging();
+
+app.UseExceptionHandlers();
 
 app.MapReverseProxy();
 
