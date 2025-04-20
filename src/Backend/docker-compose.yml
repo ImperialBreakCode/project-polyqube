@@ -50,9 +50,40 @@ services:
         volumes:
             - sqlServerData:/var/opt/mssql
 
+    prometheus:
+        container_name: "Prometheus"
+        depends_on:
+            - api.accounts
+            - api.gateway
+        networks:
+            - polyqube
+        image: prom/prometheus
+        volumes:
+            - ./prometheus:/etc/prometheus:ro
+            - prom:/prometheus
+        command:
+            - '--config.file=/etc/prometheus/prometheus.yml'
+
+    grafana:
+        networks:
+            - polyqube
+        container_name: "Grafana"
+        image: grafana/otel-lgtm
+        ports:
+            - 9010:3000
+        expose:
+            - "4317"
+            - "4318"
+        volumes:
+            - grafanaData:/data
+        depends_on:
+            - prometheus
+
 networks:
     polyqube:
 volumes:
     redisData:
     redisinsightData:
     sqlServerData:
+    prom:
+    grafanaData:

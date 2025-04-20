@@ -11,7 +11,10 @@ services:
             - CorsOptions__AllowedOrigins__1=http://api.gateway:8040
             - RedisOptions__RedisHost=redis:6379
             - DatabaseOptions__ConnectionString=Server=sqlServer,1433;Database=PolyqubeAccounts;User Id=sa;Password=${DB_PASSWORD};TrustServerCertificate=True;
-        ports:
+            - TelemetryOptions__TempoEndpoint=http://grafana:4317
+            - TelemetryOptions__PyroscopeEndpoint=http://grafana:4317
+            - Serilog__WriteTo__1__Args__Endpoint=http://grafana:4317
+        expose:
             - "8080"
     api.gateway:
         environment:
@@ -19,11 +22,18 @@ services:
             - ASPNETCORE_URLS=http://+:8040
             - ASPNETCORE_HTTP_PORTS=8040
             - ReverseProxy__Clusters__AccountsCluser__Destinations__destination1__Address=http://api.accounts:8080
+            - TelemetryOptions__TempoEndpoint=http://grafana:4317
+            - TelemetryOptions__PyroscopeEndpoint=http://grafana:4317
+            - Serilog__WriteTo__1__Args__Endpoint=http://grafana:4317
         ports:
             - 8040:8040
     redis:
-        ports:
+        expose:
             - "6379"
     sqlServer:
-        ports:
+        expose:
             - "1433"
+
+    prometheus:
+        expose:
+            - "9090"

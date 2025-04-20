@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Host.AddLogging();
+builder.ConfigureTelemetryLogging();
 builder.Services.AddGatewayPresentationLayer(builder.Configuration);
 
 var app = builder.Build();
@@ -25,6 +26,8 @@ if (app.Environment.IsDevelopment())
 //app.UseAuthorization();
 
 //app.MapControllers();
+
+app.UseOpenTelemetryPrometheusScrapingEndpoint();
 
 app.UseSerilogRequestLogging();
 
