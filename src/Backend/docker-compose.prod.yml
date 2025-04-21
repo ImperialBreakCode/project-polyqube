@@ -33,7 +33,3 @@ services:
     sqlServer:
         expose:
             - "1433"
-
-    prometheus:
-        expose:
-            - "9090"

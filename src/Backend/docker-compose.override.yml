@@ -35,7 +35,3 @@ services:
     sqlServer:
         ports:
             - 9000:1433
-
-    prometheus:
-        ports:
-            - 9090:9090
