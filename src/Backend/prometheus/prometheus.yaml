@@ -28,14 +28,14 @@ storage:
     out_of_order_time_window: 10m
 
 scrape_configs:
-  - job_name: 'account-api'
-    scrape_interval: 5s
+  - job_name: 'api-account'
+    scrape_interval: 15s
     metrics_path: /metrics
     static_configs:
       - targets: ['api.accounts:8080']
 
-  - job_name: 'gateway-api'
-    scrape_interval: 5s
+  - job_name: 'api-gateway'
+    scrape_interval: 15s
     metrics_path: /metrics
     static_configs:
       - targets: ['api.gateway:8040']

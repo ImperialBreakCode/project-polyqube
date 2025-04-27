@@ -14,7 +14,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using OpenTelemetry.Exporter;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -185,11 +184,7 @@ namespace API.Shared.Web.Extensions
                     metrics
                         .AddAspNetCoreInstrumentation()
                         .AddRuntimeInstrumentation()
-                        .AddPrometheusExporter()
-                        .AddOtlpExporter(otlp =>
-                        {
-                            otlp.Endpoint = new Uri(telOptions.PyroscopeEndpoint);
-                        });
+                        .AddPrometheusExporter();
                 })
                 .WithTracing(tracing =>
                 {

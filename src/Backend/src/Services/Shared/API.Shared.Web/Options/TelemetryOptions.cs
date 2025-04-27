@@ -6,8 +6,5 @@ namespace API.Shared.Web.Options
     {
         [Required]
         public string TempoEndpoint { get; set; }
-
-        [Required]
-        public string PyroscopeEndpoint { get; set; }
     }
 }
