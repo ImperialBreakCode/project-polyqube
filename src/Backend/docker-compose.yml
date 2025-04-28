@@ -63,8 +63,8 @@ services:
             - "4318"
         volumes:
             - grafanaData:/data
-            - ./prometheus/prometheus.yaml:/otel-lgtm/prometheus.yaml:ro
-            - ./loki/loki-config.yaml:/otel-lgtm/loki-config.yaml:ro
+            #- ./config/prometheus.yaml:/otel-lgtm/prometheus.yaml:ro
+            - ./config/loki-config.yaml:/otel-lgtm/loki-config.yaml:ro
         depends_on:
             - api.accounts
             - api.gateway

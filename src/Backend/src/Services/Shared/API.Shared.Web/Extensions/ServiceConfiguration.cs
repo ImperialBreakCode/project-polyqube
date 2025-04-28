@@ -184,7 +184,11 @@ namespace API.Shared.Web.Extensions
                     metrics
                         .AddAspNetCoreInstrumentation()
                         .AddRuntimeInstrumentation()
-                        .AddPrometheusExporter();
+                        //.AddPrometheusExporter();
+                        .AddOtlpExporter(otlp =>
+                        {
+                            otlp.Endpoint = new Uri(telOptions.MetricsEndpoint);
+                        });
                 })
                 .WithTracing(tracing =>
                 {

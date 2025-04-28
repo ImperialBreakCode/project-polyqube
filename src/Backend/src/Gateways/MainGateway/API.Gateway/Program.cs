@@ -27,7 +27,7 @@ if (app.Environment.IsDevelopment())
 
 //app.MapControllers();
 
-app.UseOpenTelemetryPrometheusScrapingEndpoint();
+//app.UseOpenTelemetryPrometheusScrapingEndpoint();
 
 app.UseSerilogRequestLogging();
 
