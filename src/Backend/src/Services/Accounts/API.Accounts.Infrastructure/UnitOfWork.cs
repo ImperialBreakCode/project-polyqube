@@ -1,10 +1,11 @@
 ﻿using API.Accounts.Domain;
 using API.Accounts.Domain.Repositories;
 using API.Accounts.Infrastructure.Factories;
+using API.Shared.Domain.Base;
 
 namespace API.Accounts.Infrastructure
 {
-    internal class UnitOfWork : IUnitOfWork
+    internal class UnitOfWork : UnitOfWorkBase, IUnitOfWork
     {
         private readonly AccountsDbContext _context;
         private readonly IRepositoryFactory _repositoryFactory;
@@ -13,6 +14,7 @@ namespace API.Accounts.Infrastructure
         private IRoleRepository _roleRepository;
 
         public UnitOfWork(AccountsDbContext context, IRepositoryFactory repositoryFactory)
+            : base(context)
         {
             _context = context;
             _repositoryFactory = repositoryFactory;
@@ -23,10 +25,5 @@ namespace API.Accounts.Infrastructure
 
         public IRoleRepository RoleRepository 
             => _roleRepository ??= _repositoryFactory.CreateRoleRepository(_context);
-
-        public void Save()
-        {
-            _context.SaveChanges();
-        }
     }
 }

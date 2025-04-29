@@ -11,7 +11,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
+using Serilog;
 using System.Text.Json.Serialization;
 using System.Threading.RateLimiting;
 
@@ -19,6 +25,20 @@ namespace API.Shared.Web.Extensions
 {
     public static class ServiceConfiguration
     {
+        public static void AddLogging(this IHostBuilder host)
+        {
+            host.UseSerilog((context, loggerConfig) => loggerConfig.ReadFrom.Configuration(context.Configuration));
+        }
+
+        public static void ConfigureTelemetryLogging(this IHostApplicationBuilder builder)
+        {
+            builder.Logging.AddOpenTelemetry(builder =>
+            {
+                builder.IncludeScopes = true;
+                builder.IncludeFormattedMessage = true;
+            });
+        }
+
         public static IServiceCollection AddMainWebServices(this IServiceCollection services)
         {
             services
@@ -141,6 +161,46 @@ namespace API.Shared.Web.Extensions
                             Window = TimeSpan.FromSeconds(10)
                         }));
             });
+
+            return services;
+        }
+
+        public static IServiceCollection AddTelemetry(this IServiceCollection services, string resourceName, IConfiguration configuration)
+        {
+            services
+                .AddOptions<TelemetryOptions>()
+                .BindConfiguration(nameof(TelemetryOptions))
+                .ValidateDataAnnotations()
+                .ValidateOnStart();
+
+            var telOptions = configuration
+                .GetSection(nameof(TelemetryOptions))
+                .Get<TelemetryOptions>()!;
+
+            services.AddOpenTelemetry()
+                .ConfigureResource(resource => resource.AddService(resourceName))
+                .WithMetrics(metrics =>
+                {
+                    metrics
+                        .AddAspNetCoreInstrumentation()
+                        .AddRuntimeInstrumentation()
+                        //.AddPrometheusExporter();
+                        .AddOtlpExporter(otlp =>
+                        {
+                            otlp.Endpoint = new Uri(telOptions.MetricsEndpoint);
+                        });
+                })
+                .WithTracing(tracing =>
+                {
+                    tracing
+                        .AddAspNetCoreInstrumentation()
+                        .AddHttpClientInstrumentation()
+                        .AddEntityFrameworkCoreInstrumentation()
+                        .AddOtlpExporter(otlp =>
+                        {
+                            otlp.Endpoint = new Uri(telOptions.TempoEndpoint);
+                        });
+                });
 
             return services;
         }

@@ -50,9 +50,29 @@ services:
         volumes:
             - sqlServerData:/var/opt/mssql
 
+    grafana:
+        networks:
+            - polyqube
+        container_name: "Grafana"
+        image: grafana/otel-lgtm
+        ports:
+            - 9090:9090
+            - 9010:3000
+        expose:
+            - "4317"
+            - "4318"
+        volumes:
+            - grafanaData:/data
+            #- ./config/prometheus.yaml:/otel-lgtm/prometheus.yaml:ro
+            - ./config/loki-config.yaml:/otel-lgtm/loki-config.yaml:ro
+        depends_on:
+            - api.accounts
+            - api.gateway
+
 networks:
     polyqube:
 volumes:
     redisData:
     redisinsightData:
     sqlServerData:
+    grafanaData:

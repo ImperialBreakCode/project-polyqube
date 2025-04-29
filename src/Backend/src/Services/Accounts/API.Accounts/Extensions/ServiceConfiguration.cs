@@ -11,7 +11,8 @@ namespace API.Accounts.Extensions
                 .AddHttpAuthenticationHandler()
                 .AddAuthorizationPolices()
                 .AddVersioning()
-                .AddCorsPolicies(configuration);
+                .AddCorsPolicies(configuration)
+                .AddTelemetry("api-accounts", configuration);
 
             return services;
         }
