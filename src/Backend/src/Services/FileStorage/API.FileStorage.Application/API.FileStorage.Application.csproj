@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\API.Shared.Application\API.Shared.Application.csproj" />
+    <ProjectReference Include="..\API.FileStorage.Infrastructure\API.FileStorage.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
