@@ -20,6 +20,14 @@ services:
             context: .
             dockerfile: src/Gateways/MainGateway/API.Gateway/Dockerfile
 
+    api.filestorage:
+        networks:
+            - polyqube
+        image: ${DOCKER_REGISTRY-}apifilestorage
+        build:
+            context: .
+            dockerfile: src/Services/FileStorage/API.FileStorage/Dockerfile
+
     redis:
         networks:
             - polyqube

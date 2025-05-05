@@ -29,6 +29,16 @@ services:
         ports:
             - 8040:8040
             - 8041:8041
+
+    api.filestorage:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_HTTP_PORTS=8030
+            - ASPNETCORE_HTTPS_PORTS=8031
+        ports:
+            - 8030:8030
+            - 8031:8031
+
     redis:
         ports:
             - 6379:6379
