@@ -1,5 +1,5 @@
 ﻿using API.Accounts.Domain.CacheEntities;
-using API.Shared.Infrastructure.Repositories;
+using API.Shared.Infrastructure.Repositories.CacheRepositories;
 using Microsoft.Extensions.Caching.Distributed;
 
 namespace API.Accounts.Infrastructure.Features.Sessions
