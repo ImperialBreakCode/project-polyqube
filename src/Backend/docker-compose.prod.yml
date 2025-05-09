@@ -32,6 +32,9 @@ services:
             - ASPNETCORE_ENVIRONMENT=Development
             - ASPNETCORE_HTTP_PORTS=8030
             - ASPNETCORE_HTTPS_PORTS=8031
+            - TelemetryOptions__TempoEndpoint=http://grafana:4317
+            - TelemetryOptions__MetricsEndpoint=http://grafana:4317
+            - Serilog__WriteTo__1__Args__Endpoint=http://grafana:4317
         expose:
             - "8030"
     redis:

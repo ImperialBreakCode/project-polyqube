@@ -77,6 +77,21 @@ services:
             - api.accounts
             - api.gateway
 
+    minio:
+        networks:
+            - polyqube
+        container_name: "Minio"
+        image: minio/minio:latest
+        ports:
+            - 9100:9000
+            - 9101:9001
+        volumes:
+            - minioData:/data
+        environment:
+            MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+            MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+        command: server /data --console-address ":9001"
+
 networks:
     polyqube:
 volumes:
@@ -84,3 +99,4 @@ volumes:
     redisinsightData:
     sqlServerData:
     grafanaData:
+    minioData:
