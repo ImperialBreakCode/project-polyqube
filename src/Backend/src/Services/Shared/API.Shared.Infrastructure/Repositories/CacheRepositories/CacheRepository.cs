@@ -12,12 +12,12 @@ namespace API.Shared.Infrastructure.Repositories.CacheRepositories
         {
         }
 
-        public void Delete(string key)
+        public virtual void Delete(string key)
         {
             Cache.Remove($"{KeyPrefix}_{key}");
         }
 
-        public void DeleteMultiple(string[] keys)
+        public virtual void DeleteMultiple(string[] keys)
         {
             foreach (var key in keys)
             {
@@ -25,7 +25,7 @@ namespace API.Shared.Infrastructure.Repositories.CacheRepositories
             }
         }
 
-        public void Set(string key, T value, DateTimeOffset timeOffset)
+        public virtual void Set(string key, T value, DateTimeOffset timeOffset)
         {
             var jsonString = JsonConvert.SerializeObject(value);
 

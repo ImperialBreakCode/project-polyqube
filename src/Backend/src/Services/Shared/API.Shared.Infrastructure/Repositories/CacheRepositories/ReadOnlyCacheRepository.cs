@@ -17,7 +17,7 @@ namespace API.Shared.Infrastructure.Repositories.CacheRepositories
         protected IDistributedCache Cache => _cache;
         protected virtual string KeyPrefix => typeof(T).Name.ToLower();
 
-        public T? Get(string key)
+        public virtual T? Get(string key)
         {
             var jsonString = _cache.GetString($"{KeyPrefix}_{key}");
 
