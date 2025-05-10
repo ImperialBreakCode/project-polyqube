@@ -36,6 +36,9 @@ services:
             - ASPNETCORE_HTTP_PORTS=8030
             - ASPNETCORE_HTTPS_PORTS=8031
             - RedisOptions__RedisHost=redis:6379
+            - MinioOptions__Endpoint=minio:9100
+            - MinioOptions__AccessKey=${MINIO_ROOT_USER}
+            - MinioOptions__SecretKey=${MINIO_ROOT_PASSWORD}
             - TelemetryOptions__TempoEndpoint=http://grafana:4317
             - TelemetryOptions__MetricsEndpoint=http://grafana:4317
             - Serilog__WriteTo__1__Args__Endpoint=http://grafana:4317

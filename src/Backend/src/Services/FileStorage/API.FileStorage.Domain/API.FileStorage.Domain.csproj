@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Minio" Version="6.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Shared\API.Shared.Domain\API.Shared.Domain.csproj" />
     <ProjectReference Include="..\API.FileStorage.Common\API.FileStorage.Common.csproj" />
   </ItemGroup>
