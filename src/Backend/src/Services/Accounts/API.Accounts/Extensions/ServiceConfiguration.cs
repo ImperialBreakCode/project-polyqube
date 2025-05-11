@@ -1,4 +1,5 @@
-﻿using API.Shared.Web.Extensions;
+﻿using API.Shared.Application.Extensions;
+using API.Shared.Web.Extensions;
 
 namespace API.Accounts.Extensions
 {
@@ -12,6 +13,7 @@ namespace API.Accounts.Extensions
                 .AddAuthorizationPolices()
                 .AddVersioning()
                 .AddCorsPolicies(configuration)
+                .AddMassTransitRabbitMq(configuration)
                 .AddTelemetry("api-accounts", configuration);
 
             return services;

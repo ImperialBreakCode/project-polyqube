@@ -92,6 +92,20 @@ services:
             MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
         command: server /data --console-address ":9001"
 
+    rabbitmq:
+        networks:
+            - polyqube
+        container_name: "RabbitMQ"
+        image: rabbitmq:4-management-alpine
+        ports:
+            - 15672:15672
+            - 5672:5672
+        environment:
+            RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+            RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+        volumes:
+            - rabbitmqData:/var/lib/rabbitmq
+
 networks:
     polyqube:
 volumes:
@@ -100,3 +114,4 @@ volumes:
     sqlServerData:
     grafanaData:
     minioData:
+    rabbitmqData:

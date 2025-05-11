@@ -1,3 +1,4 @@
+using API.FileStorage.Application.Extensions;
 using API.FileStorage.Extensions;
 using API.FileStorage.Infrastructure.Extensions;
 using API.Shared.Web.Extensions;
@@ -11,6 +12,7 @@ builder.ConfigureTelemetryLogging();
 
 builder.Services
     .AddFilesPresentationLayer(builder.Configuration)
+    .AddFilesApplicationLayer(builder.Configuration)
     .AddFilesInfrastructureLayer(builder.Configuration);
 
 var app = builder.Build();
