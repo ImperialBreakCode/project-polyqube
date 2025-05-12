@@ -43,6 +43,10 @@ namespace API.Shared.Application.Extensions
 
             services.AddMassTransit(x =>
             {
+                x.SetKebabCaseEndpointNameFormatter();
+
+                x.AddConsumers(AppDomain.CurrentDomain.GetAssemblies());
+
                 x.UsingRabbitMq((context, cfg) =>
                 {
                     cfg.Host(rabbitmqOptions.Host, "/", h =>
@@ -50,6 +54,8 @@ namespace API.Shared.Application.Extensions
                         h.Username(rabbitmqOptions.Username);
                         h.Password(rabbitmqOptions.Password);
                     });
+
+                    cfg.ConfigureEndpoints(context);
                 });
             });
 
