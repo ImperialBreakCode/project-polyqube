@@ -97,5 +97,14 @@ namespace API.Accounts.Features.Users.Controllers.v1
 
             return NoContent();
         }
+
+        [HttpPost("upload-profile-picture")]
+        [Authorize]
+        [RequestSizeLimit(100 * 1024 * 1024)]
+        [ImageUploadFilter]
+        public async Task<IActionResult> UploadProfilePicture(IFormFile formFile)
+        {
+            return Ok();
+        }
     }
 }
