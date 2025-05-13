@@ -89,8 +89,9 @@ services:
         container_name: "Minio"
         image: minio/minio:latest
         ports:
-            - 9100:9000
             - 9101:9001
+        expose:
+            - "9000"
         volumes:
             - minioData:/data
         environment:
@@ -105,7 +106,8 @@ services:
         image: rabbitmq:4-management-alpine
         ports:
             - 15672:15672
-            - 5672:5672
+        expose:
+            - "5672"
         environment:
             RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
             RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
@@ -124,8 +126,8 @@ services:
         volumes:
             - mongoDataDb:/data/db
             - mongoDataConfig:/data/configdb
-        ports:
-            - 27017:27017
+        expose:
+            - "27017"
 
     mongo-express:
         image: mongo-express
