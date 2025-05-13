@@ -9,18 +9,20 @@ using API.Accounts.Application.Features.Users.Options;
 using API.Accounts.Application.Features.Users.PasswordManager;
 using API.Accounts.Application.Features.Users.Seeders;
 using API.Shared.Application.Extensions;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace API.Accounts.Application.Extensions
 {
     public static class ServiceConfiguration
     {
-        public static IServiceCollection AddAccountsApplicationLayer(this IServiceCollection services)
+        public static IServiceCollection AddAccountsApplicationLayer(this IServiceCollection services, IConfiguration configuration)
         {
             services
                 .AddDatabaseSeeder<DatabaseSeeder>()
                 .AddFluentValidators()
-                .AddMapper();
+                .AddMapper()
+                .AddMassTransitRabbitMq(configuration, System.Reflection.Assembly.GetExecutingAssembly());
 
             services
                 .AddRoles()

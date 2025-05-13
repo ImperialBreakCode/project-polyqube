@@ -14,6 +14,7 @@ services:
             - RabbitMqOptions__Host=rabbitmq
             - RabbitMqOptions__Username=${RABBITMQ_DEFAULT_USER}
             - RabbitMqOptions__Password=${RABBITMQ_DEFAULT_PASS}
+            - MongoDbOptions__ConnectionString=mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@mongo:27017/
             - TelemetryOptions__TempoEndpoint=http://grafana:4317
             - TelemetryOptions__MetricsEndpoint=http://grafana:4317
             - Serilog__WriteTo__1__Args__Endpoint=http://grafana:4317
@@ -45,6 +46,7 @@ services:
             - RabbitMqOptions__Host=rabbitmq
             - RabbitMqOptions__Username=${RABBITMQ_DEFAULT_USER}
             - RabbitMqOptions__Password=${RABBITMQ_DEFAULT_PASS}
+            - MongoDbOptions__ConnectionString=mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@mongo:27017/
             - TelemetryOptions__TempoEndpoint=http://grafana:4317
             - TelemetryOptions__MetricsEndpoint=http://grafana:4317
             - Serilog__WriteTo__1__Args__Endpoint=http://grafana:4317

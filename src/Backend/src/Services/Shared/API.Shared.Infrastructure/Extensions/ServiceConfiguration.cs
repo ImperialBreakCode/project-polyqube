@@ -69,5 +69,16 @@ namespace API.Shared.Infrastructure.Extensions
 
             return services;
         }
+
+        public static IServiceCollection AddMongoDbOptions(this IServiceCollection services)
+        {
+            services
+                .AddOptions<MongoDbOptions>()
+                .BindConfiguration(nameof(MongoDbOptions))
+                .ValidateDataAnnotations()
+                .ValidateOnStart();
+
+            return services;
+        }
     }
 }

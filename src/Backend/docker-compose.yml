@@ -5,6 +5,8 @@ services:
         depends_on:
             - redis
             - sqlServer
+            - rabbitmq
+            - mongo
         networks:
             - polyqube
         image: ${DOCKER_REGISTRY-}apiaccounts
@@ -21,6 +23,10 @@ services:
             dockerfile: src/Gateways/MainGateway/API.Gateway/Dockerfile
 
     api.filestorage:
+        depends_on:
+            - redis
+            - rabbitmq
+            - mongo
         networks:
             - polyqube
         image: ${DOCKER_REGISTRY-}apifilestorage
@@ -106,6 +112,35 @@ services:
         volumes:
             - rabbitmqData:/var/lib/rabbitmq
 
+    mongo:
+        image: mongo
+        container_name: "MongoDB"
+        networks:
+            - polyqube
+        restart: always
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USERNAME}
+            MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
+        volumes:
+            - mongoDataDb:/data/db
+            - mongoDataConfig:/data/configdb
+        ports:
+            - 27017:27017
+
+    mongo-express:
+        image: mongo-express
+        networks:
+            - polyqube
+        container_name: "MongoExpress"
+        restart: always
+        ports:
+            - 8181:8081
+        environment:
+            ME_CONFIG_MONGODB_ADMINUSERNAME: root
+            ME_CONFIG_MONGODB_ADMINPASSWORD: root
+            ME_CONFIG_MONGODB_URL: mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@mongo:27017/
+            ME_CONFIG_BASICAUTH: false
+
 networks:
     polyqube:
 volumes:
@@ -115,3 +150,5 @@ volumes:
     grafanaData:
     minioData:
     rabbitmqData:
+    mongoDataDb:
+    mongoDataConfig:

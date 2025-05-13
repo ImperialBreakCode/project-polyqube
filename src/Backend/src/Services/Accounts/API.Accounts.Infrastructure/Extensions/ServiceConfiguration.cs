@@ -18,7 +18,8 @@ namespace API.Accounts.Infrastructure.Extensions
             services
                 .AddDatabase<AccountsDbContext>(configuration)
                 .AddMediatRServices()
-                .AddReddisServices(configuration);
+                .AddReddisServices(configuration)
+                .AddMongoDbOptions();
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IRepositoryFactory, RepositoryFactory>();

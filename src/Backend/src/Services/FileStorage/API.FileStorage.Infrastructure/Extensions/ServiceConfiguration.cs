@@ -15,7 +15,8 @@ namespace API.FileStorage.Infrastructure.Extensions
         {
             services
                 .AddReddisServices(configuration)
-                .AddMinioBlobStorage(configuration);
+                .AddMinioBlobStorage(configuration)
+                .AddMongoDbOptions();
 
             services.AddTransient<ICacheRepository<FilePathCache>, FilePathCacheRepository>();
 

@@ -1,7 +1,10 @@
 ﻿using API.Shared.Application.DatabaseInit;
 using API.Shared.Application.Options;
+using API.Shared.Common.Constants;
+using API.Shared.Infrastructure.Options;
 using FluentValidation;
 using MassTransit;
+using MassTransit.MongoDbIntegration.MessageData;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -31,7 +34,7 @@ namespace API.Shared.Application.Extensions
             return services;
         }
 
-        public static IServiceCollection AddMassTransitRabbitMq(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddMassTransitRabbitMq(this IServiceCollection services, IConfiguration configuration, System.Reflection.Assembly assembly)
         {
             services
                 .AddOptions<RabbitMqOptions>()
@@ -40,15 +43,20 @@ namespace API.Shared.Application.Extensions
             .ValidateOnStart();
 
             var rabbitmqOptions = configuration.GetSection(nameof(RabbitMqOptions)).Get<RabbitMqOptions>()!;
+            var mongoDbOptions = configuration.GetSection(nameof(MongoDbOptions)).Get<MongoDbOptions>()!;
+
+            IMessageDataRepository repository = new MongoDbMessageDataRepository(mongoDbOptions.ConnectionString, MessageBusConstants.MONGO_DB_MESSAGE_DATA_NAME);
 
             services.AddMassTransit(x =>
             {
                 x.SetKebabCaseEndpointNameFormatter();
 
-                x.AddConsumers(AppDomain.CurrentDomain.GetAssemblies());
+                x.AddConsumers(assembly);
 
                 x.UsingRabbitMq((context, cfg) =>
                 {
+                    cfg.UseMessageData(repository);
+
                     cfg.Host(rabbitmqOptions.Host, "/", h =>
                     {
                         h.Username(rabbitmqOptions.Username);

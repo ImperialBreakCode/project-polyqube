@@ -8,7 +8,7 @@ namespace API.FileStorage.Application.Extensions
     {
         public static IServiceCollection AddFilesApplicationLayer(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddMassTransitRabbitMq(configuration);
+            services.AddMassTransitRabbitMq(configuration, System.Reflection.Assembly.GetExecutingAssembly());
 
             return services;
         }
