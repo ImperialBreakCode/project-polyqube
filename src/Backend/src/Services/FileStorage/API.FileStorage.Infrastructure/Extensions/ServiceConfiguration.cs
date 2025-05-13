@@ -1,4 +1,6 @@
-﻿using API.FileStorage.Infrastructure.Features.FilePaths;
+﻿using API.FileStorage.Domain.Factories;
+using API.FileStorage.Infrastructure.Factories;
+using API.FileStorage.Infrastructure.Features.FilePaths;
 using API.FileStorage.Infrastructure.Options;
 using API.Shared.Domain.CacheEntities.FileStorage;
 using API.Shared.Domain.Interfaces.CacheRepo;
@@ -19,6 +21,7 @@ namespace API.FileStorage.Infrastructure.Extensions
                 .AddMongoDbOptions();
 
             services.AddTransient<ICacheRepository<FilePathCache>, FilePathCacheRepository>();
+            services.AddTransient<IDomainServiceFactory, DomainServiceFactory>();
 
             return services;
         }
