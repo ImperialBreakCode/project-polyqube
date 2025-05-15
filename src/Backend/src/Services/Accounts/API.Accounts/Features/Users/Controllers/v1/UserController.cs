@@ -22,12 +22,14 @@ namespace API.Accounts.Features.Users.Controllers.v1
         private readonly IMapper _mapper;
         private readonly ISender _sender;
         private readonly IUserQueryFactory _userQueryFactory;
+        private readonly IUserCommandFactory _userCommandFactory;
 
-        public UserController(IMapper mapper, ISender sender, IUserQueryFactory userQueryFactory)
+        public UserController(IMapper mapper, ISender sender, IUserQueryFactory userQueryFactory, IUserCommandFactory userCommandFactory)
         {
             _mapper = mapper;
             _sender = sender;
             _userQueryFactory = userQueryFactory;
+            _userCommandFactory = userCommandFactory;
         }
 
         [HttpPost("register")]
@@ -104,7 +106,15 @@ namespace API.Accounts.Features.Users.Controllers.v1
         [ImageUploadFilter]
         public async Task<IActionResult> UploadProfilePicture(IFormFile formFile)
         {
-            return Ok();
+            var command = _userCommandFactory.CreateSetProfilePictureCommand(
+                formFile.OpenReadStream(),
+                formFile.FileName,
+                formFile.ContentType,
+                this.GetUserId());
+
+            await _sender.Send(command);
+
+            return NoContent();
         }
     }
 }

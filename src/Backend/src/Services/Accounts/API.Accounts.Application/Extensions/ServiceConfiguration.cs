@@ -22,7 +22,7 @@ namespace API.Accounts.Application.Extensions
                 .AddDatabaseSeeder<DatabaseSeeder>()
                 .AddFluentValidators()
                 .AddMapper()
-                .AddMassTransitRabbitMq(configuration, System.Reflection.Assembly.GetExecutingAssembly());
+                .AddMassTransitRabbitMq(configuration, typeof(ServiceConfiguration).Assembly);
 
             services
                 .AddRoles()
@@ -54,6 +54,7 @@ namespace API.Accounts.Application.Extensions
 
             services.AddTransient<IViewModelFactory, ViewModelFactory>();
             services.AddTransient<IUserQueryFactory, UserQueryFactory>();
+            services.AddTransient<IUserCommandFactory, UserCommandFactory>();
             services.AddTransient<ISessionQueryFactory, SessionQueryFactory>();
             services.AddTransient<ISessionCommandFactory, SessionCommandFactory>();
 

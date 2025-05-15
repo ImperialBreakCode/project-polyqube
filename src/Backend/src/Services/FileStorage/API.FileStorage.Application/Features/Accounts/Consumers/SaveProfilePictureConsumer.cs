@@ -7,7 +7,7 @@ using MassTransit;
 
 namespace API.FileStorage.Application.Features.Accounts.Consumers
 {
-    internal class SaveProfilePictureConsumer : IConsumer<SaveProfilePictureRequest>
+    public class SaveProfilePictureConsumer : IConsumer<SaveProfilePictureRequest>
     {
         private readonly IDomainServiceFactory _domainServiceFactory;
 
@@ -19,29 +19,29 @@ namespace API.FileStorage.Application.Features.Accounts.Consumers
         public async Task Consume(ConsumeContext<SaveProfilePictureRequest> context)
         {
             var message = context.Message;
-            var fileName = $"{Guid.NewGuid():hex}_{Path.GetExtension(message.FileName)}";
-            var filePath = Path.Combine(AccountsPathConstants.AccountPath, AccountsPathConstants.ProfilePictures, fileName);
+            var fileName = $"{Guid.NewGuid()}_{Path.GetExtension(message.FileName)}";
+            var objectName = Path.Combine(AccountsPathConstants.AccountPath, AccountsPathConstants.ProfilePictures, fileName);
+            var fileService = _domainServiceFactory.CreateFileService();
 
             try
             {
-                var fileObj = FileObj.Create(
-                fileName,
-                filePath,
-                message.MimeType,
-                MinioConstants.AccountsBucketName,
-                await message.ByteContent.Value);
+                using (Stream stream = await message.Stream.Value)
+                {
+                    var fileObj = FileObj.Create(
+                        objectName,
+                        message.MimeType,
+                        MinioConstants.AccountsBucketName,
+                        stream);
 
-                var fileService = _domainServiceFactory.CreateFileService();
+                    await fileService.UploadFile(fileObj);
+                }
 
-                await fileService.UploadFile(fileObj);
-
-                await context.RespondAsync(FileOperationResult.SuccessResult);
+                await context.RespondAsync(FileSaveResult.SuccessResult(objectName));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                await context.RespondAsync(FileOperationResult.FailResult(ex.Message));
+                await context.RespondAsync(FileSaveResult.FailResult);
             }
-            
         }
     }
 }

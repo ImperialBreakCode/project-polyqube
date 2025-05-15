@@ -18,21 +18,21 @@ namespace API.FileStorage.Domain.Services
         {
             var beArgs = new BucketExistsArgs()
                     .WithBucket(fileObj.BucketName);
-            
-            if (!await _minioClient.BucketExistsAsync(beArgs))
+
+            var bucketExists = await _minioClient.BucketExistsAsync(beArgs);
+
+            if (!bucketExists)
             {
                 var mbArgs = new MakeBucketArgs()
                     .WithBucket(fileObj.BucketName);
                 await _minioClient.MakeBucketAsync(mbArgs);
             }
-
-            using var stream = new MemoryStream(fileObj.Content);
+            
             await _minioClient.PutObjectAsync(new PutObjectArgs()
                 .WithBucket(fileObj.BucketName)
                 .WithObject(fileObj.ObjectName)
-                .WithFileName(fileObj.ObjectName)
-                .WithStreamData(stream)
-                .WithObjectSize(stream.Length)
+                .WithStreamData(fileObj.Content)
+                .WithObjectSize(fileObj.Content.Length)
                 .WithContentType(fileObj.ContentType));
         }
 

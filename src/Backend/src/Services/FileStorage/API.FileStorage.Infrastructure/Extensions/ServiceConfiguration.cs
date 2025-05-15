@@ -40,6 +40,7 @@ namespace API.FileStorage.Infrastructure.Extensions
                 config
                     .WithEndpoint(minioOptions.Endpoint)
                     .WithCredentials(minioOptions.AccessKey, minioOptions.SecretKey)
+                    .WithSSL(false)
                     .Build());
 
             return services;

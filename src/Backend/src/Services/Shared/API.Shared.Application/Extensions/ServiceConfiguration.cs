@@ -46,6 +46,7 @@ namespace API.Shared.Application.Extensions
             var mongoDbOptions = configuration.GetSection(nameof(MongoDbOptions)).Get<MongoDbOptions>()!;
 
             IMessageDataRepository repository = new MongoDbMessageDataRepository(mongoDbOptions.ConnectionString, MessageBusConstants.MONGO_DB_MESSAGE_DATA_NAME);
+            services.AddSingleton<IMessageDataRepository>(repository);
 
             services.AddMassTransit(x =>
             {

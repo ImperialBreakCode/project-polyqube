@@ -1,0 +1,12 @@
+﻿using API.Accounts.Application.Features.Users.Commands.SetProfilePicture;
+
+namespace API.Accounts.Application.Features.Users.Factories
+{
+    internal class UserCommandFactory : IUserCommandFactory
+    {
+        public SetProfilePictureCommand CreateSetProfilePictureCommand(Stream stream, string fileName, string mimeType, string userId)
+        {
+            return new SetProfilePictureCommand(stream, fileName, mimeType, userId);
+        }
+    }
+}
