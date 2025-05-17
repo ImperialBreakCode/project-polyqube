@@ -20,7 +20,6 @@ namespace API.FileStorage.Domain.Services
                     .WithBucket(fileObj.BucketName);
 
             var bucketExists = await _minioClient.BucketExistsAsync(beArgs);
-
             if (!bucketExists)
             {
                 var mbArgs = new MakeBucketArgs()

@@ -19,8 +19,8 @@ namespace API.FileStorage.Application.Features.Accounts.Consumers
         public async Task Consume(ConsumeContext<SaveProfilePictureRequest> context)
         {
             var message = context.Message;
-            var fileName = $"{Guid.NewGuid()}_{Path.GetExtension(message.FileName)}";
-            var objectName = Path.Combine(AccountsPathConstants.AccountPath, AccountsPathConstants.ProfilePictures, fileName);
+            var fileName = $"{Guid.NewGuid()}_{TimeSpan.FromMilliseconds}{Path.GetExtension(message.FileName)}";
+            var filePath = Path.Combine(AccountsPathConstants.AccountPath, AccountsPathConstants.ProfilePictures, fileName);
             var fileService = _domainServiceFactory.CreateFileService();
 
             try
@@ -28,7 +28,7 @@ namespace API.FileStorage.Application.Features.Accounts.Consumers
                 using (Stream stream = await message.Stream.Value)
                 {
                     var fileObj = FileObj.Create(
-                        objectName,
+                        filePath,
                         message.MimeType,
                         MinioConstants.AccountsBucketName,
                         stream);
@@ -36,7 +36,7 @@ namespace API.FileStorage.Application.Features.Accounts.Consumers
                     await fileService.UploadFile(fileObj);
                 }
 
-                await context.RespondAsync(FileSaveResult.SuccessResult(objectName));
+                await context.RespondAsync(FileSaveResult.SuccessResult(filePath));
             }
             catch (Exception)
             {

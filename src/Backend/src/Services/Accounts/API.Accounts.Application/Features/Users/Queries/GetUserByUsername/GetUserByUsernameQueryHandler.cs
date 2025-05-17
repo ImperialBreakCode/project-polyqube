@@ -20,13 +20,7 @@ namespace API.Accounts.Application.Features.Users.Queries.GetUserByUsername
 
         public Task<UserViewModel> Handle(GetUserByUsernameQuery request, CancellationToken cancellationToken)
         {
-            var user = _userRepository.GetUserByUsername(request.Username);
-
-            if (user is null)
-            {
-                throw new UserNotFoundException();
-            }
-
+            var user = _userRepository.GetUserByUsername(request.Username) ?? throw new UserNotFoundException();
             var userViewModel = _mapper.Map<UserViewModel>(user);
 
             return Task.FromResult(userViewModel);

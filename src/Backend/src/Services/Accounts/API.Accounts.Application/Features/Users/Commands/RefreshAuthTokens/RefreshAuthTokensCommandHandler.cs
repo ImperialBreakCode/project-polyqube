@@ -44,8 +44,8 @@ namespace API.Accounts.Application.Features.Users.Commands.RefreshAuthTokens
                 throw new MissingTokenClaimsException();
             }
 
-            var user = _unitOfWork.UserRepository.GetById(refreshPayload[APIClaimNames.SubjectClaim].ToString()!);
-            if (user is null || user.DeletedAt is not null)
+            var user = _unitOfWork.UserRepository.GetActiveEntityById(refreshPayload[APIClaimNames.SubjectClaim].ToString()!);
+            if (user is null)
             {
                 throw new UserNotFoundException();
             }

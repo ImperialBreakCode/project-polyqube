@@ -4,6 +4,7 @@ using API.Accounts.Domain.Aggregates.UserAggregate;
 using API.Shared.Application.Contracts.FileStorage.Requests;
 using API.Shared.Application.Contracts.FileStorage.Results;
 using API.Shared.Application.Interfaces;
+using API.Shared.Common.Exceptions;
 using AutoMapper;
 using MassTransit;
 
@@ -35,7 +36,7 @@ namespace API.Accounts.Application.Features.Users.Commands.SetProfilePicture
 
             using (request.Stream)
             {
-                user = _unitOfWork.UserRepository.GetById(request.UserId) ?? throw new UserNotFoundException();
+                user = _unitOfWork.UserRepository.GetActiveEntityById(request.UserId) ?? throw new UserNotFoundException();
                 messageDataStream = await _messageRepository.PutStream(request.Stream, cancellationToken);
             }
 
@@ -44,15 +45,15 @@ namespace API.Accounts.Application.Features.Users.Commands.SetProfilePicture
 
             if (!result.Message.Success)
             {
-                throw new Exception();
+                throw new InternalServerError();
             }
 
             if (user.UserDetails is null)
             {
-                throw new Exception();
+                throw new UserDetailsNotFoundException();
             }
 
-            user.UserDetails!.ProfilePicturePath = result.Message.Path;
+            user.UserDetails.ProfilePicturePath = result.Message.Path;
             _unitOfWork.Save();
         }
     }
