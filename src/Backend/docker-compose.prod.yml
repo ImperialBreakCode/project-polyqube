@@ -33,7 +33,7 @@ services:
             - 8040:8040
     api.filestorage:
         environment:
-            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_ENVIRONMENT=Production
             - ASPNETCORE_HTTP_PORTS=8030
             - ASPNETCORE_URLS=http://+:8030   
             - RedisOptions__RedisHost=redis:6379 
