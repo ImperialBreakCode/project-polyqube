@@ -71,7 +71,7 @@ namespace API.Shared.Web.Auth.Authentication
             Response.StatusCode = (int)HttpStatusCode.Unauthorized;
             Response.ContentType = "application/json";
 
-            await Response.WriteAsync(JsonConvert.SerializeObject(_problemDetails));
+            await Response.WriteAsJsonAsync(_problemDetails);
         }
 
         private Claim CreateClaim(string claimName, IDictionary<string, object> claimValues)

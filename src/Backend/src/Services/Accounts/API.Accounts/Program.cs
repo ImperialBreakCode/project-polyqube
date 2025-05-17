@@ -49,12 +49,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseSerilogRequestLogging();
 
+app.UseExceptionHandlers();
+
 app.UseAuthentication();
 
 app.UseAuthorization();
 
 app.MapControllers();
-
-app.UseExceptionHandlers();
 
 app.Run();

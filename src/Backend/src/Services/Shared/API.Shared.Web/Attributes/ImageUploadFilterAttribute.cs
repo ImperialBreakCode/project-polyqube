@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using API.Shared.Common.Exceptions;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace API.Shared.Web.Attributes
@@ -9,25 +8,27 @@ namespace API.Shared.Web.Attributes
         private readonly string[] _allowedMimeTypes = ["image/jpeg", "image/png"];
         private readonly string[] _allowedExtensions = [".jpg", ".jpeg", ".png"];
 
-        public override void OnActionExecuting(ActionExecutingContext context)
+        public async override Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            if (!context.ActionArguments.TryGetValue("formFile", out var fileObj) || fileObj is not IFormFile file)
+            var request = context.HttpContext.Request;
+
+            if (!request.HasFormContentType)
             {
-                context.Result = new BadRequestObjectResult("File is missing.");
-                return;
+                throw new BadRequestException("Request must be of type multipart/form-data.");
             }
+
+            var form = await request.ReadFormAsync();
+            var file = form.Files.FirstOrDefault(f => f.Name == "FormFile");
 
             if (!_allowedMimeTypes.Contains(file.ContentType))
             {
-                context.Result = new BadRequestObjectResult("Invalid file type.");
-                return;
+                throw new BadRequestException("Invalid file type.");
             }
 
             var ext = Path.GetExtension(file.FileName).ToLowerInvariant();
             if (!_allowedExtensions.Contains(ext))
             {
-                context.Result = new BadRequestObjectResult("Invalid file extension.");
-                return;
+                throw new BadRequestException("Invalid file extension.");
             }
         }
     }
