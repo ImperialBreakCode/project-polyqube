@@ -8,7 +8,7 @@ namespace API.Shared.Web.Attributes
         private readonly string[] _allowedMimeTypes = ["image/jpeg", "image/png"];
         private readonly string[] _allowedExtensions = [".jpg", ".jpeg", ".png"];
 
-        public async override Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+        public override void OnActionExecuting(ActionExecutingContext context)
         {
             var request = context.HttpContext.Request;
 
@@ -17,7 +17,7 @@ namespace API.Shared.Web.Attributes
                 throw new BadRequestException("Request must be of type multipart/form-data.");
             }
 
-            var form = await request.ReadFormAsync();
+            var form = request.ReadFormAsync().Result;
             var file = form.Files.FirstOrDefault(f => f.Name == "FormFile");
 
             if (!_allowedMimeTypes.Contains(file.ContentType))

@@ -37,6 +37,11 @@ namespace API.Accounts.Application.Features.Users.Commands.SetProfilePicture
             using (request.Stream)
             {
                 user = _unitOfWork.UserRepository.GetActiveEntityById(request.UserId) ?? throw new UserNotFoundException();
+                if (user.UserDetails is null)
+                {
+                    throw new UserDetailsNotFoundException();
+                }
+
                 messageDataStream = await _messageRepository.PutStream(request.Stream, cancellationToken);
             }
 
@@ -46,11 +51,6 @@ namespace API.Accounts.Application.Features.Users.Commands.SetProfilePicture
             if (!result.Message.Success)
             {
                 throw new InternalServerError();
-            }
-
-            if (user.UserDetails is null)
-            {
-                throw new UserDetailsNotFoundException();
             }
 
             user.UserDetails.ProfilePicturePath = result.Message.Path;
