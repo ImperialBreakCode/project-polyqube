@@ -19,8 +19,8 @@ namespace API.FileStorage.Application.Features.Accounts.Consumers
         public async Task Consume(ConsumeContext<SaveProfilePictureRequest> context)
         {
             var message = context.Message;
-            var fileName = $"{Guid.NewGuid()}_{TimeSpan.FromMilliseconds}{Path.GetExtension(message.FileName)}";
-            var filePath = Path.Combine(AccountsPathConstants.AccountPath, AccountsPathConstants.ProfilePictures, fileName);
+            var fileName = $"{Guid.NewGuid()}_{DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}{Path.GetExtension(message.FileName)}";
+            var filePath = Path.Combine("/", AccountsPathConstants.AccountPath, AccountsPathConstants.ProfilePictures, fileName);
             var fileService = _domainServiceFactory.CreateFileService();
 
             try
