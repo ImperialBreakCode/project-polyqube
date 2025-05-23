@@ -100,10 +100,12 @@ namespace API.Accounts.Features.Users.Controllers.v1
             return NoContent();
         }
 
-        [HttpPost("set-profile-picture")]
+        [HttpPut("set-profile-picture")]
         [RequestSizeLimit(100 * 1024 * 1024)]
         [Authorize]
         [ImageUploadFilter]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> SetProfilePicture(SetProfilePictureRequestDTO requestDTO, CancellationToken cancellationToken)
         {
             var formFile = requestDTO.FormFile;
@@ -114,6 +116,19 @@ namespace API.Accounts.Features.Users.Controllers.v1
                 formFile.ContentType,
                 this.GetUserId());
 
+            await _sender.Send(command, cancellationToken);
+
+            return NoContent();
+        }
+
+        [HttpDelete("remove-profile-picture")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> RemoveProfilePicture(CancellationToken cancellationToken)
+        {
+            var userId = this.GetUserId();
+            var command = _userCommandFactory.CreateRemoveProfilePictureCommand(userId);
             await _sender.Send(command, cancellationToken);
 
             return NoContent();

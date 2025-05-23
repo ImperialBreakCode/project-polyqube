@@ -13,8 +13,8 @@
             Path = path;
         }
 
-        public bool Success { get; set; }
-        public string? Path { get; set; }
+        public bool Success { get; init; }
+        public string? Path { get; init; }
 
         public static FileSaveResult SuccessResult(string path) => new(true, path); 
         public static FileSaveResult FailResult => new(false);

@@ -5,9 +5,9 @@ namespace API.Shared.Web.Options
     public record TelemetryOptions
     {
         [Required]
-        public string TempoEndpoint { get; set; }
+        public string TempoEndpoint { get; init; }
 
         [Required]
-        public string MetricsEndpoint { get; set; }
+        public string MetricsEndpoint { get; init; }
     }
 }

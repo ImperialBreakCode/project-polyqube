@@ -5,6 +5,6 @@ namespace API.Shared.Infrastructure.Options
     public record RedisOptions
     {
         [Required]
-        public string RedisHost { get; set; }
+        public string RedisHost { get; init; }
     }
 }

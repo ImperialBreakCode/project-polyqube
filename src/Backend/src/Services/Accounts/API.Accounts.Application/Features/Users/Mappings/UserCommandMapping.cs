@@ -15,6 +15,9 @@ namespace API.Accounts.Application.Features.Users.Mappings
 
             CreateMap<(SetProfilePictureCommand, MessageData<Stream>), SaveProfilePictureRequest>()
                 .ConstructUsing(x => new(x.Item1.FileName, x.Item1.MimeType, x.Item2, x.Item1.UserId));
+
+            CreateMap<UserDetails, RemoveProfilePictureRequest>()
+                .ConstructUsing(x => new(x.ProfilePicturePath));
         }
     }
 }
