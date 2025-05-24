@@ -7,8 +7,10 @@ namespace API.Accounts.Application.Features.Users.Models
         string LastName, 
         DateOnly Birthdate, 
         GenderEnum Gender, 
-        string? ProfilePicturePath,
         DateTime CreatedAt,
         DateTime UpdatedAt
-    );
+    )
+    {
+        public string? ProfilePicturePath { get; set; }
+    }
 }

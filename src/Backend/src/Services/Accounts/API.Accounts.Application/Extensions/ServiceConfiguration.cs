@@ -5,10 +5,13 @@ using API.Accounts.Application.Features.Users.AuthToken.Issuer;
 using API.Accounts.Application.Features.Users.AuthToken.Validators;
 using API.Accounts.Application.Features.Users.Factories;
 using API.Accounts.Application.Features.Users.LoginChecksChain;
+using API.Accounts.Application.Features.Users.Models;
 using API.Accounts.Application.Features.Users.Options;
 using API.Accounts.Application.Features.Users.PasswordManager;
 using API.Accounts.Application.Features.Users.Seeders;
+using API.Accounts.Application.Features.Users.UrlFileResponseTransforms;
 using API.Shared.Application.Extensions;
+using API.Shared.Common.FileUrlTransform;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -59,6 +62,8 @@ namespace API.Accounts.Application.Extensions
             services.AddTransient<ISessionCommandFactory, SessionCommandFactory>();
 
             services.AddTransient<IUserSeeder, UserSeeder>();
+
+            services.AddTransient<IFileUrlTransformer<UserViewModel>, UserViewModelTransform>();
 
             return services;
         }

@@ -1,4 +1,6 @@
-﻿namespace API.Accounts.Application.Features.Users.Models
+﻿using API.Shared.Common.FileUrlTransform;
+
+namespace API.Accounts.Application.Features.Users.Models
 {
     public record UserViewModel(
         string Id, 
@@ -10,5 +12,5 @@
         UserDetailsViewModel? UserDetails,
         DateTime CreatedAt,
         DateTime UpdatedAt
-    );
+    ) : IIncludeFileUrl;
 }

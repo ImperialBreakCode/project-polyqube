@@ -20,7 +20,7 @@ namespace API.FileStorage.Application.Features.Accounts.Consumers
         {
             var message = context.Message;
             var fileName = $"{Guid.NewGuid()}_{DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}{Path.GetExtension(message.FileName)}";
-            var filePath = Path.Combine("/", AccountsPathConstants.AccountPath, AccountsPathConstants.ProfilePictures, fileName);
+            var filePath = Path.Combine(AccountsPathConstants.AccountPath, AccountsPathConstants.ProfilePictures, fileName);
             var fileService = _domainServiceFactory.CreateFileService();
 
             try
@@ -36,11 +36,11 @@ namespace API.FileStorage.Application.Features.Accounts.Consumers
                     await fileService.UploadFile(fileObj);
                 }
 
-                await context.RespondAsync(FileSaveResult.SuccessResult(filePath));
+                await context.RespondAsync(FilePathResult.SuccessResult(filePath));
             }
             catch (Exception)
             {
-                await context.RespondAsync(FileSaveResult.FailResult);
+                await context.RespondAsync(FilePathResult.FailResult);
             }
         }
     }

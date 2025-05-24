@@ -1,4 +1,5 @@
-﻿using API.Shared.Application.Extensions;
+﻿using API.FileStorage.Application.Helpers;
+using API.Shared.Application.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,6 +12,8 @@ namespace API.FileStorage.Application.Extensions
             var currentAssembly = typeof(Features.Accounts.Consumers.SaveProfilePictureConsumer).Assembly;
 
             services.AddMassTransitRabbitMq(configuration, currentAssembly);
+
+            services.AddTransient<IObjectUrlGenerator, ObjectUrlGenerator>();
 
             return services;
         }

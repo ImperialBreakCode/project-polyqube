@@ -17,6 +17,7 @@ namespace API.Accounts.Infrastructure.Extensions
         {
             services
                 .AddDatabase<AccountsDbContext>(configuration)
+                .AddReadOnlyFilePathCache()
                 .AddMediatRServices()
                 .AddReddisServices(configuration)
                 .AddMongoDbOptions();
