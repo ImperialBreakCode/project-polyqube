@@ -1,6 +1,6 @@
 ﻿using API.Accounts.Domain.CacheEntities;
 using API.Accounts.Domain.Repositories;
-using API.Shared.Domain.Interfaces;
+using API.Shared.Domain.Interfaces.CacheRepo;
 using API.Shared.Infrastructure.Options;
 using Microsoft.Extensions.Options;
 using StackExchange.Redis;

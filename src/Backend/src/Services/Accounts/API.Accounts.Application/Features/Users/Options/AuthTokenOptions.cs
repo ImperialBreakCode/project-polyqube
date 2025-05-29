@@ -5,12 +5,12 @@ namespace API.Accounts.Application.Features.Users.Options
     public record AuthTokenOptions
     {
         [Required]
-        public string Issuer { get; set; }
+        public string Issuer { get; init; }
 
         [Required]
-        public string Audience { get; set; }
+        public string Audience { get; init; }
 
         [Required]
-        public string SecretKey { get; set; }
+        public string SecretKey { get; init; }
     }
 }

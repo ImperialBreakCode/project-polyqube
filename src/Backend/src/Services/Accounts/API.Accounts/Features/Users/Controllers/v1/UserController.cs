@@ -22,12 +22,14 @@ namespace API.Accounts.Features.Users.Controllers.v1
         private readonly IMapper _mapper;
         private readonly ISender _sender;
         private readonly IUserQueryFactory _userQueryFactory;
+        private readonly IUserCommandFactory _userCommandFactory;
 
-        public UserController(IMapper mapper, ISender sender, IUserQueryFactory userQueryFactory)
+        public UserController(IMapper mapper, ISender sender, IUserQueryFactory userQueryFactory, IUserCommandFactory userCommandFactory)
         {
             _mapper = mapper;
             _sender = sender;
             _userQueryFactory = userQueryFactory;
+            _userCommandFactory = userCommandFactory;
         }
 
         [HttpPost("register")]
@@ -94,6 +96,39 @@ namespace API.Accounts.Features.Users.Controllers.v1
 
             var updateUserDetailsCommand = _mapper.Map<UpdateUserDetailsCommand>((updateUserDetailsRequest, userId));
             await _sender.Send(updateUserDetailsCommand);
+
+            return NoContent();
+        }
+
+        [HttpPut("set-profile-picture")]
+        [RequestSizeLimit(100 * 1024 * 1024)]
+        [Authorize]
+        [ImageUploadFilter]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> SetProfilePicture(SetProfilePictureRequestDTO requestDTO, CancellationToken cancellationToken)
+        {
+            var formFile = requestDTO.FormFile;
+
+            var command = _userCommandFactory.CreateSetProfilePictureCommand(
+                formFile.OpenReadStream(),
+                formFile.FileName,
+                this.GetUserId());
+
+            await _sender.Send(command, cancellationToken);
+
+            return NoContent();
+        }
+
+        [HttpDelete("remove-profile-picture")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> RemoveProfilePicture(CancellationToken cancellationToken)
+        {
+            var userId = this.GetUserId();
+            var command = _userCommandFactory.CreateRemoveProfilePictureCommand(userId);
+            await _sender.Send(command, cancellationToken);
 
             return NoContent();
         }

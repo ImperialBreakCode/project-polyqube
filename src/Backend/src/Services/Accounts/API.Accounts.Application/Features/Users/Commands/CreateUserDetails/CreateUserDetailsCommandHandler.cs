@@ -20,8 +20,8 @@ namespace API.Accounts.Application.Features.Users.Commands.CreateUserDetails
 
         public Task<UserViewModel> Handle(CreateUserDetailsCommand request, CancellationToken cancellationToken)
         {
-            var user = _unitOfWork.UserRepository.GetById(request.UserId);
-            if (user is null || user.DeletedAt is not null)
+            var user = _unitOfWork.UserRepository.GetActiveEntityById(request.UserId);
+            if (user is null)
             {
                 throw new UserNotFoundException();
             }

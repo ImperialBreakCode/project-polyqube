@@ -5,6 +5,6 @@ namespace API.Shared.Domain.Interfaces.Repo
     public interface ISoftDeleteRepository<TEntity> : IRepository<TEntity>
         where TEntity : class, IEntity, ISoftDeletable
     {
-        TEntity? GetActiveEntityById(int id);
+        TEntity? GetActiveEntityById(string id);
     }
 }

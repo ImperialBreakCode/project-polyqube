@@ -5,6 +5,6 @@ namespace API.Shared.Infrastructure.Options
     internal record DatabaseOptions
     {
         [Required]
-        public string ConnectionString { get; set; }
+        public string ConnectionString { get; init; }
     }
 }

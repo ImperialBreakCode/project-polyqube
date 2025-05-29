@@ -5,22 +5,27 @@ using API.Accounts.Application.Features.Users.AuthToken.Issuer;
 using API.Accounts.Application.Features.Users.AuthToken.Validators;
 using API.Accounts.Application.Features.Users.Factories;
 using API.Accounts.Application.Features.Users.LoginChecksChain;
+using API.Accounts.Application.Features.Users.Models;
 using API.Accounts.Application.Features.Users.Options;
 using API.Accounts.Application.Features.Users.PasswordManager;
 using API.Accounts.Application.Features.Users.Seeders;
+using API.Accounts.Application.Features.Users.UrlFileResponseTransforms;
 using API.Shared.Application.Extensions;
+using API.Shared.Common.MediatorResponse;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace API.Accounts.Application.Extensions
 {
     public static class ServiceConfiguration
     {
-        public static IServiceCollection AddAccountsApplicationLayer(this IServiceCollection services)
+        public static IServiceCollection AddAccountsApplicationLayer(this IServiceCollection services, IConfiguration configuration)
         {
             services
                 .AddDatabaseSeeder<DatabaseSeeder>()
                 .AddFluentValidators()
-                .AddMapper();
+                .AddMapper()
+                .AddMassTransitRabbitMq(configuration, typeof(ServiceConfiguration).Assembly);
 
             services
                 .AddRoles()
@@ -52,10 +57,13 @@ namespace API.Accounts.Application.Extensions
 
             services.AddTransient<IViewModelFactory, ViewModelFactory>();
             services.AddTransient<IUserQueryFactory, UserQueryFactory>();
+            services.AddTransient<IUserCommandFactory, UserCommandFactory>();
             services.AddTransient<ISessionQueryFactory, SessionQueryFactory>();
             services.AddTransient<ISessionCommandFactory, SessionCommandFactory>();
 
             services.AddTransient<IUserSeeder, UserSeeder>();
+
+            services.AddTransient<IMediatorResponseInterceptor<UserViewModel>, UserViewModelTransform>();
 
             return services;
         }

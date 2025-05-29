@@ -1,8 +1,11 @@
 ﻿using API.Shared.Common.PipelineBehaviors;
+using API.Shared.Domain.CacheEntities.FileStorage;
 using API.Shared.Domain.Interfaces;
+using API.Shared.Domain.Interfaces.CacheRepo;
 using API.Shared.Infrastructure.Database;
 using API.Shared.Infrastructure.Interceptors;
 using API.Shared.Infrastructure.Options;
+using API.Shared.Infrastructure.Repositories.FileStorage;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -44,6 +47,7 @@ namespace API.Shared.Infrastructure.Extensions
 
                 cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
                 cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+                cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(FileUrlCacheBehavior<,>));
             });
 
             return services;
@@ -66,6 +70,24 @@ namespace API.Shared.Infrastructure.Extensions
             });
 
             services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisOptions.RedisHost));
+
+            return services;
+        }
+
+        public static IServiceCollection AddMongoDbOptions(this IServiceCollection services)
+        {
+            services
+                .AddOptions<MongoDbOptions>()
+                .BindConfiguration(nameof(MongoDbOptions))
+                .ValidateDataAnnotations()
+                .ValidateOnStart();
+
+            return services;
+        }
+
+        public static IServiceCollection AddReadOnlyFilePathCache(this IServiceCollection services)
+        {
+            services.AddTransient<IReadCacheRepository<FilePathCache>, FilePathReadOnlyCache>();
 
             return services;
         }

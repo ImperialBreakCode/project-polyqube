@@ -15,7 +15,7 @@ builder.ConfigureTelemetryLogging();
 
 builder.Services
     .AddAccountsInfrastructure(builder.Configuration)
-    .AddAccountsApplicationLayer()
+    .AddAccountsApplicationLayer(builder.Configuration)
     .AddAccountsPresentationLayer(builder.Configuration);
 
 var app = builder.Build();

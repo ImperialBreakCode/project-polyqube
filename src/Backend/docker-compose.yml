@@ -5,6 +5,8 @@ services:
         depends_on:
             - redis
             - sqlServer
+            - rabbitmq
+            - mongo
         networks:
             - polyqube
         image: ${DOCKER_REGISTRY-}apiaccounts
@@ -19,6 +21,18 @@ services:
         build:
             context: .
             dockerfile: src/Gateways/MainGateway/API.Gateway/Dockerfile
+
+    api.filestorage:
+        depends_on:
+            - redis
+            - rabbitmq
+            - mongo
+        networks:
+            - polyqube
+        image: ${DOCKER_REGISTRY-}apifilestorage
+        build:
+            context: .
+            dockerfile: src/Services/FileStorage/API.FileStorage/Dockerfile
 
     redis:
         networks:
@@ -69,6 +83,80 @@ services:
             - api.accounts
             - api.gateway
 
+    minio:
+        networks:
+            - polyqube
+        container_name: "Minio"
+        image: minio/minio:latest
+        ports:
+            - 9101:9001
+        expose:
+            - "9000"
+        volumes:
+            - minioData:/data
+        environment:
+            MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+            MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+        command: server /data --console-address ":9001"
+
+    rabbitmq:
+        networks:
+            - polyqube
+        container_name: "RabbitMQ"
+        image: rabbitmq:4-management-alpine
+        ports:
+            - 15672:15672
+        expose:
+            - "5672"
+        environment:
+            RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+            RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+        volumes:
+            - rabbitmqData:/var/lib/rabbitmq
+
+    mongo:
+        image: mongo
+        container_name: "MongoDB"
+        networks:
+            - polyqube
+        restart: always
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USERNAME}
+            MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
+        volumes:
+            - mongoDataDb:/data/db
+            - mongoDataConfig:/data/configdb
+        expose:
+            - "27017"
+
+    mongo-express:
+        image: mongo-express
+        networks:
+            - polyqube
+        container_name: "MongoExpress"
+        restart: always
+        ports:
+            - 8181:8081
+        environment:
+            ME_CONFIG_MONGODB_ADMINUSERNAME: root
+            ME_CONFIG_MONGODB_ADMINPASSWORD: root
+            ME_CONFIG_MONGODB_URL: mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@mongo:27017/
+            ME_CONFIG_BASICAUTH: false
+
+    proxy:
+        image: 'jc21/nginx-proxy-manager:latest'
+        restart: unless-stopped
+        container_name: 'Proxy'
+        networks:
+            - polyqube
+        ports:
+            - '80:80'
+            - '81:81'
+            - '443:443'
+        volumes:
+            - proxyData:/data
+            - proxyLetEncrypt:/etc/letsencrypt
+
 networks:
     polyqube:
 volumes:
@@ -76,3 +164,9 @@ volumes:
     redisinsightData:
     sqlServerData:
     grafanaData:
+    minioData:
+    rabbitmqData:
+    mongoDataDb:
+    mongoDataConfig:
+    proxyData:
+    proxyLetEncrypt:

@@ -19,10 +19,15 @@ namespace API.Accounts.Application.Features.Users.Commands.UpdateUserDetails
 
         public Task Handle(UpdateUserDetailsCommand request, CancellationToken cancellationToken)
         {
-            var user = _unitOfWork.UserRepository.GetById(request.UserId);
-            if (user is null || user.DeletedAt is not null)
+            var user = _unitOfWork.UserRepository.GetActiveEntityById(request.UserId);
+            if (user is null)
             {
                 throw new UserNotFoundException();
+            }
+
+            if (user.UserDetails is null)
+            {
+                throw new UserDetailsNotFoundException();
             }
 
             user.UserDetails = _mapper.Map<UserDetails>(request);

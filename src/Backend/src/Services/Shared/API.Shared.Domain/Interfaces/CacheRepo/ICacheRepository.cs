@@ -1,9 +1,8 @@
-﻿namespace API.Shared.Domain.Interfaces
+﻿namespace API.Shared.Domain.Interfaces.CacheRepo
 {
-    public interface ICacheRepository<T> 
+    public interface ICacheRepository<T> : IReadCacheRepository<T>
         where T : class
     {
-        T? Get(string key);
         void Set(string key, T value, DateTimeOffset timeOffset);
         void Delete(string key);
         void DeleteMultiple(string[] keys);
