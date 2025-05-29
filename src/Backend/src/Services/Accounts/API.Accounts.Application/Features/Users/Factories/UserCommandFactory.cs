@@ -10,9 +10,9 @@ namespace API.Accounts.Application.Features.Users.Factories
             return new RemoveProfilePictureCommand(userId);
         }
 
-        public SetProfilePictureCommand CreateSetProfilePictureCommand(Stream stream, string fileName, string mimeType, string userId)
+        public SetProfilePictureCommand CreateSetProfilePictureCommand(Stream stream, string fileName, string userId)
         {
-            return new SetProfilePictureCommand(stream, fileName, mimeType, userId);
+            return new SetProfilePictureCommand(stream, fileName, userId);
         }
     }
 }

@@ -2,5 +2,5 @@
 
 namespace API.Accounts.Application.Features.Users.Commands.SetProfilePicture
 {
-    public record SetProfilePictureCommand(Stream Stream, string FileName, string MimeType, string UserId) : ICommand;
+    public record SetProfilePictureCommand(Stream Stream, string FileName, string UserId) : ICommand;
 }

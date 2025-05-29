@@ -113,7 +113,6 @@ namespace API.Accounts.Features.Users.Controllers.v1
             var command = _userCommandFactory.CreateSetProfilePictureCommand(
                 formFile.OpenReadStream(),
                 formFile.FileName,
-                formFile.ContentType,
                 this.GetUserId());
 
             await _sender.Send(command, cancellationToken);

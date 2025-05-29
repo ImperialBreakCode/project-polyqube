@@ -1,4 +1,5 @@
-﻿using API.FileStorage.Application.Helpers;
+﻿using API.FileStorage.Application.Features.ProfilePicture;
+using API.FileStorage.Application.Helpers;
 using API.Shared.Application.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +15,8 @@ namespace API.FileStorage.Application.Extensions
             services.AddMassTransitRabbitMq(configuration, currentAssembly);
 
             services.AddTransient<IObjectUrlGenerator, ObjectUrlGenerator>();
+
+            services.AddTransient<IProfileImageResizer, ProfileImageResizer>();
 
             return services;
         }
