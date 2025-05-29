@@ -90,7 +90,8 @@ services:
         image: minio/minio:latest
         ports:
             - 9101:9001
-            - 9100:9000
+        expose:
+            - "9000"
         volumes:
             - minioData:/data
         environment:
