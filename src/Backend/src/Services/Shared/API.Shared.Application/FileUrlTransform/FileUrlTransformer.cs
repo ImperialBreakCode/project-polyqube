@@ -1,14 +1,14 @@
 ﻿using API.Shared.Application.Contracts.FileStorage.Requests;
 using API.Shared.Application.Contracts.FileStorage.Results;
 using API.Shared.Common.Exceptions;
-using API.Shared.Common.FileUrlTransform;
+using API.Shared.Common.MediatorResponse;
 using API.Shared.Domain.CacheEntities.FileStorage;
 using API.Shared.Domain.Interfaces.CacheRepo;
 using MassTransit;
 
 namespace API.Shared.Application.FileUrlTransform
 {
-    public abstract class FileUrlTransformer<T> : IFileUrlTransformer<T>
+    public abstract class FileUrlTransformer<T> : IMediatorResponseInterceptor<T>
         where T : class
     {
         private readonly IRequestClient<GenerateAccountsFileUrlRequest> _requestClient;
@@ -22,7 +22,7 @@ namespace API.Shared.Application.FileUrlTransform
             _readFileCacheRepository = readFileCacheRepository;
         }
 
-        public abstract Task TransformUrl(T model);
+        public abstract Task InterceptAndProcessResponse(T model);
 
         protected async Task<string> GetUrlPath(string path)
         {

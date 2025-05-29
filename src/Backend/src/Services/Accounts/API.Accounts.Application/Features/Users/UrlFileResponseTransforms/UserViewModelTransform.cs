@@ -10,7 +10,7 @@ namespace API.Accounts.Application.Features.Users.UrlFileResponseTransforms
     internal class UserViewModelTransform(IRequestClient<GenerateAccountsFileUrlRequest> requestClient, IReadCacheRepository<FilePathCache> readFileCacheRepository)
         : FileUrlTransformer<UserViewModel>(requestClient, readFileCacheRepository)
     {
-        public async override Task TransformUrl(UserViewModel model)
+        public async override Task InterceptAndProcessResponse(UserViewModel model)
         {
             if (model.UserDetails is not null && model.UserDetails.ProfilePicturePath is not null)
             {

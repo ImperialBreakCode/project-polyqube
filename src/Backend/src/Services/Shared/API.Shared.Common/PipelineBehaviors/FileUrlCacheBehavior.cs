@@ -1,10 +1,10 @@
-﻿using API.Shared.Common.FileUrlTransform;
+﻿using API.Shared.Common.MediatorResponse;
 using MediatR;
 
 namespace API.Shared.Common.PipelineBehaviors
 {
     public class FileUrlCacheBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-        where TResponse : class, IIncludeFileUrl
+        where TResponse : class, IInterceptableResponse
         where TRequest : notnull
     {
         private readonly IServiceProvider _serviceProvider;
@@ -18,13 +18,13 @@ namespace API.Shared.Common.PipelineBehaviors
         {
             var response = await next();
 
-            var transformer = (IFileUrlTransformer<TResponse>?)_serviceProvider.GetService(typeof(IFileUrlTransformer<TResponse>));
+            var transformer = (IMediatorResponseInterceptor<TResponse>?)_serviceProvider.GetService(typeof(IMediatorResponseInterceptor<TResponse>));
             if (transformer is null)
             {
                 throw new InvalidOperationException();
             }
 
-            await transformer.TransformUrl(response);
+            await transformer.InterceptAndProcessResponse(response);
 
             return response;
         }

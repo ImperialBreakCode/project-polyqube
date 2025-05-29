@@ -11,7 +11,7 @@ using API.Accounts.Application.Features.Users.PasswordManager;
 using API.Accounts.Application.Features.Users.Seeders;
 using API.Accounts.Application.Features.Users.UrlFileResponseTransforms;
 using API.Shared.Application.Extensions;
-using API.Shared.Common.FileUrlTransform;
+using API.Shared.Common.MediatorResponse;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -63,7 +63,7 @@ namespace API.Accounts.Application.Extensions
 
             services.AddTransient<IUserSeeder, UserSeeder>();
 
-            services.AddTransient<IFileUrlTransformer<UserViewModel>, UserViewModelTransform>();
+            services.AddTransient<IMediatorResponseInterceptor<UserViewModel>, UserViewModelTransform>();
 
             return services;
         }

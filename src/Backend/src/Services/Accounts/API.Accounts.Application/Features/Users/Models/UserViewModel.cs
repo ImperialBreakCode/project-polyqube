@@ -1,4 +1,4 @@
-﻿using API.Shared.Common.FileUrlTransform;
+﻿using API.Shared.Common.MediatorResponse;
 
 namespace API.Accounts.Application.Features.Users.Models
 {
@@ -12,5 +12,5 @@ namespace API.Accounts.Application.Features.Users.Models
         UserDetailsViewModel? UserDetails,
         DateTime CreatedAt,
         DateTime UpdatedAt
-    ) : IIncludeFileUrl;
+    ) : IInterceptableResponse;
 }
