@@ -1,5 +1,6 @@
 ﻿using API.FileStorage.Common.Constants;
 using API.FileStorage.Domain.Models;
+using Microsoft.Extensions.Options;
 using Minio;
 using Minio.DataModel.Args;
 
@@ -8,10 +9,12 @@ namespace API.FileStorage.Domain.Services
     public class FileService
     {
         private readonly IMinioClient _minioClient;
+        private readonly string _presignedUrlHost;
 
-        public FileService(IMinioClient minioClient)
+        public FileService(IMinioClient minioClient, string presifnedUrlHost)
         {
             _minioClient = minioClient;
+            _presignedUrlHost = presifnedUrlHost;
         }
 
         public async Task UploadFile(FileObj fileObj)
@@ -44,10 +47,16 @@ namespace API.FileStorage.Domain.Services
 
         public async Task<string> GetPresignedUrlAsync(string bucketName, string fileName, int expirySeconds = MinioConstants.DefaultUrlExpirySeconds)
         {
-            return await _minioClient.PresignedGetObjectAsync(new PresignedGetObjectArgs()
+            var url =  await _minioClient.PresignedGetObjectAsync(new PresignedGetObjectArgs()
                 .WithBucket(bucketName)
                 .WithObject(fileName)
                 .WithExpiry(expirySeconds));
+
+            var urlBuilder = new UriBuilder(url);
+            urlBuilder.Host = _presignedUrlHost;
+            urlBuilder.Port = -1;
+
+            return urlBuilder.ToString();
         }
     }
 }

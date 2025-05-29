@@ -142,6 +142,20 @@ services:
             ME_CONFIG_MONGODB_URL: mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@mongo:27017/
             ME_CONFIG_BASICAUTH: false
 
+    proxy:
+        image: 'jc21/nginx-proxy-manager:latest'
+        restart: unless-stopped
+        container_name: 'Proxy'
+        networks:
+            - polyqube
+        ports:
+            - '80:80'
+            - '81:81'
+            - '443:443'
+        volumes:
+            - proxyData:/data
+            - proxyLetEncrypt:/etc/letsencrypt
+
 networks:
     polyqube:
 volumes:
@@ -153,3 +167,5 @@ volumes:
     rabbitmqData:
     mongoDataDb:
     mongoDataConfig:
+    proxyData:
+    proxyLetEncrypt:

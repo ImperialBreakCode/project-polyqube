@@ -12,5 +12,8 @@ namespace API.FileStorage.Infrastructure.Options
 
         [Required]
         public string SecretKey { get; init; }
+
+        [Required]
+        public string PresignedUrlHost { get; set; }
     }
 }
