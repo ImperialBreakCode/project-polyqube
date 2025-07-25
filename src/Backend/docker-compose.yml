@@ -65,6 +65,10 @@ services:
             dockerfile: src/Services/FileStorage/API.FileStorage/Dockerfile
 
     api.admin:
+        environment:
+            - TelemetryOptions__TempoEndpoint=http://grafana:4317
+            - TelemetryOptions__MetricsEndpoint=http://grafana:4317
+            - Serilog__WriteTo__1__Args__Endpoint=http://grafana:4317
         image: ${DOCKER_REGISTRY-}apiadmin
         networks:
             - polyqube

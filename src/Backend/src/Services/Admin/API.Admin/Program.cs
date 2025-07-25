@@ -1,11 +1,15 @@
+using API.Admin.Extensions;
+using API.Shared.Web.Extensions;
+using Serilog;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Host.AddLogging();
+builder.ConfigureTelemetryLogging();
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services
+    .AddAdminPresentationLayer(builder.Configuration);
 
 var app = builder.Build();
 
@@ -16,10 +20,16 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
+
+app.UseSerilogRequestLogging();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseExceptionHandlers();
 
 app.Run();
