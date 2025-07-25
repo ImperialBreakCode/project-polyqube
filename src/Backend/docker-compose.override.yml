@@ -54,6 +54,15 @@ services:
             - 8030:8030
             - 8031:8031
 
+    api.admin:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_HTTP_PORTS=8010
+            - ASPNETCORE_HTTPS_PORTS=8011
+        ports:
+            - 8010:8010
+            - 8011:8011
+
     redis:
         ports:
             - 6379:6379

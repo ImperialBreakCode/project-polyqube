@@ -49,6 +49,15 @@ services:
             - Serilog__WriteTo__1__Args__Endpoint=http://grafana:4317
         expose:
             - "8030"
+
+    api.admin:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Production
+            - ASPNETCORE_HTTP_PORTS=8010
+            - ASPNETCORE_URLS=http://+:8010
+        expose:
+            - "8010"
+
     redis:
         expose:
             - "6379"
