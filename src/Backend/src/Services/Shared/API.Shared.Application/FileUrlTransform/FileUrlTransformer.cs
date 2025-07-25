@@ -32,8 +32,8 @@ namespace API.Shared.Application.FileUrlTransform
                 return url.PresignedUrl;
             }
 
-            var result = await _requestClient.GetResponse<FilePathResult>(new(path));
-            if (!result.Message.Success)
+            var result = await _requestClient.GetResponse<FilePathResult>(GenerateAccountsFileUrlRequest.Create(path));
+            if (result.Message.Path is null)
             {
                 throw new InternalServerError();
             }
