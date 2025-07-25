@@ -41,15 +41,27 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FileStorage", "FileStorage", "{2946559D-D61C-4DD1-A866-854204D1F9BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API.FileStorage", "src\Services\FileStorage\API.FileStorage\API.FileStorage.csproj", "{69B76E68-9408-43E1-A449-921C53204FFF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API.FileStorage", "src\Services\FileStorage\API.FileStorage\API.FileStorage.csproj", "{69B76E68-9408-43E1-A449-921C53204FFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API.FileStorage.Application", "src\Services\FileStorage\API.FileStorage.Application\API.FileStorage.Application.csproj", "{C7FF5E38-9EA8-4662-BB80-61B16C0BF4CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API.FileStorage.Application", "src\Services\FileStorage\API.FileStorage.Application\API.FileStorage.Application.csproj", "{C7FF5E38-9EA8-4662-BB80-61B16C0BF4CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API.FileStorage.Common", "src\Services\FileStorage\API.FileStorage.Common\API.FileStorage.Common.csproj", "{3E9A8B51-5F59-4953-B0F2-071DCED68899}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API.FileStorage.Common", "src\Services\FileStorage\API.FileStorage.Common\API.FileStorage.Common.csproj", "{3E9A8B51-5F59-4953-B0F2-071DCED68899}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API.FileStorage.Infrastructure", "src\Services\FileStorage\API.FileStorage.Infrastructure\API.FileStorage.Infrastructure.csproj", "{A46F7C92-9E51-4570-95A4-EB4193A2C0D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API.FileStorage.Infrastructure", "src\Services\FileStorage\API.FileStorage.Infrastructure\API.FileStorage.Infrastructure.csproj", "{A46F7C92-9E51-4570-95A4-EB4193A2C0D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API.FileStorage.Domain", "src\Services\FileStorage\API.FileStorage.Domain\API.FileStorage.Domain.csproj", "{A4D28C5A-F2AC-4BD5-B53E-8BB424529121}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API.FileStorage.Domain", "src\Services\FileStorage\API.FileStorage.Domain\API.FileStorage.Domain.csproj", "{A4D28C5A-F2AC-4BD5-B53E-8BB424529121}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Admin", "Admin", "{DA8CFDA6-0D49-4205-B06C-64CDDA915E14}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API.Admin", "src\Services\Admin\API.Admin\API.Admin.csproj", "{D0BED66F-4FA0-42E4-8D68-FFFF4F3C1C1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API.Admin.Common", "src\Services\Admin\API.Admin.Common\API.Admin.Common.csproj", "{78B49397-93D8-444B-A742-3E1B0F588038}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API.Admin.Domain", "src\Services\Admin\API.Admin.Domain\API.Admin.Domain.csproj", "{80BBACE3-E266-46C7-9A23-E3CE5519B4B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API.Admin.Infrastructure", "src\Services\Admin\API.Admin.Infrastructure\API.Admin.Infrastructure.csproj", "{336C1005-359C-4106-B5B6-52965F5FB073}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API.Admin.Application", "src\Services\Admin\API.Admin.Application\API.Admin.Application.csproj", "{24E27B85-FC7E-4F6B-B0B8-614AA5947399}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -125,6 +137,26 @@ Global
 		{A4D28C5A-F2AC-4BD5-B53E-8BB424529121}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4D28C5A-F2AC-4BD5-B53E-8BB424529121}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4D28C5A-F2AC-4BD5-B53E-8BB424529121}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0BED66F-4FA0-42E4-8D68-FFFF4F3C1C1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0BED66F-4FA0-42E4-8D68-FFFF4F3C1C1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0BED66F-4FA0-42E4-8D68-FFFF4F3C1C1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0BED66F-4FA0-42E4-8D68-FFFF4F3C1C1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78B49397-93D8-444B-A742-3E1B0F588038}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78B49397-93D8-444B-A742-3E1B0F588038}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78B49397-93D8-444B-A742-3E1B0F588038}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78B49397-93D8-444B-A742-3E1B0F588038}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80BBACE3-E266-46C7-9A23-E3CE5519B4B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80BBACE3-E266-46C7-9A23-E3CE5519B4B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80BBACE3-E266-46C7-9A23-E3CE5519B4B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80BBACE3-E266-46C7-9A23-E3CE5519B4B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{336C1005-359C-4106-B5B6-52965F5FB073}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{336C1005-359C-4106-B5B6-52965F5FB073}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{336C1005-359C-4106-B5B6-52965F5FB073}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{336C1005-359C-4106-B5B6-52965F5FB073}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24E27B85-FC7E-4F6B-B0B8-614AA5947399}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24E27B85-FC7E-4F6B-B0B8-614AA5947399}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24E27B85-FC7E-4F6B-B0B8-614AA5947399}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24E27B85-FC7E-4F6B-B0B8-614AA5947399}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -152,6 +184,12 @@ Global
 		{3E9A8B51-5F59-4953-B0F2-071DCED68899} = {2946559D-D61C-4DD1-A866-854204D1F9BC}
 		{A46F7C92-9E51-4570-95A4-EB4193A2C0D9} = {2946559D-D61C-4DD1-A866-854204D1F9BC}
 		{A4D28C5A-F2AC-4BD5-B53E-8BB424529121} = {2946559D-D61C-4DD1-A866-854204D1F9BC}
+		{DA8CFDA6-0D49-4205-B06C-64CDDA915E14} = {E4F8D401-A2EE-4451-B79D-B0219FB0B6C6}
+		{D0BED66F-4FA0-42E4-8D68-FFFF4F3C1C1D} = {DA8CFDA6-0D49-4205-B06C-64CDDA915E14}
+		{78B49397-93D8-444B-A742-3E1B0F588038} = {DA8CFDA6-0D49-4205-B06C-64CDDA915E14}
+		{80BBACE3-E266-46C7-9A23-E3CE5519B4B7} = {DA8CFDA6-0D49-4205-B06C-64CDDA915E14}
+		{336C1005-359C-4106-B5B6-52965F5FB073} = {DA8CFDA6-0D49-4205-B06C-64CDDA915E14}
+		{24E27B85-FC7E-4F6B-B0B8-614AA5947399} = {DA8CFDA6-0D49-4205-B06C-64CDDA915E14}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {15447879-0410-468B-B8B9-384E84EFB019}
