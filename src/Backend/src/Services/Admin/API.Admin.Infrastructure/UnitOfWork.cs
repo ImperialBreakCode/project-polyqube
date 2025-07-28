@@ -13,7 +13,7 @@ namespace API.Admin.Infrastructure
 
         private IFeatureInfoRepository _featureInfoRepository;
 
-        public UnitOfWork(DbContext dbContext, IRepositoryFactory repositoryFactory)
+        public UnitOfWork(AdminDbContext dbContext, IRepositoryFactory repositoryFactory)
             : base(dbContext)
         {
         }
