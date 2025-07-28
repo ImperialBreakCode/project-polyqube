@@ -16,6 +16,8 @@ namespace API.Admin.Infrastructure
         public UnitOfWork(AdminDbContext dbContext, IRepositoryFactory repositoryFactory)
             : base(dbContext)
         {
+            _context = dbContext;
+            _repositoryFactory = repositoryFactory;
         }
 
         public IFeatureInfoRepository FeatureInfoRepository 
