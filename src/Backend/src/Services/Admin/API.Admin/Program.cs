@@ -1,4 +1,5 @@
 using API.Admin.Extensions;
+using API.Admin.Infrastructure.Extensions;
 using API.Shared.Web.Extensions;
 using Serilog;
 
@@ -9,7 +10,8 @@ builder.Host.AddLogging();
 builder.ConfigureTelemetryLogging();
 
 builder.Services
-    .AddAdminPresentationLayer(builder.Configuration);
+    .AddAdminPresentationLayer(builder.Configuration)
+    .AddAdminInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 

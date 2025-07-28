@@ -10,10 +10,10 @@ namespace API.Admin.Domain.Aggregates.FeatureInfoAggregate
 
         private RestrictedUser(string userId)
         {
-            UserId = userId;
+            RestrictedUserId = userId;
         }
 
-        public string UserId { get; private set; }
+        public string RestrictedUserId { get; private set; }
 
         public static RestrictedUser Create(string userId)
         {

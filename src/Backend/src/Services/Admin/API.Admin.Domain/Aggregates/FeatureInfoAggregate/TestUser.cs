@@ -10,10 +10,10 @@ namespace API.Admin.Domain.Aggregates.FeatureInfoAggregate
 
         private TestUser(string userId)
         {
-            UserId = userId;
+            TestUserId = userId;
         }
 
-        public string UserId { get; private set; }
+        public string TestUserId { get; private set; }
 
         public static TestUser Create(string userId)
         {
