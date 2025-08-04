@@ -2,7 +2,6 @@
 using API.Admin.Domain.Repositories;
 using API.Admin.Infrastructure.Factories;
 using API.Shared.Domain.Base;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Admin.Infrastructure
 {

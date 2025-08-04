@@ -10,23 +10,9 @@ namespace API.Admin.Infrastructure.Features.FeatureInfos
         {
             builder.ToTable("feature_infos");
 
-            builder.OwnsMany(fi => fi.RestrictedUsers, ownedBuilder =>
-            {
-                ownedBuilder
-                    .HasIndex(ru => ru.RestrictedUserId)
-                    .IsUnique();
-
-                ownedBuilder.ToTable("feature_restricted_users");
-            });
-
-            builder.OwnsMany(fi => fi.TestUsers, ownedBuilder =>
-            {
-                ownedBuilder
-                    .HasIndex(tu => tu.TestUserId)
-                    .IsUnique();
-
-                ownedBuilder.ToTable("feature_test_users");
-            });
+            builder
+                .HasIndex(x => x.FeatureName)
+                .IsUnique();
         }
     }
 }

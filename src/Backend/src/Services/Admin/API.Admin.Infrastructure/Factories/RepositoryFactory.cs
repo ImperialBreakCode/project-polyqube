@@ -7,7 +7,7 @@ namespace API.Admin.Infrastructure.Factories
     {
         public IFeatureInfoRepository CreateFeatureInfoRepository(AdminDbContext dbContext)
         {
-            return new FeatureInfoRepository(dbContext.FeatureInfos);
+            return new FeatureInfoRepository(dbContext);
         }
     }
 }

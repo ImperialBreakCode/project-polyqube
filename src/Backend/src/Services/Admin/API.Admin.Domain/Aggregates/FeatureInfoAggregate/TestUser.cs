@@ -8,16 +8,18 @@ namespace API.Admin.Domain.Aggregates.FeatureInfoAggregate
         {
         }
 
-        private TestUser(string userId)
+        private TestUser(string userId, string featureInfoId)
         {
             TestUserId = userId;
+            FeatureInfoId = featureInfoId;
         }
 
         public string TestUserId { get; private set; }
+        public string FeatureInfoId { get; private set; }
 
-        public static TestUser Create(string userId)
+        public static TestUser Create(string userId, string featureInfoId)
         {
-            return new(userId);
+            return new(userId, featureInfoId);
         }
     }
 }

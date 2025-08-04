@@ -16,7 +16,7 @@ namespace API.Admin.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FeatureName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FeatureName = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Mode = table.Column<int>(type: "int", nullable: false),
                     UserRestrictionsEnabled = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -68,25 +68,21 @@ namespace API.Admin.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_feature_restricted_users_FeatureInfoId",
-                table: "feature_restricted_users",
-                column: "FeatureInfoId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_feature_restricted_users_RestrictedUserId",
-                table: "feature_restricted_users",
-                column: "RestrictedUserId",
+                name: "IX_feature_infos_FeatureName",
+                table: "feature_infos",
+                column: "FeatureName",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_feature_test_users_FeatureInfoId",
-                table: "feature_test_users",
-                column: "FeatureInfoId");
+                name: "IX_feature_restricted_users_FeatureInfoId_RestrictedUserId",
+                table: "feature_restricted_users",
+                columns: new[] { "FeatureInfoId", "RestrictedUserId" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_feature_test_users_TestUserId",
+                name: "IX_feature_test_users_FeatureInfoId_TestUserId",
                 table: "feature_test_users",
-                column: "TestUserId",
+                columns: new[] { "FeatureInfoId", "TestUserId" },
                 unique: true);
         }
 

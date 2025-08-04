@@ -11,6 +11,8 @@ namespace API.Admin.Infrastructure
         }
 
         public DbSet<FeatureInfo> FeatureInfos { get; set; }
+        public DbSet<RestrictedUser> RestrictedUsers { get; set; }
+        public DbSet<TestUser> TestUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

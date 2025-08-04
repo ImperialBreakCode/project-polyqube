@@ -8,16 +8,18 @@ namespace API.Admin.Domain.Aggregates.FeatureInfoAggregate
         {
         }
 
-        private RestrictedUser(string userId)
+        private RestrictedUser(string userId, string featureInfoId)
         {
             RestrictedUserId = userId;
+            FeatureInfoId = featureInfoId;
         }
 
         public string RestrictedUserId { get; private set; }
+        public string FeatureInfoId { get; private set; }
 
-        public static RestrictedUser Create(string userId)
+        public static RestrictedUser Create(string userId, string featureInfoId)
         {
-            return new(userId);
+            return new(userId, featureInfoId);
         }
     }
 }
