@@ -36,7 +36,7 @@ namespace API.Admin.Application.Features.FeatureInfos.Command.AddTestUser
                 throw new NotFoundException("User id does not exist");
             }
 
-            await _unitOfWork.FeatureInfoRepository.AddTestUserAsync(TestUser.Create(request.UserId, request.UserId));
+            await _unitOfWork.FeatureInfoRepository.AddTestUserAsync(TestUser.Create(request.UserId, request.FeatureId));
             _unitOfWork.Save();
         }
     }
