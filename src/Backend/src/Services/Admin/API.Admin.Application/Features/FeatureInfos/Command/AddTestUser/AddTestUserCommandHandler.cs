@@ -4,7 +4,7 @@ using API.Admin.Domain.Aggregates.FeatureInfoAggregate;
 using API.Shared.Application.Contracts.Accounts.Requests;
 using API.Shared.Application.Contracts.Base.Results;
 using API.Shared.Application.Interfaces;
-using API.Shared.Common.Exceptions;
+using API.Shared.Common.Exceptions.Accounts;
 using MassTransit;
 
 namespace API.Admin.Application.Features.FeatureInfos.Command.AddTestUser
@@ -33,7 +33,7 @@ namespace API.Admin.Application.Features.FeatureInfos.Command.AddTestUser
 
             if (!userCheckResult.Message.Success)
             {
-                throw new NotFoundException("User id does not exist");
+                throw new AccountNotFoundException();
             }
 
             await _unitOfWork.FeatureInfoRepository.AddTestUserAsync(TestUser.Create(request.UserId, request.FeatureId));

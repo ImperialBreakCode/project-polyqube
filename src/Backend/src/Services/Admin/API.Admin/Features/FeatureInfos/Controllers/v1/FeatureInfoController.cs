@@ -1,5 +1,6 @@
 ﻿using API.Admin.Application.Features.FeatureInfos.Command.AddTestUser;
 using API.Admin.Features.FeatureInfos.Models.Requests;
+using API.Shared.Web.Attributes;
 using Asp.Versioning;
 using AutoMapper;
 using MediatR;
@@ -25,6 +26,7 @@ namespace API.Admin.Features.FeatureInfos.Controllers.v1
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [AuthorizeAdminScope]
         public async Task<IActionResult> AddTestUser(AddTestUserRequestDTO testUserRequestDTO, CancellationToken cancellationToken)
         {
             var command = _mapper.Map<AddTestUserCommand>(testUserRequestDTO);

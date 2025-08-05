@@ -74,6 +74,7 @@ services:
             - RabbitMqOptions__Host=rabbitmq
             - RabbitMqOptions__Username=${RABBITMQ_DEFAULT_USER}
             - RabbitMqOptions__Password=${RABBITMQ_DEFAULT_PASS}
+            - AuthValidationOptions__Authority=http://api.accounts:8080
         image: ${DOCKER_REGISTRY-}apiadmin
         networks:
             - polyqube
