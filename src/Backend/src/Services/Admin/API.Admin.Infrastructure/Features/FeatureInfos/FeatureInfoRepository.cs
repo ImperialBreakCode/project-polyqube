@@ -23,7 +23,7 @@ namespace API.Admin.Infrastructure.Features.FeatureInfos
         {
             if (await CheckIfUserIsRestrictedAsync(restrictedUser.FeatureInfoId, restrictedUser.RestrictedUserId))
             {
-                throw new RestrictedUserAlreadyExists();
+                throw new RestrictedUserAlreadyExistsException();
             }
 
             await _dbContext.RestrictedUsers.AddAsync(restrictedUser);
@@ -33,7 +33,7 @@ namespace API.Admin.Infrastructure.Features.FeatureInfos
         {
             if (await CheckIfUserIsTestUserAsync(testUser.FeatureInfoId, testUser.TestUserId))
             {
-                throw new TestUserAlreadyExists();
+                throw new TestUserAlreadyExistsException();
             }
 
             await _dbContext.TestUsers.AddAsync(testUser);

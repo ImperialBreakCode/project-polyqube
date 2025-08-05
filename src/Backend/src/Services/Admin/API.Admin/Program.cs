@@ -13,7 +13,7 @@ builder.ConfigureTelemetryLogging();
 builder.Services
     .AddAdminPresentationLayer(builder.Configuration)
     .AddAdminInfrastructure(builder.Configuration)
-    .AddAdminApplicationLayer();
+    .AddAdminApplicationLayer(builder.Configuration);
 
 var app = builder.Build();
 

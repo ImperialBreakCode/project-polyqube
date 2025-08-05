@@ -1,6 +1,6 @@
 ﻿using API.Accounts.Common.Features.Users.Exceptions;
 using API.Accounts.Domain;
-using API.Shared.Application.Contracts.Base;
+using API.Shared.Application.Contracts.Base.Results;
 using API.Shared.Application.Contracts.FileStorage.Requests;
 using API.Shared.Application.Interfaces;
 using API.Shared.Common.Exceptions;

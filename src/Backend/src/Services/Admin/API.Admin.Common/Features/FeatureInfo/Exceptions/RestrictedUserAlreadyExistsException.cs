@@ -2,11 +2,11 @@
 
 namespace API.Admin.Common.Features.FeatureInfo.Exceptions
 {
-    public class RestrictedUserAlreadyExists : ConflictException
+    public class RestrictedUserAlreadyExistsException : ConflictException
     {
         private const string MESSAGE = "This user is already feature restricted";
 
-        public RestrictedUserAlreadyExists() : base(MESSAGE)
+        public RestrictedUserAlreadyExistsException() : base(MESSAGE)
         {
         }
     }
