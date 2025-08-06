@@ -1,4 +1,4 @@
-﻿using API.Admin.Application.Features.FeatureInfos.Command.AddTestUser;
+﻿using API.Admin.Application.Features.FeatureInfos.Commands.AddTestUser;
 using API.Admin.Features.FeatureInfos.Models.Requests;
 using AutoMapper;
 

@@ -1,4 +1,5 @@
 ﻿using API.Admin.Application.DatabaseInit;
+using API.Admin.Application.Features.FeatureInfos.Factories;
 using API.Admin.Application.Features.FeatureInfos.Seeders;
 using API.Shared.Application.Extensions;
 using Microsoft.Extensions.Configuration;
@@ -24,6 +25,7 @@ namespace API.Admin.Application.Extensions
         private static IServiceCollection AddFeatureInfos(this IServiceCollection services)
         {
             services.AddTransient<IFeatureInfoSeeder, FeatureInfoSeeder>();
+            services.AddTransient<IFeatureInfoQueryFactory, FeatureInfoQueryFactory>();
 
             return services;
         }

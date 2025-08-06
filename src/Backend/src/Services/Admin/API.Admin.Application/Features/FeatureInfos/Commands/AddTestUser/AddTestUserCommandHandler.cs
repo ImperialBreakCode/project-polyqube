@@ -7,7 +7,7 @@ using API.Shared.Application.Interfaces;
 using API.Shared.Common.Exceptions.Accounts;
 using MassTransit;
 
-namespace API.Admin.Application.Features.FeatureInfos.Command.AddTestUser
+namespace API.Admin.Application.Features.FeatureInfos.Commands.AddTestUser
 {
     internal class AddTestUserCommandHandler : ICommandHandler<AddTestUserCommand>
     {

@@ -1,5 +1,7 @@
-﻿using API.Admin.Application.Features.FeatureInfos.Command.AddTestUser;
+﻿using API.Admin.Application.Features.FeatureInfos.Commands.AddTestUser;
+using API.Admin.Application.Features.FeatureInfos.Factories;
 using API.Admin.Features.FeatureInfos.Models.Requests;
+using API.Admin.Features.FeatureInfos.Models.Responses;
 using API.Shared.Web.Attributes;
 using Asp.Versioning;
 using AutoMapper;
@@ -15,11 +17,25 @@ namespace API.Admin.Features.FeatureInfos.Controllers.v1
     {
         private readonly IMapper _mapper;
         private readonly ISender _sender;
+        private readonly IFeatureInfoQueryFactory _queryFactory;
 
-        public FeatureInfoController(IMapper mapper, ISender ender)
+        public FeatureInfoController(IMapper mapper, ISender ender, IFeatureInfoQueryFactory queryFactory)
         {
             _mapper = mapper;
             _sender = ender;
+            _queryFactory = queryFactory;
+        }
+
+        [HttpGet("get-feature-info/{featureName}")]
+        [ProducesResponseType<FeatureInfoResponseDTO>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [AuthorizeAdminScope]
+        public async Task<IActionResult> GetFeatureInfoByName(string featureName, CancellationToken cancellationToken)
+        {
+            var result = await _sender.Send(_queryFactory.CreateGetFeatureInfoByNameQuery(featureName), cancellationToken);
+            var dto = _mapper.Map<FeatureInfoResponseDTO>(result);
+
+            return Ok(dto);
         }
 
         [HttpPost("add-test-user")]
