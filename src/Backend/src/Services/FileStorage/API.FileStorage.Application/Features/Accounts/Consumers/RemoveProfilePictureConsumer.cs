@@ -1,6 +1,6 @@
 ﻿using API.FileStorage.Common.Constants;
 using API.FileStorage.Domain.Factories;
-using API.Shared.Application.Contracts.Base;
+using API.Shared.Application.Contracts.Base.Results;
 using API.Shared.Application.Contracts.FileStorage.Requests;
 using MassTransit;
 

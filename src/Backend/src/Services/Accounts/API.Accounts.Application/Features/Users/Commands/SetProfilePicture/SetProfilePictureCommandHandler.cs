@@ -48,7 +48,7 @@ namespace API.Accounts.Application.Features.Users.Commands.SetProfilePicture
             var saveProfilePicRequest = _mapper.Map<SaveProfilePictureRequest>((request, messageDataStream));
             var result = await _requestClient.GetResponse<FilePathResult>(saveProfilePicRequest, cancellationToken);
 
-            if (!result.Message.Success)
+            if (result.Message.Path is null)
             {
                 throw new InternalServerError();
             }

@@ -1,4 +1,4 @@
-﻿namespace API.Shared.Application.Contracts.Base
+﻿namespace API.Shared.Application.Contracts.Base.Results
 {
     public record BasicOperationResult(bool Success)
     {

@@ -6,18 +6,6 @@ services:
             - ASPNETCORE_ENVIRONMENT=Production
             - ASPNETCORE_HTTP_PORTS=8080
             - ASPNETCORE_URLS=http://+:8080
-            - AuthValidationOptions__Authority=http://api.accounts:8080
-            - CorsOptions__AllowedOrigins__0=http://localhost:8040
-            - CorsOptions__AllowedOrigins__1=http://api.gateway:8040
-            - RedisOptions__RedisHost=redis:6379
-            - DatabaseOptions__ConnectionString=Server=sqlServer,1433;Database=PolyqubeAccounts;User Id=sa;Password=${DB_PASSWORD};TrustServerCertificate=True;
-            - RabbitMqOptions__Host=rabbitmq
-            - RabbitMqOptions__Username=${RABBITMQ_DEFAULT_USER}
-            - RabbitMqOptions__Password=${RABBITMQ_DEFAULT_PASS}
-            - MongoDbOptions__ConnectionString=mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@mongo:27017/
-            - TelemetryOptions__TempoEndpoint=http://grafana:4317
-            - TelemetryOptions__MetricsEndpoint=http://grafana:4317
-            - Serilog__WriteTo__1__Args__Endpoint=http://grafana:4317
         expose:
             - "8080"
     api.gateway:
@@ -25,30 +13,24 @@ services:
             - ASPNETCORE_ENVIRONMENT=Production
             - ASPNETCORE_URLS=http://+:8040
             - ASPNETCORE_HTTP_PORTS=8040
-            - ReverseProxy__Clusters__AccountsCluser__Destinations__destination1__Address=http://api.accounts:8080
-            - TelemetryOptions__TempoEndpoint=http://grafana:4317
-            - TelemetryOptions__MetricsEndpoint=http://grafana:4317
-            - Serilog__WriteTo__1__Args__Endpoint=http://grafana:4317
         ports:
             - 8040:8040
     api.filestorage:
         environment:
             - ASPNETCORE_ENVIRONMENT=Production
             - ASPNETCORE_HTTP_PORTS=8030
-            - ASPNETCORE_URLS=http://+:8030   
-            - RedisOptions__RedisHost=redis:6379 
-            - MinioOptions__Endpoint=minio:9000
-            - MinioOptions__AccessKey=${MINIO_ROOT_USER}
-            - MinioOptions__SecretKey=${MINIO_ROOT_PASSWORD}
-            - RabbitMqOptions__Host=rabbitmq
-            - RabbitMqOptions__Username=${RABBITMQ_DEFAULT_USER}
-            - RabbitMqOptions__Password=${RABBITMQ_DEFAULT_PASS}
-            - MongoDbOptions__ConnectionString=mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@mongo:27017/
-            - TelemetryOptions__TempoEndpoint=http://grafana:4317
-            - TelemetryOptions__MetricsEndpoint=http://grafana:4317
-            - Serilog__WriteTo__1__Args__Endpoint=http://grafana:4317
+            - ASPNETCORE_URLS=http://+:8030
         expose:
             - "8030"
+
+    api.admin:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Production
+            - ASPNETCORE_HTTP_PORTS=8010
+            - ASPNETCORE_URLS=http://+:8010
+        expose:
+            - "8010"
+
     redis:
         expose:
             - "6379"

@@ -45,8 +45,6 @@ if (app.Environment.IsDevelopment())
 
 //app.UseHttpsRedirection();
 
-//app.UseOpenTelemetryPrometheusScrapingEndpoint();
-
 app.UseSerilogRequestLogging();
 
 app.UseAuthentication();
