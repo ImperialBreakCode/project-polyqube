@@ -1,4 +1,7 @@
 ﻿using API.Admin.Application.DatabaseInit;
+using API.Admin.Application.Features.Emails.EmailMessageGenerator;
+using API.Admin.Application.Features.Emails.EmailSenders;
+using API.Admin.Application.Features.Emails.Options;
 using API.Admin.Application.Features.FeatureInfos.Factories;
 using API.Admin.Application.Features.FeatureInfos.Seeders;
 using API.Shared.Application.Extensions;
@@ -17,7 +20,8 @@ namespace API.Admin.Application.Extensions
                 .AddMapper();
 
             services
-                .AddFeatureInfos();
+                .AddFeatureInfos()
+                .AddEmailService();
 
             return services;
         }
@@ -26,6 +30,20 @@ namespace API.Admin.Application.Extensions
         {
             services.AddTransient<IFeatureInfoSeeder, FeatureInfoSeeder>();
             services.AddTransient<IFeatureInfoQueryFactory, FeatureInfoQueryFactory>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddEmailService(this IServiceCollection services)
+        {
+            services
+                .AddOptions<EmailSenderOptions>()
+                .BindConfiguration(nameof(EmailSenderOptions))
+                .ValidateDataAnnotations()
+                .ValidateOnStart();
+
+            services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<IMailMessageGenerator, MailMessageGenerator>();
 
             return services;
         }

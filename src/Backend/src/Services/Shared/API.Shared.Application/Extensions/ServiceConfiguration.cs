@@ -39,8 +39,8 @@ namespace API.Shared.Application.Extensions
             services
                 .AddOptions<RabbitMqOptions>()
                 .BindConfiguration(nameof(RabbitMqOptions))
-            .ValidateDataAnnotations()
-            .ValidateOnStart();
+                .ValidateDataAnnotations()
+                .ValidateOnStart();
 
             var rabbitmqOptions = configuration.GetSection(nameof(RabbitMqOptions)).Get<RabbitMqOptions>()!;
             var mongoDbOptions = configuration.GetSection(nameof(MongoDbOptions)).Get<MongoDbOptions>()!;
@@ -66,6 +66,8 @@ namespace API.Shared.Application.Extensions
 
                     cfg.ConfigureEndpoints(context);
                 });
+
+                x.AddSagas(assembly);
             });
 
             return services;
