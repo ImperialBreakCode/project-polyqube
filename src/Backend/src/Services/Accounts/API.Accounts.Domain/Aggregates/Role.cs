@@ -8,7 +8,6 @@ namespace API.Accounts.Domain.Aggregates
         {
             RoleName = roleName;
         }
- 
 
         public string RoleName { get; set; }
 

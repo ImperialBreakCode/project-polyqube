@@ -1,7 +1,9 @@
 ﻿using API.Accounts.Domain;
+using API.Accounts.Domain.Aggregates;
 using API.Accounts.Domain.Repositories;
 using API.Accounts.Infrastructure.Factories;
 using API.Shared.Domain.Base;
+using API.Shared.Domain.Interfaces.Repo;
 
 namespace API.Accounts.Infrastructure
 {
@@ -12,6 +14,7 @@ namespace API.Accounts.Infrastructure
 
         private IUserRepository _userRepository;
         private IRoleRepository _roleRepository;
+        private IRepository<UserDeletionToken> _userDeletionTokenRepository;
 
         public UnitOfWork(AccountsDbContext context, IRepositoryFactory repositoryFactory)
             : base(context)
@@ -25,5 +28,8 @@ namespace API.Accounts.Infrastructure
 
         public IRoleRepository RoleRepository 
             => _roleRepository ??= _repositoryFactory.CreateRoleRepository(_context);
+
+        public IRepository<UserDeletionToken> UserDeletionRepository
+            => _userDeletionTokenRepository ??= _repositoryFactory.CreateUserDeletionTokenRepository(_context);
     }
 }

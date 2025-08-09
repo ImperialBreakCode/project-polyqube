@@ -15,6 +15,7 @@ namespace API.Accounts.Infrastructure
         public DbSet<Role> Roles { get; set; }
 
         public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<UserDeletionToken> UserDeletionTokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
