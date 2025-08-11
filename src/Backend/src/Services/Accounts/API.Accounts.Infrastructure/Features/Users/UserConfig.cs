@@ -26,8 +26,9 @@ namespace API.Accounts.Infrastructure.Features.Users
             });
 
             builder
-                .HasMany<UserDeletionToken>()
+                .HasOne<UserDeletionToken>()
                 .WithOne(x => x.User)
+                .HasForeignKey<UserDeletionToken>(x => x.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder

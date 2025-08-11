@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Accounts.Infrastructure.Migrations
 {
     [DbContext(typeof(AccountsDbContext))]
-    [Migration("20250811165234_InitialAccounts")]
+    [Migration("20250811170110_InitialAccounts")]
     partial class InitialAccounts
     {
         /// <inheritdoc />
@@ -108,7 +108,8 @@ namespace API.Accounts.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("user_deletion_tokens", (string)null);
                 });
@@ -215,8 +216,8 @@ namespace API.Accounts.Infrastructure.Migrations
             modelBuilder.Entity("API.Accounts.Domain.Aggregates.UserDeletionToken", b =>
                 {
                     b.HasOne("API.Accounts.Domain.Aggregates.UserAggregate.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne()
+                        .HasForeignKey("API.Accounts.Domain.Aggregates.UserDeletionToken", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

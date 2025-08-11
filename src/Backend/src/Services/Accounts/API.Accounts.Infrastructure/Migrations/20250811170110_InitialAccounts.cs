@@ -146,7 +146,8 @@ namespace API.Accounts.Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_user_deletion_tokens_UserId",
                 table: "user_deletion_tokens",
-                column: "UserId");
+                column: "UserId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_user_emails_Email",

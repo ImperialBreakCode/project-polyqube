@@ -105,7 +105,8 @@ namespace API.Accounts.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("user_deletion_tokens", (string)null);
                 });
@@ -212,8 +213,8 @@ namespace API.Accounts.Infrastructure.Migrations
             modelBuilder.Entity("API.Accounts.Domain.Aggregates.UserDeletionToken", b =>
                 {
                     b.HasOne("API.Accounts.Domain.Aggregates.UserAggregate.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne()
+                        .HasForeignKey("API.Accounts.Domain.Aggregates.UserDeletionToken", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
