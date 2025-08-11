@@ -17,7 +17,7 @@ namespace API.Accounts.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.2")
+                .HasAnnotation("ProductVersion", "9.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -82,6 +82,32 @@ namespace API.Accounts.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("users", (string)null);
+                });
+
+            modelBuilder.Entity("API.Accounts.Domain.Aggregates.UserDeletionToken", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Expiry")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("user_deletion_tokens", (string)null);
                 });
 
             modelBuilder.Entity("API.Accounts.Domain.Aggregates.UserRole", b =>
@@ -181,6 +207,17 @@ namespace API.Accounts.Infrastructure.Migrations
                     b.Navigation("Emails");
 
                     b.Navigation("UserDetails");
+                });
+
+            modelBuilder.Entity("API.Accounts.Domain.Aggregates.UserDeletionToken", b =>
+                {
+                    b.HasOne("API.Accounts.Domain.Aggregates.UserAggregate.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("API.Accounts.Domain.Aggregates.UserRole", b =>

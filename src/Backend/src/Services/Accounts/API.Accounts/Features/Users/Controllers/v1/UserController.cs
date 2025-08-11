@@ -1,5 +1,6 @@
 ﻿using API.Accounts.Application.Features.Users.Commands.CreateUser;
 using API.Accounts.Application.Features.Users.Commands.CreateUserDetails;
+using API.Accounts.Application.Features.Users.Commands.RequestUserDeletion;
 using API.Accounts.Application.Features.Users.Commands.UpdateUserDetails;
 using API.Accounts.Application.Features.Users.Factories;
 using API.Accounts.Features.Users.Models.Requests;
@@ -131,6 +132,21 @@ namespace API.Accounts.Features.Users.Controllers.v1
             await _sender.Send(command, cancellationToken);
 
             return NoContent();
+        }
+
+
+        [HttpPost("request-user-deletion")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> RequestUserDeletion(RequestUserDeletionRequestDTO requestUserDeletionDTO, CancellationToken cancellationToken)
+        {
+            var userId = this.GetUserId();
+            var command = _mapper.Map<RequestUserDeletionCommand>(requestUserDeletionDTO);
+            var result = await _sender.Send((command, userId), cancellationToken);
+            var dto = _mapper.Map<UserEmailResponseDTO>(result);
+
+            return Ok(dto);
         }
     }
 }

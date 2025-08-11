@@ -22,7 +22,7 @@ namespace API.Accounts.Domain.Aggregates
 
         public static UserDeletionToken Create(User user)
         {
-            return new UserDeletionToken(DateTime.UtcNow.AddHours(2), Guid.NewGuid().ToString(), user);
+            return new UserDeletionToken(DateTime.UtcNow.AddMinutes(10), Guid.NewGuid().ToString(), user);
         }
     }
 }
