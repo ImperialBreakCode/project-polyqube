@@ -77,12 +77,12 @@
             				</tr>
             				<tr>
             					<td>
-            						<p style="text-align: center;">If you proseed all your data will be erased after 7 days</p>
+            						<p style="text-align: center;">If you proceed all your data will be erased after 7 days</p>
             					</td>
             				</tr>
             				<tr>
             					<td style="display: flex; justify-content: center; text-align: center">
-            						({0})
+            						({1})
             					</td>
             				</tr>
             				<tr>

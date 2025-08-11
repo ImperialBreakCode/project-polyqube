@@ -142,8 +142,8 @@ namespace API.Accounts.Features.Users.Controllers.v1
         public async Task<IActionResult> RequestUserDeletion(RequestUserDeletionRequestDTO requestUserDeletionDTO, CancellationToken cancellationToken)
         {
             var userId = this.GetUserId();
-            var command = _mapper.Map<RequestUserDeletionCommand>(requestUserDeletionDTO);
-            var result = await _sender.Send((command, userId), cancellationToken);
+            var command = _mapper.Map<RequestUserDeletionCommand>((requestUserDeletionDTO, userId));
+            var result = await _sender.Send(command, cancellationToken);
             var dto = _mapper.Map<UserEmailResponseDTO>(result);
 
             return Ok(dto);

@@ -11,7 +11,7 @@ namespace API.Admin.Application.Features.Emails.EmailMessageGenerator
             {
                 From = new MailAddress(emailSender),
                 Subject = "Account Deletion Request",
-                Body = UserDeletionEmailTemplate.GetTemplate(deletionToken),
+                Body = UserDeletionEmailTemplate.GetTemplate("testlink/" + deletionToken),
                 IsBodyHtml = true
             };
         }
