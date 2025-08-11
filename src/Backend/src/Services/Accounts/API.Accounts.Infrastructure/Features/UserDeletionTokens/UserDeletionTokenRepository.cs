@@ -1,11 +1,12 @@
 ﻿using API.Accounts.Domain.Aggregates;
+using API.Accounts.Domain.Repositories;
 using API.Shared.Domain.Interfaces.Repo;
 using API.Shared.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Accounts.Infrastructure.Features.UserDeletionTokens
 {
-    internal class UserDeletionTokenRepository : Repository<UserDeletionToken>, IRepository<UserDeletionToken>
+    internal class UserDeletionTokenRepository : Repository<UserDeletionToken>, IUserDeletionTokenRepository
     {
         public UserDeletionTokenRepository(DbSet<UserDeletionToken> dbSet) : base(dbSet)
         {
@@ -14,6 +15,11 @@ namespace API.Accounts.Infrastructure.Features.UserDeletionTokens
         public override UserDeletionToken? GetById(string id)
         {
             return DbSet.Include(x => x.User).FirstOrDefault(x => x.Id == id);
+        }
+
+        public async Task<UserDeletionToken?> GetTokenByTokenValueAsync(string tokenValue)
+        {
+            return await DbSet.Include(x => x.User).FirstOrDefaultAsync(x => x.Token == tokenValue);
         }
     }
 }
