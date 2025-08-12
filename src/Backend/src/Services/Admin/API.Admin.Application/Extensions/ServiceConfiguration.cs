@@ -4,6 +4,7 @@ using API.Admin.Application.Features.Emails.EmailSenders;
 using API.Admin.Application.Features.Emails.Options;
 using API.Admin.Application.Features.FeatureInfos.Factories;
 using API.Admin.Application.Features.FeatureInfos.Seeders;
+using API.Admin.Application.Options;
 using API.Shared.Application.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +15,12 @@ namespace API.Admin.Application.Extensions
     {
         public static IServiceCollection AddAdminApplicationLayer(this IServiceCollection services, IConfiguration configuration)
         {
+            services
+                .AddOptions<FrontendLinksOptions>()
+                .BindConfiguration(nameof(FrontendLinksOptions))
+                .ValidateDataAnnotations()
+                .ValidateOnStart();
+
             services
                 .AddDatabaseSeeder<DatabaseSeeder>()
                 .AddMassTransitRabbitMq(configuration, typeof(ServiceConfiguration).Assembly)
