@@ -139,6 +139,7 @@ namespace API.Accounts.Features.Users.Controllers.v1
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> RequestUserDeletion(RequestUserDeletionRequestDTO requestUserDeletionDTO, CancellationToken cancellationToken)
         {
             var userId = this.GetUserId();

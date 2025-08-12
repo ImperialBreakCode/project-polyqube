@@ -5,6 +5,7 @@ using API.Shared.Application.Contracts.Base.Results;
 using API.Shared.Application.Contracts.Emails.Requests;
 using MassTransit;
 using Microsoft.Extensions.Options;
+using System.Net.Mail;
 
 namespace API.Admin.Application.Features.Emails.Consumers
 {
@@ -29,9 +30,15 @@ namespace API.Admin.Application.Features.Emails.Consumers
             var message = _mailMessageGenerator
                 .GetUserDeletionMailMessage(context.Message.DeletionToken, _emailOptions.CurrentValue.SystemEmail);
 
-            await _emailSender.SendEmailAsync([context.Message.Email], message, _emailOptions.CurrentValue);
-
-            await context.RespondAsync(BasicOperationResult.SuccessResult);
+            try
+            {
+                await _emailSender.SendEmailAsync([context.Message.Email], message, _emailOptions.CurrentValue);
+                await context.RespondAsync(BasicOperationResult.SuccessResult);
+            }
+            catch (SmtpException)
+            {
+                await context.RespondAsync(BasicOperationResult.FailResult);
+            }
         }
     }
 }

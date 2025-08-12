@@ -7,6 +7,7 @@ using API.Accounts.Domain.Aggregates;
 using API.Shared.Application.Contracts.Base.Results;
 using API.Shared.Application.Contracts.Emails.Requests;
 using API.Shared.Application.Interfaces;
+using API.Shared.Common.Exceptions.Email;
 using AutoMapper;
 using MassTransit;
 
@@ -56,7 +57,7 @@ namespace API.Accounts.Application.Features.Users.Commands.RequestUserDeletion
 
             if (!result.Message.Success)
             {
-                throw new Exception();
+                throw new CouldNotSendEmailException(primaryEmail.Email);
             }
 
             return _mapper.Map<UserEmailViewModel>(primaryEmail);

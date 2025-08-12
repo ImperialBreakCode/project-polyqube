@@ -18,14 +18,7 @@ namespace API.Admin.Application.Features.Emails.EmailSenders
                 client.Credentials = new NetworkCredential(emailSenderOptions.EmailUsername, emailSenderOptions.EmailPassword);
                 client.EnableSsl = true;
 
-                try
-                {
-                    await client.SendMailAsync(mailMessage);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Failed to send email: {ex.Message}");
-                }
+                await client.SendMailAsync(mailMessage);
             }
         }
     }
