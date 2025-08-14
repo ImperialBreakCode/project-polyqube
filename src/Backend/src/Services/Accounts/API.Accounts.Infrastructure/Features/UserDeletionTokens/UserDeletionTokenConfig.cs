@@ -9,6 +9,10 @@ namespace API.Accounts.Infrastructure.Features.UserDeletionTokens
         public void Configure(EntityTypeBuilder<UserDeletionToken> builder)
         {
             builder.ToTable("user_deletion_tokens");
+
+            builder
+                .HasIndex(x => x.Token)
+                .IsUnique();
         }
     }
 }

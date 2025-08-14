@@ -7,6 +7,6 @@ namespace API.Accounts.Domain
     {
         IUserRepository UserRepository { get; }
         IRoleRepository RoleRepository { get; }
-        IUserDeletionTokenRepository UserDeletionRepository { get; }
+        IUserDeletionTokenRepository UserDeletionTokenRepository { get; }
     }
 }

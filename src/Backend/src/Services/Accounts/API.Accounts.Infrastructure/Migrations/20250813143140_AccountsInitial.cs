@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace API.Accounts.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialAccounts : Migration
+    public partial class AccountsInitial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -50,7 +50,7 @@ namespace API.Accounts.Infrastructure.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Expiry = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Token = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Token = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -141,6 +141,12 @@ namespace API.Accounts.Infrastructure.Migrations
                 name: "IX_roles_RoleName",
                 table: "roles",
                 column: "RoleName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_user_deletion_tokens_Token",
+                table: "user_deletion_tokens",
+                column: "Token",
                 unique: true);
 
             migrationBuilder.CreateIndex(

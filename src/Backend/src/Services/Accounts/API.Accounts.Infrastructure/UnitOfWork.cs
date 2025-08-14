@@ -27,7 +27,7 @@ namespace API.Accounts.Infrastructure
         public IRoleRepository RoleRepository 
             => _roleRepository ??= _repositoryFactory.CreateRoleRepository(_context);
 
-        public IUserDeletionTokenRepository UserDeletionRepository
+        public IUserDeletionTokenRepository UserDeletionTokenRepository
             => _userDeletionTokenRepository ??= _repositoryFactory.CreateUserDeletionTokenRepository(_context);
     }
 }
