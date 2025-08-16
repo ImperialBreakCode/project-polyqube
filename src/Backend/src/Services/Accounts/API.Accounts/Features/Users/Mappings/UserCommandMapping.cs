@@ -1,5 +1,6 @@
 ﻿using API.Accounts.Application.Features.Users.Commands.CreateUser;
 using API.Accounts.Application.Features.Users.Commands.CreateUserDetails;
+using API.Accounts.Application.Features.Users.Commands.DeleteUser;
 using API.Accounts.Application.Features.Users.Commands.LoginUser;
 using API.Accounts.Application.Features.Users.Commands.RefreshAuthTokens;
 using API.Accounts.Application.Features.Users.Commands.RequestUserDeletion;
@@ -28,6 +29,8 @@ namespace API.Accounts.Features.Users.Mappings
 
             CreateMap<(RequestUserDeletionRequestDTO, string), RequestUserDeletionCommand>()
                 .ConstructUsing(x => new(x.Item2, x.Item1.Password));
+
+            CreateMap<DeleteUserRequestDTO, DeleteUserCommand>();
         }
     }
 }

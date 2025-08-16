@@ -46,6 +46,7 @@ namespace API.Accounts.Application.Features.Users.Commands.RequestUserDeletion
             }
 
             var deletionToken = UserDeletionToken.Create(user);
+            _unitOfWork.UserDeletionTokenRepository.Insert(deletionToken);
             _unitOfWork.Save();
 
             var primaryEmail = user.Emails.First(x => x.IsPrimary);
