@@ -24,5 +24,16 @@ namespace API.Admin.Application.Features.Emails.EmailMessageGenerator
                 IsBodyHtml = true
             };
         }
+
+        public MailMessage GetUserToBeDeletedMailMessage(string emailSender)
+        {
+            return new MailMessage()
+            {
+                From = new MailAddress(emailSender),
+                Subject = "Account Deletion",
+                Body = UserDeletionEmailTemplate.GetTemplate(emailSender),
+                IsBodyHtml = true
+            };
+        }
     }
 }
