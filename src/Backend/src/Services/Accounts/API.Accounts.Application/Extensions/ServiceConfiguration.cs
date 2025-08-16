@@ -8,10 +8,15 @@ using API.Accounts.Application.Features.Users.LoginChecksChain;
 using API.Accounts.Application.Features.Users.Models;
 using API.Accounts.Application.Features.Users.Options;
 using API.Accounts.Application.Features.Users.PasswordManager;
+using API.Accounts.Application.Features.Users.SagaMachines.UserSoftDeleteMachine;
 using API.Accounts.Application.Features.Users.Seeders;
 using API.Accounts.Application.Features.Users.UrlFileResponseTransforms;
+using API.Accounts.Infrastructure;
 using API.Shared.Application.Extensions;
 using API.Shared.Common.MediatorResponse;
+using API.Shared.Infrastructure.Options;
+using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,11 +26,32 @@ namespace API.Accounts.Application.Extensions
     {
         public static IServiceCollection AddAccountsApplicationLayer(this IServiceCollection services, IConfiguration configuration)
         {
+            var sagasDbOptions = configuration.GetSection(nameof(SagasDbOptions)).Get<SagasDbOptions>()!;
+
             services
                 .AddDatabaseSeeder<DatabaseSeeder>()
                 .AddFluentValidators()
                 .AddMapper()
-                .AddMassTransitRabbitMq(configuration, typeof(ServiceConfiguration).Assembly);
+                .AddSagasDbOptions()
+                .AddMassTransitRabbitMq(
+                    configuration, 
+                    typeof(ServiceConfiguration).Assembly,
+                    cfg =>
+                    {
+                        cfg.AddSagaStateMachine<UserSoftDeletionMachine, UserSoftDeleteState>()
+                            .EntityFrameworkRepository(r =>
+                            {
+                                r.ConcurrencyMode = ConcurrencyMode.Pessimistic;
+
+                                r.AddDbContext<DbContext, AccountSagasDbContext>((_, builder) =>
+                                {
+                                    builder.UseSqlServer(sagasDbOptions.ConnectionString, m =>
+                                    {
+                                        m.MigrationsAssembly(typeof(AccountSagasDbContext).Assembly);
+                                    });
+                                });
+                            });
+                    });
 
             services
                 .AddRoles()

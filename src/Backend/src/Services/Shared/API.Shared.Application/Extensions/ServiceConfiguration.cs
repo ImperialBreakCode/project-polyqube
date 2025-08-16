@@ -34,7 +34,11 @@ namespace API.Shared.Application.Extensions
             return services;
         }
 
-        public static IServiceCollection AddMassTransitRabbitMq(this IServiceCollection services, IConfiguration configuration, System.Reflection.Assembly assembly)
+        public static IServiceCollection AddMassTransitRabbitMq(
+            this IServiceCollection services, 
+            IConfiguration configuration, 
+            System.Reflection.Assembly assembly, 
+            Action<IBusRegistrationConfigurator>? builder = null)
         {
             services
                 .AddOptions<RabbitMqOptions>()
@@ -67,8 +71,22 @@ namespace API.Shared.Application.Extensions
                     cfg.ConfigureEndpoints(context);
                 });
 
-                x.AddSagas(assembly);
+                if (builder is not null)
+                {
+                    builder(x);
+                }
             });
+
+            return services;
+        }
+
+        public static IServiceCollection AddSagasDbOptions(this IServiceCollection services)
+        {
+            services
+                .AddOptions<SagasDbOptions>()
+                .BindConfiguration(nameof(SagasDbOptions))
+                .ValidateDataAnnotations()
+                .ValidateOnStart();
 
             return services;
         }
