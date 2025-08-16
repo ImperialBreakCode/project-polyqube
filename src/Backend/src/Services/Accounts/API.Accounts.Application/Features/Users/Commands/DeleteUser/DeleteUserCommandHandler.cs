@@ -27,7 +27,7 @@ namespace API.Accounts.Application.Features.Users.Commands.DeleteUser
             }
 
             var userId = token.UserId;
-            await _bus.Publish(UserSoftDeletionInitiatedEvent.Create(userId), cancellationToken);
+            await _bus.Publish<UserSoftDeletionInitiatedEvent>(new(userId), cancellationToken);
 
             _unitOfWork.UserDeletionTokenRepository.Delete(token);
             _unitOfWork.Save();
