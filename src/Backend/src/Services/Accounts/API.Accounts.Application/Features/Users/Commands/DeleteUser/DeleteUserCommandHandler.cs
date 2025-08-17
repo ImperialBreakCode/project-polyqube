@@ -27,7 +27,8 @@ namespace API.Accounts.Application.Features.Users.Commands.DeleteUser
             }
 
             var userId = token.UserId;
-            await _bus.Publish<UserSoftDeletionInitiatedEvent>(new(userId), cancellationToken);
+            var email = token.User.Emails.First(x => x.IsPrimary).Email;
+            await _bus.Publish<UserSoftDeletionInitiatedEvent>(new(userId, email), cancellationToken);
 
             _unitOfWork.UserDeletionTokenRepository.Delete(token);
             _unitOfWork.Save();

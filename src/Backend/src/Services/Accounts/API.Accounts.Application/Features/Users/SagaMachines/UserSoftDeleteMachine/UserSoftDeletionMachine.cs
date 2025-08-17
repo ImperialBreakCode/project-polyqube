@@ -20,7 +20,6 @@ namespace API.Accounts.Application.Features.Users.SagaMachines.UserSoftDeleteMac
         public Event<UserSessionsRevokedEvent> SessionsRevoked { get; private set; }
         public Event<UserMarkedForDeletionEvent> MarkedForDeletion { get; private set; }
         public Event<UserSystemLockReleasedEvent> SystemUnlocked { get; private set; }
-        public Event<UserSoftDeletedEvent> SoftDeleted { get; private set; }
 
         public UserSoftDeletionMachine()
         {
@@ -56,15 +55,15 @@ namespace API.Accounts.Application.Features.Users.SagaMachines.UserSoftDeleteMac
                 x.CorrelateBy((saga, context) => saga.UserId == context.Message.UserId);
             });
 
-            Event(() => SoftDeleted, x =>
-            {
-                x.CorrelateBy((saga, context) => saga.UserId == context.Message.UserId);
-            });
-
             #endregion
 
             Initially(
                 When(SoftDeletionInitiated)
+                    .Then(x =>
+                    {
+                        x.Saga.UserId = x.Message.UserId;
+                        x.Saga.Email = x.Message.Email;
+                    })
                     .TransitionTo(LockingUser)
                     .Then(x =>
                     {
