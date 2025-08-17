@@ -8,7 +8,7 @@ namespace API.Accounts.Infrastructure.Features.UserSoftDeleteSagaDatas
     {
         public void Configure(EntityTypeBuilder<UserSoftDeleteSagaData> builder)
         {
-            builder.ToTable("user-soft-delete-sagas");
+            builder.ToTable("user_soft_delete_sagas");
             builder.HasKey(x => x.CorrelationId);
         }
     }
