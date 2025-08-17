@@ -6,6 +6,7 @@ using API.Admin.Application.Features.FeatureInfos.Factories;
 using API.Admin.Application.Features.FeatureInfos.Seeders;
 using API.Admin.Application.Options;
 using API.Shared.Application.Extensions;
+using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -23,8 +24,11 @@ namespace API.Admin.Application.Extensions
 
             services
                 .AddDatabaseSeeder<DatabaseSeeder>()
-                .AddMassTransitRabbitMq(configuration, typeof(ServiceConfiguration).Assembly)
-                .AddMapper();
+                .AddMapper()
+                .AddMassTransitRabbitMq(configuration, typeof(ServiceConfiguration).Assembly, x =>
+                {
+                    x.AddInMemoryInboxOutbox();
+                });
 
             services
                 .AddFeatureInfos()
