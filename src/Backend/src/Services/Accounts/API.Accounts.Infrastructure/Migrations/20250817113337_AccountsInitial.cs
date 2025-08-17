@@ -25,6 +25,20 @@ namespace API.Accounts.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "user-soft-delete-sagas",
+                columns: table => new
+                {
+                    CorrelationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CurrentState = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_user-soft-delete-sagas", x => x.CorrelationId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "users",
                 columns: table => new
                 {
@@ -192,6 +206,9 @@ namespace API.Accounts.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "user_role");
+
+            migrationBuilder.DropTable(
+                name: "user-soft-delete-sagas");
 
             migrationBuilder.DropTable(
                 name: "roles");

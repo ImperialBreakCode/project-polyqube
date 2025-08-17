@@ -1,10 +1,11 @@
-﻿using API.Shared.Application.Contracts.Accounts.Commands;
+﻿using API.Accounts.Domain.SagaMachineDatas.UserSoftDelete;
+using API.Shared.Application.Contracts.Accounts.Commands;
 using API.Shared.Application.Contracts.Accounts.Events;
 using MassTransit;
 
 namespace API.Accounts.Application.Features.Users.SagaMachines.UserSoftDeleteMachine
 {
-    public class UserSoftDeletionMachine : MassTransitStateMachine<UserSoftDeleteState>
+    public class UserSoftDeletionMachine : MassTransitStateMachine<UserSoftDeleteSagaData>
     {
         // states
         public State LockingUser { get; private set; }

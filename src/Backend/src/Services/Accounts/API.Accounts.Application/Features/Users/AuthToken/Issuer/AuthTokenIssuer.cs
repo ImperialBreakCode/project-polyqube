@@ -20,7 +20,7 @@ namespace API.Accounts.Application.Features.Users.AuthToken.Issuer
 
         public IssuerResult IssueAccessToken(User user, string[] roles)
         {
-            var offset = DateTimeOffset.UtcNow.AddMinutes(30);
+            var offset = DateTimeOffset.UtcNow.AddDays(10);
 
             string token = CreateTokenBase(user)
                 .AddClaim(APIClaimNames.ExpirationClaim, offset.ToUnixTimeSeconds())
@@ -32,7 +32,7 @@ namespace API.Accounts.Application.Features.Users.AuthToken.Issuer
 
         public IssuerResult IssueRefreshToken(User user)
         {
-            var offset = DateTimeOffset.UtcNow.AddHours(2);
+            var offset = DateTimeOffset.UtcNow.AddDays(20);
 
             string token = CreateTokenBase(user)
                 .AddClaim(APIClaimNames.ExpirationClaim, offset.ToUnixTimeSeconds())

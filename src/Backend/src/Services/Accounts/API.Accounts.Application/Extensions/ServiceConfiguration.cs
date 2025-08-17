@@ -11,10 +11,10 @@ using API.Accounts.Application.Features.Users.PasswordManager;
 using API.Accounts.Application.Features.Users.SagaMachines.UserSoftDeleteMachine;
 using API.Accounts.Application.Features.Users.Seeders;
 using API.Accounts.Application.Features.Users.UrlFileResponseTransforms;
+using API.Accounts.Domain.SagaMachineDatas.UserSoftDelete;
 using API.Accounts.Infrastructure;
 using API.Shared.Application.Extensions;
 using API.Shared.Common.MediatorResponse;
-using API.Shared.Infrastructure.Options;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -26,30 +26,24 @@ namespace API.Accounts.Application.Extensions
     {
         public static IServiceCollection AddAccountsApplicationLayer(this IServiceCollection services, IConfiguration configuration)
         {
-            var sagasDbOptions = configuration.GetSection(nameof(SagasDbOptions)).Get<SagasDbOptions>()!;
-
             services
                 .AddDatabaseSeeder<DatabaseSeeder>()
                 .AddFluentValidators()
                 .AddMapper()
-                .AddSagasDbOptions()
                 .AddMassTransitRabbitMq(
                     configuration, 
                     typeof(ServiceConfiguration).Assembly,
                     cfg =>
                     {
-                        cfg.AddSagaStateMachine<UserSoftDeletionMachine, UserSoftDeleteState>()
+                        cfg.AddInMemoryInboxOutbox();
+
+                        cfg.AddSagaStateMachine<UserSoftDeletionMachine, UserSoftDeleteSagaData>()
                             .EntityFrameworkRepository(r =>
                             {
                                 r.ConcurrencyMode = ConcurrencyMode.Pessimistic;
 
-                                r.AddDbContext<DbContext, AccountSagasDbContext>((_, builder) =>
-                                {
-                                    builder.UseSqlServer(sagasDbOptions.ConnectionString, m =>
-                                    {
-                                        m.MigrationsAssembly(typeof(AccountSagasDbContext).Assembly);
-                                    });
-                                });
+                                r.ExistingDbContext<AccountsDbContext>();
+                                r.UseSqlServer();
                             });
                     });
 

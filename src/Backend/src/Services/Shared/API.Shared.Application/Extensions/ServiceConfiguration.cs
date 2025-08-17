@@ -79,16 +79,5 @@ namespace API.Shared.Application.Extensions
 
             return services;
         }
-
-        public static IServiceCollection AddSagasDbOptions(this IServiceCollection services)
-        {
-            services
-                .AddOptions<SagasDbOptions>()
-                .BindConfiguration(nameof(SagasDbOptions))
-                .ValidateDataAnnotations()
-                .ValidateOnStart();
-
-            return services;
-        }
     }
 }
