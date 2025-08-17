@@ -1,5 +1,6 @@
 ﻿using API.Accounts.Domain;
 using API.Shared.Application.Contracts.Accounts.Commands;
+using API.Shared.Application.Contracts.Accounts.Events;
 using MassTransit;
 
 namespace API.Accounts.Application.Features.Users.Consumers
@@ -13,13 +14,13 @@ namespace API.Accounts.Application.Features.Users.Consumers
             _unitOfWork = unitOfWork;
         }
 
-        public Task Consume(ConsumeContext<MarkUserForDeletion> context)
+        public async Task Consume(ConsumeContext<MarkUserForDeletion> context)
         {
             var user = _unitOfWork.UserRepository.GetActiveEntityById(context.Message.UserId)!;
             user.SoftDelete();
             _unitOfWork.Save();
 
-            return Task.CompletedTask;
+            await context.Publish<UserMarkedForDeletionEvent>(new (context.Message.UserId));
         }
     }
 }

@@ -67,7 +67,7 @@ namespace API.Accounts.Application.Features.Users.SagaMachines.UserSoftDeleteMac
                     .TransitionTo(LockingUser)
                     .Then(x =>
                     {
-                        x.Send<SystemLockUser>(new(x.Saga.UserId));
+                        x.Publish<SystemLockUser>(new(x.Saga.UserId));
                     }));
 
 
@@ -76,7 +76,7 @@ namespace API.Accounts.Application.Features.Users.SagaMachines.UserSoftDeleteMac
                     .TransitionTo(RevokingSessions)
                     .Then(x =>
                     {
-                        x.Send<RevokeUserSessions>(new(x.Saga.UserId));
+                        x.Publish<RevokeUserSessions>(new(x.Saga.UserId));
                     }));
 
             During(RevokingSessions,
@@ -84,7 +84,7 @@ namespace API.Accounts.Application.Features.Users.SagaMachines.UserSoftDeleteMac
                     .TransitionTo(MarkingUserForDeletion)
                     .Then(x =>
                     {
-                        x.Send<MarkUserForDeletion>(new(x.Saga.UserId));
+                        x.Publish<MarkUserForDeletion>(new(x.Saga.UserId));
                     }));
 
             During(MarkingUserForDeletion,
@@ -92,7 +92,7 @@ namespace API.Accounts.Application.Features.Users.SagaMachines.UserSoftDeleteMac
                     .TransitionTo(UnlockingUser)
                     .Then(x =>
                     {
-                        x.Send<ReleaseUserSystemLock>(new(x.Saga.UserId));
+                        x.Publish<ReleaseUserSystemLock>(new(x.Saga.UserId));
                     }));
 
             During(UnlockingUser, 
