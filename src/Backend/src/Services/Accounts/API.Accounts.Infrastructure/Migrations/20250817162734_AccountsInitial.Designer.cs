@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Accounts.Infrastructure.Migrations
 {
     [DbContext(typeof(AccountsDbContext))]
-    [Migration("20250817120245_RevertingAccounts")]
-    partial class RevertingAccounts
+    [Migration("20250817162734_AccountsInitial")]
+    partial class AccountsInitial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -147,15 +147,21 @@ namespace API.Accounts.Infrastructure.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("CorrelationId");
 
-                    b.ToTable("user-soft-delete-sagas", (string)null);
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("user_soft_delete_sagas", (string)null);
                 });
 
             modelBuilder.Entity("API.Accounts.Domain.Aggregates.UserAggregate.User", b =>

@@ -25,17 +25,17 @@ namespace API.Accounts.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "user-soft-delete-sagas",
+                name: "user_soft_delete_sagas",
                 columns: table => new
                 {
                     CorrelationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CurrentState = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_user-soft-delete-sagas", x => x.CorrelationId);
+                    table.PrimaryKey("PK_user_soft_delete_sagas", x => x.CorrelationId);
                 });
 
             migrationBuilder.CreateTable(
@@ -186,6 +186,18 @@ namespace API.Accounts.Infrastructure.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_user_soft_delete_sagas_Email",
+                table: "user_soft_delete_sagas",
+                column: "Email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_user_soft_delete_sagas_UserId",
+                table: "user_soft_delete_sagas",
+                column: "UserId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_users_Username",
                 table: "users",
                 column: "Username",
@@ -208,7 +220,7 @@ namespace API.Accounts.Infrastructure.Migrations
                 name: "user_role");
 
             migrationBuilder.DropTable(
-                name: "user-soft-delete-sagas");
+                name: "user_soft_delete_sagas");
 
             migrationBuilder.DropTable(
                 name: "roles");

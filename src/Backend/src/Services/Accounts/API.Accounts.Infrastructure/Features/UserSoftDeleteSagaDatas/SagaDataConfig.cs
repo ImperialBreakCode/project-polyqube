@@ -10,6 +10,14 @@ namespace API.Accounts.Infrastructure.Features.UserSoftDeleteSagaDatas
         {
             builder.ToTable("user_soft_delete_sagas");
             builder.HasKey(x => x.CorrelationId);
+
+            builder
+                .HasIndex(x => x.UserId)
+                .IsUnique();
+
+            builder
+                .HasIndex(x => x.Email)
+                .IsUnique();
         }
     }
 }
