@@ -1,6 +1,7 @@
 ﻿using API.Accounts.Domain.Aggregates;
 using API.Accounts.Domain.Aggregates.UserAggregate;
 using API.Accounts.Domain.SagaMachineDatas.UserSoftDelete;
+using API.Shared.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Accounts.Infrastructure
@@ -26,6 +27,8 @@ namespace API.Accounts.Infrastructure
 
             var currentAssembly = typeof(AccountsDbContext).Assembly;
             modelBuilder.ApplyConfigurationsFromAssembly(currentAssembly);
+
+            modelBuilder.AddBusInboxOutbox();
         }
     }
 }

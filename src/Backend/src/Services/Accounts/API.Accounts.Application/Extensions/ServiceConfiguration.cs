@@ -35,16 +35,8 @@ namespace API.Accounts.Application.Extensions
                     typeof(ServiceConfiguration).Assembly,
                     cfg =>
                     {
-                        cfg.AddInMemoryInboxOutbox();
-
-                        cfg.AddSagaStateMachine<UserSoftDeletionMachine, UserSoftDeleteSagaData>()
-                            .EntityFrameworkRepository(r =>
-                            {
-                                r.ConcurrencyMode = ConcurrencyMode.Pessimistic;
-
-                                r.ExistingDbContext<AccountsDbContext>();
-                                r.UseSqlServer();
-                            });
+                        cfg.AddTransactionalOutbox<AccountsDbContext>();
+                        cfg.ConfigureSagaStateMachine<UserSoftDeletionMachine, UserSoftDeleteSagaData, AccountsDbContext>();
                     });
 
             services

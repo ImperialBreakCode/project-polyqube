@@ -5,6 +5,7 @@ using API.Admin.Application.Features.Emails.Options;
 using API.Admin.Application.Features.FeatureInfos.Factories;
 using API.Admin.Application.Features.FeatureInfos.Seeders;
 using API.Admin.Application.Options;
+using API.Admin.Infrastructure;
 using API.Shared.Application.Extensions;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
@@ -27,7 +28,7 @@ namespace API.Admin.Application.Extensions
                 .AddMapper()
                 .AddMassTransitRabbitMq(configuration, typeof(ServiceConfiguration).Assembly, x =>
                 {
-                    x.AddInMemoryInboxOutbox();
+                    x.AddTransactionalOutbox<AdminDbContext>();
                 });
 
             services

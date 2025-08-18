@@ -65,43 +65,28 @@ namespace API.Accounts.Application.Features.Users.SagaMachines.UserSoftDeleteMac
                         x.Saga.Email = x.Message.Email;
                     })
                     .TransitionTo(LockingUser)
-                    .Then(x =>
-                    {
-                        x.Publish<SystemLockUser>(new(x.Saga.UserId));
-                    }));
+                    .Publish(x => new SystemLockUser(x.Saga.UserId)));
 
 
             During(LockingUser,
                 When(SystemLocked)
                     .TransitionTo(RevokingSessions)
-                    .Then(x =>
-                    {
-                        x.Publish<RevokeUserSessions>(new(x.Saga.UserId));
-                    }));
+                    .Publish(x => new RevokeUserSessions(x.Saga.UserId)));
 
             During(RevokingSessions,
                 When(SessionsRevoked)
                     .TransitionTo(MarkingUserForDeletion)
-                    .Then(x =>
-                    {
-                        x.Publish<MarkUserForDeletion>(new(x.Saga.UserId));
-                    }));
+                    .Publish(x => new MarkUserForDeletion(x.Saga.UserId)));
 
             During(MarkingUserForDeletion,
                 When(MarkedForDeletion)
                     .TransitionTo(UnlockingUser)
-                    .Then(x =>
-                    {
-                        x.Publish<ReleaseUserSystemLock>(new(x.Saga.UserId));
-                    }));
+                    .Publish(x => new ReleaseUserSystemLock(x.Saga.UserId)));
 
             During(UnlockingUser, 
                 When(SystemUnlocked)
-                    .Then(x =>
-                    {
-                        x.Publish<UserSoftDeletedEvent>(new(x.Saga.UserId, x.Saga.Email));
-                    })
                     .TransitionTo(Completed)
+                    .Publish(x => new UserSoftDeletedEvent(x.Saga.UserId, x.Saga.Email))
                     .Finalize());
         }
     }

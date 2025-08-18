@@ -38,7 +38,7 @@ namespace API.Shared.Application.Extensions
             this IServiceCollection services, 
             IConfiguration configuration, 
             System.Reflection.Assembly assembly, 
-            Action<IBusRegistrationConfigurator>? builder = null)
+            Action<IBusRegistrationConfigurator>? configurator = null)
         {
             services
                 .AddOptions<RabbitMqOptions>()
@@ -71,10 +71,7 @@ namespace API.Shared.Application.Extensions
                     cfg.ConfigureEndpoints(context);
                 });
 
-                if (builder is not null)
-                {
-                    builder(x);
-                }
+                configurator?.Invoke(x);
             });
 
             return services;
