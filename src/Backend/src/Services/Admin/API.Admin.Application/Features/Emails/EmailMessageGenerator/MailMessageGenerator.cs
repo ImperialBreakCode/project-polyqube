@@ -42,7 +42,7 @@ namespace API.Admin.Application.Features.Emails.EmailMessageGenerator
             {
                 From = new MailAddress(emailSender),
                 Subject = "Account Deletion Started",
-                Body = UserDeletionInitFailedEmailTemplate.Template,
+                Body = UserToBeDeletedEmailTemplate.Template,
                 IsBodyHtml = true
             };
         }

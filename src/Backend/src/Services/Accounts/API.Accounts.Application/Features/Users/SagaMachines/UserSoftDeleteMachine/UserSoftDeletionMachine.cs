@@ -21,7 +21,7 @@ namespace API.Accounts.Application.Features.Users.SagaMachines.UserSoftDeleteMac
         public Event<UserMarkedForDeletionEvent> MarkedForDeletion { get; private set; }
         public Event<UserSystemLockReleasedEvent> SystemUnlocked { get; private set; }
         
-        public Event<Fault<UserSystemLockReleasedEvent>> UserSoftDeletionFailed { get; private set; }
+        public Event<Fault<SystemLockUser>> UserSoftDeletionFailed { get; private set; }
 
         public UserSoftDeletionMachine()
         {

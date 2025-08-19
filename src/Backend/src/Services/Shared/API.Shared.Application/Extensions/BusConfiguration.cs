@@ -25,7 +25,7 @@ namespace API.Shared.Application.Extensions
         {
             cfg.AddEntityFrameworkOutbox<TDbContext>(outbox =>
             {
-                outbox.QueryDelay = TimeSpan.FromSeconds(3);
+                outbox.QueryDelay = TimeSpan.FromSeconds(5);
 
                 outbox.UseBusOutbox();
                 outbox.UseSqlServer();
