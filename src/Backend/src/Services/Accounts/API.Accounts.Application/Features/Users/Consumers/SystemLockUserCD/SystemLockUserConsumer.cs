@@ -1,9 +1,10 @@
-﻿using API.Accounts.Domain;
+﻿using API.Accounts.Common.Features.Users.Exceptions;
+using API.Accounts.Domain;
 using API.Shared.Application.Contracts.Accounts.Commands;
 using API.Shared.Application.Contracts.Accounts.Events;
 using MassTransit;
 
-namespace API.Accounts.Application.Features.Users.Consumers
+namespace API.Accounts.Application.Features.Users.Consumers.SystemLockUserCD
 {
     public class SystemLockUserConsumer : IConsumer<SystemLockUser>
     {
@@ -16,7 +17,13 @@ namespace API.Accounts.Application.Features.Users.Consumers
 
         public async Task Consume(ConsumeContext<SystemLockUser> context)
         {
-            var user = _unitOfWork.UserRepository.GetActiveEntityById(context.Message.UserId)!;
+            var user = _unitOfWork.UserRepository.GetActiveEntityById(context.Message.UserId);
+
+            if (user is null || user.SystemLock)
+            {
+                throw new CannotDeleteUserException();
+            }
+
             user.SystemLock = true;
             _unitOfWork.Save();
 

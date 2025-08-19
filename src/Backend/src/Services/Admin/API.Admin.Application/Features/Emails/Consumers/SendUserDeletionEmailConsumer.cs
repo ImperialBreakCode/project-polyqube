@@ -28,7 +28,7 @@ namespace API.Admin.Application.Features.Emails.Consumers
         public async Task Consume(ConsumeContext<SendUserDeletionEmailRequest> context)
         {
             var message = _mailMessageGenerator
-                .GetUserDeletionMailMessage(context.Message.DeletionToken, _emailOptions.CurrentValue.SystemEmail);
+                .GetUserDeletionRequestMailMessage(context.Message.DeletionToken, _emailOptions.CurrentValue.SystemEmail);
 
             try
             {

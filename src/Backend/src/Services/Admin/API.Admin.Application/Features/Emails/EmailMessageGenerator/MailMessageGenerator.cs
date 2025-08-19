@@ -14,13 +14,24 @@ namespace API.Admin.Application.Features.Emails.EmailMessageGenerator
             _optionsMonitor = optionsMonitor;
         }
 
-        public MailMessage GetUserDeletionMailMessage(string deletionToken, string emailSender)
+        public MailMessage GetUserDeletionFailedToStartMailMessage(string emailSender)
+        {
+            return new MailMessage()
+            {
+                From = new MailAddress(emailSender),
+                Subject = "Account deletion failed to start",
+                Body = UserDeletionInitFailedEmailTemplate.Template,
+                IsBodyHtml = true,
+            };
+        }
+
+        public MailMessage GetUserDeletionRequestMailMessage(string deletionToken, string emailSender)
         {
             return new MailMessage()
             {
                 From = new MailAddress(emailSender),
                 Subject = "Account Deletion Request",
-                Body = UserDeletionEmailTemplate.GetTemplate(_optionsMonitor.CurrentValue.DeleteUserLink + deletionToken),
+                Body = UserDeletionRequestEmailTemplate.GetTemplate(_optionsMonitor.CurrentValue.DeleteUserLink + deletionToken),
                 IsBodyHtml = true
             };
         }
@@ -30,8 +41,8 @@ namespace API.Admin.Application.Features.Emails.EmailMessageGenerator
             return new MailMessage()
             {
                 From = new MailAddress(emailSender),
-                Subject = "Account Deletion",
-                Body = UserDeletionEmailTemplate.GetTemplate(emailSender),
+                Subject = "Account Deletion Started",
+                Body = UserDeletionInitFailedEmailTemplate.Template,
                 IsBodyHtml = true
             };
         }

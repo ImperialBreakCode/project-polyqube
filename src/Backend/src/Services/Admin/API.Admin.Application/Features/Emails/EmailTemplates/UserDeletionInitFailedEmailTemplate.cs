@@ -1,6 +1,6 @@
 ﻿namespace API.Admin.Application.Features.Emails.EmailTemplates
 {
-    internal static class UserToBeDeletedEmailTemplate
+    internal static class UserDeletionInitFailedEmailTemplate
     {
         private const string STYLES = """
             body {
@@ -43,7 +43,7 @@
                   		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
                   		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
                   		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-                  		<title>Account to be deleted</title>
+                  		<title>User deletion failed to start</title>
                   		<style type="text/css">
                      		{0}
                   		</style>
@@ -57,7 +57,7 @@
                      			<tr>
                      				<td height="100px">
                      					<h1 style="text-align: center; font-weight: 300;">
-                     						PolyQube Account Deletion
+                     						PolyQube Account
                      					</h1>
                      				</td>
                      			</tr>
@@ -68,7 +68,9 @@
                      			</tr>
                     			<tr>
                  					<td>
-                 						<p style="text-align: center;">Your account will be deleted after 7 days</p>
+                 						<p style="text-align: center;">
+                                            Account deletion process failed to start. Please try again later or contact our nonexistent support
+                                        </p>
                      				</td>
                      			</tr>
                      		</table>

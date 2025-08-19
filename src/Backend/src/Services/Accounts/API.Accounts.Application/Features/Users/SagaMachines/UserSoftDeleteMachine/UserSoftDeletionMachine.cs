@@ -20,6 +20,8 @@ namespace API.Accounts.Application.Features.Users.SagaMachines.UserSoftDeleteMac
         public Event<UserSessionsRevokedEvent> SessionsRevoked { get; private set; }
         public Event<UserMarkedForDeletionEvent> MarkedForDeletion { get; private set; }
         public Event<UserSystemLockReleasedEvent> SystemUnlocked { get; private set; }
+        
+        public Event<Fault<UserSystemLockReleasedEvent>> UserSoftDeletionFailed { get; private set; }
 
         public UserSoftDeletionMachine()
         {
@@ -55,6 +57,11 @@ namespace API.Accounts.Application.Features.Users.SagaMachines.UserSoftDeleteMac
                 x.CorrelateBy((saga, context) => saga.UserId == context.Message.UserId);
             });
 
+            Event(() => UserSoftDeletionFailed, x =>
+            {
+                x.CorrelateBy((saga, context) => saga.UserId == context.Message.Message.UserId);
+            });
+
             #endregion
 
             Initially(
@@ -67,11 +74,14 @@ namespace API.Accounts.Application.Features.Users.SagaMachines.UserSoftDeleteMac
                     .TransitionTo(LockingUser)
                     .Publish(x => new SystemLockUser(x.Saga.UserId)));
 
-
             During(LockingUser,
                 When(SystemLocked)
                     .TransitionTo(RevokingSessions)
-                    .Publish(x => new RevokeUserSessions(x.Saga.UserId)));
+                    .Publish(x => new RevokeUserSessions(x.Saga.UserId)),
+                When(UserSoftDeletionFailed)
+                    .TransitionTo(Completed)
+                    .Publish(x => new UserSoftDeletionFailedEvent(x.Saga.UserId, x.Saga.Email))
+                    .Finalize());
 
             During(RevokingSessions,
                 When(SessionsRevoked)

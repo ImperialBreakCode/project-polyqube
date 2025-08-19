@@ -1,6 +1,6 @@
 ﻿namespace API.Admin.Application.Features.Emails.EmailTemplates
 {
-    internal static class UserDeletionEmailTemplate
+    internal static class UserDeletionRequestEmailTemplate
     {
         private const string STYLES = """
             body {

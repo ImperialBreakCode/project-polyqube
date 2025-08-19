@@ -3,6 +3,7 @@ using API.Accounts.Application.Features.Roles.Factories;
 using API.Accounts.Application.Features.Roles.Seeders;
 using API.Accounts.Application.Features.Users.AuthToken.Issuer;
 using API.Accounts.Application.Features.Users.AuthToken.Validators;
+using API.Accounts.Application.Features.Users.Consumers;
 using API.Accounts.Application.Features.Users.Factories;
 using API.Accounts.Application.Features.Users.LoginChecksChain;
 using API.Accounts.Application.Features.Users.Models;
@@ -15,8 +16,6 @@ using API.Accounts.Domain.SagaMachineDatas.UserSoftDelete;
 using API.Accounts.Infrastructure;
 using API.Shared.Application.Extensions;
 using API.Shared.Common.MediatorResponse;
-using MassTransit;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
