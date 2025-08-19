@@ -35,7 +35,7 @@ namespace API.Accounts.Application.Features.Users.Commands.LoginUser
 
         public async Task<AuthTokensViewModel> Handle(LoginUserCommand request, CancellationToken cancellationToken)
         {
-            User? user = _unitOfWork.UserRepository.GetUserByUsername(request.Username);
+            User? user = _unitOfWork.UserRepository.GetUserByUsername(request.Username, true);
 
             if (user is null)
             {
@@ -48,6 +48,8 @@ namespace API.Accounts.Application.Features.Users.Commands.LoginUser
                     .UndoSoftDeletion()
                     .CheckPassword()
                     .ExecuteChain(LoginChecksData.Create(user, request.Password));
+
+            _unitOfWork.Save();
 
             var userRoles = _unitOfWork.UserRepository.GetUserRoles(user.Id).Select(x => x.Role.RoleName).ToArray();
             var accessTokenResult = _authTokenIssuer.IssueAccessToken(user, userRoles);
