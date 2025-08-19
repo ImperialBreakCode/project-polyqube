@@ -19,9 +19,9 @@ namespace API.Accounts.Infrastructure.Features.Users
             _context = context;
         }
 
-        public User? GetUserByEmail(string email, bool isDeleted = default)
+        public User? GetUserByEmail(string email, bool includeDeleted = default)
         {
-            if (isDeleted)
+            if (includeDeleted)
             {
                 return DbSet.FirstOrDefault(x => x.Emails.Any(em => em.Email == email));
             }
@@ -29,9 +29,9 @@ namespace API.Accounts.Infrastructure.Features.Users
             return DbSet.FirstOrDefault(x => x.Emails.Any(em => em.Email == email) && x.DeletedAt == null);
         }
 
-        public User? GetUserByUsername(string username, bool isDeleted = default)
+        public User? GetUserByUsername(string username, bool includeDeleted = default)
         {
-            if (isDeleted)
+            if (includeDeleted)
             {
                 return DbSet.FirstOrDefault(x => x.Username == username);
             }

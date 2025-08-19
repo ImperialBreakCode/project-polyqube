@@ -29,14 +29,14 @@ namespace API.Accounts.Application.Features.Users.LoginChecksChain
 
         public ILoginChecksChainManager EnableDisabledUsers()
         {
-            AddHandler(new CheckUserLoginEligibility());
+            AddHandler(new EnableDisabledUser());
 
             return this;
         }
 
         public ILoginChecksChainManager UndoSoftDeletion()
         {
-            AddHandler(new CheckUserLoginEligibility());
+            AddHandler(new UndoSoftDeletion());
 
             return this;
         }

@@ -1,4 +1,5 @@
-﻿using API.Accounts.Domain.Aggregates.UserAggregate;
+﻿using API.Accounts.Domain.Aggregates;
+using API.Accounts.Domain.Aggregates.UserAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -23,6 +24,12 @@ namespace API.Accounts.Infrastructure.Features.Users
 
                 ownedBuilder.ToTable("user_emails");
             });
+
+            builder
+                .HasOne<UserDeletionToken>()
+                .WithOne(x => x.User)
+                .HasForeignKey<UserDeletionToken>(x => x.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder
                 .HasIndex(u => u.Username)

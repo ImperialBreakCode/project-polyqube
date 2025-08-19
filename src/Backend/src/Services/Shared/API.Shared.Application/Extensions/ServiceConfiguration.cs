@@ -34,13 +34,17 @@ namespace API.Shared.Application.Extensions
             return services;
         }
 
-        public static IServiceCollection AddMassTransitRabbitMq(this IServiceCollection services, IConfiguration configuration, System.Reflection.Assembly assembly)
+        public static IServiceCollection AddMassTransitRabbitMq(
+            this IServiceCollection services, 
+            IConfiguration configuration, 
+            System.Reflection.Assembly assembly, 
+            Action<IBusRegistrationConfigurator>? configurator = null)
         {
             services
                 .AddOptions<RabbitMqOptions>()
                 .BindConfiguration(nameof(RabbitMqOptions))
-            .ValidateDataAnnotations()
-            .ValidateOnStart();
+                .ValidateDataAnnotations()
+                .ValidateOnStart();
 
             var rabbitmqOptions = configuration.GetSection(nameof(RabbitMqOptions)).Get<RabbitMqOptions>()!;
             var mongoDbOptions = configuration.GetSection(nameof(MongoDbOptions)).Get<MongoDbOptions>()!;
@@ -66,6 +70,8 @@ namespace API.Shared.Application.Extensions
 
                     cfg.ConfigureEndpoints(context);
                 });
+
+                configurator?.Invoke(x);
             });
 
             return services;

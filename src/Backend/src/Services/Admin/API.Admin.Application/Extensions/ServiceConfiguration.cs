@@ -1,7 +1,13 @@
 ﻿using API.Admin.Application.DatabaseInit;
+using API.Admin.Application.Features.Emails.EmailMessageGenerator;
+using API.Admin.Application.Features.Emails.EmailSenders;
+using API.Admin.Application.Features.Emails.Options;
 using API.Admin.Application.Features.FeatureInfos.Factories;
 using API.Admin.Application.Features.FeatureInfos.Seeders;
+using API.Admin.Application.Options;
+using API.Admin.Infrastructure;
 using API.Shared.Application.Extensions;
+using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,12 +18,22 @@ namespace API.Admin.Application.Extensions
         public static IServiceCollection AddAdminApplicationLayer(this IServiceCollection services, IConfiguration configuration)
         {
             services
-                .AddDatabaseSeeder<DatabaseSeeder>()
-                .AddMassTransitRabbitMq(configuration, typeof(ServiceConfiguration).Assembly)
-                .AddMapper();
+                .AddOptions<FrontendLinksOptions>()
+                .BindConfiguration(nameof(FrontendLinksOptions))
+                .ValidateDataAnnotations()
+                .ValidateOnStart();
 
             services
-                .AddFeatureInfos();
+                .AddDatabaseSeeder<DatabaseSeeder>()
+                .AddMapper()
+                .AddMassTransitRabbitMq(configuration, typeof(ServiceConfiguration).Assembly, x =>
+                {
+                    x.AddTransactionalOutbox<AdminDbContext>();
+                });
+
+            services
+                .AddFeatureInfos()
+                .AddEmailService();
 
             return services;
         }
@@ -26,6 +42,20 @@ namespace API.Admin.Application.Extensions
         {
             services.AddTransient<IFeatureInfoSeeder, FeatureInfoSeeder>();
             services.AddTransient<IFeatureInfoQueryFactory, FeatureInfoQueryFactory>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddEmailService(this IServiceCollection services)
+        {
+            services
+                .AddOptions<EmailSenderOptions>()
+                .BindConfiguration(nameof(EmailSenderOptions))
+                .ValidateDataAnnotations()
+                .ValidateOnStart();
+
+            services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<IMailMessageGenerator, MailMessageGenerator>();
 
             return services;
         }

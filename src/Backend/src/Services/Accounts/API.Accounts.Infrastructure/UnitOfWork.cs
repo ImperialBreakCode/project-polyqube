@@ -12,6 +12,7 @@ namespace API.Accounts.Infrastructure
 
         private IUserRepository _userRepository;
         private IRoleRepository _roleRepository;
+        private IUserDeletionTokenRepository _userDeletionTokenRepository;
 
         public UnitOfWork(AccountsDbContext context, IRepositoryFactory repositoryFactory)
             : base(context)
@@ -25,5 +26,8 @@ namespace API.Accounts.Infrastructure
 
         public IRoleRepository RoleRepository 
             => _roleRepository ??= _repositoryFactory.CreateRoleRepository(_context);
+
+        public IUserDeletionTokenRepository UserDeletionTokenRepository
+            => _userDeletionTokenRepository ??= _repositoryFactory.CreateUserDeletionTokenRepository(_context);
     }
 }

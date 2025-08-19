@@ -1,5 +1,7 @@
 ﻿using API.Accounts.Application.Features.Users.Commands.CreateUser;
 using API.Accounts.Application.Features.Users.Commands.CreateUserDetails;
+using API.Accounts.Application.Features.Users.Commands.DeleteUser;
+using API.Accounts.Application.Features.Users.Commands.RequestUserDeletion;
 using API.Accounts.Application.Features.Users.Commands.UpdateUserDetails;
 using API.Accounts.Application.Features.Users.Factories;
 using API.Accounts.Features.Users.Models.Requests;
@@ -128,6 +130,34 @@ namespace API.Accounts.Features.Users.Controllers.v1
         {
             var userId = this.GetUserId();
             var command = _userCommandFactory.CreateRemoveProfilePictureCommand(userId);
+            await _sender.Send(command, cancellationToken);
+
+            return NoContent();
+        }
+
+
+        [HttpPost("request-user-deletion")]
+        [AuthorizeUserScope]
+        [ProducesResponseType<UserEmailResponseDTO>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> RequestUserDeletion(RequestUserDeletionRequestDTO requestUserDeletionDTO, CancellationToken cancellationToken)
+        {
+            var userId = this.GetUserId();
+            var command = _mapper.Map<RequestUserDeletionCommand>((requestUserDeletionDTO, userId));
+            var result = await _sender.Send(command, cancellationToken);
+            var dto = _mapper.Map<UserEmailResponseDTO>(result);
+
+            return Ok(dto);
+        }
+
+        [HttpDelete("delete-user")]
+        [AuthorizeUserScope]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> DeleteUser(DeleteUserRequestDTO deleteUserRequestDTO, CancellationToken cancellationToken)
+        {
+            var command = _mapper.Map<DeleteUserCommand>(deleteUserRequestDTO);
             await _sender.Send(command, cancellationToken);
 
             return NoContent();

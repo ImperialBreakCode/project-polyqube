@@ -8,6 +8,7 @@ services:
             - CorsOptions__AllowedOrigins__1=http://api.gateway:8040
             - RedisOptions__RedisHost=redis:6379
             - DatabaseOptions__ConnectionString=Server=sqlServer,1433;Database=PolyqubeAccounts;User Id=sa;Password=${DB_PASSWORD};TrustServerCertificate=True;
+            - SagasDbOptions__ConnectionString=Server=sqlServer,1433;Database=PolyQubeAccountSagas;User Id=sa;Password=${DB_PASSWORD};TrustServerCertificate=True;
             - RabbitMqOptions__Host=rabbitmq
             - RabbitMqOptions__Username=${RABBITMQ_DEFAULT_USER}
             - RabbitMqOptions__Password=${RABBITMQ_DEFAULT_PASS}
@@ -75,6 +76,8 @@ services:
             - RabbitMqOptions__Username=${RABBITMQ_DEFAULT_USER}
             - RabbitMqOptions__Password=${RABBITMQ_DEFAULT_PASS}
             - AuthValidationOptions__Authority=http://api.accounts:8080
+            - EmailSenderOptions__EmailUsername=${EMAIL_USERNAME}
+            - EmailSenderOptions__EmailPassword=${EMAIL_PASSWORD}
         image: ${DOCKER_REGISTRY-}apiadmin
         networks:
             - polyqube

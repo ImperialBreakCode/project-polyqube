@@ -6,5 +6,6 @@ namespace API.Accounts.Infrastructure.Factories
     {
         IUserRepository CreateUserRepository(AccountsDbContext dbContext);
         IRoleRepository CreateRoleRepository(AccountsDbContext dbContext);
+        IUserDeletionTokenRepository CreateUserDeletionTokenRepository(AccountsDbContext dbContext);
     }
 }

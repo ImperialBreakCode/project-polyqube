@@ -1,9 +1,10 @@
 ﻿using API.Admin.Domain.Aggregates.FeatureInfoAggregate;
+using API.Shared.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Admin.Infrastructure
 {
-    internal class AdminDbContext : DbContext
+    public class AdminDbContext : DbContext
     {
         public AdminDbContext(DbContextOptions<AdminDbContext> options)
             : base(options)
@@ -20,6 +21,8 @@ namespace API.Admin.Infrastructure
 
             var currentAssembly = typeof(AdminDbContext).Assembly;
             modelBuilder.ApplyConfigurationsFromAssembly(currentAssembly);
+
+            modelBuilder.AddBusInboxOutbox();
         }
     }
 }
