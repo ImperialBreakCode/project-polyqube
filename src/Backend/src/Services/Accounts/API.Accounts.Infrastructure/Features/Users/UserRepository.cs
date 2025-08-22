@@ -39,6 +39,16 @@ namespace API.Accounts.Infrastructure.Features.Users
             return DbSet.FirstOrDefault(x => x.Username == username && x.DeletedAt == null);
         }
 
+        public async Task<ICollection<string>> GetUserIdsForDeletion(TimeSpan softDeletionAge)
+        {
+            return await DbSet
+                .AsNoTracking()
+                .Where(x => x.DeletedAt != null && DateTime.UtcNow - x.DeletedAt > softDeletionAge)
+                .Take(10)
+                .Select(x => x.Id)
+                .ToListAsync();
+        }
+
         public override void Insert(User entity)
         {
             if (entity.Emails.Count == 0)

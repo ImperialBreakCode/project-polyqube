@@ -5,6 +5,7 @@ using API.Accounts.Application.Features.Users.AuthToken.Issuer;
 using API.Accounts.Application.Features.Users.AuthToken.Validators;
 using API.Accounts.Application.Features.Users.Consumers;
 using API.Accounts.Application.Features.Users.Factories;
+using API.Accounts.Application.Features.Users.Jobs;
 using API.Accounts.Application.Features.Users.LoginChecksChain;
 using API.Accounts.Application.Features.Users.Models;
 using API.Accounts.Application.Features.Users.Options;
@@ -18,6 +19,7 @@ using API.Shared.Application.Extensions;
 using API.Shared.Common.MediatorResponse;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Quartz;
 
 namespace API.Accounts.Application.Extensions
 {
@@ -29,6 +31,17 @@ namespace API.Accounts.Application.Extensions
                 .AddDatabaseSeeder<DatabaseSeeder>()
                 .AddFluentValidators()
                 .AddMapper()
+                .AddQuartzCronJobs(cfg =>
+                {
+                    var jobKey = JobKey.Create("EraseUsersJob");
+
+                    cfg.AddJob<EraseUsersJob>(jobKey)
+                        .AddTrigger(trigger 
+                            => trigger
+                                .ForJob(jobKey)
+                                .StartAt(DateBuilder.FutureDate(10, IntervalUnit.Second))
+                                .WithSimpleSchedule(s => s.WithIntervalInSeconds(10).RepeatForever()));
+                })
                 .AddMassTransitRabbitMq(
                     configuration, 
                     typeof(ServiceConfiguration).Assembly,

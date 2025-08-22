@@ -7,6 +7,7 @@ using MassTransit;
 using MassTransit.MongoDbIntegration.MessageData;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Quartz;
 
 namespace API.Shared.Application.Extensions
 {
@@ -72,6 +73,23 @@ namespace API.Shared.Application.Extensions
                 });
 
                 configurator?.Invoke(x);
+            });
+
+            return services;
+        }
+
+        public static IServiceCollection AddQuartzCronJobs(
+            this IServiceCollection services, 
+            Action<IServiceCollectionQuartzConfigurator>? configurator = null)
+        {
+            services.AddQuartz(opt =>
+            {
+                configurator?.Invoke(opt);
+            });
+
+            services.AddQuartzHostedService(opt =>
+            {
+                opt.WaitForJobsToComplete = true;
             });
 
             return services;
