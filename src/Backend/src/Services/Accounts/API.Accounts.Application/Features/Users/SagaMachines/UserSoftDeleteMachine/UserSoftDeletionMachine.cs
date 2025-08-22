@@ -23,8 +23,6 @@ namespace API.Accounts.Application.Features.Users.SagaMachines.UserSoftDeleteMac
         // events
         public Event<UserSoftDeletionInitiatedEvent> SoftDeletionInitiated { get; private set; }
         public Event<UserMarkedForDeletionEvent> MarkedForDeletion { get; private set; }
-        
-        public Event<Fault<SystemLockUserRequest>> UserSoftDeletionFailed { get; private set; }
 
         public UserSoftDeletionMachine()
         {
@@ -36,17 +34,17 @@ namespace API.Accounts.Application.Features.Users.SagaMachines.UserSoftDeleteMac
 
             Request(() => SystemLockRequest, x =>
             {
-                x.Timeout = TimeSpan.FromMinutes(3);
+                x.Timeout = TimeSpan.Zero;
             });
 
             Request(() => RevokeSessions, x =>
             {
-                x.Timeout = TimeSpan.FromMinutes(3);
+                x.Timeout = TimeSpan.Zero;
             });
 
             Request(() => UnlockSystemUser, x =>
             {
-                x.Timeout = TimeSpan.FromMinutes(3);
+                x.Timeout = TimeSpan.Zero;
             });
 
             #endregion
@@ -62,11 +60,6 @@ namespace API.Accounts.Application.Features.Users.SagaMachines.UserSoftDeleteMac
             Event(() => MarkedForDeletion, x =>
             {
                 x.CorrelateBy((saga, context) => saga.UserId == context.Message.UserId);
-            });
-
-            Event(() => UserSoftDeletionFailed, x =>
-            {
-                x.CorrelateBy((saga, context) => saga.UserId == context.Message.Message.UserId);
             });
 
             #endregion

@@ -16,15 +16,11 @@ namespace API.Accounts.Application.Features.Users.Consumers.SystemLockUserCD
 
         public async Task Consume(ConsumeContext<SystemLockUserRequest> context)
         {
-            var user = _unitOfWork.UserRepository.GetById(context.Message.UserId);
-
-            if (user is null || user.SystemLock)
+            var lockSuccessful = await _unitOfWork.UserRepository.ConcurrencySystemLock(context.Message.UserId);
+            if (!lockSuccessful)
             {
                 throw new InvalidOperationException();
             }
-
-            user.SystemLock = true;
-            _unitOfWork.Save();
 
             await context.RespondAsync(UserSystemLockedResponse.Create(context.Message.UserId));
         }

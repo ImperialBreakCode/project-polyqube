@@ -11,4 +11,5 @@ public interface IUserRepository : ISoftDeleteRepository<User>
     void AddUserRole(string userId, string roleId);
     void RemoveUserRole(UserRole userRole);
     ICollection<UserRole> GetUserRoles(string userId);
+    Task<bool> ConcurrencySystemLock(string userId, CancellationToken cancellationToken = default);
 }

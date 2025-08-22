@@ -95,5 +95,15 @@ namespace API.Accounts.Infrastructure.Features.Users
 
             _context.UserRoles.Add(UserRole.Create(userId, roleId));
         }
+
+        public async Task<bool> ConcurrencySystemLock(string userId, CancellationToken cancellationToken = default)
+        {
+            var affected = await _context.Users
+                .Where(u => u.Id == userId && u.SystemLock == false)
+                .ExecuteUpdateAsync(setters 
+                    => setters.SetProperty(u => u.SystemLock, u => true), cancellationToken);
+
+            return affected == 1;
+        }
     }
 }
