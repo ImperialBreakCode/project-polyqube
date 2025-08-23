@@ -41,9 +41,11 @@ namespace API.Accounts.Infrastructure.Features.Users
 
         public async Task<ICollection<string>> GetUserIdsForDeletion(TimeSpan softDeletionAge)
         {
+            var cutoff = DateTime.UtcNow - softDeletionAge;
+
             return await DbSet
                 .AsNoTracking()
-                .Where(x => x.DeletedAt != null && DateTime.UtcNow - x.DeletedAt > softDeletionAge)
+                .Where(x => x.DeletedAt != null && x.DeletedAt < cutoff)
                 .Take(10)
                 .Select(x => x.Id)
                 .ToListAsync();

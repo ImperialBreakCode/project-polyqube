@@ -35,6 +35,28 @@ namespace API.Accounts.Application.Features.Users.Seeders
                 userRepository.Insert(user);
                 userRepository.AddUserRole(user.Id, superuserRole.Id);
             }
+
+            await SeedTestUsers(userRepository, roleRepository);
+        }
+
+        private async Task SeedTestUsers(IUserRepository userRepository, IRoleRepository roleRepository)
+        {
+            var userRole = await roleRepository.GetByNameAsync(AccountRoleNames.USER_ROLE);
+            if (userRole == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            const string testUsername = "test";
+            var user = userRepository.GetUserByUsername(testUsername, true);
+            if (user == null)
+            {
+                var passHash = _passwordManager.HashPassword("pass");
+                user = User.Create(testUsername, passHash, "tierra.jenkins68@ethereal.email");
+                user.SoftDelete();
+                userRepository.Insert(user);
+                userRepository.AddUserRole(user.Id, userRole.Id);
+            }
         }
     }
 }
