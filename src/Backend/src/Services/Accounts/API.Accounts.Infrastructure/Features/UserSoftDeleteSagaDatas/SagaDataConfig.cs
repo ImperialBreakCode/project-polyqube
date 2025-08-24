@@ -1,4 +1,4 @@
-﻿using API.Accounts.Domain.SagaMachineDatas.UserSoftDelete;
+﻿using API.Accounts.Domain.SagaMachineDatas;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

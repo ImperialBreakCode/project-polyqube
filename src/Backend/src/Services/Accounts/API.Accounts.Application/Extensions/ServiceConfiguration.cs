@@ -13,7 +13,7 @@ using API.Accounts.Application.Features.Users.PasswordManager;
 using API.Accounts.Application.Features.Users.SagaMachines.UserSoftDeleteMachine;
 using API.Accounts.Application.Features.Users.Seeders;
 using API.Accounts.Application.Features.Users.UrlFileResponseTransforms;
-using API.Accounts.Domain.SagaMachineDatas.UserSoftDelete;
+using API.Accounts.Domain.SagaMachineDatas;
 using API.Accounts.Infrastructure;
 using API.Shared.Application.Extensions;
 using API.Shared.Common.MediatorResponse;

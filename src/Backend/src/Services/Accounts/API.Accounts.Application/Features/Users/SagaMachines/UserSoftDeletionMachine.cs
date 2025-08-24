@@ -1,4 +1,4 @@
-﻿using API.Accounts.Domain.SagaMachineDatas.UserSoftDelete;
+﻿using API.Accounts.Domain.SagaMachineDatas;
 using API.Shared.Application.Contracts.Accounts.Commands;
 using API.Shared.Application.Contracts.Accounts.Events;
 using API.Shared.Application.Contracts.Accounts.Requests;
