@@ -1,4 +1,6 @@
 ﻿using API.Accounts.Domain;
+using API.Shared.Application.Contracts.Accounts.Events;
+using MassTransit;
 using Quartz;
 
 namespace API.Accounts.Application.Features.Users.Jobs
@@ -7,10 +9,12 @@ namespace API.Accounts.Application.Features.Users.Jobs
     internal class EraseUsersJob : IJob
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IBus _bus;
 
-        public EraseUsersJob(IUnitOfWork unitOfWork)
+        public EraseUsersJob(IUnitOfWork unitOfWork, IBus bus)
         {
             _unitOfWork = unitOfWork;
+            _bus = bus;
         }
 
         public async Task Execute(IJobExecutionContext context)
@@ -19,8 +23,7 @@ namespace API.Accounts.Application.Features.Users.Jobs
 
             foreach (string id in ids)
             {
-                // initiate machine to erase users
-                Console.WriteLine(id);
+                //await _bus.Publish<UserDeletionInitiatedEvent>(new(id));
             }
         }
     }
