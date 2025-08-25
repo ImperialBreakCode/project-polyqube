@@ -23,7 +23,7 @@ namespace API.Accounts.Application.Features.Users.Jobs
 
             foreach (string id in ids)
             {
-                //await _bus.Publish<UserDeletionInitiatedEvent>(new(id));
+                await _bus.Publish<UserDeletionInitiatedEvent>(new(id));
             }
         }
     }

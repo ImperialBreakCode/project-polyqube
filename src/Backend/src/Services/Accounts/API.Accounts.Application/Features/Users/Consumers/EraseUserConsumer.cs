@@ -19,10 +19,11 @@ namespace API.Accounts.Application.Features.Users.Consumers
             // should also delete file assets and remove asset urls
 
             var user = _unitOfWork.UserRepository.GetById(context.Message.UserId)!;
+            var email = user.Emails.First(x => x.IsPrimary).Email;
             _unitOfWork.UserRepository.Delete(user);
             _unitOfWork.Save();
 
-            await context.Publish<UserErasedEvent>(new(context.Message.UserId));
+            await context.Publish<UserErasedEvent>(new(context.Message.UserId, email));
         }
     }
 }

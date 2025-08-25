@@ -14,6 +14,17 @@ namespace API.Admin.Application.Features.Emails.EmailMessageGenerator
             _optionsMonitor = optionsMonitor;
         }
 
+        public MailMessage GetUserDeletedMailMessage(string emailSender)
+        {
+            return new MailMessage()
+            {
+                From = new MailAddress(emailSender),
+                Subject = "Account deleted",
+                Body = UserDeletedEmailTemplate.Template,
+                IsBodyHtml = true,
+            };
+        }
+
         public MailMessage GetUserDeletionFailedToStartMailMessage(string emailSender)
         {
             return new MailMessage()

@@ -71,7 +71,6 @@ namespace API.Accounts.Application.Features.Users.SagaMachines
                     .Then(x =>
                     {
                         x.Saga.UserId = x.Message.UserId;
-                        x.Saga.Email = x.Message.Email;
                     })
                     .Request(SystemLockRequest, x => SystemLockUserRequest.Create(x.Saga.UserId))
                     .TransitionTo(SystemLockRequest.Pending));
@@ -96,8 +95,12 @@ namespace API.Accounts.Application.Features.Users.SagaMachines
 
             During(DeletingUser,
                 When(UserErased)
+                    .Then(x =>
+                    {
+                        x.Saga.Email = x.Message.Email;
+                    })
                     .TransitionTo(Completed)
-                    .Publish(x => new UserDeletionCompletedEvent(x.Saga.Email))
+                    .Publish(x => new UserDeletionCompletedEvent(x.Saga.Email!))
                     .Finalize());
         }
     }
