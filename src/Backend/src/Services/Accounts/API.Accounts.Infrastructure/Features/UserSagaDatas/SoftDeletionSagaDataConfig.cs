@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace API.Accounts.Infrastructure.Features.UserSoftDeleteSagaDatas
+namespace API.Accounts.Infrastructure.Features.UserSagaDatas
 {
-    internal class SagaDataConfig : IEntityTypeConfiguration<UserSoftDeleteSagaData>
+    internal class SoftDeletionSagaDataConfig : IEntityTypeConfiguration<UserSoftDeleteSagaData>
     {
         public void Configure(EntityTypeBuilder<UserSoftDeleteSagaData> builder)
         {
