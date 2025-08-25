@@ -132,7 +132,32 @@ namespace API.Accounts.Infrastructure.Migrations
                     b.ToTable("user_role", (string)null);
                 });
 
-            modelBuilder.Entity("API.Accounts.Domain.SagaMachineDatas.UserSoftDelete.UserSoftDeleteSagaData", b =>
+            modelBuilder.Entity("API.Accounts.Domain.SagaMachineDatas.EraseUserSagaData", b =>
+                {
+                    b.Property<Guid>("CorrelationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CurrentState")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("CorrelationId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("erase_user_sagas", (string)null);
+                });
+
+            modelBuilder.Entity("API.Accounts.Domain.SagaMachineDatas.UserSoftDeleteSagaData", b =>
                 {
                     b.Property<Guid>("CorrelationId")
                         .ValueGeneratedOnAdd()
