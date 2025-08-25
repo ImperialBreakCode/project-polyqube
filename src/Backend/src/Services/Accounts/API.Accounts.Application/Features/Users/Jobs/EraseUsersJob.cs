@@ -19,7 +19,7 @@ namespace API.Accounts.Application.Features.Users.Jobs
 
         public async Task Execute(IJobExecutionContext context)
         {
-            ICollection<string> ids = await _unitOfWork.UserRepository.GetUserIdsForDeletion(TimeSpan.FromSeconds(15));
+            ICollection<string> ids = await _unitOfWork.UserRepository.GetUserIdsForDeletion(TimeSpan.FromDays(7));
 
             foreach (string id in ids)
             {
