@@ -53,7 +53,6 @@ namespace API.Accounts.Application.Features.Users.Seeders
             {
                 var passHash = _passwordManager.HashPassword("pass");
                 user = User.Create(testUsername, passHash, "tierra.jenkins68@ethereal.email");
-                user.SoftDelete();
                 userRepository.Insert(user);
                 userRepository.AddUserRole(user.Id, userRole.Id);
             }

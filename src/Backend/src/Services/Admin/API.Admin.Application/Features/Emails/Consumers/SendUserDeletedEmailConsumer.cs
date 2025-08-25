@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 
 namespace API.Admin.Application.Features.Emails.Consumers
 {
-    internal class SendUserDeletedEmailConsumer : IConsumer<UserDeletionCompletedEvent>
+    public class SendUserDeletedEmailConsumer : IConsumer<UserDeletionCompletedEvent>
     {
         private readonly IOptionsMonitor<EmailSenderOptions> _optionsMonitor;
         private readonly IEmailSender _emailSender;
