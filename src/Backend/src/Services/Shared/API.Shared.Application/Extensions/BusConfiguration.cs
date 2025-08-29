@@ -29,6 +29,8 @@ namespace API.Shared.Application.Extensions
 
                 outbox.UseBusOutbox();
                 outbox.UseSqlServer();
+
+                outbox.DuplicateDetectionWindow = TimeSpan.FromMinutes(10);
             });
 
             cfg.AddConfigureEndpointsCallback((context, name, config) =>
