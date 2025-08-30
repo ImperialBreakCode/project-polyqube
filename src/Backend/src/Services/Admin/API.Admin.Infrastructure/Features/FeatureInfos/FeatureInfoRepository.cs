@@ -80,5 +80,16 @@ namespace API.Admin.Infrastructure.Features.FeatureInfos
         {
             _dbContext.TestUsers.Remove(testUser);
         }
+
+        public async Task ExecuteUserIdsRemoval(string userId, CancellationToken cancellationToken = default)
+        {
+            await _dbContext.RestrictedUsers
+                .Where(x => x.RestrictedUserId == userId)
+                .ExecuteDeleteAsync(cancellationToken);
+
+            await _dbContext.TestUsers
+                .Where(x => x.TestUserId == userId)
+                .ExecuteDeleteAsync(cancellationToken);
+        }
     }
 }

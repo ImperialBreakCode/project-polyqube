@@ -1,4 +1,4 @@
 ﻿namespace API.Shared.Application.Contracts.Accounts.Events
 {
-    public record UserSessionsRevokedEvent(string UserId);
+    public record UserErasedEvent(string UserId, string Email);
 }

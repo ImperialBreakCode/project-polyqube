@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Accounts.Infrastructure.Migrations
 {
     [DbContext(typeof(AccountsDbContext))]
-    [Migration("20250818114827_AccountsInitial")]
+    [Migration("20250825141510_AccountsInitial")]
     partial class AccountsInitial
     {
         /// <inheritdoc />
@@ -135,7 +135,32 @@ namespace API.Accounts.Infrastructure.Migrations
                     b.ToTable("user_role", (string)null);
                 });
 
-            modelBuilder.Entity("API.Accounts.Domain.SagaMachineDatas.UserSoftDelete.UserSoftDeleteSagaData", b =>
+            modelBuilder.Entity("API.Accounts.Domain.SagaMachineDatas.EraseUserSagaData", b =>
+                {
+                    b.Property<Guid>("CorrelationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CurrentState")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("CorrelationId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("erase_user_sagas", (string)null);
+                });
+
+            modelBuilder.Entity("API.Accounts.Domain.SagaMachineDatas.UserSoftDeleteSagaData", b =>
                 {
                     b.Property<Guid>("CorrelationId")
                         .ValueGeneratedOnAdd()

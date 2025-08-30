@@ -1,11 +1,11 @@
 ﻿using API.Accounts.Domain;
-using API.Shared.Application.Contracts.Accounts.Commands;
-using API.Shared.Application.Contracts.Accounts.Events;
+using API.Shared.Application.Contracts.Accounts.Requests;
+using API.Shared.Application.Contracts.Accounts.Responses;
 using MassTransit;
 
 namespace API.Accounts.Application.Features.Users.Consumers.SystemLockUserCD
 {
-    public class SystemLockUserConsumer : IConsumer<SystemLockUser>
+    public class SystemLockUserConsumer : IConsumer<SystemLockUserRequest>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -14,19 +14,15 @@ namespace API.Accounts.Application.Features.Users.Consumers.SystemLockUserCD
             _unitOfWork = unitOfWork;
         }
 
-        public async Task Consume(ConsumeContext<SystemLockUser> context)
+        public async Task Consume(ConsumeContext<SystemLockUserRequest> context)
         {
-            var user = _unitOfWork.UserRepository.GetById(context.Message.UserId);
-
-            if (user is null || user.SystemLock)
+            var lockSuccessful = await _unitOfWork.UserRepository.ConcurrencySystemLock(context.Message.UserId);
+            if (!lockSuccessful)
             {
                 throw new InvalidOperationException();
             }
 
-            user.SystemLock = true;
-            _unitOfWork.Save();
-
-            await context.Publish<UserSystemLockedEvent>(new(context.Message.UserId));
+            await context.RespondAsync(UserSystemLockedResponse.Create(context.Message.UserId));
         }
     }
 }

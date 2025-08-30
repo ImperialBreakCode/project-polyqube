@@ -1,6 +1,6 @@
 ﻿using API.Accounts.Domain.Aggregates;
 using API.Accounts.Domain.Aggregates.UserAggregate;
-using API.Accounts.Domain.SagaMachineDatas.UserSoftDelete;
+using API.Accounts.Domain.SagaMachineDatas;
 using API.Shared.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,6 +20,7 @@ namespace API.Accounts.Infrastructure
         public DbSet<UserDeletionToken> UserDeletionTokens { get; set; }
 
         public DbSet<UserSoftDeleteSagaData> SoftDeleteSagaData { get; set; }
+        public DbSet<EraseUserSagaData> EraseUserSagaData { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

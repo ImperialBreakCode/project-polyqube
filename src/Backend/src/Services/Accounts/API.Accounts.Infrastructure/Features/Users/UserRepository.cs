@@ -39,6 +39,18 @@ namespace API.Accounts.Infrastructure.Features.Users
             return DbSet.FirstOrDefault(x => x.Username == username && x.DeletedAt == null);
         }
 
+        public async Task<ICollection<string>> GetUserIdsForDeletion(TimeSpan softDeletionAge)
+        {
+            var cutoff = DateTime.UtcNow - softDeletionAge;
+
+            return await DbSet
+                .AsNoTracking()
+                .Where(x => x.DeletedAt != null && x.DeletedAt < cutoff)
+                .Take(10)
+                .Select(x => x.Id)
+                .ToListAsync();
+        }
+
         public override void Insert(User entity)
         {
             if (entity.Emails.Count == 0)
@@ -94,6 +106,16 @@ namespace API.Accounts.Infrastructure.Features.Users
             }
 
             _context.UserRoles.Add(UserRole.Create(userId, roleId));
+        }
+
+        public async Task<bool> ConcurrencySystemLock(string userId, CancellationToken cancellationToken = default)
+        {
+            var affected = await _context.Users
+                .Where(u => u.Id == userId && u.SystemLock == false)
+                .ExecuteUpdateAsync(setters 
+                    => setters.SetProperty(u => u.SystemLock, u => true), cancellationToken);
+
+            return affected == 1;
         }
     }
 }

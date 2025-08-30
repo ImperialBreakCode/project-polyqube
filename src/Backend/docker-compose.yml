@@ -31,6 +31,7 @@ services:
     api.gateway:
         environment:
             - ReverseProxy__Clusters__AccountsCluser__Destinations__destination1__Address=http://api.accounts:8080
+            - ReverseProxy__Clusters__AdminCluser__Destinations__destination1__Address=http://api.admin:8010
             - TelemetryOptions__TempoEndpoint=http://grafana:4317
             - TelemetryOptions__MetricsEndpoint=http://grafana:4317
             - Serilog__WriteTo__1__Args__Endpoint=http://grafana:4317

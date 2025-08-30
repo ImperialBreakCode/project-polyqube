@@ -1,11 +1,11 @@
 ﻿using API.Accounts.Domain.Repositories;
-using API.Shared.Application.Contracts.Accounts.Commands;
-using API.Shared.Application.Contracts.Accounts.Events;
+using API.Shared.Application.Contracts.Accounts.Requests;
+using API.Shared.Application.Contracts.Accounts.Responses;
 using MassTransit;
 
 namespace API.Accounts.Application.Features.Users.Consumers
 {
-    public class RevokeUserSessionsConsumer : IConsumer<RevokeUserSessions>
+    public class RevokeUserSessionsConsumer : IConsumer<RevokeUserSessionsRequest>
     {
         private readonly ICacheSessionRepository _cacheSessionRepository;
 
@@ -14,11 +14,11 @@ namespace API.Accounts.Application.Features.Users.Consumers
             _cacheSessionRepository = cacheSessionRepository;
         }
 
-        public async Task Consume(ConsumeContext<RevokeUserSessions> context)
+        public async Task Consume(ConsumeContext<RevokeUserSessionsRequest> context)
         {
             _cacheSessionRepository.DeleteAllSessionsByUser(context.Message.UserId);
 
-            await context.Publish<UserSessionsRevokedEvent>(new(context.Message.UserId));
+            await context.RespondAsync(UserSessionsRevokedResponse.Create(context.Message.UserId));
         }
     }
 }

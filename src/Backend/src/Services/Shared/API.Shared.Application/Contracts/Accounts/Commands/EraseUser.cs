@@ -1,4 +1,4 @@
 ﻿namespace API.Shared.Application.Contracts.Accounts.Commands
 {
-    public record SystemLockUser(string UserId);
+    public record EraseUser(string UserId);
 }

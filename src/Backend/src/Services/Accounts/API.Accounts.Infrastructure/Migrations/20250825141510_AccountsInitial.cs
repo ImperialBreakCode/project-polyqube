@@ -12,6 +12,20 @@ namespace API.Accounts.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "erase_user_sagas",
+                columns: table => new
+                {
+                    CorrelationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CurrentState = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_erase_user_sagas", x => x.CorrelationId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "InboxState",
                 columns: table => new
                 {
@@ -233,6 +247,12 @@ namespace API.Accounts.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_erase_user_sagas_UserId",
+                table: "erase_user_sagas",
+                column: "UserId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_InboxState_Delivered",
                 table: "InboxState",
                 column: "Delivered");
@@ -322,6 +342,9 @@ namespace API.Accounts.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "erase_user_sagas");
+
             migrationBuilder.DropTable(
                 name: "OutboxMessage");
 

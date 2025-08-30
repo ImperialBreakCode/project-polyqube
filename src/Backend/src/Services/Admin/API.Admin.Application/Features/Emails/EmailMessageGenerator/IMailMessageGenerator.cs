@@ -7,5 +7,6 @@ namespace API.Admin.Application.Features.Emails.EmailMessageGenerator
         MailMessage GetUserDeletionRequestMailMessage(string deletionToken, string emailSender);
         MailMessage GetUserToBeDeletedMailMessage(string emailSender);
         MailMessage GetUserDeletionFailedToStartMailMessage(string emailSender);
+        MailMessage GetUserDeletedMailMessage(string emailSender);
     }
 }

@@ -9,12 +9,12 @@ namespace API.Accounts.Application.Features.Users.Commands.DeleteUser
     internal class DeleteUserCommandHandler : ICommandHandler<DeleteUserCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IBus _bus;
+        private readonly IPublishEndpoint _publishEndpoint;
 
-        public DeleteUserCommandHandler(IUnitOfWork unitOfWork, IBus bus)
+        public DeleteUserCommandHandler(IUnitOfWork unitOfWork, IPublishEndpoint publishEndpoint)
         {
             _unitOfWork = unitOfWork;
-            _bus = bus;
+            _publishEndpoint = publishEndpoint;
         }
 
         public async Task Handle(DeleteUserCommand request, CancellationToken cancellationToken)
@@ -28,7 +28,7 @@ namespace API.Accounts.Application.Features.Users.Commands.DeleteUser
 
             var userId = token.UserId;
             var email = token.User.Emails.First(x => x.IsPrimary).Email;
-            await _bus.Publish<UserSoftDeletionInitiatedEvent>(new(userId, email), cancellationToken);
+            await _publishEndpoint.Publish<UserSoftDeletionInitiatedEvent>(new(userId, email), cancellationToken);
 
             _unitOfWork.UserDeletionTokenRepository.Delete(token);
             _unitOfWork.Save();

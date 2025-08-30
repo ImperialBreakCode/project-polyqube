@@ -14,5 +14,6 @@ namespace API.Admin.Domain.Repositories
         void RemoveRestrictedUser(RestrictedUser restrictedUser);
         Task AddTestUserAsync(TestUser testUser);
         void RemoveTestUser(TestUser testUser);
+        Task ExecuteUserIdsRemoval(string userId, CancellationToken cancellationToken = default);
     }
 }
