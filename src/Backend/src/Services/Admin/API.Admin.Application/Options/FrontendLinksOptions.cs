@@ -6,5 +6,8 @@ namespace API.Admin.Application.Options
     {
         [Required]
         public string DeleteUserLink { get; init; }
+
+        [Required]
+        public string EmailVerificationLink { get; init; }
     }
 }

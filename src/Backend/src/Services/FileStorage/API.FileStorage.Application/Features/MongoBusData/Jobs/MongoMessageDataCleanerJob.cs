@@ -6,6 +6,7 @@ using Quartz;
 
 namespace API.FileStorage.Application.Features.MongoBusData.Jobs
 {
+    [DisallowConcurrentExecution]
     internal class MongoMessageDataCleanerJob : IJob
     {
         private const string MESSAGE_DATA_DB_NAME = "MessageBusData";
