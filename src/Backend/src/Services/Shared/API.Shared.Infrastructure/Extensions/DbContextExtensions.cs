@@ -18,8 +18,6 @@ namespace API.Shared.Infrastructure.Extensions
             modelBuilder.Entity<InternalOutboxEntity>(builder =>
             {
                 builder.ToTable("internal_outbox");
-
-                builder.Property(x => x.LockId).IsConcurrencyToken();
             });
         }
     }

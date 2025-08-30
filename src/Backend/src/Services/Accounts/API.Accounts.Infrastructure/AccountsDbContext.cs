@@ -30,6 +30,7 @@ namespace API.Accounts.Infrastructure
             modelBuilder.ApplyConfigurationsFromAssembly(currentAssembly);
 
             modelBuilder.AddBusInboxOutbox();
+            modelBuilder.AddInternalOutbox();
         }
     }
 }

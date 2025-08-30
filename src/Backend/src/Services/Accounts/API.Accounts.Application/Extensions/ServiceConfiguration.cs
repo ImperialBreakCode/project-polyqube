@@ -17,6 +17,7 @@ using API.Accounts.Domain.SagaMachineDatas;
 using API.Accounts.Infrastructure;
 using API.Shared.Application.Extensions;
 using API.Shared.Common.MediatorResponse;
+using API.Shared.Infrastructure.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
@@ -33,6 +34,8 @@ namespace API.Accounts.Application.Extensions
                 .AddMapper()
                 .AddQuartzCronJobs(cfg =>
                 {
+                    cfg.AddInternalOutboxProcessorJob<AccountsDbContext>();
+
                     var jobKey = JobKey.Create("EraseUsersJob");
 
                     cfg.AddJob<EraseUsersJob>(jobKey)
