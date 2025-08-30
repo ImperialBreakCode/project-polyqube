@@ -9,12 +9,12 @@ namespace API.Accounts.Application.Features.Users.Jobs
     internal class EraseUsersJob : IJob
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IBus _bus;
+        private readonly IPublishEndpoint _publishEndpoint;
 
-        public EraseUsersJob(IUnitOfWork unitOfWork, IBus bus)
+        public EraseUsersJob(IUnitOfWork unitOfWork, IPublishEndpoint publishEndpoind)
         {
             _unitOfWork = unitOfWork;
-            _bus = bus;
+            _publishEndpoint = publishEndpoind;
         }
 
         public async Task Execute(IJobExecutionContext context)
@@ -23,7 +23,7 @@ namespace API.Accounts.Application.Features.Users.Jobs
 
             foreach (string id in ids)
             {
-                await _bus.Publish<UserDeletionInitiatedEvent>(new(id));
+                await _publishEndpoint.Publish<UserDeletionInitiatedEvent>(new(id));
             }
         }
     }

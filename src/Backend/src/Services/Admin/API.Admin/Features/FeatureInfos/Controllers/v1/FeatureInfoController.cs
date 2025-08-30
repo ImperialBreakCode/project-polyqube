@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Admin.Features.FeatureInfos.Controllers.v1
 {
-    [Route("api/v{version:apiVersion}/[controller]")]
+    [Route("api/v{version:apiVersion}/feature-infos")]
     [ApiController]
     [ApiVersion(1)]
     public class FeatureInfoController : ControllerBase
