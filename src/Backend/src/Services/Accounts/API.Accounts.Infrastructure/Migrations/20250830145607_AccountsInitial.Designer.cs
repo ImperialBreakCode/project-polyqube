@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Accounts.Infrastructure.Migrations
 {
     [DbContext(typeof(AccountsDbContext))]
-    [Migration("20250825141510_AccountsInitial")]
+    [Migration("20250830145607_AccountsInitial")]
     partial class AccountsInitial
     {
         /// <inheritdoc />
@@ -187,6 +187,30 @@ namespace API.Accounts.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("user_soft_delete_sagas", (string)null);
+                });
+
+            modelBuilder.Entity("API.Shared.Domain.Entities.InternalOutboxEntity", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LockId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("internal_outbox", (string)null);
                 });
 
             modelBuilder.Entity("MassTransit.EntityFrameworkCoreIntegration.InboxState", b =>

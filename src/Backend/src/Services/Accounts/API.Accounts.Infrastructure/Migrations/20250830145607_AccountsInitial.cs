@@ -49,6 +49,21 @@ namespace API.Accounts.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "internal_outbox",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LockId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_internal_outbox", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "OutboxState",
                 columns: table => new
                 {
@@ -344,6 +359,9 @@ namespace API.Accounts.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "erase_user_sagas");
+
+            migrationBuilder.DropTable(
+                name: "internal_outbox");
 
             migrationBuilder.DropTable(
                 name: "OutboxMessage");
