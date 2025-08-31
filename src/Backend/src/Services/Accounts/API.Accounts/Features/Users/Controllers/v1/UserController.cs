@@ -3,6 +3,7 @@ using API.Accounts.Application.Features.Users.Commands.CreateUserDetails;
 using API.Accounts.Application.Features.Users.Commands.DeleteUser;
 using API.Accounts.Application.Features.Users.Commands.RequestUserDeletion;
 using API.Accounts.Application.Features.Users.Commands.UpdateUserDetails;
+using API.Accounts.Application.Features.Users.Commands.VerifyEmail;
 using API.Accounts.Application.Features.Users.Factories;
 using API.Accounts.Features.Users.Models.Requests;
 using API.Accounts.Features.Users.Models.Responses;
@@ -133,6 +134,19 @@ namespace API.Accounts.Features.Users.Controllers.v1
             await _sender.Send(command, cancellationToken);
 
             return NoContent();
+        }
+
+        [HttpPost("verify-email")]
+        [ProducesResponseType<UserEmailResponseDTO>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> VerifyEmail(VerifyEmailRequestDTO verifyEmailRequestDTO, CancellationToken cancellationToken)
+        {
+            var command = _mapper.Map<VerifyEmailCommand>(verifyEmailRequestDTO);
+            var result = await _sender.Send(command, cancellationToken);
+            var dto = _mapper.Map<UserEmailResponseDTO>(result);
+
+            return Ok(dto);
         }
 
 

@@ -31,7 +31,7 @@ namespace API.Shared.Infrastructure.Extensions
 
                 options.UseSqlServer(databaseOptions.ConnectionString);
 
-                options.AddInterceptors(new AuditInterceptor());
+                options.AddInterceptors(new InternalOutboxInterceptor(), new AuditInterceptor());
             });
 
             services.AddTransient<IDatabaseUpdater, DatabaseUpdater<TDbContext>>();

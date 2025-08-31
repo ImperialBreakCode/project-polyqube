@@ -4,7 +4,7 @@ This README is still under construction 🚧🚧🚧
 
 ## Install backend on Docker (production)
 
-1. Run the Docker Compose command:
+1. Go to `src/Backend` and run the following Docker Compose command:
     ```bash
     docker-compose -f docker-compose.yml -f docker-compose.prod.yml --env-file .env up -d
     ```
@@ -29,4 +29,8 @@ This README is still under construction 🚧🚧🚧
                 proxy_pass $forward_scheme://$server:$port$request_uri;
             }
             ```
-    - Click **Save**. The backedn installation is complete.
+    - Click **Save**. The backend installation is complete.
+
+## Superuser credentials
+ - <b>username:</b> `root`
+ - <b>password:</b> `root`

@@ -14,6 +14,17 @@ namespace API.Admin.Application.Features.Emails.EmailMessageGenerator
             _optionsMonitor = optionsMonitor;
         }
 
+        public MailMessage GetEmailVerificationEmailMailMessage(string emailSender, string verificationToken)
+        {
+            return new MailMessage()
+            {
+                From = new MailAddress(emailSender),
+                Subject = "Verify your email",
+                Body = VerifyEmailEmailTemplate.GetTemplate(_optionsMonitor.CurrentValue.EmailVerificationLink + verificationToken),
+                IsBodyHtml = true
+            };
+        }
+
         public MailMessage GetUserDeletedMailMessage(string emailSender)
         {
             return new MailMessage()

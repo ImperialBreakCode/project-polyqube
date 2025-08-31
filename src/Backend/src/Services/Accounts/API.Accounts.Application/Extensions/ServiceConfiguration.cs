@@ -17,6 +17,7 @@ using API.Accounts.Domain.SagaMachineDatas;
 using API.Accounts.Infrastructure;
 using API.Shared.Application.Extensions;
 using API.Shared.Common.MediatorResponse;
+using API.Shared.Infrastructure.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
@@ -33,14 +34,25 @@ namespace API.Accounts.Application.Extensions
                 .AddMapper()
                 .AddQuartzCronJobs(cfg =>
                 {
-                    var jobKey = JobKey.Create("EraseUsersJob");
+                    cfg.AddInternalOutboxProcessorJob<AccountsDbContext>();
 
-                    cfg.AddJob<EraseUsersJob>(jobKey)
+                    var eraseUserJobKey = JobKey.Create("EraseUsersJob");
+
+                    cfg.AddJob<EraseUsersJob>(eraseUserJobKey)
                         .AddTrigger(trigger 
                             => trigger
-                                .ForJob(jobKey)
+                                .ForJob(eraseUserJobKey)
                                 .StartAt(DateBuilder.FutureDate(10, IntervalUnit.Second))
                                 .WithSimpleSchedule(s => s.WithIntervalInSeconds(10).RepeatForever()));
+
+                    var tokenCleanupJobKey = JobKey.Create("TokenCleanupJob");
+
+                    cfg.AddJob<TokenCleanupJob>(tokenCleanupJobKey)
+                        .AddTrigger(trigger
+                            => trigger
+                                .ForJob(tokenCleanupJobKey)
+                                .StartAt(DateBuilder.FutureDate(22, IntervalUnit.Second))
+                                .WithSimpleSchedule(s => s.WithIntervalInMinutes(1).RepeatForever()));
                 })
                 .AddMassTransitRabbitMq(
                     configuration, 
