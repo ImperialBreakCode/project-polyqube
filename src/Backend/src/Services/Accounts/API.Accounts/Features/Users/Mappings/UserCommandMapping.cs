@@ -6,6 +6,7 @@ using API.Accounts.Application.Features.Users.Commands.RefreshAuthTokens;
 using API.Accounts.Application.Features.Users.Commands.RequestUserDeletion;
 using API.Accounts.Application.Features.Users.Commands.UpdateUserDetails;
 using API.Accounts.Application.Features.Users.Commands.ValidateAccessToken;
+using API.Accounts.Application.Features.Users.Commands.VerifyEmail;
 using API.Accounts.Features.Users.Models.Requests;
 using AutoMapper;
 
@@ -30,7 +31,7 @@ namespace API.Accounts.Features.Users.Mappings
             CreateMap<(RequestUserDeletionRequestDTO, string), RequestUserDeletionCommand>()
                 .ConstructUsing(x => new(x.Item2, x.Item1.Password));
 
-            CreateMap<VerifyEmailRequestDTO, VerifyEmailRequestDTO>();
+            CreateMap<VerifyEmailRequestDTO, VerifyEmailCommand>();
             CreateMap<DeleteUserRequestDTO, DeleteUserCommand>();
         }
     }
