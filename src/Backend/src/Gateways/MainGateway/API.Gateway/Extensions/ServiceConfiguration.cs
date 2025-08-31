@@ -9,7 +9,8 @@ namespace API.Gateway.Extensions
             services
                 .AddMainWebServices()
                 .AddYarpGateway(configuration)
-                .AddRateLimitingPolicies();
+                .AddRateLimitingPolicies()
+                .AddTelemetry("api-gateway", configuration);
 
             return services;
         }

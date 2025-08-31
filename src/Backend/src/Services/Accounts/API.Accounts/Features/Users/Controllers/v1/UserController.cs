@@ -1,6 +1,9 @@
 ﻿using API.Accounts.Application.Features.Users.Commands.CreateUser;
 using API.Accounts.Application.Features.Users.Commands.CreateUserDetails;
+using API.Accounts.Application.Features.Users.Commands.DeleteUser;
+using API.Accounts.Application.Features.Users.Commands.RequestUserDeletion;
 using API.Accounts.Application.Features.Users.Commands.UpdateUserDetails;
+using API.Accounts.Application.Features.Users.Commands.VerifyEmail;
 using API.Accounts.Application.Features.Users.Factories;
 using API.Accounts.Features.Users.Models.Requests;
 using API.Accounts.Features.Users.Models.Responses;
@@ -22,12 +25,14 @@ namespace API.Accounts.Features.Users.Controllers.v1
         private readonly IMapper _mapper;
         private readonly ISender _sender;
         private readonly IUserQueryFactory _userQueryFactory;
+        private readonly IUserCommandFactory _userCommandFactory;
 
-        public UserController(IMapper mapper, ISender sender, IUserQueryFactory userQueryFactory)
+        public UserController(IMapper mapper, ISender sender, IUserQueryFactory userQueryFactory, IUserCommandFactory userCommandFactory)
         {
             _mapper = mapper;
             _sender = sender;
             _userQueryFactory = userQueryFactory;
+            _userCommandFactory = userCommandFactory;
         }
 
         [HttpPost("register")]
@@ -94,6 +99,80 @@ namespace API.Accounts.Features.Users.Controllers.v1
 
             var updateUserDetailsCommand = _mapper.Map<UpdateUserDetailsCommand>((updateUserDetailsRequest, userId));
             await _sender.Send(updateUserDetailsCommand);
+
+            return NoContent();
+        }
+
+        [HttpPut("set-profile-picture")]
+        [RequestSizeLimit(100 * 1024 * 1024)]
+        [Authorize]
+        [ImageUploadFilter]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> SetProfilePicture(SetProfilePictureRequestDTO requestDTO, CancellationToken cancellationToken)
+        {
+            var formFile = requestDTO.FormFile;
+
+            var command = _userCommandFactory.CreateSetProfilePictureCommand(
+                formFile.OpenReadStream(),
+                formFile.FileName,
+                this.GetUserId());
+
+            await _sender.Send(command, cancellationToken);
+
+            return NoContent();
+        }
+
+        [HttpDelete("remove-profile-picture")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> RemoveProfilePicture(CancellationToken cancellationToken)
+        {
+            var userId = this.GetUserId();
+            var command = _userCommandFactory.CreateRemoveProfilePictureCommand(userId);
+            await _sender.Send(command, cancellationToken);
+
+            return NoContent();
+        }
+
+        [HttpPost("verify-email")]
+        [ProducesResponseType<UserEmailResponseDTO>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> VerifyEmail(VerifyEmailRequestDTO verifyEmailRequestDTO, CancellationToken cancellationToken)
+        {
+            var command = _mapper.Map<VerifyEmailCommand>(verifyEmailRequestDTO);
+            var result = await _sender.Send(command, cancellationToken);
+            var dto = _mapper.Map<UserEmailResponseDTO>(result);
+
+            return Ok(dto);
+        }
+
+
+        [HttpPost("request-user-deletion")]
+        [AuthorizeUserScope]
+        [ProducesResponseType<UserEmailResponseDTO>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> RequestUserDeletion(RequestUserDeletionRequestDTO requestUserDeletionDTO, CancellationToken cancellationToken)
+        {
+            var userId = this.GetUserId();
+            var command = _mapper.Map<RequestUserDeletionCommand>((requestUserDeletionDTO, userId));
+            var result = await _sender.Send(command, cancellationToken);
+            var dto = _mapper.Map<UserEmailResponseDTO>(result);
+
+            return Ok(dto);
+        }
+
+        [HttpDelete("delete-user")]
+        [AuthorizeUserScope]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> DeleteUser(DeleteUserRequestDTO deleteUserRequestDTO, CancellationToken cancellationToken)
+        {
+            var command = _mapper.Map<DeleteUserCommand>(deleteUserRequestDTO);
+            await _sender.Send(command, cancellationToken);
 
             return NoContent();
         }

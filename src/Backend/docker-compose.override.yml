@@ -1,0 +1,44 @@
+version: '3.4'
+
+services:
+    api.accounts:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_HTTP_PORTS=8080
+            - ASPNETCORE_HTTPS_PORTS=8081
+        ports:
+            - 8080:8080
+            - 8081:8081
+    api.gateway:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_HTTP_PORTS=8040
+            - ASPNETCORE_HTTPS_PORTS=8041
+        ports:
+            - 8040:8040
+            - 8041:8041
+
+    api.filestorage:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_HTTP_PORTS=8030
+            - ASPNETCORE_HTTPS_PORTS=8031
+        ports:
+            - 8030:8030
+            - 8031:8031
+
+    api.admin:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_HTTP_PORTS=8010
+            - ASPNETCORE_HTTPS_PORTS=8011
+        ports:
+            - 8010:8010
+            - 8011:8011
+
+    redis:
+        ports:
+            - 6379:6379
+    sqlServer:
+        ports:
+            - 9000:1433

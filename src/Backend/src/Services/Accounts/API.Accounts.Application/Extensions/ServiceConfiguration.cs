@@ -4,23 +4,66 @@ using API.Accounts.Application.Features.Roles.Seeders;
 using API.Accounts.Application.Features.Users.AuthToken.Issuer;
 using API.Accounts.Application.Features.Users.AuthToken.Validators;
 using API.Accounts.Application.Features.Users.Factories;
+using API.Accounts.Application.Features.Users.Jobs;
 using API.Accounts.Application.Features.Users.LoginChecksChain;
+using API.Accounts.Application.Features.Users.Models;
 using API.Accounts.Application.Features.Users.Options;
 using API.Accounts.Application.Features.Users.PasswordManager;
+using API.Accounts.Application.Features.Users.SagaMachines;
+using API.Accounts.Application.Features.Users.SagaMachines.UserSoftDeleteMachine;
 using API.Accounts.Application.Features.Users.Seeders;
+using API.Accounts.Application.Features.Users.UrlFileResponseTransforms;
+using API.Accounts.Domain.SagaMachineDatas;
+using API.Accounts.Infrastructure;
 using API.Shared.Application.Extensions;
+using API.Shared.Common.MediatorResponse;
+using API.Shared.Infrastructure.Extensions;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Quartz;
 
 namespace API.Accounts.Application.Extensions
 {
     public static class ServiceConfiguration
     {
-        public static IServiceCollection AddAccountsApplicationLayer(this IServiceCollection services)
+        public static IServiceCollection AddAccountsApplicationLayer(this IServiceCollection services, IConfiguration configuration)
         {
             services
                 .AddDatabaseSeeder<DatabaseSeeder>()
                 .AddFluentValidators()
-                .AddMapper();
+                .AddMapper()
+                .AddQuartzCronJobs(cfg =>
+                {
+                    cfg.AddInternalOutboxProcessorJob<AccountsDbContext>();
+
+                    var eraseUserJobKey = JobKey.Create("EraseUsersJob");
+
+                    cfg.AddJob<EraseUsersJob>(eraseUserJobKey)
+                        .AddTrigger(trigger 
+                            => trigger
+                                .ForJob(eraseUserJobKey)
+                                .StartAt(DateBuilder.FutureDate(10, IntervalUnit.Second))
+                                .WithSimpleSchedule(s => s.WithIntervalInSeconds(10).RepeatForever()));
+
+                    var tokenCleanupJobKey = JobKey.Create("TokenCleanupJob");
+
+                    cfg.AddJob<TokenCleanupJob>(tokenCleanupJobKey)
+                        .AddTrigger(trigger
+                            => trigger
+                                .ForJob(tokenCleanupJobKey)
+                                .StartAt(DateBuilder.FutureDate(22, IntervalUnit.Second))
+                                .WithSimpleSchedule(s => s.WithIntervalInMinutes(1).RepeatForever()));
+                })
+                .AddMassTransitRabbitMq(
+                    configuration, 
+                    typeof(ServiceConfiguration).Assembly,
+                    cfg =>
+                    {
+                        cfg.AddTransactionalOutbox<AccountsDbContext>();
+
+                        cfg.ConfigureSagaStateMachine<UserSoftDeletionMachine, UserSoftDeleteSagaData, AccountsDbContext>();
+                        cfg.ConfigureSagaStateMachine<EraseUserStateMachine, EraseUserSagaData, AccountsDbContext>();
+                    });
 
             services
                 .AddRoles()
@@ -52,10 +95,13 @@ namespace API.Accounts.Application.Extensions
 
             services.AddTransient<IViewModelFactory, ViewModelFactory>();
             services.AddTransient<IUserQueryFactory, UserQueryFactory>();
+            services.AddTransient<IUserCommandFactory, UserCommandFactory>();
             services.AddTransient<ISessionQueryFactory, SessionQueryFactory>();
             services.AddTransient<ISessionCommandFactory, SessionCommandFactory>();
 
             services.AddTransient<IUserSeeder, UserSeeder>();
+
+            services.AddTransient<IMediatorResponseInterceptor<UserViewModel>, UserViewModelTransform>();
 
             return services;
         }

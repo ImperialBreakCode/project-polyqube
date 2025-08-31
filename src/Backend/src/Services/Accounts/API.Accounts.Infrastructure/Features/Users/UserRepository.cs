@@ -19,9 +19,9 @@ namespace API.Accounts.Infrastructure.Features.Users
             _context = context;
         }
 
-        public User? GetUserByEmail(string email, bool isDeleted = default)
+        public User? GetUserByEmail(string email, bool includeDeleted = default)
         {
-            if (isDeleted)
+            if (includeDeleted)
             {
                 return DbSet.FirstOrDefault(x => x.Emails.Any(em => em.Email == email));
             }
@@ -29,14 +29,26 @@ namespace API.Accounts.Infrastructure.Features.Users
             return DbSet.FirstOrDefault(x => x.Emails.Any(em => em.Email == email) && x.DeletedAt == null);
         }
 
-        public User? GetUserByUsername(string username, bool isDeleted = default)
+        public User? GetUserByUsername(string username, bool includeDeleted = default)
         {
-            if (isDeleted)
+            if (includeDeleted)
             {
                 return DbSet.FirstOrDefault(x => x.Username == username);
             }
 
             return DbSet.FirstOrDefault(x => x.Username == username && x.DeletedAt == null);
+        }
+
+        public async Task<ICollection<string>> GetUserIdsForDeletion(TimeSpan softDeletionAge)
+        {
+            var cutoff = DateTime.UtcNow - softDeletionAge;
+
+            return await DbSet
+                .AsNoTracking()
+                .Where(x => x.DeletedAt != null && x.DeletedAt < cutoff)
+                .Take(10)
+                .Select(x => x.Id)
+                .ToListAsync();
         }
 
         public override void Insert(User entity)
@@ -94,6 +106,16 @@ namespace API.Accounts.Infrastructure.Features.Users
             }
 
             _context.UserRoles.Add(UserRole.Create(userId, roleId));
+        }
+
+        public async Task<bool> ConcurrencySystemLock(string userId, CancellationToken cancellationToken = default)
+        {
+            var affected = await _context.Users
+                .Where(u => u.Id == userId && u.SystemLock == false)
+                .ExecuteUpdateAsync(setters 
+                    => setters.SetProperty(u => u.SystemLock, u => true), cancellationToken);
+
+            return affected == 1;
         }
     }
 }

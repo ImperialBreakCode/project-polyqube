@@ -1,13 +1,8 @@
-﻿using API.Shared.Common.Exceptions;
+﻿using API.Shared.Common.Exceptions.Accounts;
 
 namespace API.Accounts.Common.Features.Users.Exceptions
 {
-    public class UserNotFoundException : NotFoundException
+    public class UserNotFoundException : AccountNotFoundException
     {
-        private const string MESSAGE = "User not found";
-
-        public UserNotFoundException() : base(MESSAGE)
-        {
-        }
     }
 }

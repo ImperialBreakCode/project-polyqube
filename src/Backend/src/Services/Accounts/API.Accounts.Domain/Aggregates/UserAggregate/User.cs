@@ -1,5 +1,6 @@
-﻿using API.Shared.Domain.Base;
-using API.Accounts.Common.Features.Users.EmailExceptions;
+﻿using API.Accounts.Common.Features.Users.EmailExceptions;
+using API.Accounts.Domain.Aggregates.UserAggregate.DomainEvents;
+using API.Shared.Domain.Base;
 
 namespace API.Accounts.Domain.Aggregates.UserAggregate
 {
@@ -12,6 +13,8 @@ namespace API.Accounts.Domain.Aggregates.UserAggregate
             _emails = new List<UserEmail>();
             Username = username;
             PasswordHash = passwordHash;
+
+            RaiseDomainEvent(new UserCreatedDomainEvent(Id));
         }
 
         public string Username { get; internal set; }

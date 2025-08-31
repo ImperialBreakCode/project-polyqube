@@ -1,0 +1,39 @@
+version: '3.4'
+
+services:
+    api.accounts:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Production
+            - ASPNETCORE_HTTP_PORTS=8080
+            - ASPNETCORE_URLS=http://+:8080
+        expose:
+            - "8080"
+    api.gateway:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Production
+            - ASPNETCORE_URLS=http://+:8040
+            - ASPNETCORE_HTTP_PORTS=8040
+        ports:
+            - 8040:8040
+    api.filestorage:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Production
+            - ASPNETCORE_HTTP_PORTS=8030
+            - ASPNETCORE_URLS=http://+:8030
+        expose:
+            - "8030"
+
+    api.admin:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Production
+            - ASPNETCORE_HTTP_PORTS=8010
+            - ASPNETCORE_URLS=http://+:8010
+        expose:
+            - "8010"
+
+    redis:
+        expose:
+            - "6379"
+    sqlServer:
+        expose:
+            - "1433"

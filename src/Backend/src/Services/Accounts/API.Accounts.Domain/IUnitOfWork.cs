@@ -1,4 +1,5 @@
-﻿using API.Accounts.Domain.Repositories;
+﻿using API.Accounts.Domain.Aggregates;
+using API.Accounts.Domain.Repositories;
 using API.Shared.Domain.Interfaces;
 
 namespace API.Accounts.Domain
@@ -7,5 +8,7 @@ namespace API.Accounts.Domain
     {
         IUserRepository UserRepository { get; }
         IRoleRepository RoleRepository { get; }
+        IGenericTokenRepository<UserDeletionToken> UserDeletionTokenRepository { get; }
+        IGenericTokenRepository<EmailVerificationToken> EmailVerificationToken { get; }
     }
 }

@@ -4,7 +4,7 @@ using API.Accounts.Domain.Factories;
 using API.Accounts.Domain.Repositories;
 using API.Accounts.Infrastructure.Factories;
 using API.Accounts.Infrastructure.Features.Sessions;
-using API.Shared.Domain.Interfaces;
+using API.Shared.Domain.Interfaces.CacheRepo;
 using API.Shared.Infrastructure.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,8 +17,10 @@ namespace API.Accounts.Infrastructure.Extensions
         {
             services
                 .AddDatabase<AccountsDbContext>(configuration)
+                .AddReadOnlyFilePathCache()
                 .AddMediatRServices()
-                .AddReddisServices(configuration);
+                .AddReddisServices(configuration)
+                .AddMongoDbOptions();
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IRepositoryFactory, RepositoryFactory>();

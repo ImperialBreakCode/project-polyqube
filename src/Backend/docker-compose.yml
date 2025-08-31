@@ -1,0 +1,227 @@
+version: '3.4'
+
+services:
+    api.accounts:
+        environment:
+            - AuthValidationOptions__Authority=http://api.accounts:8080
+            - CorsOptions__AllowedOrigins__0=http://localhost:8040
+            - CorsOptions__AllowedOrigins__1=http://api.gateway:8040
+            - RedisOptions__RedisHost=redis:6379
+            - DatabaseOptions__ConnectionString=Server=sqlServer,1433;Database=PolyqubeAccounts;User Id=sa;Password=${DB_PASSWORD};TrustServerCertificate=True;
+            - SagasDbOptions__ConnectionString=Server=sqlServer,1433;Database=PolyQubeAccountSagas;User Id=sa;Password=${DB_PASSWORD};TrustServerCertificate=True;
+            - RabbitMqOptions__Host=rabbitmq
+            - RabbitMqOptions__Username=${RABBITMQ_DEFAULT_USER}
+            - RabbitMqOptions__Password=${RABBITMQ_DEFAULT_PASS}
+            - MongoDbOptions__ConnectionString=mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@mongo:27017/
+            - TelemetryOptions__TempoEndpoint=http://grafana:4317
+            - TelemetryOptions__MetricsEndpoint=http://grafana:4317
+            - Serilog__WriteTo__1__Args__Endpoint=http://grafana:4317
+        depends_on:
+            - redis
+            - sqlServer
+            - rabbitmq
+            - mongo
+        networks:
+            - polyqube
+        image: ${DOCKER_REGISTRY-}apiaccounts
+        build:
+            context: .
+            dockerfile: src/Services/Accounts/API.Accounts/Dockerfile
+
+    api.gateway:
+        environment:
+            - ReverseProxy__Clusters__AccountsCluser__Destinations__destination1__Address=http://api.accounts:8080
+            - ReverseProxy__Clusters__AdminCluser__Destinations__destination1__Address=http://api.admin:8010
+            - TelemetryOptions__TempoEndpoint=http://grafana:4317
+            - TelemetryOptions__MetricsEndpoint=http://grafana:4317
+            - Serilog__WriteTo__1__Args__Endpoint=http://grafana:4317
+        networks:
+            - polyqube
+        image: ${DOCKER_REGISTRY-}apigateway
+        build:
+            context: .
+            dockerfile: src/Gateways/MainGateway/API.Gateway/Dockerfile
+
+    api.filestorage:
+        environment:
+            - RedisOptions__RedisHost=redis:6379
+            - MinioOptions__Endpoint=minio:9000
+            - MinioOptions__AccessKey=${MINIO_ROOT_USER}
+            - MinioOptions__SecretKey=${MINIO_ROOT_PASSWORD}
+            - RabbitMqOptions__Host=rabbitmq
+            - RabbitMqOptions__Username=${RABBITMQ_DEFAULT_USER}
+            - RabbitMqOptions__Password=${RABBITMQ_DEFAULT_PASS}
+            - MongoDbOptions__ConnectionString=mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@mongo:27017/
+            - TelemetryOptions__TempoEndpoint=http://grafana:4317
+            - TelemetryOptions__MetricsEndpoint=http://grafana:4317
+            - Serilog__WriteTo__1__Args__Endpoint=http://grafana:4317
+        depends_on:
+            - redis
+            - rabbitmq
+            - mongo
+        networks:
+            - polyqube
+        image: ${DOCKER_REGISTRY-}apifilestorage
+        build:
+            context: .
+            dockerfile: src/Services/FileStorage/API.FileStorage/Dockerfile
+
+    api.admin:
+        environment:
+            - DatabaseOptions__ConnectionString=Server=sqlServer,1433;Database=PolyqubeAdmin;User Id=sa;Password=${DB_PASSWORD};TrustServerCertificate=True;
+            - TelemetryOptions__TempoEndpoint=http://grafana:4317
+            - TelemetryOptions__MetricsEndpoint=http://grafana:4317
+            - Serilog__WriteTo__1__Args__Endpoint=http://grafana:4317
+            - MongoDbOptions__ConnectionString=mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@mongo:27017/
+            - RabbitMqOptions__Host=rabbitmq
+            - RabbitMqOptions__Username=${RABBITMQ_DEFAULT_USER}
+            - RabbitMqOptions__Password=${RABBITMQ_DEFAULT_PASS}
+            - AuthValidationOptions__Authority=http://api.accounts:8080
+            - EmailSenderOptions__EmailUsername=${EMAIL_USERNAME}
+            - EmailSenderOptions__EmailPassword=${EMAIL_PASSWORD}
+        image: ${DOCKER_REGISTRY-}apiadmin
+        networks:
+            - polyqube
+        depends_on:
+            - sqlServer
+        build:
+            context: .
+            dockerfile: src/Services/Admin/API.Admin/Dockerfile
+
+    redis:
+        networks:
+            - polyqube
+        container_name: "Redis"
+        image: redis:7.4.2-alpine
+        volumes:
+            - redisData:/data
+    
+    redisinsight:
+        networks:
+            - polyqube
+        container_name: "RedisInsight"
+        image: redis/redisinsight:latest
+        ports:
+            - 5540:5540
+        volumes:
+            - redisinsightData:/data
+    
+    sqlServer:
+        networks:
+            - polyqube
+        container_name: "SqlServer"
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        environment:
+            - ACCEPT_EULA=Y
+            - SA_PASSWORD=${DB_PASSWORD}
+            - MSSQL_PID=Developer
+        volumes:
+            - sqlServerData:/var/opt/mssql
+
+    grafana:
+        networks:
+            - polyqube
+        container_name: "Grafana"
+        image: grafana/otel-lgtm
+        ports:
+            - 9090:9090
+            - 9010:3000
+        expose:
+            - "4317"
+            - "4318"
+        volumes:
+            - grafanaData:/data
+            #- ./config/prometheus.yaml:/otel-lgtm/prometheus.yaml:ro
+            - ./config/loki-config.yaml:/otel-lgtm/loki-config.yaml:ro
+        depends_on:
+            - api.accounts
+            - api.gateway
+
+    minio:
+        networks:
+            - polyqube
+        container_name: "Minio"
+        image: minio/minio:latest
+        ports:
+            - 9101:9001
+        expose:
+            - "9000"
+        volumes:
+            - minioData:/data
+        environment:
+            MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+            MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+        command: server /data --console-address ":9001"
+
+    rabbitmq:
+        networks:
+            - polyqube
+        container_name: "RabbitMQ"
+        image: rabbitmq:4-management-alpine
+        ports:
+            - 15672:15672
+        expose:
+            - "5672"
+        environment:
+            RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+            RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+        volumes:
+            - rabbitmqData:/var/lib/rabbitmq
+
+    mongo:
+        image: mongo
+        container_name: "MongoDB"
+        networks:
+            - polyqube
+        restart: always
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USERNAME}
+            MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
+        volumes:
+            - mongoDataDb:/data/db
+            - mongoDataConfig:/data/configdb
+        expose:
+            - "27017"
+
+    mongo-express:
+        image: mongo-express
+        networks:
+            - polyqube
+        container_name: "MongoExpress"
+        restart: always
+        ports:
+            - 8181:8081
+        environment:
+            ME_CONFIG_MONGODB_ADMINUSERNAME: root
+            ME_CONFIG_MONGODB_ADMINPASSWORD: root
+            ME_CONFIG_MONGODB_URL: mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@mongo:27017/
+            ME_CONFIG_BASICAUTH: false
+
+    proxy:
+        image: 'jc21/nginx-proxy-manager:latest'
+        restart: unless-stopped
+        container_name: 'Proxy'
+        networks:
+            - polyqube
+        ports:
+            - '80:80'
+            - '81:81'
+            - '443:443'
+        volumes:
+            - proxyData:/data
+            - proxyLetEncrypt:/etc/letsencrypt
+
+networks:
+    polyqube:
+volumes:
+    redisData:
+    redisinsightData:
+    sqlServerData:
+    grafanaData:
+    minioData:
+    rabbitmqData:
+    mongoDataDb:
+    mongoDataConfig:
+    proxyData:
+    proxyLetEncrypt:
+

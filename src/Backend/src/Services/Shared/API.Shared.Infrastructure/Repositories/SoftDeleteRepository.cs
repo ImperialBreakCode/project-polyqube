@@ -11,9 +11,9 @@ namespace API.Shared.Infrastructure.Repositories
         {
         }
 
-        public TEntity? GetActiveEntityById(int id)
+        public TEntity? GetActiveEntityById(string id)
         {
-            return DbSet.FirstOrDefault(x => x.Id == x.Id && x.DeletedAt == null);
+            return DbSet.FirstOrDefault(x => x.Id == id && x.DeletedAt == null);
         }
     }
 }

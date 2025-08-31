@@ -20,8 +20,8 @@ namespace API.Accounts.Application.Features.Users.Queries.GetUserById
 
         public Task<UserViewModel> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
         {
-            var user = _userRepository.GetById(request.Id);
-            if (user is null || user.DeletedAt is not null)
+            var user = _userRepository.GetActiveEntityById(request.Id);
+            if (user is null)
             {
                 throw new UserNotFoundException();
             }

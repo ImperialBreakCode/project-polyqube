@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="14.0.0" />
     <PackageReference Include="JWT" Version="11.0.0" />
+    <PackageReference Include="MassTransit.MongoDb" Version="8.4.0" />
   </ItemGroup>
 
   <ItemGroup>

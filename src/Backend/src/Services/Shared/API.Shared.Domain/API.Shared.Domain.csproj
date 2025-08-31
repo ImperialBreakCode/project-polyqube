@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MassTransit.EntityFrameworkCore" Version="8.4.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.1" />
+    <PackageReference Include="MongoDB.Driver" Version="3.4.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\API.Shared.Common\API.Shared.Common.csproj" />
   </ItemGroup>
 
