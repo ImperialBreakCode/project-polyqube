@@ -1,12 +1,11 @@
 ﻿using API.Accounts.Domain.Aggregates;
 using API.Accounts.Domain.Repositories;
-using API.Shared.Domain.Interfaces.Repo;
 using API.Shared.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Accounts.Infrastructure.Features.UserDeletionTokens
 {
-    internal class UserDeletionTokenRepository : Repository<UserDeletionToken>, IUserDeletionTokenRepository
+    internal class UserDeletionTokenRepository : Repository<UserDeletionToken>, IGenericTokenRepository<UserDeletionToken>
     {
         public UserDeletionTokenRepository(DbSet<UserDeletionToken> dbSet) : base(dbSet)
         {

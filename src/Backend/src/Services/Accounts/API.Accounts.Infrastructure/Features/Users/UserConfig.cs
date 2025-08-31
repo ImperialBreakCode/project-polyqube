@@ -11,6 +11,10 @@ namespace API.Accounts.Infrastructure.Features.Users
         {
             builder.ToTable("users");
 
+            builder
+                .HasIndex(u => u.Username)
+                .IsUnique();
+
             builder.OwnsOne(u => u.UserDetails, ownedBuilder =>
             {
                 ownedBuilder.ToTable("user_details");
@@ -32,8 +36,10 @@ namespace API.Accounts.Infrastructure.Features.Users
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder
-                .HasIndex(u => u.Username)
-                .IsUnique();
+                .HasMany<EmailVerificationToken>()
+                .WithOne(x => x.User)
+                .HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

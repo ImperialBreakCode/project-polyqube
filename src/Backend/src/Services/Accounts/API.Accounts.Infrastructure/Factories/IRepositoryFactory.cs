@@ -1,4 +1,5 @@
-﻿using API.Accounts.Domain.Repositories;
+﻿using API.Accounts.Domain.Aggregates;
+using API.Accounts.Domain.Repositories;
 
 namespace API.Accounts.Infrastructure.Factories
 {
@@ -6,6 +7,7 @@ namespace API.Accounts.Infrastructure.Factories
     {
         IUserRepository CreateUserRepository(AccountsDbContext dbContext);
         IRoleRepository CreateRoleRepository(AccountsDbContext dbContext);
-        IUserDeletionTokenRepository CreateUserDeletionTokenRepository(AccountsDbContext dbContext);
+        IGenericTokenRepository<UserDeletionToken> CreateUserDeletionTokenRepository(AccountsDbContext dbContext);
+        IGenericTokenRepository<EmailVerificationToken> CreateEmailVerificationTokenRepository(AccountsDbContext dbContext);
     }
 }
