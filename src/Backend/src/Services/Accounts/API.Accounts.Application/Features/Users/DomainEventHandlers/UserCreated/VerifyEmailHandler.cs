@@ -1,6 +1,6 @@
 ﻿using API.Accounts.Domain;
 using API.Accounts.Domain.Aggregates.UserAggregate.DomainEvents;
-using API.Shared.Application.Contracts.Accounts.Commands;
+using API.Shared.Application.Contracts.Emails.Commands;
 using MassTransit;
 using MediatR;
 

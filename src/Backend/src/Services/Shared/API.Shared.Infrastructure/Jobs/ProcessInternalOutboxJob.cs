@@ -42,11 +42,21 @@ namespace API.Shared.Infrastructure.Jobs
                     continue;
                 }
 
-                var success = await ProcessDomainEvent(JsonConvert.DeserializeObject<IDomainEvent>(message.Content)!);
+                var domainEvent = JsonConvert.DeserializeObject<IDomainEvent>(message.Content, new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.All
+                })!;
+
+                var success = await ProcessDomainEvent(domainEvent);
 
                 if (success)
                 {
                     _internalOutboxEntities.Remove(message);
+                }
+                else
+                {
+                    message.LockId = null;
+                    _internalOutboxEntities.Update(message);
                 }
             }
 

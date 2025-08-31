@@ -20,7 +20,8 @@ namespace API.Admin.Application.Features.Emails.EmailMessageGenerator
             {
                 From = new MailAddress(emailSender),
                 Subject = "Verify your email",
-                Body = VerifyEmailEmailTemplate.GetTemplate(_optionsMonitor.CurrentValue.EmailVerificationLink + verificationToken)
+                Body = VerifyEmailEmailTemplate.GetTemplate(_optionsMonitor.CurrentValue.EmailVerificationLink + verificationToken),
+                IsBodyHtml = true
             };
         }
 
