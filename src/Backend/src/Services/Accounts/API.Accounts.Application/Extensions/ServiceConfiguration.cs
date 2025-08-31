@@ -36,14 +36,23 @@ namespace API.Accounts.Application.Extensions
                 {
                     cfg.AddInternalOutboxProcessorJob<AccountsDbContext>();
 
-                    var jobKey = JobKey.Create("EraseUsersJob");
+                    var eraseUserJobKey = JobKey.Create("EraseUsersJob");
 
-                    cfg.AddJob<EraseUsersJob>(jobKey)
+                    cfg.AddJob<EraseUsersJob>(eraseUserJobKey)
                         .AddTrigger(trigger 
                             => trigger
-                                .ForJob(jobKey)
+                                .ForJob(eraseUserJobKey)
                                 .StartAt(DateBuilder.FutureDate(10, IntervalUnit.Second))
                                 .WithSimpleSchedule(s => s.WithIntervalInSeconds(10).RepeatForever()));
+
+                    var tokenCleanupJobKey = JobKey.Create("TokenCleanupJob");
+
+                    cfg.AddJob<TokenCleanupJob>(tokenCleanupJobKey)
+                        .AddTrigger(trigger
+                            => trigger
+                                .ForJob(tokenCleanupJobKey)
+                                .StartAt(DateBuilder.FutureDate(22, IntervalUnit.Second))
+                                .WithSimpleSchedule(s => s.WithIntervalInMinutes(1).RepeatForever()));
                 })
                 .AddMassTransitRabbitMq(
                     configuration, 

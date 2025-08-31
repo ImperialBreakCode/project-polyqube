@@ -169,7 +169,7 @@ namespace API.Accounts.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "email-verification-tokens",
+                name: "email_verification_tokens",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -181,9 +181,9 @@ namespace API.Accounts.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_email-verification-tokens", x => x.Id);
+                    table.PrimaryKey("PK_email_verification_tokens", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_email-verification-tokens_users_UserId",
+                        name: "FK_email_verification_tokens_users_UserId",
                         column: x => x.UserId,
                         principalTable: "users",
                         principalColumn: "Id",
@@ -284,14 +284,14 @@ namespace API.Accounts.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_email-verification-tokens_Token",
-                table: "email-verification-tokens",
+                name: "IX_email_verification_tokens_Token",
+                table: "email_verification_tokens",
                 column: "Token",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_email-verification-tokens_UserId",
-                table: "email-verification-tokens",
+                name: "IX_email_verification_tokens_UserId",
+                table: "email_verification_tokens",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -391,7 +391,7 @@ namespace API.Accounts.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "email-verification-tokens");
+                name: "email_verification_tokens");
 
             migrationBuilder.DropTable(
                 name: "erase_user_sagas");

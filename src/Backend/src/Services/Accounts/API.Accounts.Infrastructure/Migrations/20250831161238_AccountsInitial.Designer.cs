@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Accounts.Infrastructure.Migrations
 {
     [DbContext(typeof(AccountsDbContext))]
-    [Migration("20250831145027_AccountsInitial")]
+    [Migration("20250831161238_AccountsInitial")]
     partial class AccountsInitial
     {
         /// <inheritdoc />
@@ -55,7 +55,7 @@ namespace API.Accounts.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("email-verification-tokens", (string)null);
+                    b.ToTable("email_verification_tokens", (string)null);
                 });
 
             modelBuilder.Entity("API.Accounts.Domain.Aggregates.Role", b =>

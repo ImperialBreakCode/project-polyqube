@@ -7,5 +7,6 @@ namespace API.Accounts.Domain.Repositories
         where TTokenEntity : BaseCreatedAtEntity
     {
         Task<TTokenEntity?> GetTokenByTokenValueAsync(string tokenValue);
+        Task RemoveExpiredTokens();
     }
 }

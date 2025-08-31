@@ -52,7 +52,7 @@ namespace API.Accounts.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("email-verification-tokens", (string)null);
+                    b.ToTable("email_verification_tokens", (string)null);
                 });
 
             modelBuilder.Entity("API.Accounts.Domain.Aggregates.Role", b =>

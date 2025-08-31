@@ -8,7 +8,7 @@ namespace API.Accounts.Infrastructure.Features.EmailVerificationTokens
     {
         public void Configure(EntityTypeBuilder<EmailVerificationToken> builder)
         {
-            builder.ToTable("email-verification-tokens");
+            builder.ToTable("email_verification_tokens");
 
             builder
                 .HasIndex(x => x.Token)
