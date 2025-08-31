@@ -1,4 +1,5 @@
 ﻿using API.Accounts.Domain;
+using API.Accounts.Domain.Aggregates;
 using API.Accounts.Domain.Aggregates.UserAggregate.DomainEvents;
 using API.Shared.Application.Contracts.Emails.Commands;
 using MassTransit;
@@ -19,8 +20,6 @@ namespace API.Accounts.Application.Features.Users.DomainEventHandlers.UserCreate
 
         public async Task Handle(UserCreatedDomainEvent notification, CancellationToken cancellationToken)
         {
-            // TODO: create and save token
-
             var user = _unitOfWork.UserRepository.GetActiveEntityById(notification.UserId);
 
             if (user is null)
@@ -29,9 +28,12 @@ namespace API.Accounts.Application.Features.Users.DomainEventHandlers.UserCreate
             }
 
             var email = user.Emails.First(x => x.IsPrimary).Email;
-            var testToken = "sometoken";
+            var token = EmailVerificationToken.Create(user, email);
 
-            await _endpoint.Publish(new SendEmailVerification(email, testToken));
+            _unitOfWork.EmailVerificationToken.Insert(token);
+            _unitOfWork.Save();
+
+            await _endpoint.Publish(new SendEmailVerification(email, token.Token), cancellationToken);
         }
     }
 }

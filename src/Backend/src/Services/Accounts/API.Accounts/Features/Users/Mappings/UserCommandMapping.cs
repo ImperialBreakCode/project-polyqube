@@ -30,6 +30,7 @@ namespace API.Accounts.Features.Users.Mappings
             CreateMap<(RequestUserDeletionRequestDTO, string), RequestUserDeletionCommand>()
                 .ConstructUsing(x => new(x.Item2, x.Item1.Password));
 
+            CreateMap<VerifyEmailRequestDTO, VerifyEmailRequestDTO>();
             CreateMap<DeleteUserRequestDTO, DeleteUserCommand>();
         }
     }
