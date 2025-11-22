@@ -1,5 +1,5 @@
 /**
- * @type {import("prettier").default.Options}
+ * @type {import("prettier").Options}
  */
 export const config = {
 	semi: true,

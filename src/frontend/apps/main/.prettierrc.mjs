@@ -1,8 +1,10 @@
-import { nextConfig } from "@repo/prettier-config/next";
+import { nextConfig } from '@repo/prettier-config/next';
 
 /**
- * @type {import("prettier").default.Options}
+ * @type {import("prettier").Options}
  */
-export const config = {
-  ...nextConfig,
+const config = {
+	...nextConfig,
 };
+
+export default config;
