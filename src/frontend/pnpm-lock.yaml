@@ -52,7 +52,7 @@ importers:
         specifier: ^19
         version: 19.2.2(@types/react@19.2.2)
       eslint:
-        specifier: ^9
+        specifier: ^9.39.1
         version: 9.39.1(jiti@2.6.1)
       eslint-config-next:
         specifier: 16.0.3
@@ -64,7 +64,7 @@ importers:
         specifier: ^4
         version: 4.1.17
       typescript:
-        specifier: ^5
+        specifier: ^5.9.2
         version: 5.9.2
 
   apps/web:
@@ -116,7 +116,7 @@ importers:
         specifier: ^4
         version: 4.1.17
       typescript:
-        specifier: ^5
+        specifier: ^5.9.2
         version: 5.9.2
 
   packages/eslint-config:
@@ -221,7 +221,7 @@ importers:
         specifier: ^4
         version: 4.1.17
       typescript:
-        specifier: ^5
+        specifier: ^5.9.2
         version: 5.9.2
 
 packages:
