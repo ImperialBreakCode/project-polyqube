@@ -6,7 +6,8 @@
 		"./postcss.config.mjs": "./postcss.config.mjs",
 		"./globals.css": "./src/styles/globals.css",
 		"./core": "./src/components/index.ts",
-		"./components/*": "./src/components/*"
+		"./components/*": "./src/components/*.tsx",
+		"./lib/*": "./src/lib/*.ts"
 	},
 	"scripts": {
 		"lint": "eslint . --max-warnings 0",
