@@ -1,0 +1,17 @@
+node_modules
+.next
+.turbo
+.husky
+coverage
+.prettierignore
+.stylelintignore
+.eslintignore
+.gitignore
+stories
+storybook-static
+*.log
+playwright-report
+.nyc_output
+test-results
+junit.xml
+docs
