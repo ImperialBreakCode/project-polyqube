@@ -1,1 +1,9 @@
 @import '@repo/ui/globals.css';
+
+.font-urbanist {
+	font-family: var(--font-urbanist), sans-serif;
+}
+
+.font-merriweather {
+	font-family: var(--font-merriweather), serif;
+}
