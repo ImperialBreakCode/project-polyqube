@@ -25,25 +25,23 @@ function LandingLayout({ children }: { children: ReactNode }) {
 								alt='polyqube logo'
 							/>
 						</div>
-						<div>
-							<NavigationMenuList className='space-x-20'>
-								<NavigationMenuItem>
-									<NavigationMenuLink asChild>
-										<Link href={'#'}>menu 1</Link>
-									</NavigationMenuLink>
-								</NavigationMenuItem>
-								<NavigationMenuItem>
-									<NavigationMenuLink asChild>
-										<Link href={'#'}>menu 2</Link>
-									</NavigationMenuLink>
-								</NavigationMenuItem>
-								<NavigationMenuItem>
-									<NavigationMenuLink asChild>
-										<Link href={'#'}>menu 3</Link>
-									</NavigationMenuLink>
-								</NavigationMenuItem>
-							</NavigationMenuList>
-						</div>
+						<NavigationMenuList className='space-x-20'>
+							<NavigationMenuItem>
+								<NavigationMenuLink asChild>
+									<Link href={'#'}>menu 1</Link>
+								</NavigationMenuLink>
+							</NavigationMenuItem>
+							<NavigationMenuItem>
+								<NavigationMenuLink asChild>
+									<Link href={'#'}>menu 2</Link>
+								</NavigationMenuLink>
+							</NavigationMenuItem>
+							<NavigationMenuItem>
+								<NavigationMenuLink asChild>
+									<Link href={'#'}>menu 3</Link>
+								</NavigationMenuLink>
+							</NavigationMenuItem>
+						</NavigationMenuList>
 					</NavigationMenu>
 				</div>
 			</header>
