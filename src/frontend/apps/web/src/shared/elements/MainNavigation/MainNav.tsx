@@ -11,7 +11,7 @@ import MainNavLink from './MainNavLink';
 
 const MainNav = () => {
 	return (
-		<NavigationMenu className='m-10 w-[70vw] justify-between rounded-full bg-[#68686892] p-5'>
+		<NavigationMenu className='m-10 w-[70vw] justify-between rounded-full bg-[#5050508e] p-5 backdrop-blur-lg'>
 			<div className='ms-5 me-10'>
 				<Image
 					width={20}
@@ -23,20 +23,25 @@ const MainNav = () => {
 			<div className='w-full'>
 				<NavigationMenuList className='space-x-3'>
 					<NavigationMenuItem>
-						<MainNavLink href={'#'}>Menu 1</MainNavLink>
+						<MainNavLink href={'#'}>Home</MainNavLink>
 					</NavigationMenuItem>
 					<NavigationMenuItem>
-						<MainNavLink href={'#'}>Menu 2</MainNavLink>
+						<MainNavLink href={'#'}>Services</MainNavLink>
 					</NavigationMenuItem>
 					<NavigationMenuItem>
-						<MainNavLink href={'#'}>Menu 3</MainNavLink>
+						<MainNavLink href={'#'}>About</MainNavLink>
 					</NavigationMenuItem>
 
 					<NavigationMenuItem className='ms-auto'>
 						<MainNavLink href={'#'}>Login</MainNavLink>
 					</NavigationMenuItem>
 					<NavigationMenuItem>
-						<MainNavLink href={'#'}>Join</MainNavLink>
+						<MainNavLink
+							className='bg-[#dcdcdc] font-medium text-black'
+							href={'#'}
+						>
+							Join
+						</MainNavLink>
 					</NavigationMenuItem>
 				</NavigationMenuList>
 			</div>
