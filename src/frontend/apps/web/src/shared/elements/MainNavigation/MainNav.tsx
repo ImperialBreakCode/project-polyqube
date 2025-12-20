@@ -11,26 +11,35 @@ import MainNavLink from './MainNavLink';
 
 const MainNav = () => {
 	return (
-		<NavigationMenu className='m-10'>
-			<div className='me-30'>
+		<NavigationMenu className='m-10 w-[70vw] justify-between rounded-full bg-[#68686892] p-5'>
+			<div className='ms-5 me-10'>
 				<Image
-					width={30}
-					height={30}
+					width={20}
+					height={20}
 					src={logoSVG}
 					alt='polyqube logo'
 				/>
 			</div>
-			<NavigationMenuList className='space-x-15'>
-				<NavigationMenuItem>
-					<MainNavLink href={'#'}>Menu 1</MainNavLink>
-				</NavigationMenuItem>
-				<NavigationMenuItem>
-					<MainNavLink href={'#'}>Menu 2</MainNavLink>
-				</NavigationMenuItem>
-				<NavigationMenuItem>
-					<MainNavLink href={'#'}>Menu 3</MainNavLink>
-				</NavigationMenuItem>
-			</NavigationMenuList>
+			<div className='w-full'>
+				<NavigationMenuList className='space-x-3'>
+					<NavigationMenuItem>
+						<MainNavLink href={'#'}>Menu 1</MainNavLink>
+					</NavigationMenuItem>
+					<NavigationMenuItem>
+						<MainNavLink href={'#'}>Menu 2</MainNavLink>
+					</NavigationMenuItem>
+					<NavigationMenuItem>
+						<MainNavLink href={'#'}>Menu 3</MainNavLink>
+					</NavigationMenuItem>
+
+					<NavigationMenuItem className='ms-auto'>
+						<MainNavLink href={'#'}>Login</MainNavLink>
+					</NavigationMenuItem>
+					<NavigationMenuItem>
+						<MainNavLink href={'#'}>Join</MainNavLink>
+					</NavigationMenuItem>
+				</NavigationMenuList>
+			</div>
 		</NavigationMenu>
 	);
 };

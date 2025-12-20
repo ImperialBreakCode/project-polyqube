@@ -13,7 +13,7 @@ const MainNavLink = ({ href, children }: MainNavLinkProps) => {
 		<NavigationMenuLink asChild>
 			<Link
 				href={href}
-				className='transition-color rounded-full px-4 py-2 duration-200 hover:bg-white hover:text-black'
+				className='transition-color rounded-full px-4 py-2 text-[0.9rem] duration-200 hover:bg-white hover:text-black'
 			>
 				{children}
 			</Link>
