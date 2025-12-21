@@ -6,7 +6,7 @@ const AccentedWord = ({ children }: { children: React.ReactNode }) => {
 
 const Tagline = () => {
 	return (
-		<p className='relative z-10 mb-20 text-4xl leading-15 font-light text-[#ececec]'>
+		<p className='relative z-10 mb-[23vh] text-4xl leading-15 font-light text-[#ececec]'>
 			→ One <AccentedWord>login</AccentedWord>. Unlimited services. <br />{' '}
 			A <AccentedWord>unified</AccentedWord> account for all your
 			connected <AccentedWord>platforms</AccentedWord>.
