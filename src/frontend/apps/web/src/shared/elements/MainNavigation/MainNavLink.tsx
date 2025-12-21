@@ -17,7 +17,7 @@ const MainNavLink = ({ href, children, className = '' }: MainNavLinkProps) => {
 				href={href}
 				className={cn(
 					className,
-					'transition-color rounded-full px-4 py-2 text-[0.9rem] duration-200 hover:bg-white hover:text-black',
+					'rounded-full px-4 py-2 text-[0.9rem] transition duration-200 hover:bg-gray-200 hover:text-black',
 				)}
 			>
 				{children}
