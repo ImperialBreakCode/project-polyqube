@@ -16,6 +16,13 @@ const merriweather = localFont({
 	display: 'swap',
 });
 
+const merriweatherItalic = localFont({
+	src: '../fonts/Merriweather/Merriweather-Italic-VariableFont_opsz,wdth,wght.ttf',
+	variable: '--font-merriweather-italic',
+	style: 'italic',
+	display: 'swap',
+});
+
 export const metadata: Metadata = {
 	title: 'PolyQube',
 	description: 'One account for everything',
@@ -29,7 +36,7 @@ export default function RootLayout({
 	return (
 		<html lang='en'>
 			<body
-				className={`${urbanist.variable} ${merriweather.variable} font-urbanist antialiased`}
+				className={`${urbanist.variable} ${merriweather.variable} ${merriweatherItalic.variable} font-urbanist antialiased`}
 			>
 				{children}
 			</body>
