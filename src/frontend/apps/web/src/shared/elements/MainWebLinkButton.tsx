@@ -19,15 +19,19 @@ const MainWebLinkButton = ({
 			href={href}
 			className={cn(
 				`group/main-link relative mb-3 w-fit rounded-full border
-				border-[#ffffff4e] px-7 py-4 text-xl`,
+				border-[#ffffff4e] px-7 py-4 text-xl overflow-hidden
+				active:scale-95 transition duration-75`,
 				className,
 			)}
 		>
 			{children}
 			<span
-				className='group-hovers/main-link:h-full absolute top-0 left-0
-					inline-block h-0 w-0 opacity-0 group-hover/main-link:w-full
-					group-hover/main-link:opacity-100'
+				className='group-hovers/main-link:h-full absolute top-1/2
+					left-1/2 inline-block h-0 w-0 group-hover/main-link:w-full
+					group-hover/main-link:h-full bg-[#ffffff] bg-blend-exclusion
+					mix-blend-difference duration-200 translate-x-[-50%]
+					translate-y-[-50%] rounded-full ease-[cubic-bezier(0.1,
+					0.21, 0.01, 0.86)]'
 			></span>
 		</Link>
 	);
