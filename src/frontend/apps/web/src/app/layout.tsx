@@ -9,6 +9,13 @@ const urbanist = localFont({
 	display: 'swap',
 });
 
+const urbanistItalic = localFont({
+	src: '../fonts/Urbanist/Urbanist-Italic-VariableFont_wght.ttf',
+	variable: '--font-urbanist-italic',
+	style: 'italic',
+	display: 'swap',
+});
+
 const merriweather = localFont({
 	src: '../fonts/Merriweather/Merriweather-VariableFont_opsz,wdth,wght.ttf',
 	variable: '--font-merriweather',
@@ -37,7 +44,8 @@ export default function RootLayout({
 		<html lang='en'>
 			<body
 				className={`${urbanist.variable} ${merriweather.variable}
-					${merriweatherItalic.variable} font-urbanist antialiased`}
+					${urbanistItalic.variable} ${merriweatherItalic.variable}
+					font-urbanist antialiased`}
 			>
 				{children}
 			</body>

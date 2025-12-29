@@ -4,6 +4,10 @@
 	font-family: var(--font-urbanist), sans-serif;
 }
 
+.font-urbanist-italic {
+	font-family: var(--font-urbanist-italic), sans-serif;
+}
+
 .font-merriweather {
 	font-family: var(--font-merriweather), serif;
 }
