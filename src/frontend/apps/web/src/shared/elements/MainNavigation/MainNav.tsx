@@ -1,20 +1,16 @@
+'use client';
+
 import Image from 'next/image';
 
-import {
-	NavigationMenu,
-	NavigationMenuItem,
-	NavigationMenuList,
-} from '@repo/ui/core';
+import { NavigationMenuItem, NavigationMenuList } from '@repo/ui/core';
+import MainNavLink from './MainNavLink';
+import MainNavMenuWrapper from './MainNavMenuWrapper';
 
 import logoSVG from '@/assets/logo.svg';
-import MainNavLink from './MainNavLink';
 
 const MainNav = () => {
 	return (
-		<NavigationMenu
-			className='m-10 w-[70vw] justify-between rounded-full bg-[#5050508e]
-				p-5 backdrop-blur-lg'
-		>
+		<MainNavMenuWrapper>
 			<div className='ms-5 me-10'>
 				<Image
 					width={20}
@@ -50,7 +46,7 @@ const MainNav = () => {
 					</NavigationMenuItem>
 				</NavigationMenuList>
 			</div>
-		</NavigationMenu>
+		</MainNavMenuWrapper>
 	);
 };
 

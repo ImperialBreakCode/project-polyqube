@@ -1,4 +1,6 @@
 import Image from 'next/image';
+
+import { MainWebLinkButton } from '@/shared';
 import {
 	AboutText,
 	BackgroundHeroVideo,
@@ -6,7 +8,6 @@ import {
 	HomeTitle,
 	Tagline,
 } from '@/features/home';
-import { MainWebLinkButton } from '@/shared';
 
 export default function Home() {
 	return (

@@ -10,6 +10,7 @@
 		"format": "prettier --write ."
 	},
 	"dependencies": {
+		"motion": "^12.23.26",
 		"next": "16.0.3",
 		"react": "19.2.0",
 		"react-dom": "19.2.0"
