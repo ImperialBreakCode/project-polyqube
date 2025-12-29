@@ -22,7 +22,10 @@ export default function Home() {
 				</div>
 			</section>
 			<section className='flex space-x-20 px-20 py-40'>
-				<div className='flex flex-1 flex-col items-end justify-between border-r border-r-[#ffffff3a] pe-10'>
+				<div
+					className='flex flex-1 flex-col items-end justify-between
+						border-r border-r-[#ffffff3a] pe-10'
+				>
 					<p className='mb-10'>1 - about</p>
 					<Image
 						src={'/photo-landing-about.jpg'}

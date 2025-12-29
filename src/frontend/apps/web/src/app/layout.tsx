@@ -36,7 +36,8 @@ export default function RootLayout({
 	return (
 		<html lang='en'>
 			<body
-				className={`${urbanist.variable} ${merriweather.variable} ${merriweatherItalic.variable} font-urbanist antialiased`}
+				className={`${urbanist.variable} ${merriweather.variable}
+					${merriweatherItalic.variable} font-urbanist antialiased`}
 			>
 				{children}
 			</body>

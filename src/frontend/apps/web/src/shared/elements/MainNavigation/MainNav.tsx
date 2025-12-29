@@ -11,7 +11,10 @@ import MainNavLink from './MainNavLink';
 
 const MainNav = () => {
 	return (
-		<NavigationMenu className='m-10 w-[70vw] justify-between rounded-full bg-[#5050508e] p-5 backdrop-blur-lg'>
+		<NavigationMenu
+			className='m-10 w-[70vw] justify-between rounded-full bg-[#5050508e]
+				p-5 backdrop-blur-lg'
+		>
 			<div className='ms-5 me-10'>
 				<Image
 					width={20}
@@ -37,7 +40,9 @@ const MainNav = () => {
 					</NavigationMenuItem>
 					<NavigationMenuItem>
 						<MainNavLink
-							className='bg-linear-to-r from-[#f1deff] to-[#c2d7ff] font-semibold text-black hover:from-[#e8c9ff] hover:to-[#bad2ff]'
+							className='bg-linear-to-r from-[#f1deff]
+								to-[#c2d7ff] font-semibold text-black
+								hover:from-[#e8c9ff] hover:to-[#bad2ff]'
 							href={'#'}
 						>
 							Join

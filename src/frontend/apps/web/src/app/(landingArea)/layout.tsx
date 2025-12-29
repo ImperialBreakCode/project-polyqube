@@ -5,7 +5,10 @@ function LandingLayout({ children }: { children: ReactNode }) {
 	return (
 		<div>
 			<header>
-				<div className='fixed z-20 flex w-screen justify-center text-white'>
+				<div
+					className='fixed z-20 flex w-screen justify-center
+						text-white'
+				>
 					<MainNav />
 				</div>
 			</header>
