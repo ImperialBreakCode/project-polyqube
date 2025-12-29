@@ -1,11 +1,12 @@
+import Image from 'next/image';
 import {
+	AboutText,
 	BackgroundHeroVideo,
 	GradientLayer,
 	HomeTitle,
 	Tagline,
 } from '@/features/home';
-import Image from 'next/image';
-import Link from 'next/link';
+import { MainWebLinkButton } from '@/shared';
 
 export default function Home() {
 	return (
@@ -21,49 +22,22 @@ export default function Home() {
 				</div>
 			</section>
 			<section className='flex space-x-20 px-20 py-40'>
-				<div className='flex flex-1 flex-col items-end justify-between'>
+				<div className='flex flex-1 flex-col items-end justify-between border-r border-r-[#ffffff3a] pe-10'>
+					<p className='mb-10'>1 - about</p>
 					<Image
 						src={'/photo-landing-about.jpg'}
 						alt='Cube with name on it - polyqube'
-						width={600}
-						height={600}
-						className='rounded-2xl'
+						width={500}
+						height={500}
+						className='rounded-lg'
 					/>
 				</div>
 				<div className='flex flex-2 flex-col justify-between font-light'>
-					<div>
-						<p className='mb-5'>1 - about</p>
-						<p className='mb-17 text-3xl text-[#ffffffa1]'>
-							<span className='font-medium text-white'>
-								PolyQube
-							</span>{' '}
-							provides a{' '}
-							<span className='font-medium text-white'>
-								single login
-							</span>{' '}
-							for all your digital tools, bringing chat, social,
-							and other services together in one convenient{' '}
-							<span className='font-medium text-white'>
-								ecosystem
-							</span>
-							, so you can stay connected and manage{' '}
-							<span className='font-medium text-white'>
-								everything
-							</span>{' '}
-							seamlessly in{' '}
-							<span className='font-medium text-white'>
-								one place
-							</span>
-							.
-						</p>
-					</div>
+					<AboutText />
 
-					<Link
-						href={'#'}
-						className='mb-3 w-fit rounded-full border px-7 py-4 text-xl'
-					>
+					<MainWebLinkButton href={'#'}>
 						Go to About →
-					</Link>
+					</MainWebLinkButton>
 				</div>
 			</section>
 		</div>
