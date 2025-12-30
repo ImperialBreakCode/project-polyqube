@@ -46,7 +46,7 @@ export default function Home() {
 			</section>
 			<section className='pb-10'>
 				<div
-					className='bg-[#3d324f] mx-5 rounded-xl p-10 flex
+					className='bg-(--web-accent-color) mx-5 rounded-xl p-10 flex
 						space-x-20'
 				>
 					<div

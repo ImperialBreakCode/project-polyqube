@@ -1,10 +1,12 @@
 import { ReactNode } from 'react';
-import { MainNav } from '@/shared';
 import Link from 'next/link';
+
+import { MainNav, NavigationPanel } from '@/shared';
 
 function LandingLayout({ children }: { children: ReactNode }) {
 	return (
 		<div>
+			<NavigationPanel />
 			<header>
 				<div
 					className='fixed z-20 flex w-screen justify-center

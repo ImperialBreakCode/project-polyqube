@@ -1,5 +1,9 @@
 @import '@repo/ui/globals.css';
 
+:root {
+	--web-accent-color: #3d324f;
+}
+
 .font-urbanist {
 	font-family: var(--font-urbanist), sans-serif;
 }
