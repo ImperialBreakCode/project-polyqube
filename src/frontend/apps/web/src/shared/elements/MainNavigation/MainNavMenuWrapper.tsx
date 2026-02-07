@@ -6,6 +6,8 @@ import { useMotionValueEvent, useScroll } from 'motion/react';
 import { NavigationMenu } from '@repo/ui/core';
 import { cn } from '@repo/ui/lib/utils';
 
+import OpenNavPanelButton from '../OpenNavPanelButton';
+
 interface MainNavMenuWrapperProps {
 	children?: ReactNode;
 }
@@ -23,17 +25,20 @@ const MainNavMenuWrapper = ({ children }: MainNavMenuWrapperProps) => {
 	});
 
 	return (
-		<NavigationMenu
-			className={cn(
-				`m-10 justify-between rounded-full p-5 transform duration-400
-				ease-[cubic-bezier(0.1,0.21, 0.01, 0.86)]`,
-				navbarContained
-					? 'bg-[#5050508e] w-[70vw] backdrop-blur-lg'
-					: 'w-screen',
-			)}
-		>
-			{children}
-		</NavigationMenu>
+		<>
+			<NavigationMenu
+				className={cn(
+					`m-10 justify-between rounded-full p-5 transform
+					duration-400 ease-[cubic-bezier(0.1,0.21, 0.01, 0.86)]`,
+					navbarContained
+						? 'bg-[#5050508e] w-[70vw] backdrop-blur-lg'
+						: 'w-screen',
+				)}
+			>
+				{children}
+			</NavigationMenu>
+			<OpenNavPanelButton contained={navbarContained} />
+		</>
 	);
 };
 
