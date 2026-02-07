@@ -19,3 +19,7 @@
 .font-merriweather-italic {
 	font-family: var(--font-merriweather-italic), serif;
 }
+
+.lock-scroll {
+	overflow: hidden;
+}

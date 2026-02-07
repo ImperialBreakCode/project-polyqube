@@ -1,12 +1,17 @@
+'use client';
+
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { Button } from '@repo/ui/core';
 import { cn } from '@repo/ui/lib/utils';
+import { useMenuPanelActions } from '../hooks';
 
 interface OpenNavPanelButtonProps {
 	contained?: boolean;
 }
 
 const OpenNavPanelButton = ({ contained }: OpenNavPanelButtonProps) => {
+	const { openMenu } = useMenuPanelActions();
+
 	return (
 		<div
 			className={cn(
@@ -21,6 +26,7 @@ const OpenNavPanelButton = ({ contained }: OpenNavPanelButtonProps) => {
 			<Button
 				className='p-5 px-10 h-full bg-transparent cursor-pointer
 					hover:bg-[#dadada] hover:text-[#000000]'
+				onClick={() => openMenu()}
 			>
 				<RxHamburgerMenu />
 			</Button>

@@ -1,6 +1,6 @@
-import { Button } from '@repo/ui/core';
 import PanelNavLink from './PanelNavLink';
 import PanelNavLinkSmall from './PanelNavLinkSmall';
+import CloseNavPanelButton from './CloseNavPanelButton';
 
 const NavPanel = () => {
 	return (
@@ -17,13 +17,7 @@ const NavPanel = () => {
 				<div className='space-x-5 flex'>
 					<PanelNavLinkSmall href={'#'}>Login</PanelNavLinkSmall>
 					<PanelNavLinkSmall href={'#'}>Register</PanelNavLinkSmall>
-					<Button
-						className='text-md rounded-full bg-[#503c7c] p-7
-							cursor-pointer hover:bg-white hover:text-black
-							uppercase'
-					>
-						Close Menu
-					</Button>
+					<CloseNavPanelButton />
 				</div>
 			</div>
 			<div className='flex flex-col text-4xl p-10'>
