@@ -13,21 +13,22 @@ export const menuPanelSlice = createSlice({
 	name: 'menuPanel',
 	initialState,
 	reducers: {
-		open: (state) => {
+		openNavMenu: (state) => {
 			state.open = true;
 		},
-		close: (state) => {
+		closeNavMenu: (state) => {
 			state.open = false;
 		},
-		toggleOpen: (state) => {
+		toggleNavMenu: (state) => {
 			state.open = !state.open;
 		},
 	},
 });
 
-export const { close, open, toggleOpen } = menuPanelSlice.actions;
+export const { closeNavMenu, openNavMenu, toggleNavMenu } =
+	menuPanelSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectCount = (state: RootState) => state.menuPanel.open;
+export const selectMenuPanel = (state: RootState) => state.menuPanel.open;
 
 export default menuPanelSlice.reducer;
