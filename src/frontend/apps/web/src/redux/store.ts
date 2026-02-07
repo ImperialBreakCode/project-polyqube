@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { menuPanelReducer } from '@/shared';
+import menuPanelReducer from '@/shared/actions/menuPanelSlice';
 
 export const store = configureStore({
 	reducer: {

@@ -1,3 +1,5 @@
+'use client';
+
 import { useCallback } from 'react';
 import { useAppDispatch } from '@/redux';
 import { closeNavMenu, openNavMenu, toggleNavMenu } from '@/shared/actions';

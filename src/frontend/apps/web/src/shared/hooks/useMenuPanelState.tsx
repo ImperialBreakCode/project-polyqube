@@ -1,6 +1,12 @@
+'use client';
+
 import { useAppSelector } from '@/redux';
 import { selectMenuPanel } from '@/shared/actions';
 
-const useMenuPanelState = () => useAppSelector(selectMenuPanel);
+function useMenuPanelState() {
+	const isMenuOpen = useAppSelector(selectMenuPanel);
+
+	return { isMenuOpen };
+}
 
 export default useMenuPanelState;
