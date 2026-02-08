@@ -11,9 +11,10 @@ interface PanelNavLinkSmallProps {
 const PanelNavLinkSmall = ({ href, children }: PanelNavLinkSmallProps) => {
 	return (
 		<Link
-			className='text-sm rounded-full border border-[#ffffff4f] pl-7 pr-3
-				cursor-pointer hover:bg-[#d8d8d8] hover:text-black uppercase
-				duration-100 flex flex-row items-center'
+			className='text-sm rounded-full border border-[#ffffff4f] pl-4 pr-2
+				py-2 md:pl-7 md:pr-3 md:py-3 cursor-pointer hover:bg-[#d8d8d8]
+				hover:text-black uppercase duration-100 flex flex-row
+				items-center'
 			href={href}
 		>
 			<span>{children} </span>

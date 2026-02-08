@@ -15,9 +15,9 @@ const PanelNavLink = ({ href, children, className }: PanelNavLinkProps) => {
 		<Link
 			href={href}
 			className={cn(
-				`px-20 py-10 flex-1 w-full border-b border-[#ffffff57]
-				font-light flex flex-row justify-between items-center relative
-				group/panel-link`,
+				`px-10 py-5 sm:px-20 sm:py-10 flex-1 w-full border-b
+				border-[#ffffff57] font-light flex flex-row justify-between
+				items-center relative group/panel-link`,
 				className,
 			)}
 		>
