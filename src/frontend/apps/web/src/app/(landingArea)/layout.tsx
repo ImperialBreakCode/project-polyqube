@@ -19,8 +19,8 @@ function LandingLayout({ children }: { children: ReactNode }) {
 				<PageWrapper>{children}</PageWrapper>
 			</main>
 			<footer
-				className='py-10 px-20 bg-zinc-900 text-white flex flex-col
-					space-y-15 text-3xl'
+				className='py-10 px-5 sm:px-20 bg-zinc-900 text-white flex
+					flex-col space-y-15 text-xl md:text-3xl'
 			>
 				<p className='border-b border-b-[#ffffff49]'>PolyQube</p>
 				<div

@@ -17,15 +17,18 @@ export default function Home() {
 
 				<GradientLayer />
 
-				<div className='flex h-screen flex-col justify-end ps-5'>
+				<div className='flex h-screen flex-col justify-end px-5 sm:ps-5'>
 					<Tagline />
 					<HomeTitle />
 				</div>
 			</section>
-			<section className='flex space-x-20 px-20 py-40'>
+			<section
+				className='flex flex-col lg:flex-row space-x-20 px-10 xl:px-20
+					py-40'
+			>
 				<div
-					className='flex flex-1 flex-col items-end justify-between
-						border-r border-r-[#ffffff3a] pe-10'
+					className='flex flex-1 flex-col lg:items-end justify-between
+						lg:border-r border-r-[#ffffff3a] pe-10'
 				>
 					<p className='mb-10'>1 - about</p>
 					<Image
@@ -33,31 +36,32 @@ export default function Home() {
 						alt='Cube with name on it - polyqube'
 						width={500}
 						height={500}
-						className='rounded-lg'
+						className='rounded-lg hidden lg:block'
 					/>
 				</div>
 				<div className='flex flex-2 flex-col justify-between font-light'>
 					<AboutText />
 
-					<MainWebLinkButton href={'#'}>
+					<MainWebLinkButton className='mt-10' href={'#'}>
 						Go to About →
 					</MainWebLinkButton>
 				</div>
 			</section>
 			<section className='pb-10'>
 				<div
-					className='bg-(--web-accent-color) mx-5 rounded-xl p-10 flex
-						space-x-20'
+					className='bg-(--web-accent-color) sm:mx-5 rounded-xl p-10
+						flex flex-col lg:flex-row space-x-20'
 				>
 					<div
-						className='flex flex-1 flex-col items-end space-y-50
-							border-r border-r-[#ffffff3a] pe-10'
+						className='flex flex-1 flex-col lg:items-end space-y-10
+							lg:space-y-50 lg:border-r lg:border-r-[#ffffff3a]
+							pe-10'
 					>
 						<p className='text-[#dbc7ffdb]'>2 - services</p>
 
 						<MainWebLinkButton
 							href={'#'}
-							className='border-[#dbc7ff6d]'
+							className='border-[#dbc7ff6d] hidden lg:block'
 						>
 							Explore Services →
 						</MainWebLinkButton>
@@ -75,6 +79,13 @@ export default function Home() {
 							encrypted and secure, chat app, providing a safe and
 							private communication experience.
 						</p>
+
+						<MainWebLinkButton
+							href={'#'}
+							className='border-[#dbc7ff6d] block lg:hidden mt-20'
+						>
+							Explore Services →
+						</MainWebLinkButton>
 					</div>
 				</div>
 			</section>
