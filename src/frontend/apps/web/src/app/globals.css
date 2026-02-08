@@ -1,1 +1,25 @@
 @import '@repo/ui/globals.css';
+
+:root {
+	--web-accent-color: #3d324f;
+}
+
+.font-urbanist {
+	font-family: var(--font-urbanist), sans-serif;
+}
+
+.font-urbanist-italic {
+	font-family: var(--font-urbanist-italic), sans-serif;
+}
+
+.font-merriweather {
+	font-family: var(--font-merriweather), serif;
+}
+
+.font-merriweather-italic {
+	font-family: var(--font-merriweather-italic), serif;
+}
+
+.lock-scroll {
+	overflow: hidden;
+}
