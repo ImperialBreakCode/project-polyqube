@@ -11,7 +11,7 @@ import {
 
 export default function Home() {
 	return (
-		<div className='bg-zinc-900 text-white'>
+		<div>
 			<section className='relative h-screen'>
 				<BackgroundHeroVideo />
 

@@ -1,11 +1,11 @@
 import { ReactNode } from 'react';
 import Link from 'next/link';
 
-import { MainNav, NavPanelWrapper } from '@/shared';
+import { MainNav, NavPanelWrapper, PageWrapper } from '@/shared';
 
 function LandingLayout({ children }: { children: ReactNode }) {
 	return (
-		<div>
+		<div className='overflow-x-hidden'>
 			<NavPanelWrapper />
 			<header>
 				<div
@@ -15,7 +15,9 @@ function LandingLayout({ children }: { children: ReactNode }) {
 					<MainNav />
 				</div>
 			</header>
-			<main>{children}</main>
+			<main className='bg-zinc-900 text-white'>
+				<PageWrapper>{children}</PageWrapper>
+			</main>
 			<footer
 				className='py-10 px-20 bg-zinc-900 text-white flex flex-col
 					space-y-15 text-3xl'
