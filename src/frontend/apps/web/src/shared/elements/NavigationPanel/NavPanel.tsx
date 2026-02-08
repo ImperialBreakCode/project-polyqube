@@ -1,10 +1,12 @@
+import React from 'react';
 import PanelNavLink from './PanelNavLink';
 import PanelNavLinkSmall from './PanelNavLinkSmall';
 import CloseNavPanelButton from './CloseNavPanelButton';
 
-const NavPanel = () => {
+const NavPanel = React.forwardRef<HTMLDivElement>((_, ref) => {
 	return (
 		<div
+			ref={ref}
 			className='fixed top-0 left-0 w-full bg-[#181818] h-screen z-100
 				text-white'
 		>
@@ -36,6 +38,8 @@ const NavPanel = () => {
 			</div>
 		</div>
 	);
-};
+});
+
+NavPanel.displayName = 'NavPanel';
 
 export default NavPanel;
