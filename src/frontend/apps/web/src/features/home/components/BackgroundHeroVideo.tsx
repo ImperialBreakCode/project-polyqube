@@ -20,7 +20,8 @@ const BackgroundHeroVideo = () => {
 			) : (
 				<div
 					className='absolute top-0 left-0 h-full w-full
-						bg-[url(/photo-landing-about.jpg)] bg-right'
+						bg-[url(/photo-landing-about.jpg)] bg-right bg-no-repeat
+						bg-cover'
 				></div>
 			)}
 		</>
