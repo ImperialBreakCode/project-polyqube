@@ -1,7 +1,7 @@
 import React from 'react';
 import PanelNavLink from './PanelNavLink';
-import PanelNavLinkSmall from './PanelNavLinkSmall';
 import CloseNavPanelButton from './CloseNavPanelButton';
+import SmallNavLinksGroup from './SmallNavLinksGroup';
 
 const NavPanel = React.forwardRef<HTMLDivElement>((_, ref) => {
 	return (
@@ -24,11 +24,7 @@ const NavPanel = React.forwardRef<HTMLDivElement>((_, ref) => {
 					PolyQube
 				</p>
 
-				<div className='md:space-x-5 flex'>
-					<PanelNavLinkSmall href={'#'}>Login</PanelNavLinkSmall>
-					<PanelNavLinkSmall href={'#'}>Register</PanelNavLinkSmall>
-					<CloseNavPanelButton className='hidden md:flex' />
-				</div>
+				<SmallNavLinksGroup />
 			</div>
 			<div className='flex flex-col text-2xl md:text-4xl py-10 sm:px-10'>
 				<PanelNavLink className='border-t' href={'#'}>
