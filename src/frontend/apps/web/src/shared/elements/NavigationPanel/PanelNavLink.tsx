@@ -1,8 +1,9 @@
 import { ReactNode } from 'react';
+import { ArrowRight } from 'lucide-react';
 import { Url } from 'next/dist/shared/lib/router/router';
 import Link from 'next/link';
 import { cn } from '@repo/ui/lib/utils';
-import { ArrowRight } from 'lucide-react';
+import { useMenuPanelActions } from '@/shared/hooks';
 
 interface PanelNavLinkProps {
 	href: Url;
@@ -11,6 +12,8 @@ interface PanelNavLinkProps {
 }
 
 const PanelNavLink = ({ href, children, className }: PanelNavLinkProps) => {
+	const { closeMenu } = useMenuPanelActions();
+
 	return (
 		<Link
 			href={href}
@@ -20,6 +23,7 @@ const PanelNavLink = ({ href, children, className }: PanelNavLinkProps) => {
 				items-center relative group/panel-link`,
 				className,
 			)}
+			onClick={() => closeMenu()}
 		>
 			<span className='z-110 group-hover/panel-link:ps-10 duration-300'>
 				{children}{' '}

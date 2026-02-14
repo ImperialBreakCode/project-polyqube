@@ -1,7 +1,12 @@
 import { ReactNode } from 'react';
 import Link from 'next/link';
 
-import { MainNav, NavPanelWrapper, MainPageWrapper } from '@/shared';
+import {
+	MainNav,
+	NavPanelWrapper,
+	MainPageWrapper,
+	ROUTE_PATHS,
+} from '@/shared';
 
 function LandingLayout({ children }: { children: ReactNode }) {
 	return (
@@ -30,11 +35,11 @@ function LandingLayout({ children }: { children: ReactNode }) {
 					className='text-sm font-urbanist-italic flex justify-center
 						space-x-5'
 				>
-					<Link href={'#'}>Home</Link>
+					<Link href={ROUTE_PATHS.home}>Home</Link>
 					<p>-</p>
-					<Link href={'#'}>About</Link>
+					<Link href={ROUTE_PATHS.services}>Services</Link>
 					<p>-</p>
-					<Link href={'#'}>Services</Link>
+					<Link href={ROUTE_PATHS.about}>About</Link>
 					<p>-</p>
 					<Link href={'#'}>Login</Link>
 				</div>
