@@ -8,7 +8,7 @@ interface PageWrapperProps {
 	children: ReactNode;
 }
 
-const PageWrapper = ({ children }: PageWrapperProps) => {
+const MainPageWrapper = ({ children }: PageWrapperProps) => {
 	const { isMenuOpen } = useMenuPanelState();
 
 	const pageWrapperVariants: Variants = {
@@ -36,4 +36,4 @@ const PageWrapper = ({ children }: PageWrapperProps) => {
 	);
 };
 
-export default PageWrapper;
+export default MainPageWrapper;

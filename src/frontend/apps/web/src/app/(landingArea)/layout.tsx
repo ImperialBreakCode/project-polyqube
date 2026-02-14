@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import Link from 'next/link';
 
-import { MainNav, NavPanelWrapper, PageWrapper } from '@/shared';
+import { MainNav, NavPanelWrapper, MainPageWrapper } from '@/shared';
 
 function LandingLayout({ children }: { children: ReactNode }) {
 	return (
@@ -16,7 +16,7 @@ function LandingLayout({ children }: { children: ReactNode }) {
 				</div>
 			</header>
 			<main className='bg-zinc-900 text-white'>
-				<PageWrapper>{children}</PageWrapper>
+				<MainPageWrapper>{children}</MainPageWrapper>
 			</main>
 			<footer
 				className='py-10 px-5 sm:px-20 bg-zinc-900 text-white flex
