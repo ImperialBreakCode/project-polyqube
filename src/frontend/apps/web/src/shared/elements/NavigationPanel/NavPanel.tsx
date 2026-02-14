@@ -2,6 +2,7 @@ import React from 'react';
 import PanelNavLink from './PanelNavLink';
 import CloseNavPanelButton from './CloseNavPanelButton';
 import SmallNavLinksGroup from './SmallNavLinksGroup';
+import { ROUTE_PATHS } from '@/shared/constants';
 
 const NavPanel = React.forwardRef<HTMLDivElement>((_, ref) => {
 	return (
@@ -27,23 +28,23 @@ const NavPanel = React.forwardRef<HTMLDivElement>((_, ref) => {
 				<SmallNavLinksGroup />
 			</div>
 			<div className='flex flex-col text-2xl md:text-4xl py-10 sm:px-10'>
-				<PanelNavLink className='border-t' href={'#'}>
+				<PanelNavLink className='border-t' href={ROUTE_PATHS.home}>
 					<span className='text-lg md:text-xl text-gray-300'>
 						/01 -{' '}
 					</span>
 					Home
 				</PanelNavLink>
-				<PanelNavLink href={'#'}>
+				<PanelNavLink href={ROUTE_PATHS.services}>
 					<span className='text-lg md:text-xl text-gray-300'>
 						/02 -{' '}
 					</span>
-					About
+					Services
 				</PanelNavLink>
-				<PanelNavLink href={'#'}>
+				<PanelNavLink href={ROUTE_PATHS.about}>
 					<span className='text-lg md:text-xl text-gray-300'>
 						/03 -{' '}
 					</span>
-					Services
+					About
 				</PanelNavLink>
 			</div>
 		</div>
