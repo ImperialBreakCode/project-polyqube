@@ -5,7 +5,10 @@ import { MainNav, NavPanelWrapper, MainPageWrapper } from '@/shared';
 
 function LandingLayout({ children }: { children: ReactNode }) {
 	return (
-		<div className='overflow-x-hidden'>
+		<div
+			className='overflow-x-hidden min-h-screen bg-zinc-900 text-white
+				flex flex-col'
+		>
 			<NavPanelWrapper />
 			<header>
 				<div
@@ -15,12 +18,12 @@ function LandingLayout({ children }: { children: ReactNode }) {
 					<MainNav />
 				</div>
 			</header>
-			<main className='bg-zinc-900 text-white'>
+			<main>
 				<MainPageWrapper>{children}</MainPageWrapper>
 			</main>
 			<footer
-				className='py-10 px-5 sm:px-20 bg-zinc-900 text-white flex
-					flex-col space-y-15 text-xl md:text-3xl'
+				className='py-10 px-5 sm:px-20 flex flex-col space-y-15 text-xl
+					md:text-3xl mt-auto'
 			>
 				<p className='border-b border-b-[#ffffff49]'>PolyQube</p>
 				<div

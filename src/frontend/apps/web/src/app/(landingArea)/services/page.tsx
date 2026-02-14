@@ -1,11 +1,12 @@
 function Services() {
 	return (
-		<section>
+		<section className='mt-50 flex justify-center flex-col'>
 			<div
-				className='flex flex-1 flex-col lg:items-end space-y-10
-					lg:space-y-50 lg:border-r lg:border-r-[#ffffff3a] pe-10'
+				className='bg-(--web-accent-color) sm:mx-5 rounded-xl p-10 flex
+					flex-col space-y-5'
 			>
-				<p className='text-[#dbc7ffdb]'>2 - services</p>
+				<h1 className='text-4xl'>Services</h1>
+				<p className='text-[#dbc7ffdb]'>Page is being constructed</p>
 			</div>
 		</section>
 	);
