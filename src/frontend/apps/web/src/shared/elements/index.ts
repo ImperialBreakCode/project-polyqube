@@ -1,7 +1,6 @@
 export { default as MainWebLinkButton } from './MainWebLinkButton';
 export { default as OpenNavPanelButton } from './OpenNavPanelButton';
 export { default as MainPageWrapper } from './MainPageWrapper';
-export { default as MainPage } from './MainPage';
 
 export * from './MainNavigation';
 export * from './NavigationPanel';
