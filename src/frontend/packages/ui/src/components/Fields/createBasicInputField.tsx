@@ -1,5 +1,5 @@
 import { Input } from '../ui/Input';
-import { BasicInputFieldProps } from './type';
+import { BasicInputFieldProps } from './types';
 
 function createBasicInputField(
 	type: React.ComponentProps<typeof Input>['type'],
