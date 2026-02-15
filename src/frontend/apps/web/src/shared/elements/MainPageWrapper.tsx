@@ -1,28 +1,22 @@
 'use client';
 
-import { motion, Variants } from 'motion/react';
 import { ReactNode } from 'react';
+import { motion, Variants } from 'motion/react';
 import { useMenuPanelState } from '../hooks';
 
-interface PageWrapperProps {
+interface MainPageWrapperProps {
 	children: ReactNode;
 }
 
-const PageWrapper = ({ children }: PageWrapperProps) => {
+const MainPageWrapper = ({ children }: MainPageWrapperProps) => {
 	const { isMenuOpen } = useMenuPanelState();
 
 	const pageWrapperVariants: Variants = {
 		onMenuOpen: {
 			scale: 1.2,
-			transition: {
-				type: 'tween',
-			},
 		},
 		onMenuClosed: {
 			scale: 1,
-			transition: {
-				type: 'tween',
-			},
 		},
 	};
 
@@ -30,10 +24,13 @@ const PageWrapper = ({ children }: PageWrapperProps) => {
 		<motion.div
 			animate={isMenuOpen ? 'onMenuOpen' : 'onMenuClosed'}
 			variants={pageWrapperVariants}
+			transition={{
+				type: 'tween',
+			}}
 		>
 			{children}
 		</motion.div>
 	);
 };
 
-export default PageWrapper;
+export default MainPageWrapper;

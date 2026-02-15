@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import { MainWebLinkButton } from '@/shared';
+import { MainWebLinkButton, ROUTE_PATHS } from '@/shared';
 import {
 	AboutText,
 	BackgroundHeroVideo,
@@ -42,7 +42,10 @@ export default function Home() {
 				<div className='flex flex-2 flex-col justify-between font-light'>
 					<AboutText />
 
-					<MainWebLinkButton className='mt-10' href={'#'}>
+					<MainWebLinkButton
+						className='mt-10'
+						href={ROUTE_PATHS.about}
+					>
 						Go to About →
 					</MainWebLinkButton>
 				</div>
@@ -60,7 +63,7 @@ export default function Home() {
 						<p className='text-[#dbc7ffdb]'>2 - services</p>
 
 						<MainWebLinkButton
-							href={'#'}
+							href={ROUTE_PATHS.services}
 							className='border-[#dbc7ff6d] hidden lg:block'
 						>
 							Explore Services →
