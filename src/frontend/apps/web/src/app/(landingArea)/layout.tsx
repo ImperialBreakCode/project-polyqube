@@ -41,7 +41,7 @@ function LandingLayout({ children }: { children: ReactNode }) {
 					<p>-</p>
 					<Link href={ROUTE_PATHS.about}>About</Link>
 					<p>-</p>
-					<Link href={'#'}>Login</Link>
+					<Link href={ROUTE_PATHS.auth.login}>Login</Link>
 				</div>
 				<p className='text-right border-t border-t-[#ffffff49]'>2025</p>
 			</footer>

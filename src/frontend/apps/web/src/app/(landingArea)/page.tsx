@@ -84,7 +84,7 @@ export default function Home() {
 						</p>
 
 						<MainWebLinkButton
-							href={'#'}
+							href={ROUTE_PATHS.services}
 							className='border-[#dbc7ff6d] block lg:hidden mt-20'
 						>
 							Explore Services →
