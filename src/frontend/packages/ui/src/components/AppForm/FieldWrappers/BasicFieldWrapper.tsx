@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { ControllerFieldState } from 'react-hook-form';
-import { Field, FieldError, FieldLabel } from '../ui/Field';
+import { Field, FieldError, FieldLabel } from '@repo/ui/components/ui/Field';
 
 interface BasicFieldWrapperProps {
 	labelText: string;
