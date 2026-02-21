@@ -14,7 +14,7 @@ const AuthLayoutRightSide = () => {
 			>
 				{pathname.split('/').splice(-1)}
 			</h1>
-			<FloatingLines lineCount={5} lineDistance={15} />
+			<FloatingLines lineCount={10} lineDistance={300} />
 		</>
 	);
 };
