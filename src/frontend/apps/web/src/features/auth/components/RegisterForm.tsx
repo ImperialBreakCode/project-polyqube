@@ -46,7 +46,10 @@ const RegisterForm = () => {
 						name='email'
 						placeholder='Enter your email...'
 					/>
-					<div className='flex space-x-3'>
+					<div
+						className='flex flex-col sm:flex-row space-y-10
+							space-x-0 sm:space-x-3'
+					>
 						<WebAppPasswordController
 							label='Password'
 							name='password'

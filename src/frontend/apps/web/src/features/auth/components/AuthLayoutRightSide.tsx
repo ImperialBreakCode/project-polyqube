@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import FloatingLines from '@repo/ui/components/FloatingLines';
+import LiquidEther from '@repo/ui/components/LiquidEther';
 
 const AuthLayoutRightSide = () => {
 	const pathname = usePathname();
@@ -10,11 +10,15 @@ const AuthLayoutRightSide = () => {
 		<>
 			<h1
 				className='text-7xl absolute bottom-15 left-8 capitalize
-					font-light'
+					font-light z-100'
 			>
 				{pathname.split('/').splice(-1)}
 			</h1>
-			<FloatingLines lineCount={10} lineDistance={300} />
+			<LiquidEther
+				mouseForce={30}
+				resolution={0.5}
+				colors={['#8537fb', '#b28af0', '#d0afde']}
+			/>
 		</>
 	);
 };
