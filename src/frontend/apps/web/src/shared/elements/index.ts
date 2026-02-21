@@ -4,3 +4,4 @@ export { default as MainPageWrapper } from './MainPageWrapper';
 
 export * from './MainNavigation';
 export * from './NavigationPanel';
+export * from './FieldControllers';

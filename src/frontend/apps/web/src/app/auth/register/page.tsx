@@ -2,12 +2,12 @@
 
 import { useCallback } from 'react';
 import z from 'zod';
+import { AppForm } from '@repo/ui/core';
 import {
-	AppForm,
-	EmailFieldController,
-	PasswordFieldController,
-	TextFieldController,
-} from '@repo/ui/core';
+	WebAppEmailController,
+	WebAppPasswordController,
+	WebAppTextController,
+} from '@/shared/elements/FieldControllers';
 
 const registerFormSchema = z.object({
 	username: z.string(),
@@ -22,7 +22,7 @@ function Register() {
 	}, []);
 
 	return (
-		<div>
+		<div className='p-10'>
 			<AppForm
 				onSubmit={onSubmit}
 				name='register'
@@ -34,26 +34,28 @@ function Register() {
 					username: '',
 				}}
 			>
-				<TextFieldController
-					label='Username'
-					name='username'
-					placeholder='Enter your username...'
-				/>
-				<EmailFieldController
-					label='Email'
-					name='email'
-					placeholder='Enter your email...'
-				/>
-				<PasswordFieldController
-					label='Password'
-					name='password'
-					placeholder='Enter your password...'
-				/>
-				<PasswordFieldController
-					label='Confirm password'
-					name='confirmPassword'
-					placeholder='Confirm your password...'
-				/>
+				<div className='space-y-10'>
+					<WebAppTextController
+						label='Username'
+						name='username'
+						placeholder='Enter your username...'
+					/>
+					<WebAppEmailController
+						label='Email'
+						name='email'
+						placeholder='Enter your email...'
+					/>
+					<WebAppPasswordController
+						label='Password'
+						name='password'
+						placeholder='Enter your password...'
+					/>
+					<WebAppPasswordController
+						label='Confirm password'
+						name='confirmPassword'
+						placeholder='Confirm your password...'
+					/>
+				</div>
 			</AppForm>
 		</div>
 	);
