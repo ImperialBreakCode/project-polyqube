@@ -1,3 +1,5 @@
+'use client';
+
 import TextField from '@repo/ui/components/Fields/TextField';
 import createBasicController from './createBasicController';
 

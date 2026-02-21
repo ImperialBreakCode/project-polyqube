@@ -1,3 +1,5 @@
+'use client';
+
 import PasswordField from '@repo/ui/components/Fields/PasswordField';
 import createBasicController from './createBasicController';
 

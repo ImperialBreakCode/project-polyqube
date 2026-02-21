@@ -1,3 +1,5 @@
+'use client';
+
 import { useFormContext } from 'react-hook-form';
 import { ExtendedFormContext } from '@repo/ui/components/AppForm/types';
 
