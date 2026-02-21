@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, useCallback } from 'react';
+import { createContext, ReactNode, useCallback } from 'react';
 import {
 	DefaultValues,
 	FieldValues,
@@ -12,11 +12,13 @@ import {
 } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ZodType } from 'zod';
-import { ExtendedFormContext } from './types';
+import { type AppFormContextType } from './types';
 
 function generateFormId(formName: string) {
-	return `form-${formName}`;
+	return `form--${formName}`;
 }
+
+export const AppFormContext = createContext<AppFormContextType>({ formId: '' });
 
 interface AppFormProps<T extends FieldValues> {
 	children: ReactNode;
@@ -67,23 +69,20 @@ const AppForm = <T extends FieldValues>({
 		[onSubmit, defaultValues, form, resetAfterSubmit],
 	);
 
-	const extendedForm: ExtendedFormContext<T> = {
-		...form,
-		formId: id,
-	};
-
 	return (
-		<FormProvider {...extendedForm}>
-			<form
-				id={id}
-				onSubmit={(e) => {
-					e.stopPropagation();
-					form.handleSubmit(onSubmitHandler, onError)(e);
-				}}
-			>
-				{children}
-			</form>
-		</FormProvider>
+		<AppFormContext.Provider value={{ formId: id }}>
+			<FormProvider {...form}>
+				<form
+					id={id}
+					onSubmit={(e) => {
+						e.stopPropagation();
+						form.handleSubmit(onSubmitHandler, onError)(e);
+					}}
+				>
+					{children}
+				</form>
+			</FormProvider>
+		</AppFormContext.Provider>
 	);
 };
 
