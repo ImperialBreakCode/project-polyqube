@@ -38,14 +38,16 @@ const MainNav = () => {
 					</NavigationMenuItem>
 
 					<NavigationMenuItem className='ms-auto'>
-						<MainNavLink href={'#'}>Login</MainNavLink>
+						<MainNavLink href={ROUTE_PATHS.auth.login}>
+							Login
+						</MainNavLink>
 					</NavigationMenuItem>
 					<NavigationMenuItem>
 						<MainNavLink
 							className='bg-linear-to-r from-[#f1deff]
 								to-[#c2d7ff] font-semibold text-black
 								hover:from-[#e8c9ff] hover:to-[#bad2ff]'
-							href={'#'}
+							href={ROUTE_PATHS.auth.register}
 						>
 							Join
 						</MainNavLink>

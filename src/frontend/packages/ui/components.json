@@ -16,5 +16,8 @@
 		"hooks": "@repo/ui/hooks",
 		"lib": "@repo/ui/lib",
 		"ui": "@repo/ui/components/ui"
+	},
+	"registries": {
+		"@react-bits": "https://reactbits.dev/r/{name}.json"
 	}
 }
