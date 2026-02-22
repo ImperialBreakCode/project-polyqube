@@ -7,7 +7,7 @@ import {
 	WebAppPasswordController,
 	WebAppTextController,
 } from '@/shared/elements/FieldControllers';
-import AppButton from '@/shared/elements/AppButton';
+import { AppButton } from '@/shared/elements/AppButton';
 
 const loginFormSchema = z.object({
 	username: z.string(),
