@@ -8,7 +8,7 @@ import {
 	WebAppPasswordController,
 	WebAppTextController,
 } from '@/shared/elements/FieldControllers';
-import { AppButton } from '@/shared';
+import { AppButton } from '@/shared/elements/AppButton';
 
 const registerFormSchema = z.object({
 	username: z.string(),
