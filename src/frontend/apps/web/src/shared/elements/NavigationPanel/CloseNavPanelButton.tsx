@@ -15,7 +15,7 @@ const CloseNavPanelButton = ({ className }: CloseNavPanelButtonProps) => {
 		<Button
 			className={cn(
 				`text-md rounded-full bg-[#503c7c] p-7 cursor-pointer
-				hover:bg-white hover:text-black uppercase`,
+				hover:bg-white hover:text-black uppercase text-white`,
 				className,
 			)}
 			onClick={() => closeMenu()}
