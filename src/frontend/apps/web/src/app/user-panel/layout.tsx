@@ -4,7 +4,7 @@ import {
 	SidebarProvider,
 	SidebarTrigger,
 } from '@repo/ui/components/ui/Sidebar';
-import { UserPanelSidebar } from '@/shared/elements';
+import { ModeToggle, UserPanelSidebar } from '@/shared/elements';
 
 function UserPanelLayout({ children }: { children: ReactNode }) {
 	return (
@@ -17,6 +17,7 @@ function UserPanelLayout({ children }: { children: ReactNode }) {
 							border-b px-4'
 					>
 						<SidebarTrigger className='-ml-1' />
+						<ModeToggle className='ms-auto' />
 					</header>
 					<div>{children}</div>
 				</SidebarInset>

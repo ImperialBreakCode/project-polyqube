@@ -1,6 +1,7 @@
 export { default as MainWebLinkButton } from './MainWebLinkButton';
 export { default as OpenNavPanelButton } from './OpenNavPanelButton';
 export { default as MainPageWrapper } from './MainPageWrapper';
+export { default as ModeToggle } from './ModeToggle';
 
 export * from './MainNavigation';
 export * from './NavigationPanel';

@@ -1,5 +1,5 @@
 function UserPanelHome() {
-	return <div>UserPanelHome</div>;
+	return <div className='p-5'>Dashboard home</div>;
 }
 
 export default UserPanelHome;

@@ -56,7 +56,8 @@ const UserPanelMenu = () => {
 											border-b-(--border-pirmary)
 											border-l-(--border-pirmary)
 											border-t-(--border-primary-2)
-											border-r-(--border-primary-2)`
+											border-r-(--border-primary-2)
+											text-white hover:text-white`
 										: '',
 								)}
 							>
