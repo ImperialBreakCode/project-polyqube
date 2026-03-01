@@ -15,6 +15,10 @@
 	--primary-hover: #a044d9;
 }
 
+.button-primary-colors {
+	@apply border-t-(--border-primary-2) border-r-(--border-primary-2) border-b-(--border-pirmary) border-l-(--border-pirmary) bg-(--primary-color) text-white hover:bg-(--primary-hover) hover:text-white;
+}
+
 .font-urbanist {
 	font-family: var(--font-urbanist), sans-serif;
 }

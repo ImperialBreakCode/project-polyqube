@@ -51,13 +51,7 @@ const UserPanelMenu = () => {
 									`py-5 px-5 rounded-[100px!important] border
 									border-transparent transition-colors`,
 									pathname.startsWith(x.url)
-										? `bg-(--primary-color)
-											hover:bg-[var(--primary-hover)!important]
-											border-b-(--border-pirmary)
-											border-l-(--border-pirmary)
-											border-t-(--border-primary-2)
-											border-r-(--border-primary-2)
-											text-white hover:text-white`
+										? 'button-primary-colors'
 										: '',
 								)}
 							>
