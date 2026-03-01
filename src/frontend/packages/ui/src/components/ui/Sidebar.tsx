@@ -197,7 +197,7 @@ const Sidebar = React.forwardRef<
 			return (
 				<div
 					className={cn(
-						`flex h-full w-[--sidebar-width] flex-col bg-sidebar
+						`flex h-full w-(--sidebar-width) flex-col bg-sidebar
 						text-sidebar-foreground`,
 						className,
 					)}
@@ -219,7 +219,7 @@ const Sidebar = React.forwardRef<
 					<SheetContent
 						data-sidebar='sidebar'
 						data-mobile='true'
-						className='w-[--sidebar-width] bg-sidebar p-0
+						className='w-(--sidebar-width) bg-sidebar p-0
 							text-sidebar-foreground [&>button]:hidden'
 						style={
 							{
@@ -254,18 +254,18 @@ const Sidebar = React.forwardRef<
 				{/* This is what handles the sidebar gap on desktop */}
 				<div
 					className={cn(
-						`relative w-[--sidebar-width] bg-transparent
+						`relative w-(--sidebar-width) bg-transparent
 						transition-[width] duration-200 ease-linear`,
 						'group-data-[collapsible=offcanvas]:w-0',
 						'group-data-[side=right]:rotate-180',
 						variant === 'floating' || variant === 'inset'
 							? 'group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4))]'
-							: 'group-data-[collapsible=icon]:w-[--sidebar-width-icon]',
+							: 'group-data-[collapsible=icon]:w-(--sidebar-width-icon)',
 					)}
 				/>
 				<div
 					className={cn(
-						`fixed inset-y-0 z-10 hidden h-svh w-[--sidebar-width]
+						`fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width)
 						transition-[left,right,width] duration-200 ease-linear
 						md:flex`,
 						side === 'left'
@@ -277,7 +277,7 @@ const Sidebar = React.forwardRef<
 						variant === 'floating' || variant === 'inset'
 							? `p-2
 								group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4)_+2px)]`
-							: `group-data-[collapsible=icon]:w-[--sidebar-width-icon]
+							: `group-data-[collapsible=icon]:w-(--sidebar-width-icon)
 								group-data-[side=left]:border-r
 								group-data-[side=right]:border-l`,
 						className,
@@ -757,7 +757,7 @@ const SidebarMenuSkeleton = React.forwardRef<
 				/>
 			)}
 			<Skeleton
-				className='h-4 max-w-[--skeleton-width] flex-1'
+				className='h-4 max-w-(--skeleton-width) flex-1'
 				data-sidebar='menu-skeleton-text'
 				style={
 					{

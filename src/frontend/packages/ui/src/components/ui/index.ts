@@ -8,3 +8,5 @@ export * from './Sheet';
 export * from './Sidebar';
 export * from './Skeleton';
 export * from './Tooltip';
+export * from './DropdownMenu';
+export * from './Avatar';
