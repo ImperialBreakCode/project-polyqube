@@ -11,6 +11,7 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 } from '@repo/ui/components/ui/Sidebar';
+import { cn } from '@repo/ui/lib/utils';
 import { ROUTE_PATHS } from '@/shared/constants/routes';
 
 type RouteData = {
@@ -25,6 +26,11 @@ const routesData: RouteData[] = [
 		url: ROUTE_PATHS.userPanel.homeDashboard,
 		icon: <House />,
 	},
+	{
+		title: 'Second',
+		url: '#',
+		icon: <House />,
+	},
 ];
 
 const UserPanelMenu = () => {
@@ -32,18 +38,27 @@ const UserPanelMenu = () => {
 
 	return (
 		<SidebarGroup>
-			<SidebarGroupLabel>Menu</SidebarGroupLabel>
-			<SidebarMenu>
+			<SidebarGroupLabel className='uppercase'>
+				Pannel Menu
+			</SidebarGroupLabel>
+			<SidebarMenu className='gap-y-2'>
 				{routesData.map((x) => (
 					<SidebarMenuItem key={x.title}>
 						<SidebarMenuButton asChild tooltip={'Home'}>
 							<Link
 								href={x.url}
-								className={
+								className={cn(
+									`py-5 px-5 rounded-[100px!important] border
+									border-transparent transition-colors`,
 									pathname.startsWith(x.url)
-										? 'bg-sidebar-accent'
-										: ''
-								}
+										? `bg-(--primary-color)
+											hover:bg-[var(--primary-hover)!important]
+											border-b-(--border-pirmary)
+											border-l-(--border-pirmary)
+											border-t-(--border-primary-2)
+											border-r-(--border-primary-2)`
+										: '',
+								)}
 							>
 								{x.icon}
 								{x.title}

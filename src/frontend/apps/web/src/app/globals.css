@@ -2,6 +2,10 @@
 
 :root {
 	--web-accent-color: #3d324f;
+	--primary-color: #8c36c1;
+	--border-pirmary: #c86fff;
+	--border-primary-2: #bc4fff;
+	--primary-hover: #a044d9;
 }
 
 .font-urbanist {
