@@ -57,8 +57,10 @@ namespace API.Accounts.Application.Features.Users.Commands.LoginUser
 
             _sessionRepository.SetSession(
                 UserSession.Create(
-                    refreshTokenResult.TokenId, 
+                    refreshTokenResult.SessionId,
                     user.Id,
+                    refreshTokenResult.TokenId,
+                    accessTokenResult.TokenId,
                     refreshTokenResult.Expiration
                     ));
 

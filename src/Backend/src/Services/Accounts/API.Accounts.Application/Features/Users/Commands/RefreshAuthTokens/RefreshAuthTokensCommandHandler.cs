@@ -39,7 +39,8 @@ namespace API.Accounts.Application.Features.Users.Commands.RefreshAuthTokens
             var refreshPayload = _authTokenVerifier.VerifyToken(request.RefreshToken);
 
             if (!refreshPayload.ContainsKey(APIClaimNames.SubjectClaim) 
-                || !refreshPayload.ContainsKey(APIClaimNames.TokenIdClaim))
+                || !refreshPayload.ContainsKey(APIClaimNames.TokenIdClaim)
+                || !refreshPayload.ContainsKey(APIClaimNames.SessionId))
             {
                 throw new MissingTokenClaimsException();
             }
@@ -50,10 +51,15 @@ namespace API.Accounts.Application.Features.Users.Commands.RefreshAuthTokens
                 throw new UserNotFoundException();
             }
 
-            if (_cacheSessionRepository
-                .GetSession(refreshPayload[APIClaimNames.TokenIdClaim].ToString()!, user.Id) is null)
+            var session = _cacheSessionRepository.GetSession(refreshPayload[APIClaimNames.SessionId].ToString()!, user.Id);
+            if (session is null)
             {
                 throw new InvalidSessionException();
+            }
+
+            if (session.RefreshTokenId != refreshPayload[APIClaimNames.TokenIdClaim].ToString()!)
+            {
+                throw new InvalidRefreshToken();
             }
 
             var userRoles = _unitOfWork.UserRepository.GetUserRoles(user.Id).Select(x => x.Role.RoleName).ToArray();
@@ -61,11 +67,13 @@ namespace API.Accounts.Application.Features.Users.Commands.RefreshAuthTokens
             var accessTokenResult = _authTokenIssuer.IssueAccessToken(user, userRoles);
             var newRefreshTokenResult = _authTokenIssuer.IssueRefreshToken(user);
 
-            _cacheSessionRepository.DeleteSession(refreshPayload[APIClaimNames.TokenIdClaim].ToString()!, user.Id);
+            _cacheSessionRepository.DeleteSession(refreshPayload[APIClaimNames.SessionId].ToString()!, user.Id);
             _cacheSessionRepository.SetSession(
                 UserSession.Create(
-                    newRefreshTokenResult.TokenId,
+                    newRefreshTokenResult.SessionId,
                     user.Id, 
+                    newRefreshTokenResult.TokenId,
+                    accessTokenResult.TokenId,
                     newRefreshTokenResult.Expiration
                     ));
 
