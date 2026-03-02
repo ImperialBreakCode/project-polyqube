@@ -6,12 +6,12 @@
         {
         }
 
-        private SessionAccessInfo(string[] accessModules, string userId, DateTimeOffset expiration, string sessionId)
+        private SessionAccessInfo(string[] accessModules, string userId, string sessionId, DateTimeOffset expiration)
         {
             AccessModules = accessModules;
             UserId = userId;
-            Expiration = expiration;
             SessionId = sessionId;
+            Expiration = expiration;
         }
 
         public string[] AccessModules { get; set; }
@@ -19,9 +19,9 @@
         public string SessionId { get; set; }
         public DateTimeOffset Expiration { get; set; }
 
-        public static SessionAccessInfo Create(string[] accessModules, string userId, DateTimeOffset expiration, string sessionId)
+        public static SessionAccessInfo Create(string[] accessModules, string userId, string sessionId, DateTimeOffset expiration)
         {
-            return new SessionAccessInfo(accessModules, userId, expiration, sessionId);
+            return new SessionAccessInfo(accessModules, userId, sessionId, expiration);
         }
     }
 }

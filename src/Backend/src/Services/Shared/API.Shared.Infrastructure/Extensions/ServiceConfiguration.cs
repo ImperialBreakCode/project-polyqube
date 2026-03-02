@@ -98,7 +98,7 @@ namespace API.Shared.Infrastructure.Extensions
 
         public static IServiceCollection AddReadonlySessionAccessInfo(this IServiceCollection services)
         {
-            services.AddTransient<IReadCacheRepository<SessionAccessInfo>, ReadOnlyCacheRepository<SessionAccessInfo>>();
+            services.AddTransient<ICacheRepository<SessionAccessInfo>, CacheRepository<SessionAccessInfo>>();
             services.AddTransient<IReadSessionAccessInfoRepository, ReadOnlySessionAccessInfoRepoAdapter>();
 
             return services;

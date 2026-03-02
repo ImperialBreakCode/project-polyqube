@@ -9,6 +9,7 @@ using API.Accounts.Domain.CacheEntities;
 using API.Accounts.Domain.Repositories;
 using API.Shared.Application.Interfaces;
 using API.Shared.Common.Constants;
+using API.Shared.Domain.CacheEntities.Accounts;
 
 namespace API.Accounts.Application.Features.Users.Commands.RefreshAuthTokens
 {
@@ -19,19 +20,22 @@ namespace API.Accounts.Application.Features.Users.Commands.RefreshAuthTokens
         private readonly IUnitOfWork _unitOfWork;
         private readonly IViewModelFactory _viewModelFactory;
         private readonly ICacheSessionRepository _cacheSessionRepository;
+        private readonly ISessionAccessInfoRepository _sessionAccessInfoRepository;
 
         public RefreshAuthTokensCommandHandler(
             IAuthTokenIssuer authTokenIssuer,
             IAuthTokenVerifier authTokenVerifier,
             IUnitOfWork unitOfWork,
             IViewModelFactory viewModelFactory,
-            ICacheSessionRepository cacheSessionRepository)
+            ICacheSessionRepository cacheSessionRepository,
+            ISessionAccessInfoRepository sessionAccessInfoRepository)
         {
             _authTokenIssuer = authTokenIssuer;
             _authTokenVerifier = authTokenVerifier;
             _unitOfWork = unitOfWork;
             _viewModelFactory = viewModelFactory;
             _cacheSessionRepository = cacheSessionRepository;
+            _sessionAccessInfoRepository = sessionAccessInfoRepository;
         }
 
         public Task<AuthTokensViewModel> Handle(RefreshAuthTokensCommand request, CancellationToken cancellationToken)
@@ -74,6 +78,15 @@ namespace API.Accounts.Application.Features.Users.Commands.RefreshAuthTokens
                     user.Id, 
                     newRefreshTokenResult.TokenId,
                     accessTokenResult.TokenId,
+                    newRefreshTokenResult.Expiration
+                    ));
+
+            _sessionAccessInfoRepository.DeleteSessionAccess(refreshPayload[APIClaimNames.SessionId].ToString()!, user.Id);
+            _sessionAccessInfoRepository.SetSessionAccess(
+                SessionAccessInfo.Create(
+                    [],
+                    user.Id,
+                    newRefreshTokenResult.SessionId,
                     newRefreshTokenResult.Expiration
                     ));
 
