@@ -21,14 +21,6 @@ namespace API.FileStorage.Infrastructure.Features.FilePaths
             base.Delete(Base64UrlEncoder.Encode(key));
         }
 
-        public override void DeleteMultiple(string[] keys)
-        {
-            foreach (var key in keys)
-            {
-                Delete(key);
-            }
-        }
-
         public override FilePathCache? Get(string key)
         {
             return base.Get(Base64UrlEncoder.Encode(key));
