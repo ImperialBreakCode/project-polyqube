@@ -2,6 +2,21 @@
 
 :root {
 	--web-accent-color: #3d324f;
+	--primary-color: hsl(258, 75%, 67%);
+	--border-pirmary: hsl(258, 75%, 80%);
+	--border-primary-2: hsl(258, 75%, 70%);
+	--primary-hover: #9c79ec;
+}
+
+.dark {
+	--primary-color: #8c36c1;
+	--border-pirmary: #c86fff;
+	--border-primary-2: #bc4fff;
+	--primary-hover: #a044d9;
+}
+
+.button-primary-colors {
+	@apply border-t-(--border-primary-2) border-r-(--border-primary-2) border-b-(--border-pirmary) border-l-(--border-pirmary) bg-(--primary-color) text-white hover:bg-(--primary-hover) hover:text-white;
 }
 
 .font-urbanist {

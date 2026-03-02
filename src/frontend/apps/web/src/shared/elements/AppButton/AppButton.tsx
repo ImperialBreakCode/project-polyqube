@@ -11,8 +11,7 @@ const AppButton = ({
 
 	switch (variant) {
 		case 'default':
-			className = `bg-[#8c36c1] border border-b-[#c86fff] border-l-[#c86fff] border-t-[#bc4fff] border-r-[#bc4fff] 
-				text-white hover:bg-[#a044d9] cursor-pointer`;
+			className = `border button-primary-colors cursor-pointer`;
 			break;
 	}
 

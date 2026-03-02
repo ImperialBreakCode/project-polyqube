@@ -28,7 +28,7 @@ const OpenNavPanelButton = ({ contained }: OpenNavPanelButtonProps) => {
 					hover:bg-[#dadada] hover:text-[#000000]'
 				onClick={() => openMenu()}
 			>
-				<RxHamburgerMenu />
+				<RxHamburgerMenu className='text-white' />
 			</Button>
 		</div>
 	);

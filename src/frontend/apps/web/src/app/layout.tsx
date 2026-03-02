@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import '@/app/globals.css';
 import ReduxProvider from '@/redux/ReduxProvider';
+import { ThemeProvider } from 'next-themes';
 
 const urbanist = localFont({
 	src: '../fonts/Urbanist/Urbanist-VariableFont_wght.ttf',
@@ -42,13 +43,20 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang='en'>
+		<html lang='en' suppressHydrationWarning>
 			<body
 				className={`${urbanist.variable} ${merriweather.variable}
 					${urbanistItalic.variable} ${merriweatherItalic.variable}
 					font-urbanist antialiased`}
 			>
-				<ReduxProvider>{children}</ReduxProvider>
+				<ThemeProvider
+					attribute='class'
+					defaultTheme='system'
+					enableSystem
+					disableTransitionOnChange
+				>
+					<ReduxProvider>{children}</ReduxProvider>
+				</ThemeProvider>
 			</body>
 		</html>
 	);
