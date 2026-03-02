@@ -8,6 +8,7 @@ using API.Accounts.Domain.Aggregates.UserAggregate;
 using API.Accounts.Domain.CacheEntities;
 using API.Accounts.Domain.Repositories;
 using API.Shared.Application.Interfaces;
+using API.Shared.Domain.CacheEntities.Accounts;
 
 namespace API.Accounts.Application.Features.Users.Commands.LoginUser
 {
@@ -17,6 +18,7 @@ namespace API.Accounts.Application.Features.Users.Commands.LoginUser
         private readonly IAuthTokenIssuer _authTokenIssuer;
         private readonly IViewModelFactory _viewModelFactory;
         private readonly ICacheSessionRepository _sessionRepository;
+        private readonly ISessionAccessInfoRepository _sessionAccessInfoRepository;
         private readonly ILoginChecksChainManager _loginChecksManager;
 
         public LoginUserCommandHandler(
@@ -24,13 +26,15 @@ namespace API.Accounts.Application.Features.Users.Commands.LoginUser
             IAuthTokenIssuer authTokenIssuer,
             IViewModelFactory viewModelFactory,
             ICacheSessionRepository sessionRepository,
-            ILoginChecksChainManager loginChecksManager)
+            ILoginChecksChainManager loginChecksManager,
+            ISessionAccessInfoRepository sessionAccessInfoRepository)
         {
             _unitOfWork = unitOfWork;
             _authTokenIssuer = authTokenIssuer;
             _viewModelFactory = viewModelFactory;
             _sessionRepository = sessionRepository;
             _loginChecksManager = loginChecksManager;
+            _sessionAccessInfoRepository = sessionAccessInfoRepository;
         }
 
         public async Task<AuthTokensViewModel> Handle(LoginUserCommand request, CancellationToken cancellationToken)
@@ -57,8 +61,18 @@ namespace API.Accounts.Application.Features.Users.Commands.LoginUser
 
             _sessionRepository.SetSession(
                 UserSession.Create(
-                    refreshTokenResult.TokenId, 
+                    refreshTokenResult.SessionId,
                     user.Id,
+                    refreshTokenResult.TokenId,
+                    accessTokenResult.TokenId,
+                    refreshTokenResult.Expiration
+                    ));
+
+            _sessionAccessInfoRepository.SetSessionAccess(
+                SessionAccessInfo.Create(
+                    [],
+                    user.Id,
+                    refreshTokenResult.SessionId,
                     refreshTokenResult.Expiration
                     ));
 

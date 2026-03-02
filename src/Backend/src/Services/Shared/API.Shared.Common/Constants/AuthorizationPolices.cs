@@ -4,5 +4,7 @@
     {
         public const string USER_SCOPE_POLICY = nameof(USER_SCOPE_POLICY);
         public const string ADMIN_SCOPE_POLICY = nameof(ADMIN_SCOPE_POLICY);
+
+        public const string MODULE_ACCESS_POLICY = nameof(MODULE_ACCESS_POLICY);
     }
 }

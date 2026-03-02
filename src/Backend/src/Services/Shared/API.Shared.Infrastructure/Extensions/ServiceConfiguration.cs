@@ -1,10 +1,14 @@
 ﻿using API.Shared.Common.PipelineBehaviors;
+using API.Shared.Domain.CacheEntities.Accounts;
 using API.Shared.Domain.CacheEntities.FileStorage;
 using API.Shared.Domain.Interfaces;
 using API.Shared.Domain.Interfaces.CacheRepo;
+using API.Shared.Domain.Interfaces.CacheRepo.Accounts;
 using API.Shared.Infrastructure.Database;
 using API.Shared.Infrastructure.Interceptors;
 using API.Shared.Infrastructure.Options;
+using API.Shared.Infrastructure.Repositories.Accounts;
+using API.Shared.Infrastructure.Repositories.CacheRepositories;
 using API.Shared.Infrastructure.Repositories.FileStorage;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -88,6 +92,14 @@ namespace API.Shared.Infrastructure.Extensions
         public static IServiceCollection AddReadOnlyFilePathCache(this IServiceCollection services)
         {
             services.AddTransient<IReadCacheRepository<FilePathCache>, FilePathReadOnlyCache>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddReadonlySessionAccessInfo(this IServiceCollection services)
+        {
+            services.AddTransient<ICacheRepository<SessionAccessInfo>, CacheRepository<SessionAccessInfo>>();
+            services.AddTransient<IReadSessionAccessInfoRepository, ReadOnlySessionAccessInfoRepoAdapter>();
 
             return services;
         }
