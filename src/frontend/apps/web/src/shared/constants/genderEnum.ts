@@ -3,7 +3,7 @@ export enum GenderEnum {
 	Male = 'Male',
 }
 
-export const GenderLabels: Record<GenderEnum, string> = {
+export const GENDER_LABELS: Record<GenderEnum, string> = {
 	[GenderEnum.Female]: 'Female',
 	[GenderEnum.Male]: 'Male',
 };

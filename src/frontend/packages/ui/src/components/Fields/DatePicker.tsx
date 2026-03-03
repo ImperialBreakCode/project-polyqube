@@ -17,6 +17,7 @@ interface DatePickerProps {
 	value?: Date;
 	onBlur?: Noop;
 	placeholder?: string;
+	'aria-invalid': boolean | 'true' | 'false' | 'grammar' | 'spelling';
 }
 
 const DatePicker = ({
@@ -28,6 +29,7 @@ const DatePicker = ({
 	value,
 	onBlur,
 	placeholder,
+	'aria-invalid': ariaInvalid,
 }: DatePickerProps) => {
 	const [open, setOpen] = useState(false);
 
@@ -48,6 +50,7 @@ const DatePicker = ({
 					id={id}
 					className={cn('justify-start font-normal', className)}
 					disabled={disabled}
+					aria-invalid={ariaInvalid}
 				>
 					{value
 						? value.toLocaleDateString()

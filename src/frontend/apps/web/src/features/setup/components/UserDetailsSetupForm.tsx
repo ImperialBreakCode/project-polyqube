@@ -2,19 +2,27 @@
 
 import { useCallback } from 'react';
 import z from 'zod';
-import { GenderEnum } from '@/shared/constants/genderEnum';
-import { AppForm, DatePickerController } from '@repo/ui/core';
+import { GENDER_LABELS, GenderEnum } from '@/shared/constants/genderEnum';
+import { AppForm, DatePickerController, SelectController } from '@repo/ui/core';
 import { WebAppTextController } from '@/shared/elements/FieldControllers';
 import { AppButton } from '@/shared/elements/AppButton';
+import { SelectValue } from '@repo/ui/components/Fields/SelectField';
 
 const userDetailsSetupFormSchema = z.object({
 	firstName: z.string(),
-	lastName: z.email(),
-	birthDate: z.iso.date(),
+	lastName: z.string(),
+	birthDate: z.date(),
 	gender: z.enum(GenderEnum),
 });
 
 const UserDetailsSetupForm = () => {
+	const genderValues: SelectValue[] = Object.entries(GENDER_LABELS).map(
+		([key, val]) => ({
+			label: val,
+			value: key,
+		}),
+	);
+
 	const onSubmit = useCallback(
 		(data: z.infer<typeof userDetailsSetupFormSchema>) => {
 			console.log(data);
@@ -28,6 +36,10 @@ const UserDetailsSetupForm = () => {
 				onSubmit={onSubmit}
 				name='user-details-setup'
 				schema={userDetailsSetupFormSchema}
+				defaultValues={{
+					firstName: '',
+					lastName: '',
+				}}
 			>
 				<div className='space-y-10 mb-7'>
 					<WebAppTextController
@@ -46,14 +58,15 @@ const UserDetailsSetupForm = () => {
 					>
 						<DatePickerController
 							label='Birthdate'
-							name='birthdate'
+							name='birthDate'
 							placeholder='Select your birthdate'
 						/>
-						{/* <WebAppPasswordController
-							label='Confirm password'
-							name='confirmPassword'
-							placeholder='Confirm your password...'
-						/> */}
+						<SelectController
+							label='Gender'
+							name='gender'
+							placeholder='Select your gender'
+							values={genderValues}
+						/>
 					</div>
 				</div>
 				<AppButton type='submit'>Next</AppButton>

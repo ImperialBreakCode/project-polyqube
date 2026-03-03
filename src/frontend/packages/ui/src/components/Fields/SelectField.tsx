@@ -1,0 +1,48 @@
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from '../ui/Select';
+
+export type SelectValue = {
+	value: string;
+	label: string;
+};
+
+interface SelectFieldProps {
+	values: SelectValue[];
+	placeholder?: string;
+	'aria-invalid'?: boolean | 'true' | 'false' | 'grammar' | 'spelling';
+	value?: string;
+	onChange: (value: string) => void;
+}
+
+const SelectField = ({
+	values,
+	placeholder,
+	'aria-invalid': ariaInvalid,
+	value,
+	onChange,
+}: SelectFieldProps) => {
+	return (
+		<Select value={value} onValueChange={onChange}>
+			<SelectTrigger aria-invalid={ariaInvalid}>
+				<SelectValue placeholder={placeholder} />
+			</SelectTrigger>
+			<SelectContent>
+				<SelectGroup>
+					{values.map((x) => (
+						<SelectItem key={x.value} value={x.value}>
+							{x.label}
+						</SelectItem>
+					))}
+				</SelectGroup>
+			</SelectContent>
+		</Select>
+	);
+};
+
+export default SelectField;

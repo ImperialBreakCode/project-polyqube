@@ -12,3 +12,4 @@ export * from './DropdownMenu';
 export * from './Avatar';
 export * from './Popover';
 export * from './Calendar';
+export * from './Select';
