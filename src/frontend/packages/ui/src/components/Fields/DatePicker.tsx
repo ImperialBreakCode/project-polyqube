@@ -1,4 +1,7 @@
+'use client';
+
 import { useState } from 'react';
+import { Noop } from 'react-hook-form';
 import { DayPicker } from 'react-day-picker';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/Popover';
 import { Button } from '../ui/Button';
@@ -6,22 +9,49 @@ import { Calendar } from '../ui/Calendar';
 import { cn } from '@repo/ui/lib/utils';
 
 interface DatePickerProps {
+	id?: string;
 	className?: string;
 	classNames?: React.ComponentProps<typeof DayPicker>['classNames'];
+	disabled?: boolean;
+	onChange?: (value: Date | undefined) => void;
+	value?: Date;
+	onBlur?: Noop;
+	placeholder?: string;
 }
 
-const DatePicker = ({ className, classNames }: DatePickerProps) => {
+const DatePicker = ({
+	className,
+	classNames,
+	id,
+	disabled = false,
+	onChange,
+	value,
+	onBlur,
+	placeholder,
+}: DatePickerProps) => {
 	const [open, setOpen] = useState(false);
-	const [date, setDate] = useState<Date | undefined>(undefined);
+
 	return (
-		<Popover open={open} onOpenChange={setOpen}>
+		<Popover
+			open={open}
+			onOpenChange={(val) => {
+				if (!val && onBlur) {
+					onBlur();
+				}
+
+				setOpen(val);
+			}}
+		>
 			<PopoverTrigger asChild>
 				<Button
 					variant='outline'
-					id='date'
+					id={id}
 					className={cn('justify-start font-normal', className)}
+					disabled={disabled}
 				>
-					{date ? date.toLocaleDateString() : 'Select date'}
+					{value
+						? value.toLocaleDateString()
+						: (placeholder ?? 'Select date')}
 				</Button>
 			</PopoverTrigger>
 			<PopoverContent
@@ -30,14 +60,15 @@ const DatePicker = ({ className, classNames }: DatePickerProps) => {
 			>
 				<Calendar
 					mode='single'
-					selected={date}
-					defaultMonth={date}
+					selected={value}
+					defaultMonth={value}
 					captionLayout='dropdown'
 					classNames={classNames}
 					onSelect={(date) => {
-						setDate(date);
+						onChange?.(date);
 						setOpen(false);
 					}}
+					disabled={disabled}
 				/>
 			</PopoverContent>
 		</Popover>

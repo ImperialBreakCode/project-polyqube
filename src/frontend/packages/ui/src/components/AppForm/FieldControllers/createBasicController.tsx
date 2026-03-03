@@ -22,7 +22,7 @@ const createBasicController = (
 		className,
 		fieldClassName,
 		placeholder,
-		disabled = false,
+		disabled,
 	}: BasicControllerProps<T>) {
 		const { formId, control } = useExtendedAppFormContext();
 
@@ -45,7 +45,7 @@ const createBasicController = (
 							className={fieldClassName}
 							aria-invalid={fieldState.invalid}
 							placeholder={placeholder}
-							disabled={disabled}
+							disabled={disabled ?? field.disabled}
 						/>
 					</BasicFieldWrapper>
 				)}
