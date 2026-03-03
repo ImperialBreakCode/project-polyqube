@@ -13,3 +13,6 @@ export * from './Avatar';
 export * from './Popover';
 export * from './Calendar';
 export * from './Select';
+export * from './Sonner';
+export * from './Dialog';
+export * from './Slider';
