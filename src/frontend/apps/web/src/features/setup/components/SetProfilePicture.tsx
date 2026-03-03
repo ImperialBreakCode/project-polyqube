@@ -7,7 +7,7 @@ import {
 	AvatarImage,
 } from '@repo/ui/components/ui/Avatar';
 import SelectProfilePicture from './SelectProfilePicture';
-import { AppButton } from '@/shared';
+import { AppButton } from '@/shared/elements/AppButton';
 
 const SetProfilePicture = () => {
 	const [profilePic, setProfilePic] = useState<File | null | undefined>();
