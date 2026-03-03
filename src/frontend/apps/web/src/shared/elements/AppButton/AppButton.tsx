@@ -11,13 +11,20 @@ const AppButton = ({
 
 	switch (variant) {
 		case 'default':
-			className = `border button-primary-colors cursor-pointer`;
+			className = `border button-primary-colors`;
+			break;
+		default:
+			className = 'border border-[#444444]';
 			break;
 	}
 
 	return (
 		<Button
-			className={cn(className, 'px-6 py-5', customClassname)}
+			className={cn(
+				className,
+				'px-6 py-5 cursor-pointer',
+				customClassname,
+			)}
 			variant={variant}
 			{...props}
 		>
