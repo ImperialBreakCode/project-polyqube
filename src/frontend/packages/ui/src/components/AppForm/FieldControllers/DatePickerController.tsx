@@ -6,7 +6,7 @@ import { BasicFieldWrapper } from '../FieldWrappers';
 import DatePicker from '../../Fields/DatePicker';
 import { generateControllerId } from './utils';
 
-interface DatePickerControllerProps {
+export interface DatePickerControllerProps {
 	label: string;
 	name: string;
 	className?: string;

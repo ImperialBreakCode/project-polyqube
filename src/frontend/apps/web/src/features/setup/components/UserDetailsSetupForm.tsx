@@ -3,10 +3,14 @@
 import { useCallback } from 'react';
 import z from 'zod';
 import { GENDER_LABELS, GenderEnum } from '@/shared/constants/genderEnum';
-import { AppForm, DatePickerController, SelectController } from '@repo/ui/core';
-import { WebAppTextController } from '@/shared/elements/FieldControllers';
+import { AppForm } from '@repo/ui/core';
+import {
+	WebAppTextController,
+	WebSelectController,
+} from '@/shared/elements/FieldControllers';
 import { AppButton } from '@/shared/elements/AppButton';
 import { SelectValue } from '@repo/ui/components/Fields/SelectField';
+import WebDateController from '@/shared/elements/FieldControllers/WebDateController';
 
 const userDetailsSetupFormSchema = z.object({
 	firstName: z.string(),
@@ -56,12 +60,12 @@ const UserDetailsSetupForm = () => {
 						className='flex flex-col sm:flex-row space-y-10
 							space-x-0 sm:space-x-3'
 					>
-						<DatePickerController
+						<WebDateController
 							label='Birthdate'
 							name='birthDate'
 							placeholder='Select your birthdate'
 						/>
-						<SelectController
+						<WebSelectController
 							label='Gender'
 							name='gender'
 							placeholder='Select your gender'
