@@ -16,3 +16,5 @@ export * from './Select';
 export * from './Sonner';
 export * from './Dialog';
 export * from './Slider';
+export * from './FileUpload';
+export * from './Cropper';
