@@ -1852,6 +1852,7 @@ function CropperArea(props: CropperAreaProps) {
 				height: snapPixels
 					? Math.round(cropSize.height)
 					: cropSize.height,
+				aspectRatio: 1,
 				...style,
 			}}
 		/>
