@@ -1,7 +1,9 @@
+'use client';
+
 import { useCallback } from 'react';
 import z from 'zod';
 import { GenderEnum } from '@/shared/constants/genderEnum';
-import { AppForm } from '@repo/ui/core';
+import { AppForm, DatePickerController } from '@repo/ui/core';
 import { WebAppTextController } from '@/shared/elements/FieldControllers';
 import { AppButton } from '@/shared/elements/AppButton';
 
@@ -42,19 +44,19 @@ const UserDetailsSetupForm = () => {
 						className='flex flex-col sm:flex-row space-y-10
 							space-x-0 sm:space-x-3'
 					>
-						{/* <WebAppPasswordController
-							label='Password'
-							name='password'
-							placeholder='Enter your password...'
+						<DatePickerController
+							label='Birthdate'
+							name='birthdate'
+							placeholder='Select your birthdate'
 						/>
-						<WebAppPasswordController
+						{/* <WebAppPasswordController
 							label='Confirm password'
 							name='confirmPassword'
 							placeholder='Confirm your password...'
 						/> */}
 					</div>
 				</div>
-				<AppButton type='submit'>Register</AppButton>
+				<AppButton type='submit'>Next</AppButton>
 			</AppForm>
 		</div>
 	);

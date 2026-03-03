@@ -1,5 +1,7 @@
+'use client';
+
 import { Controller } from 'react-hook-form';
-import { useExtendedAppFormContext } from '@repo/ui/hooks';
+import { useExtendedAppFormContext } from '../../../hooks';
 import { BasicFieldWrapper } from '../FieldWrappers';
 import DatePicker from '../../Fields/DatePicker';
 import { generateControllerId } from './utils';
