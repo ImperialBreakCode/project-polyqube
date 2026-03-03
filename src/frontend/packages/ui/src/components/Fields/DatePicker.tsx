@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Noop } from 'react-hook-form';
 import { DayPicker } from 'react-day-picker';
+import { ChevronDownIcon } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/Popover';
 import { Button } from '../ui/Button';
 import { Calendar } from '../ui/Calendar';
@@ -48,13 +49,22 @@ const DatePicker = ({
 				<Button
 					variant='outline'
 					id={id}
-					className={cn('justify-start font-normal', className)}
+					className={cn(
+						'justify-between',
+						value
+							? ''
+							: `text-muted-foreground
+								hover:text-muted-foreground`,
+						className,
+					)}
 					disabled={disabled}
 					aria-invalid={ariaInvalid}
 				>
 					{value
 						? value.toLocaleDateString()
 						: (placeholder ?? 'Select date')}
+
+					<ChevronDownIcon />
 				</Button>
 			</PopoverTrigger>
 			<PopoverContent

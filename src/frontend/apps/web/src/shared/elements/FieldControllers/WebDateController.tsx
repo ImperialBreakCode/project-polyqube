@@ -1,6 +1,8 @@
 import DatePickerController, {
 	DatePickerControllerProps,
 } from '@repo/ui/components/AppForm/FieldControllers/DatePickerController';
+import { webAppFieldClassName } from './styles';
+import { cn } from '@repo/ui/lib/utils';
 
 type WebDateControllerProps = Omit<
 	DatePickerControllerProps,
@@ -8,9 +10,12 @@ type WebDateControllerProps = Omit<
 >;
 
 const WebDateController = (props: WebDateControllerProps) => {
-	const className = '';
-
-	return <DatePickerController {...props} datePickerClassName={className} />;
+	return (
+		<DatePickerController
+			{...props}
+			datePickerClassName={cn(webAppFieldClassName, 'cursor-pointer')}
+		/>
+	);
 };
 
 export default WebDateController;

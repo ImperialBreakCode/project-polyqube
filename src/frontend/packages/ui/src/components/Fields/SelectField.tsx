@@ -16,6 +16,7 @@ interface SelectFieldProps {
 	values: SelectValue[];
 	placeholder?: string;
 	'aria-invalid'?: boolean | 'true' | 'false' | 'grammar' | 'spelling';
+	className?: string;
 	value?: string;
 	onChange: (value: string) => void;
 }
@@ -24,12 +25,13 @@ const SelectField = ({
 	values,
 	placeholder,
 	'aria-invalid': ariaInvalid,
+	className,
 	value,
 	onChange,
 }: SelectFieldProps) => {
 	return (
 		<Select value={value} onValueChange={onChange}>
-			<SelectTrigger aria-invalid={ariaInvalid}>
+			<SelectTrigger className={className} aria-invalid={ariaInvalid}>
 				<SelectValue placeholder={placeholder} />
 			</SelectTrigger>
 			<SelectContent>

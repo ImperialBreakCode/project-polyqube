@@ -8,6 +8,7 @@ export interface SelectControllerProps {
 	values: SelectValue[];
 	className?: string;
 	placeholder?: string;
+	selectClassName?: string;
 }
 
 const SelectController = ({
@@ -16,6 +17,7 @@ const SelectController = ({
 	className,
 	placeholder,
 	values,
+	selectClassName,
 }: SelectControllerProps) => {
 	const { control } = useFormContext();
 
@@ -34,6 +36,7 @@ const SelectController = ({
 						aria-invalid={fieldState.invalid}
 						placeholder={placeholder}
 						values={values}
+						className={selectClassName}
 					/>
 				</BasicFieldWrapper>
 			)}
