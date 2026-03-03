@@ -1,19 +1,26 @@
-import { Controller, FieldValues } from 'react-hook-form';
-import useExtendedAppFormContext from '../../../hooks/useExtendedAppFormContext';
-import { cn } from '@repo/ui/lib/utils';
+'use client';
+
+import { Controller } from 'react-hook-form';
+import { useExtendedAppFormContext } from '../../../hooks';
 import { BasicFieldWrapper } from '../FieldWrappers';
-import { PasswordField } from '../../Fields';
-import { BasicControllerProps } from './createBasicController';
+import DatePicker from '../../Fields/DatePicker';
 import { generateControllerId } from './utils';
 
-const PasswordFieldController = <T extends FieldValues>({
-	name,
+export interface DatePickerControllerProps {
+	label: string;
+	name: string;
+	className?: string;
+	datePickerClassName?: string;
+	placeholder?: string;
+}
+
+const DatePickerController = ({
 	label,
-	placeholder,
+	name,
 	className,
-	fieldClassName,
-	disabled = false,
-}: BasicControllerProps<T>) => {
+	datePickerClassName,
+	placeholder,
+}: DatePickerControllerProps) => {
 	const { formId, control } = useExtendedAppFormContext();
 	const id = generateControllerId(formId, name);
 
@@ -28,13 +35,12 @@ const PasswordFieldController = <T extends FieldValues>({
 					fieldState={fieldState}
 					labelText={label}
 				>
-					<PasswordField
+					<DatePicker
 						{...field}
 						id={id}
-						className={cn(fieldClassName, 'pr-2')}
+						className={datePickerClassName}
 						aria-invalid={fieldState.invalid}
 						placeholder={placeholder}
-						disabled={disabled ?? field.disabled}
 					/>
 				</BasicFieldWrapper>
 			)}
@@ -42,4 +48,4 @@ const PasswordFieldController = <T extends FieldValues>({
 	);
 };
 
-export default PasswordFieldController;
+export default DatePickerController;

@@ -12,7 +12,7 @@ const AuthLayoutRightSide = () => {
 				className='text-7xl absolute bottom-15 left-8 capitalize
 					font-light z-100'
 			>
-				{pathname.split('/').splice(-1)}
+				{pathname.split('/').splice(-1)[0]!.replace(/-/g, ' ')}
 			</h1>
 			<LiquidEther
 				mouseForce={30}

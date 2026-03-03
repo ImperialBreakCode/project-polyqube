@@ -5,8 +5,8 @@ import { Field, FieldError, FieldLabel } from '@repo/ui/components/ui/Field';
 interface BasicFieldWrapperProps {
 	labelText: string;
 	fieldState: ControllerFieldState;
-	htmlFor: string;
 	children: ReactNode;
+	htmlFor?: string;
 	className?: string;
 }
 

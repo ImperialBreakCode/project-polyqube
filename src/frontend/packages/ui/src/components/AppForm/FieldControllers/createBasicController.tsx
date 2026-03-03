@@ -1,6 +1,6 @@
 import { Controller, FieldValues, Path } from 'react-hook-form';
-import { BasicInputFieldProps } from '@repo/ui/components/Fields/types';
 import BasicFieldWrapper from '@repo/ui/components/AppForm/FieldWrappers/BasicFieldWrapper';
+import { BasicInputFieldProps } from '../../Fields/types';
 import useExtendedAppFormContext from '../../../hooks/useExtendedAppFormContext';
 import { generateControllerId } from './utils';
 
@@ -22,7 +22,7 @@ const createBasicController = (
 		className,
 		fieldClassName,
 		placeholder,
-		disabled = false,
+		disabled,
 	}: BasicControllerProps<T>) {
 		const { formId, control } = useExtendedAppFormContext();
 
@@ -45,7 +45,7 @@ const createBasicController = (
 							className={fieldClassName}
 							aria-invalid={fieldState.invalid}
 							placeholder={placeholder}
-							disabled={disabled}
+							disabled={disabled ?? field.disabled}
 						/>
 					</BasicFieldWrapper>
 				)}

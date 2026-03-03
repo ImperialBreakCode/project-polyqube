@@ -59,14 +59,12 @@ const AppForm = <T extends FieldValues>({
 
 	const onSubmitHandler = useCallback<SubmitHandler<T>>(
 		(data, event) => {
-			event?.preventDefault();
-			event?.stopPropagation();
 			onSubmit(data, event);
 			if (resetAfterSubmit) {
-				form.reset(defaultValues);
+				form.reset();
 			}
 		},
-		[onSubmit, defaultValues, form, resetAfterSubmit],
+		[onSubmit, form, resetAfterSubmit],
 	);
 
 	return (
@@ -74,10 +72,7 @@ const AppForm = <T extends FieldValues>({
 			<FormProvider {...form}>
 				<form
 					id={id}
-					onSubmit={(e) => {
-						e.stopPropagation();
-						form.handleSubmit(onSubmitHandler, onError)(e);
-					}}
+					onSubmit={form.handleSubmit(onSubmitHandler, onError)}
 				>
 					{children}
 				</form>
