@@ -1,6 +1,6 @@
 import { Controller, FieldValues, Path } from 'react-hook-form';
-import { BasicInputFieldProps } from '@repo/ui/components/Fields/types';
 import BasicFieldWrapper from '@repo/ui/components/AppForm/FieldWrappers/BasicFieldWrapper';
+import { BasicInputFieldProps } from '../../Fields/types';
 import useExtendedAppFormContext from '../../../hooks/useExtendedAppFormContext';
 import { generateControllerId } from './utils';
 

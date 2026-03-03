@@ -9,7 +9,7 @@ import {
 	WebSelectController,
 } from '@/shared/elements/FieldControllers';
 import { AppButton } from '@/shared/elements/AppButton';
-import { SelectValue } from '@repo/ui/components/Fields/SelectField';
+import { SelectFieldValue } from '@repo/ui/components/Fields/SelectField';
 import WebDateController from '@/shared/elements/FieldControllers/WebDateController';
 
 const userDetailsSetupFormSchema = z.object({
@@ -20,7 +20,7 @@ const userDetailsSetupFormSchema = z.object({
 });
 
 const UserDetailsSetupForm = () => {
-	const genderValues: SelectValue[] = Object.entries(GENDER_LABELS).map(
+	const genderValues: SelectFieldValue[] = Object.entries(GENDER_LABELS).map(
 		([key, val]) => ({
 			label: val,
 			value: key,

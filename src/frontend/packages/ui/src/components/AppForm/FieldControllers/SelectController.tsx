@@ -1,11 +1,11 @@
 import { Controller, useFormContext } from 'react-hook-form';
 import { BasicFieldWrapper } from '../FieldWrappers';
-import { SelectField, SelectValue } from '../../Fields';
+import { SelectField, SelectFieldValue } from '../../Fields';
 
 export interface SelectControllerProps {
 	name: string;
 	label: string;
-	values: SelectValue[];
+	values: SelectFieldValue[];
 	className?: string;
 	placeholder?: string;
 	selectClassName?: string;

@@ -7,13 +7,13 @@ import {
 	SelectValue,
 } from '../ui/Select';
 
-export type SelectValue = {
+export type SelectFieldValue = {
 	value: string;
 	label: string;
 };
 
 interface SelectFieldProps {
-	values: SelectValue[];
+	values: SelectFieldValue[];
 	placeholder?: string;
 	'aria-invalid'?: boolean | 'true' | 'false' | 'grammar' | 'spelling';
 	className?: string;
