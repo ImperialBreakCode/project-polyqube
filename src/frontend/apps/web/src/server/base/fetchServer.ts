@@ -22,13 +22,17 @@ export type FetchServerReturnType<T = unknown> = {
 
 export async function fetchServer<Rs = unknown, Rq = unknown>(
 	url: string,
-	{ method = 'GET', body, ...rest }: FetchServerOptions<Rq>,
+	{ method = 'GET', body, headers, ...rest }: FetchServerOptions<Rq>,
 ): Promise<FetchServerReturnType<Rs>> {
 	try {
 		const result = await fetch(getServerRoute(url), {
 			...rest,
 			method,
 			body: body ? JSON.stringify(body) : undefined,
+			headers: {
+				...headers,
+				'Content-Type': 'application/json',
+			},
 		});
 
 		if (result.ok) {
