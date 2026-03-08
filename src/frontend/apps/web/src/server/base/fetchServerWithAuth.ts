@@ -1,5 +1,4 @@
 'use server';
-import { UrlInput } from '@repo/utils/server/fetchServerApiUtils';
 import { STATUS_CODES } from '@/shared/constants/statusCodes';
 import {
 	fetchServer,
@@ -26,7 +25,7 @@ type RefreshAuthTokensResponseDTO = {
 };
 
 export async function fetchServerWithAuth<Rs = unknown, Rq = unknown>(
-	url: UrlInput,
+	url: string,
 	{ headers, ...restOptions }: FetchServerOptions<Rq>,
 ): Promise<FetchServerReturnType<Rs>> {
 	let accessToken = (await getAccessTokenCookie())?.value;

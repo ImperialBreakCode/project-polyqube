@@ -1,6 +1,5 @@
 'use server';
 import {
-	UrlInput,
 	MethodTypes,
 	getServerRoute,
 	ApiServerProblemResponse,
@@ -22,7 +21,7 @@ export type FetchServerReturnType<T = unknown> = {
 };
 
 export async function fetchServer<Rs = unknown, Rq = unknown>(
-	url: UrlInput,
+	url: string,
 	{ method = 'GET', body, ...rest }: FetchServerOptions<Rq>,
 ): Promise<FetchServerReturnType<Rs>> {
 	try {

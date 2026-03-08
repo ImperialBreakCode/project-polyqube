@@ -1,7 +1,7 @@
 'use client';
 
+import { FetchServerReturnType } from '@/server/base';
 import { useCallback, useEffect, useState } from 'react';
-import { ServerRequestReturnType } from '@/server/base/serverRequest';
 
 type UseApiOptions<Rq = unknown> = {
 	initRequestData?: Rq;
@@ -9,43 +9,33 @@ type UseApiOptions<Rq = unknown> = {
 };
 
 function useApi<Rs = unknown, Rq = unknown>(
-	createRequestFunc: () => ServerRequestReturnType<Rs, Rq>,
+	request: (body: Rq) => Promise<FetchServerReturnType<Rs>>,
 	options?: UseApiOptions<Rq>,
 ) {
-	const { fetchApi, data, error, problemDetails } = createRequestFunc();
-
 	const [loading, setLoading] = useState<boolean>(false);
-	const [apiDataState, setApiDataState] = useState<
-		Omit<ServerRequestReturnType<Rs, Rq>, 'fetchApi'>
-	>({
-		data,
-		error,
-		problemDetails,
-	});
+	const [apiDataState, setApiDataState] = useState<FetchServerReturnType<Rs>>(
+		{},
+	);
 
-	const fetchApiCall = useCallback(
+	const fetchApi = useCallback(
 		async (fetchBody: Rq) => {
 			setLoading(true);
-			const response = await fetchApi(fetchBody);
+			const response = await request(fetchBody);
 
 			if (response.error) {
 				console.error(response.error);
 			}
 
-			setApiDataState({
-				data: response.body,
-				error: response.error,
-				problemDetails: response.problemResponse,
-			});
+			setApiDataState(response);
 			setLoading(false);
 		},
-		[fetchApi],
+		[request],
 	);
 
 	useEffect(() => {
 		const initRequestCall = async () => {
 			if (options?.initRequestData && options?.requestOnInit) {
-				await fetchApiCall(options?.initRequestData);
+				await fetchApi(options?.initRequestData);
 			}
 		};
 
@@ -53,11 +43,11 @@ function useApi<Rs = unknown, Rq = unknown>(
 	});
 
 	return {
-		data: apiDataState.data,
+		data: apiDataState.body,
 		loading,
-		problemDetails: apiDataState.problemDetails,
+		problemDetails: apiDataState.problemResponse,
 		error: apiDataState.error,
-		fetchApi: fetchApiCall,
+		fetchApi,
 	};
 }
 

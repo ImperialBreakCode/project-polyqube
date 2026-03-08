@@ -3,7 +3,7 @@
 import { ACCOUNT_SERVICE_ROUTE } from '@repo/utils/constants/apiRoutes';
 import { serverRequest } from './base';
 
-const USER_CONTROLLER = `${ACCOUNT_SERVICE_ROUTE}/user`;
+const USER_CONTROLLER = `${ACCOUNT_SERVICE_ROUTE}/users`;
 
 type RegisterUserRequestDTO = {
 	username: string;
@@ -11,11 +11,13 @@ type RegisterUserRequestDTO = {
 	password: string;
 };
 
-export function registerRequest() {
-	return serverRequest<null, RegisterUserRequestDTO>(
+export async function registerRequest(body: RegisterUserRequestDTO) {
+	return await serverRequest<null, RegisterUserRequestDTO>(
 		`${USER_CONTROLLER}/register`,
 		{
 			method: 'POST',
+			requestWithAuth: false,
+			body,
 		},
 	);
 }

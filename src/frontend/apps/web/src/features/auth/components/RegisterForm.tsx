@@ -27,8 +27,16 @@ const RegisterForm = () => {
 	const { register, loading, problemMessage } = useUserRegister();
 
 	const onSubmit = useCallback(
-		async (data: z.infer<typeof registerFormSchema>) => {
-			await register(data);
+		async ({
+			password,
+			email,
+			username,
+		}: z.infer<typeof registerFormSchema>) => {
+			await register({
+				email,
+				password,
+				username,
+			});
 		},
 		[register],
 	);
@@ -42,6 +50,7 @@ const RegisterForm = () => {
 	return (
 		<div>
 			<AppForm
+				resetAfterSubmit={false}
 				onSubmit={onSubmit}
 				name='register'
 				schema={registerFormSchema}
