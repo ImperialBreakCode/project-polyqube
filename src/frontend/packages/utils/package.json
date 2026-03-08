@@ -4,7 +4,8 @@
 	"private": true,
 	"type": "module",
 	"exports": {
-		"./server/*": "./src/server/*.ts"
+		"./server/*": "./src/server/*.ts",
+		"./errors/*": "./src/errors/*.ts"
 	},
 	"devDependencies": {
 		"@repo/eslint-config": "workspace:*",
