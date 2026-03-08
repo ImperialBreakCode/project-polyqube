@@ -11,8 +11,8 @@ type RegisterUserRequestDTO = {
 	password: string;
 };
 
-export async function registerRequest() {
-	return await serverRequest<null, RegisterUserRequestDTO>(
+export function registerRequest() {
+	return serverRequest<null, RegisterUserRequestDTO>(
 		`${USER_CONTROLLER}/register`,
 		{
 			method: 'POST',
