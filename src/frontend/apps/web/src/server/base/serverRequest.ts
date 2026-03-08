@@ -19,7 +19,7 @@ export type ServerRequestReturnType<Rs = unknown, Rq = unknown> = {
 	data?: Rs;
 	error?: string;
 	problemDetails?: ApiServerProblemResponse;
-	fetchApi: (fetchBody?: Rq) => Promise<FetchServerReturnType<Rs>>;
+	fetchApi: (fetchBody: Rq) => Promise<FetchServerReturnType<Rs>>;
 };
 
 export function serverRequest<Rs = unknown, Rq = unknown>(
@@ -30,7 +30,7 @@ export function serverRequest<Rs = unknown, Rq = unknown>(
 		? fetchServerWithAuth<Rs, Rq>
 		: fetchServer<Rs, Rq>;
 
-	const fetchApi = async (fetchBody?: Rq) =>
+	const fetchApi = async (fetchBody: Rq) =>
 		await fetchFunc(url, { body: fetchBody, ...rest });
 
 	return { fetchApi };

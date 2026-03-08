@@ -24,7 +24,7 @@ function useApi<Rs = unknown, Rq = unknown>(
 	});
 
 	const fetchApiCall = useCallback(
-		async (fetchBody?: Rq) => {
+		async (fetchBody: Rq) => {
 			setLoading(true);
 			const response = await fetchApi(fetchBody);
 

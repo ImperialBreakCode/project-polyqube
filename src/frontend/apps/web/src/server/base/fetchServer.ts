@@ -11,7 +11,7 @@ export type FetchServerOptions<T = unknown> = {
 	cache?: RequestCache;
 	next?: NextFetchRequestConfig;
 	headers?: HeadersInit;
-	body?: T;
+	body: T;
 };
 
 export type FetchServerReturnType<T = unknown> = {

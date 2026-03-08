@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import z from 'zod';
 import { AppForm } from '@repo/ui/core';
 import {
@@ -9,18 +9,35 @@ import {
 	WebAppTextController,
 } from '@/shared/elements/FieldControllers';
 import { AppButton } from '@/shared/elements/AppButton';
+import { useUserRegister } from '../api';
 
-const registerFormSchema = z.object({
-	username: z.string(),
-	email: z.email(),
-	password: z.string(),
-	confirmPassword: z.string(),
-});
+const registerFormSchema = z
+	.object({
+		username: z.string(),
+		email: z.email(),
+		password: z.string(),
+		confirmPassword: z.string(),
+	})
+	.refine((data) => data.password === data.confirmPassword, {
+		message: "Passwords don't match",
+		path: ['confirmPassword'],
+	});
 
 const RegisterForm = () => {
-	const onSubmit = useCallback((data: z.infer<typeof registerFormSchema>) => {
-		console.log(data);
-	}, []);
+	const { register, loading, problemMessage } = useUserRegister();
+
+	const onSubmit = useCallback(
+		async (data: z.infer<typeof registerFormSchema>) => {
+			await register(data);
+		},
+		[register],
+	);
+
+	useEffect(() => {
+		if (problemMessage) {
+			alert(problemMessage);
+		}
+	}, [problemMessage]);
 
 	return (
 		<div>
@@ -62,7 +79,9 @@ const RegisterForm = () => {
 						/>
 					</div>
 				</div>
-				<AppButton type='submit'>Register</AppButton>
+				<AppButton disabled={loading} type='submit'>
+					{loading ? 'Please wait...' : 'Register'}
+				</AppButton>
 			</AppForm>
 		</div>
 	);
