@@ -1,8 +1,8 @@
 'use client';
 
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import z from 'zod';
-import { AppForm } from '@repo/ui/core';
+import { AppForm, ErrorAlert } from '@repo/ui/core';
 import {
 	WebAppEmailController,
 	WebAppPasswordController,
@@ -24,7 +24,7 @@ const registerFormSchema = z
 	});
 
 const RegisterForm = () => {
-	const { register, loading, problemMessage } = useUserRegister();
+	const { register, loading, errorMessage } = useUserRegister();
 
 	const onSubmit = useCallback(
 		async ({
@@ -41,12 +41,6 @@ const RegisterForm = () => {
 		[register],
 	);
 
-	useEffect(() => {
-		if (problemMessage) {
-			alert(problemMessage);
-		}
-	}, [problemMessage]);
-
 	return (
 		<div>
 			<AppForm
@@ -61,6 +55,15 @@ const RegisterForm = () => {
 					username: '',
 				}}
 			>
+				{errorMessage && (
+					<ErrorAlert
+						title='Registration error'
+						className='mb-10 w-full'
+					>
+						{errorMessage}
+					</ErrorAlert>
+				)}
+
 				<div className='space-y-10 mb-7'>
 					<WebAppTextController
 						label='Username'

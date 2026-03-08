@@ -1,3 +1,4 @@
+export { default as ErrorAlert } from './ErrorAlert';
 export * from './FloatingLines';
 export * from './LiquidEther';
 
