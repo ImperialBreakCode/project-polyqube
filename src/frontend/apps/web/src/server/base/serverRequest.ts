@@ -15,7 +15,12 @@ type ServerRequestOptions<T = unknown> = FetchServerOptions<T> & {
 
 export async function serverRequest<Rs = unknown, Rq = unknown>(
 	url: UrlInput,
-	{ requestOnInit, requestWithAuth, body, ...rest }: ServerRequestOptions<Rq>,
+	{
+		requestOnInit,
+		requestWithAuth = true,
+		body,
+		...rest
+	}: ServerRequestOptions<Rq>,
 ) {
 	const fetchFunc = requestWithAuth
 		? fetchServerWithAuth<Rs, Rq>
