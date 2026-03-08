@@ -25,17 +25,17 @@ type RefreshAuthTokensResponseDTO = {
 	accessToken: string;
 };
 
-export async function fetchServerWithAuth<T = unknown>(
+export async function fetchServerWithAuth<Rs = unknown, Rq = unknown>(
 	url: UrlInput,
-	{ headers, ...restOptions }: FetchServerOptions,
-): Promise<FetchServerReturnType<T>> {
+	{ headers, ...restOptions }: FetchServerOptions<Rq>,
+): Promise<FetchServerReturnType<Rs>> {
 	let accessToken = (await getAccessTokenCookie())?.value;
 	let refreshToken = (await getRefreshTokenCookie())?.value;
 	let sessionRefreshed = false;
 	let tryRefresh = !accessToken;
 
 	if (!refreshToken) {
-		return await unauthorized<T>();
+		return await unauthorized<Rs>();
 	}
 
 	while (!sessionRefreshed) {
@@ -43,7 +43,7 @@ export async function fetchServerWithAuth<T = unknown>(
 			const response = await refreshTokenSession(refreshToken);
 
 			if (response.statusCode !== STATUS_CODES.ok || !response.body) {
-				return await unauthorized<T>();
+				return await unauthorized<Rs>();
 			}
 
 			accessToken = response.body.accessToken;
@@ -51,7 +51,7 @@ export async function fetchServerWithAuth<T = unknown>(
 			sessionRefreshed = true;
 		}
 
-		const response = await fetchServer<T>(url, {
+		const response = await fetchServer<Rs, Rq>(url, {
 			...restOptions,
 			headers: {
 				...headers,
@@ -65,7 +65,7 @@ export async function fetchServerWithAuth<T = unknown>(
 
 		tryRefresh = true;
 	}
-	return await unauthorized<T>();
+	return await unauthorized<Rs>();
 }
 
 //

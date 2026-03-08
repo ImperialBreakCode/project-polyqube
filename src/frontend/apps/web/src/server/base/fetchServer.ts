@@ -21,10 +21,10 @@ export type FetchServerReturnType<T = unknown> = {
 	error?: string;
 };
 
-export async function fetchServer<T = unknown, R = unknown>(
+export async function fetchServer<Rs = unknown, Rq = unknown>(
 	url: UrlInput,
-	{ method = 'GET', body, ...rest }: FetchServerOptions<R>,
-): Promise<FetchServerReturnType<T>> {
+	{ method = 'GET', body, ...rest }: FetchServerOptions<Rq>,
+): Promise<FetchServerReturnType<Rs>> {
 	try {
 		const result = await fetch(getServerRoute(url), {
 			...rest,
@@ -33,7 +33,7 @@ export async function fetchServer<T = unknown, R = unknown>(
 		});
 
 		if (result.ok) {
-			const bodyResponse = (await result.json()) as T;
+			const bodyResponse = (await result.json()) as Rs;
 			return {
 				body: bodyResponse,
 				statusCode: result.status,
