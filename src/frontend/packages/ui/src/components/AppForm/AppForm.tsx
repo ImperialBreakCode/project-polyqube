@@ -13,11 +13,19 @@ import {
 } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ZodType } from 'zod';
-import { AppFormError, type AppFormContextType } from './types';
 
 function generateFormId(formName: string) {
 	return `form--${formName}`;
 }
+
+export type AppFormContextType = {
+	formId: string;
+};
+
+export type AppFormError = {
+	fieldName: string;
+	errorMessage: string;
+};
 
 export const AppFormContext = createContext<AppFormContextType>({ formId: '' });
 
