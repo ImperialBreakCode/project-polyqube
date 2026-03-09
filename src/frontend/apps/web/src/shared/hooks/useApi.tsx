@@ -11,15 +11,45 @@ type UseApiOptions<Rq = unknown> = {
 	requestOnInit?: boolean;
 };
 
+export type ProblemTypeFormNamePath = Record<
+	string,
+	{
+		fieldName: string;
+		errorMessage?: string;
+	}
+>;
+
 function uncapitalize(str: string): string {
 	if (!str) return str;
 	return str.charAt(0).toLowerCase() + str.slice(1);
 }
 
+export function getFormErrorsFromProblemDetails(
+	problemTypeMap: ProblemTypeFormNamePath,
+	problemDetails: ApiServerProblemResponse,
+): AppFormError[] {
+	const errorInfo = problemTypeMap[problemDetails.type];
+	if (!errorInfo) {
+		return [];
+	}
+
+	const formError: AppFormError = {
+		fieldName: errorInfo.fieldName,
+		errorMessage: errorInfo.errorMessage ?? problemDetails.detail,
+	};
+
+	return [formError];
+}
+
 export function getProblemFormMessage(
 	problemDetails?: ApiServerProblemResponse,
+	map?: ProblemTypeFormNamePath,
 ) {
 	if (!problemDetails) {
+		return null;
+	}
+
+	if (map && map[problemDetails.type]) {
 		return null;
 	}
 

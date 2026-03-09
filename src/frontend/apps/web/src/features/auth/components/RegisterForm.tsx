@@ -24,7 +24,7 @@ const registerFormSchema = z
 	});
 
 const RegisterForm = () => {
-	const { register, loading, errorMessage, validationErrors } =
+	const { register, loading, errorMessage, registerFormErrors } =
 		useUserRegister();
 
 	const onSubmit = useCallback(
@@ -49,7 +49,7 @@ const RegisterForm = () => {
 				onSubmit={onSubmit}
 				name='register'
 				schema={registerFormSchema}
-				errors={validationErrors}
+				errors={registerFormErrors}
 				defaultValues={{
 					confirmPassword: '',
 					password: '',
