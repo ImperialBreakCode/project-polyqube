@@ -10,10 +10,13 @@ import { Spinner } from '@repo/ui/components/ui/Spinner';
 import { AppButton } from '@/shared/elements/AppButton';
 import { ROUTE_PATHS } from '@/shared/constants/routes';
 import { useVerifyEmail } from '@/features/email/api';
+import { useParams } from 'next/navigation';
 
 function VerifyEmail() {
+	const { token } = useParams<{ token: string }>();
+
 	const { loading, success } = useVerifyEmail({
-		emailVerificationToken: '',
+		emailVerificationToken: token,
 	});
 
 	return (
