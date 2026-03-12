@@ -10,6 +10,8 @@ import {
 } from '@/shared/elements/FieldControllers';
 import { AppButton } from '@/shared/elements/AppButton';
 import { useUserRegister } from '../api';
+import { useRouter } from 'next/navigation';
+import { ROUTE_PATHS } from '@/shared/constants/routes';
 
 const registerFormSchema = z
 	.object({
@@ -24,6 +26,7 @@ const registerFormSchema = z
 	});
 
 const RegisterForm = () => {
+	const router = useRouter();
 	const { register, loading, errorMessage, registerFormErrors } =
 		useUserRegister();
 
@@ -38,8 +41,10 @@ const RegisterForm = () => {
 				password,
 				username,
 			});
+
+			router.push(ROUTE_PATHS.infoPanels.userRegistered);
 		},
-		[register],
+		[register, router],
 	);
 
 	return (
