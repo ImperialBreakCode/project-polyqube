@@ -21,3 +21,18 @@ export async function registerRequest(body: RegisterUserRequestDTO) {
 		},
 	);
 }
+
+type VerifyEmailRequestDTO = {
+	emailVerificationToken: string;
+};
+
+export async function verifyEmailRequest(body: VerifyEmailRequestDTO) {
+	return await serverRequest<null, VerifyEmailRequestDTO>(
+		`${USER_CONTROLLER}/verify-email`,
+		{
+			method: 'POST',
+			requestWithAuth: false,
+			body,
+		},
+	);
+}

@@ -124,6 +124,7 @@ function useApi<Rs = unknown, Rq = unknown>(
 		validationErrors,
 		error: apiDataState.error,
 		fetchApi,
+		statusCode: apiDataState.statusCode,
 	};
 }
 
