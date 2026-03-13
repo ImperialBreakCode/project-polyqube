@@ -13,8 +13,6 @@ namespace API.Accounts.Domain.Aggregates.UserAggregate
             _emails = new List<UserEmail>();
             Username = username;
             PasswordHash = passwordHash;
-
-            RaiseDomainEvent(new UserCreatedDomainEvent(Id));
         }
 
         public string Username { get; internal set; }
@@ -57,6 +55,8 @@ namespace API.Accounts.Domain.Aggregates.UserAggregate
             }
 
             _emails.Add(email);
+
+            RaiseDomainEvent(new EmailAddedDomainEvent(Id, email.Email));
         }
 
         public void RemoveEmail(string email)
