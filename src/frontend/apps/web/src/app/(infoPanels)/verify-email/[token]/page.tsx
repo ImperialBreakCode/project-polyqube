@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import {
 	Card,
@@ -33,8 +35,8 @@ function VerifyEmail() {
 				)}
 
 				{loading ? (
-					<CardTitle>
-						<Spinner /> Verifying email
+					<CardTitle className='flex flex-row space-x-5 items-center'>
+						<Spinner /> <span>Verifying email...</span>
 					</CardTitle>
 				) : (
 					!success && <CardTitle>Could Not Verify Email</CardTitle>

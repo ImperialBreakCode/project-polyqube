@@ -115,7 +115,8 @@ function useApi<Rs = unknown, Rq = unknown>(
 		};
 
 		initRequestCall();
-	});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	return {
 		data: apiDataState.body,
