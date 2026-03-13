@@ -18,3 +18,6 @@ export * from './Dialog';
 export * from './Slider';
 export * from './FileUpload';
 export * from './Cropper';
+export * from './Alert';
+export * from './Card';
+export * from './Spinner';

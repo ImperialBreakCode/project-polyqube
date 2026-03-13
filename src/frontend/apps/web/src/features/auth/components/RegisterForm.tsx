@@ -2,32 +2,59 @@
 
 import { useCallback } from 'react';
 import z from 'zod';
-import { AppForm } from '@repo/ui/core';
+import { AppForm, ErrorAlert } from '@repo/ui/core';
 import {
 	WebAppEmailController,
 	WebAppPasswordController,
 	WebAppTextController,
 } from '@/shared/elements/FieldControllers';
 import { AppButton } from '@/shared/elements/AppButton';
+import { useUserRegister } from '../api';
+import { useRouter } from 'next/navigation';
+import { ROUTE_PATHS } from '@/shared/constants/routes';
 
-const registerFormSchema = z.object({
-	username: z.string(),
-	email: z.email(),
-	password: z.string(),
-	confirmPassword: z.string(),
-});
+const registerFormSchema = z
+	.object({
+		username: z.string(),
+		email: z.email(),
+		password: z.string(),
+		confirmPassword: z.string(),
+	})
+	.refine((data) => data.password === data.confirmPassword, {
+		message: "Passwords don't match",
+		path: ['confirmPassword'],
+	});
 
 const RegisterForm = () => {
-	const onSubmit = useCallback((data: z.infer<typeof registerFormSchema>) => {
-		console.log(data);
-	}, []);
+	const router = useRouter();
+	const { register, loading, errorMessage, registerFormErrors } =
+		useUserRegister();
+
+	const onSubmit = useCallback(
+		async ({
+			password,
+			email,
+			username,
+		}: z.infer<typeof registerFormSchema>) => {
+			await register({
+				email,
+				password,
+				username,
+			});
+
+			router.push(ROUTE_PATHS.infoPanels.userRegistered);
+		},
+		[register, router],
+	);
 
 	return (
 		<div>
 			<AppForm
+				resetAfterSubmit={false}
 				onSubmit={onSubmit}
 				name='register'
 				schema={registerFormSchema}
+				errors={registerFormErrors}
 				defaultValues={{
 					confirmPassword: '',
 					password: '',
@@ -35,6 +62,15 @@ const RegisterForm = () => {
 					username: '',
 				}}
 			>
+				{errorMessage && (
+					<ErrorAlert
+						title='Registration error'
+						className='mb-10 w-full'
+					>
+						{errorMessage}
+					</ErrorAlert>
+				)}
+
 				<div className='space-y-10 mb-7'>
 					<WebAppTextController
 						label='Username'
@@ -62,7 +98,9 @@ const RegisterForm = () => {
 						/>
 					</div>
 				</div>
-				<AppButton type='submit'>Register</AppButton>
+				<AppButton disabled={loading} type='submit'>
+					{loading ? 'Please wait...' : 'Register'}
+				</AppButton>
 			</AppForm>
 		</div>
 	);

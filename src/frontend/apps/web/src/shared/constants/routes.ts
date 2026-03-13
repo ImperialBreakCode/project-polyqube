@@ -25,4 +25,8 @@ export const ROUTE_PATHS = {
 	userPanel: {
 		homeDashboard: USER_PANEL_PATH,
 	},
+	infoPanels: {
+		userRegistered: route('user-registered'),
+		verifyEmail: route('verify-email'),
+	},
 };

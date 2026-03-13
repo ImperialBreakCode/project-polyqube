@@ -1,10 +1,11 @@
 'use client';
 
-import { createContext, ReactNode, useCallback } from 'react';
+import { createContext, ReactNode, useCallback, useEffect } from 'react';
 import {
 	DefaultValues,
 	FieldValues,
 	FormProvider,
+	Path,
 	SubmitErrorHandler,
 	SubmitHandler,
 	useForm,
@@ -12,11 +13,19 @@ import {
 } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ZodType } from 'zod';
-import { type AppFormContextType } from './types';
 
 function generateFormId(formName: string) {
 	return `form--${formName}`;
 }
+
+export type AppFormContextType = {
+	formId: string;
+};
+
+export type AppFormError = {
+	fieldName: string;
+	errorMessage: string;
+};
 
 export const AppFormContext = createContext<AppFormContextType>({ formId: '' });
 
@@ -27,7 +36,7 @@ interface AppFormProps<T extends FieldValues> {
 	onSubmit: SubmitHandler<T>;
 	onError?: SubmitErrorHandler<T>;
 	values?: T;
-	//errors?
+	errors?: AppFormError[];
 	defaultValues?: DefaultValues<T>;
 	mode?: UseFormProps<T>['mode'];
 	//className?: string;
@@ -44,6 +53,7 @@ const AppForm = <T extends FieldValues>({
 	defaultValues,
 	values,
 	resetAfterSubmit = true,
+	errors = [],
 }: AppFormProps<T>) => {
 	const id = generateFormId(name);
 
@@ -66,6 +76,14 @@ const AppForm = <T extends FieldValues>({
 		},
 		[onSubmit, form, resetAfterSubmit],
 	);
+
+	useEffect(() => {
+		for (const error of errors) {
+			form.setError(error.fieldName as Path<T>, {
+				message: error.errorMessage,
+			});
+		}
+	}, [errors, form]);
 
 	return (
 		<AppFormContext.Provider value={{ formId: id }}>
