@@ -1,13 +1,16 @@
 'use client';
 
 import { useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import z from 'zod';
-import { AppForm } from '@repo/ui/core';
+import { AppForm, ErrorAlert } from '@repo/ui/core';
 import {
 	WebAppPasswordController,
 	WebAppTextController,
 } from '@/shared/elements/FieldControllers';
 import { AppButton } from '@/shared/elements/AppButton';
+import { ROUTE_PATHS } from '@/shared/constants/routes';
+import { useUserLogin } from '../api';
 
 const loginFormSchema = z.object({
 	username: z.string(),
@@ -15,9 +18,17 @@ const loginFormSchema = z.object({
 });
 
 const LoginForm = () => {
-	const onSubmit = useCallback((data: z.infer<typeof loginFormSchema>) => {
-		console.log(data);
-	}, []);
+	const router = useRouter();
+	const { loginFormErrors, login, loading, errorMessage } = useUserLogin();
+
+	const onSubmit = useCallback(
+		async (data: z.infer<typeof loginFormSchema>) => {
+			await login(data);
+
+			router.push(ROUTE_PATHS.userPanel.homeDashboard);
+		},
+		[login, router],
+	);
 
 	return (
 		<div>
@@ -29,7 +40,14 @@ const LoginForm = () => {
 					password: '',
 					username: '',
 				}}
+				errors={loginFormErrors}
 			>
+				{errorMessage && (
+					<ErrorAlert title='Login error' className='mb-10 w-full'>
+						{errorMessage}
+					</ErrorAlert>
+				)}
+
 				<div className='space-y-10 mb-7'>
 					<WebAppTextController
 						label='Username'
@@ -42,7 +60,9 @@ const LoginForm = () => {
 						placeholder='Enter your password...'
 					/>
 				</div>
-				<AppButton type='submit'>Login</AppButton>
+				<AppButton disabled={loading} type='submit'>
+					{loading ? 'Please wait...' : 'Login'}
+				</AppButton>
 			</AppForm>
 		</div>
 	);
