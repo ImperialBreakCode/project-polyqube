@@ -10,6 +10,7 @@ import {
 } from '@/shared/elements/FieldControllers';
 import { AppButton } from '@/shared/elements/AppButton';
 import { ROUTE_PATHS } from '@/shared/constants/routes';
+import { STATUS_CODES } from '@/shared/constants/statusCodes';
 import { useUserLogin } from '../api';
 
 const loginFormSchema = z.object({
@@ -23,9 +24,11 @@ const LoginForm = () => {
 
 	const onSubmit = useCallback(
 		async (data: z.infer<typeof loginFormSchema>) => {
-			await login(data);
+			const { statusCode } = await login(data);
 
-			router.push(ROUTE_PATHS.userPanel.homeDashboard);
+			if (statusCode === STATUS_CODES.ok) {
+				router.push(ROUTE_PATHS.userPanel.homeDashboard);
+			}
 		},
 		[login, router],
 	);

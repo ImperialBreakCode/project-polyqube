@@ -1,5 +1,6 @@
 export { default as useMenuPanelActions } from './useMenuPanelActions';
 export { default as useMenuPanelState } from './useMenuPanelState';
+export { default as useFormApi } from './useFormApi';
 export {
 	default as useApi,
 	getProblemFormMessage,

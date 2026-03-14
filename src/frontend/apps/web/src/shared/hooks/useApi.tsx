@@ -103,6 +103,8 @@ function useApi<Rs = unknown, Rq = unknown>(
 
 			setApiDataState(response);
 			setLoading(false);
+
+			return { statusCode: response.statusCode };
 		},
 		[request],
 	);
