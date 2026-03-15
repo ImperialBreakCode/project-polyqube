@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import z from 'zod';
 import { AppForm, ErrorAlert } from '@repo/ui/core';
@@ -11,6 +11,7 @@ import {
 import { AppButton } from '@/shared/elements/AppButton';
 import { ROUTE_PATHS } from '@/shared/constants/routes';
 import { STATUS_CODES } from '@/shared/constants/statusCodes';
+import { SessionContext } from '@/shared/contexts';
 import { useUserLogin } from '../api';
 
 const loginFormSchema = z.object({
@@ -21,6 +22,7 @@ const loginFormSchema = z.object({
 const LoginForm = () => {
 	const router = useRouter();
 	const { loginFormErrors, login, loading, errorMessage } = useUserLogin();
+	const { updateSession } = useContext(SessionContext);
 
 	const onSubmit = useCallback(
 		async (data: z.infer<typeof loginFormSchema>) => {
@@ -28,9 +30,10 @@ const LoginForm = () => {
 
 			if (statusCode === STATUS_CODES.ok) {
 				router.push(ROUTE_PATHS.userPanel.homeDashboard);
+				await updateSession();
 			}
 		},
-		[login, router],
+		[login, router, updateSession],
 	);
 
 	return (

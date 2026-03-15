@@ -4,7 +4,7 @@ import { ROUTE_PATHS } from '@/shared/constants/routes';
 import BaseProxy from './Base.proxy';
 
 class AuthProxy extends BaseProxy {
-	protected include: string[] = ['/user-panel'];
+	protected include: string[] = ['/user-panel', '/setup'];
 	protected exclude: string[] = [];
 
 	protected async execute(

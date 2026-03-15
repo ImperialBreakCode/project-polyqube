@@ -2,8 +2,10 @@ import type { Metadata } from 'next';
 import { ThemeProvider } from 'next-themes';
 import localFont from 'next/font/local';
 import { Toaster } from '@repo/ui/components/ui/Sonner';
-import '@/app/globals.css';
 import ReduxProvider from '@/redux/ReduxProvider';
+import { SessionProvider } from '@/shared/providers';
+
+import '@/app/globals.css';
 
 const urbanist = localFont({
 	src: '../fonts/Urbanist/Urbanist-VariableFont_wght.ttf',
@@ -56,7 +58,9 @@ export default function RootLayout({
 					enableSystem
 					disableTransitionOnChange
 				>
-					<ReduxProvider>{children}</ReduxProvider>
+					<ReduxProvider>
+						<SessionProvider>{children}</SessionProvider>
+					</ReduxProvider>
 				</ThemeProvider>
 				<Toaster />
 			</body>

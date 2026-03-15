@@ -14,7 +14,7 @@ const problemTypeMap: ProblemTypeFormNamePath = {
 	// },
 };
 
-function useUserRegister() {
+function useUserLogin() {
 	const { fetchApi, loading, errorMessage, formErrors } = useFormApi(
 		loginRequest,
 		{ problemTypeMap },
@@ -28,4 +28,4 @@ function useUserRegister() {
 	};
 }
 
-export default useUserRegister;
+export default useUserLogin;

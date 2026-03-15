@@ -93,7 +93,7 @@ function useApi<Rs = unknown, Rq = unknown>(
 	}, [apiDataState.problemResponse]);
 
 	const fetchApi = useCallback(
-		async (fetchBody: Rq) => {
+		async (fetchBody: Rq = null as Rq) => {
 			setLoading(true);
 			const response = await request(fetchBody);
 
