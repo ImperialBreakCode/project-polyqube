@@ -26,12 +26,11 @@ const MainWebLinkButton = ({
 		>
 			{children}
 			<span
-				className='group-hovers/main-link:h-full absolute top-1/2
-					left-1/2 inline-block h-0 w-0 group-hover/main-link:w-full
-					group-hover/main-link:h-full bg-[#ffffff] bg-blend-exclusion
-					mix-blend-difference duration-200 translate-x-[-50%]
-					translate-y-[-50%] rounded-full ease-[cubic-bezier(0.1,
-					0.21, 0.01, 0.86)]'
+				className='absolute top-1/2 left-1/2 inline-block h-0 w-0
+					group-hover/main-link:w-full group-hover/main-link:h-full
+					bg-[#ffffff] bg-blend-exclusion mix-blend-difference
+					duration-200 translate-x-[-50%] translate-y-[-50%]
+					rounded-full ease-[cubic-bezier(0.1, 0.21, 0.01, 0.86)]'
 			></span>
 		</Link>
 	);

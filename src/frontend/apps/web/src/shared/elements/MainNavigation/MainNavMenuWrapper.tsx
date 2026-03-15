@@ -32,7 +32,7 @@ const MainNavMenuWrapper = ({ children }: MainNavMenuWrapperProps) => {
 					duration-400 ease-[cubic-bezier(0.1,0.21, 0.01, 0.86)]
 					hidden md:flex`,
 					navbarContained
-						? 'bg-[#5050508e] w-[70vw] backdrop-blur-lg'
+						? 'bg-[#5050508e] w-[68vw] backdrop-blur-lg'
 						: 'w-screen',
 				)}
 			>
