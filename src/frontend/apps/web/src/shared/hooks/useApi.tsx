@@ -93,7 +93,7 @@ function useApi<Rs = unknown, Rq = unknown>(
 	}, [apiDataState.problemResponse]);
 
 	const fetchApi = useCallback(
-		async (fetchBody: Rq = null as Rq) => {
+		async (fetchBody: Rq) => {
 			setLoading(true);
 			const response = await request(fetchBody);
 
@@ -111,8 +111,8 @@ function useApi<Rs = unknown, Rq = unknown>(
 
 	useEffect(() => {
 		const initRequestCall = async () => {
-			if (options?.initRequestData && options?.requestOnInit) {
-				await fetchApi(options?.initRequestData);
+			if (options?.requestOnInit) {
+				await fetchApi(options?.initRequestData as Rq);
 			}
 		};
 

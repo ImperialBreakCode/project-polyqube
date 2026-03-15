@@ -7,7 +7,7 @@ import { SessionContextValues, SessionState } from '../contexts';
 
 function useSessionState(): SessionContextValues {
 	const { data, fetchApi } = useApi(getCurrentUserRequest, {
-		initRequestData: {},
+		initRequestData: null,
 		requestOnInit: true,
 	});
 
@@ -16,7 +16,7 @@ function useSessionState(): SessionContextValues {
 	};
 
 	const updateSession = useCallback(async () => {
-		await fetchApi();
+		await fetchApi(null);
 	}, [fetchApi]);
 
 	return {
