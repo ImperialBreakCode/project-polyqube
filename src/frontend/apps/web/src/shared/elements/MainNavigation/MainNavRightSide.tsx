@@ -1,13 +1,20 @@
 'use client';
 
-import { useContext } from 'react';
+import { useCallback, useContext } from 'react';
 import { Button, NavigationMenuItem } from '@repo/ui/core';
 import { ROUTE_PATHS } from '@/shared/constants/routes';
 import { SessionContext } from '@/shared/contexts';
+import { useLogout } from '@/shared/api';
 import MainNavLink from './MainNavLink';
 
 function MainNavRightSide() {
-	const { state } = useContext(SessionContext);
+	const { state, updateSession } = useContext(SessionContext);
+	const { logout } = useLogout();
+
+	const onLogout = useCallback(async () => {
+		await logout();
+		await updateSession();
+	}, [logout, updateSession]);
 
 	return state.authState === 'guest' ? (
 		<>
@@ -39,6 +46,7 @@ function MainNavRightSide() {
 			</NavigationMenuItem>
 			<NavigationMenuItem>
 				<Button
+					onClick={onLogout}
 					className='rounded-full bg-transparent text-white px-4 py-2
 						cursor-pointer text-[0.9rem] transition duration-200
 						hover:bg-gray-200 hover:text-black h-[33.33px]'

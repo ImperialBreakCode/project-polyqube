@@ -1,6 +1,10 @@
+'use server';
+
 import { ACCOUNT_SERVICE_ROUTE } from '@repo/utils/constants/apiRoutes';
 import { STATUS_CODES } from '@/shared/constants/statusCodes';
 import {
+	deleteAccessTokenCookie,
+	deleteRefreshTokenCookie,
 	FetchServerReturnType,
 	serverRequest,
 	setAccessTokenCookie,
@@ -46,5 +50,23 @@ export async function loginRequest(
 		error,
 		problemResponse,
 		statusCode,
+	};
+}
+
+export async function logoutRequest(): Promise<FetchServerReturnType<null>> {
+	const response = await serverRequest<null, null>(
+		`${AUTH_CONTROLLER}/logout`,
+		{
+			method: 'DELETE',
+			requestWithAuth: true,
+			body: null,
+		},
+	);
+
+	await deleteAccessTokenCookie();
+	await deleteRefreshTokenCookie();
+
+	return {
+		...response,
 	};
 }
