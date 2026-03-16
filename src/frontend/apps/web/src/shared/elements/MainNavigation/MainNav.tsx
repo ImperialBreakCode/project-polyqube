@@ -1,5 +1,3 @@
-'use client';
-
 import Image from 'next/image';
 
 import { NavigationMenuItem, NavigationMenuList } from '@repo/ui/core';
@@ -9,6 +7,7 @@ import MainNavLink from './MainNavLink';
 import MainNavMenuWrapper from './MainNavMenuWrapper';
 
 import logoSVG from '@/assets/logo.svg';
+import MainNavRightSide from './MainNavRightSide';
 
 const MainNav = () => {
 	return (
@@ -37,21 +36,7 @@ const MainNav = () => {
 						</MainNavLink>
 					</NavigationMenuItem>
 
-					<NavigationMenuItem className='ms-auto'>
-						<MainNavLink href={ROUTE_PATHS.auth.login}>
-							Login
-						</MainNavLink>
-					</NavigationMenuItem>
-					<NavigationMenuItem>
-						<MainNavLink
-							className='bg-linear-to-r from-[#f1deff]
-								to-[#c2d7ff] font-semibold text-black
-								hover:from-[#e8c9ff] hover:to-[#bad2ff]'
-							href={ROUTE_PATHS.auth.register}
-						>
-							Join
-						</MainNavLink>
-					</NavigationMenuItem>
+					<MainNavRightSide />
 				</NavigationMenuList>
 			</div>
 		</MainNavMenuWrapper>

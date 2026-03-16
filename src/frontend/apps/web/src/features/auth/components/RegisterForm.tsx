@@ -12,6 +12,7 @@ import { AppButton } from '@/shared/elements/AppButton';
 import { useUserRegister } from '../api';
 import { useRouter } from 'next/navigation';
 import { ROUTE_PATHS } from '@/shared/constants/routes';
+import { STATUS_CODES } from '@/shared/constants/statusCodes';
 
 const registerFormSchema = z
 	.object({
@@ -36,13 +37,15 @@ const RegisterForm = () => {
 			email,
 			username,
 		}: z.infer<typeof registerFormSchema>) => {
-			await register({
+			const { statusCode } = await register({
 				email,
 				password,
 				username,
 			});
 
-			router.push(ROUTE_PATHS.infoPanels.userRegistered);
+			if (statusCode === STATUS_CODES.created) {
+				router.push(ROUTE_PATHS.infoPanels.userRegistered);
+			}
 		},
 		[register, router],
 	);

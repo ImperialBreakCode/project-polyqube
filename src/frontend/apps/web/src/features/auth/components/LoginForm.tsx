@@ -1,13 +1,18 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useContext } from 'react';
+import { useRouter } from 'next/navigation';
 import z from 'zod';
-import { AppForm } from '@repo/ui/core';
+import { AppForm, ErrorAlert } from '@repo/ui/core';
 import {
 	WebAppPasswordController,
 	WebAppTextController,
 } from '@/shared/elements/FieldControllers';
 import { AppButton } from '@/shared/elements/AppButton';
+import { ROUTE_PATHS } from '@/shared/constants/routes';
+import { STATUS_CODES } from '@/shared/constants/statusCodes';
+import { SessionContext } from '@/shared/contexts';
+import { useUserLogin } from '../api';
 
 const loginFormSchema = z.object({
 	username: z.string(),
@@ -15,9 +20,21 @@ const loginFormSchema = z.object({
 });
 
 const LoginForm = () => {
-	const onSubmit = useCallback((data: z.infer<typeof loginFormSchema>) => {
-		console.log(data);
-	}, []);
+	const router = useRouter();
+	const { loginFormErrors, login, loading, errorMessage } = useUserLogin();
+	const { updateSession } = useContext(SessionContext);
+
+	const onSubmit = useCallback(
+		async (data: z.infer<typeof loginFormSchema>) => {
+			const { statusCode } = await login(data);
+
+			if (statusCode === STATUS_CODES.ok) {
+				router.push(ROUTE_PATHS.userPanel.homeDashboard);
+				await updateSession();
+			}
+		},
+		[login, router, updateSession],
+	);
 
 	return (
 		<div>
@@ -29,7 +46,14 @@ const LoginForm = () => {
 					password: '',
 					username: '',
 				}}
+				errors={loginFormErrors}
 			>
+				{errorMessage && (
+					<ErrorAlert title='Login error' className='mb-10 w-full'>
+						{errorMessage}
+					</ErrorAlert>
+				)}
+
 				<div className='space-y-10 mb-7'>
 					<WebAppTextController
 						label='Username'
@@ -42,7 +66,9 @@ const LoginForm = () => {
 						placeholder='Enter your password...'
 					/>
 				</div>
-				<AppButton type='submit'>Login</AppButton>
+				<AppButton disabled={loading} type='submit'>
+					{loading ? 'Please wait...' : 'Login'}
+				</AppButton>
 			</AppForm>
 		</div>
 	);

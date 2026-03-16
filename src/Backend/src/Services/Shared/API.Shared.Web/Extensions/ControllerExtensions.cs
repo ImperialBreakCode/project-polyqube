@@ -19,5 +19,19 @@ namespace API.Shared.Web.Extensions
 
             return id;
         }
+
+        public static string GetSessionId(this ControllerBase controller)
+        {
+            var sessionClaim = controller.HttpContext.User.FindFirst(APIClaimNames.SessionId);
+
+            var id = string.Empty;
+
+            if (sessionClaim is not null)
+            {
+                id = JsonConvert.DeserializeObject<string>(sessionClaim.Value) ?? string.Empty;
+            }
+
+            return id;
+        }
     }
 }

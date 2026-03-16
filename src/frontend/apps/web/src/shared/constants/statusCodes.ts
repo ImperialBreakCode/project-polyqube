@@ -4,4 +4,6 @@ export const STATUS_CODES = {
 	unprocessableContent: 422,
 	unsupportedMediaType: 415,
 	ok: 200,
+	noContent: 204,
+	created: 201,
 };

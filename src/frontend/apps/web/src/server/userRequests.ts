@@ -1,9 +1,43 @@
 'use server';
 
 import { ACCOUNT_SERVICE_ROUTE } from '@repo/utils/constants/apiRoutes';
+import { GenderEnum } from '@/shared/constants/genderEnum';
 import { serverRequest } from './base';
 
 const USER_CONTROLLER = `${ACCOUNT_SERVICE_ROUTE}/users`;
+
+// Responses
+export interface UserEmailResponseDTO {
+	email: string;
+	isPrimary: boolean;
+	isVerified: boolean;
+	createdAt: string; // ISO string for DateTime
+	updatedAt: string; // ISO string for DateTime
+}
+
+export interface UserDetailsResponseDTO {
+	firstName: string;
+	lastName: string;
+	birthdate: string; // DateOnly as ISO date string (YYYY-MM-DD)
+	gender: GenderEnum;
+	profilePicturePath?: string;
+	createdAt: string; // ISO string
+	updatedAt: string; // ISO string
+}
+
+export interface UserResponseDTO {
+	id: string;
+	username: string;
+	lockedOut: boolean;
+	disabled: boolean;
+	suspended: boolean;
+	emails: UserEmailResponseDTO[];
+	userDetails?: UserDetailsResponseDTO;
+	createdAt: string; // ISO string
+	updatedAt: string; // ISO string
+}
+
+// Requests and request DTOs
 
 type RegisterUserRequestDTO = {
 	username: string;
@@ -33,6 +67,16 @@ export async function verifyEmailRequest(body: VerifyEmailRequestDTO) {
 			method: 'POST',
 			requestWithAuth: false,
 			body,
+		},
+	);
+}
+
+export async function getCurrentUserRequest() {
+	return await serverRequest<UserResponseDTO, null>(
+		`${USER_CONTROLLER}/get-current-user`,
+		{
+			requestWithAuth: true,
+			body: null,
 		},
 	);
 }

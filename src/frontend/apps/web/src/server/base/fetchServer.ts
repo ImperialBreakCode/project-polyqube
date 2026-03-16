@@ -36,7 +36,10 @@ export async function fetchServer<Rs = unknown, Rq = unknown>(
 		});
 
 		if (result.ok) {
-			const bodyResponse = (await result.json()) as Rs;
+			const bodyResponse =
+				result.status !== 204
+					? ((await result.json()) as Rs)
+					: (null as Rs);
 			return {
 				body: bodyResponse,
 				statusCode: result.status,

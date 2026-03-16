@@ -4,7 +4,7 @@ namespace API.Accounts.Common.Features.Users.EmailExceptions
 {
     public class CannotRemoveEmailException : BadRequestException
     {
-        private const string MESSAGE = "Cannot remove. At least one email should exist";
+        private const string MESSAGE = "Cannot remove. At least one verified email should exist";
 
         public CannotRemoveEmailException() : base(MESSAGE)
         {

@@ -103,14 +103,16 @@ function useApi<Rs = unknown, Rq = unknown>(
 
 			setApiDataState(response);
 			setLoading(false);
+
+			return { statusCode: response.statusCode };
 		},
 		[request],
 	);
 
 	useEffect(() => {
 		const initRequestCall = async () => {
-			if (options?.initRequestData && options?.requestOnInit) {
-				await fetchApi(options?.initRequestData);
+			if (options?.requestOnInit) {
+				await fetchApi(options?.initRequestData as Rq);
 			}
 		};
 

@@ -2,5 +2,5 @@
 
 namespace API.Accounts.Domain.Aggregates.UserAggregate.DomainEvents
 {
-    public record UserCreatedDomainEvent(string UserId) : IDomainEvent;
+    public record EmailAddedDomainEvent(string UserId, string Email) : IDomainEvent;
 }
