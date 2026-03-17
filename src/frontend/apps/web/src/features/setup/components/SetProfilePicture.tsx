@@ -8,8 +8,11 @@ import {
 } from '@repo/ui/components/ui/Avatar';
 import SelectProfilePicture from './SelectProfilePicture';
 import { AppButton } from '@/shared/elements/AppButton';
+import { useCurrentUser } from '@/shared';
 
 const SetProfilePicture = () => {
+	const { currentUser } = useCurrentUser();
+
 	const [profilePic, setProfilePic] = useState<File | null | undefined>();
 
 	const profileImageUrl = useMemo(() => {
@@ -39,9 +42,12 @@ const SetProfilePicture = () => {
 					<AvatarFallback className='rounded-lg'>CN</AvatarFallback>
 				</Avatar>
 				<div className='text-center'>
-					<p className='text-2xl'>name name</p>
+					<p className='text-2xl'>
+						{currentUser?.userDetails?.firstName}{' '}
+						{currentUser?.userDetails?.lastName}
+					</p>
 					<p className='text-md text-muted-foreground'>
-						email@email.mail
+						{currentUser?.emails.find((x) => x.isPrimary)?.email}
 					</p>
 				</div>
 			</div>
