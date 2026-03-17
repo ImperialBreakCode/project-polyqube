@@ -80,3 +80,23 @@ export async function getCurrentUserRequest() {
 		},
 	);
 }
+
+export type CreateUserDetailsRequestDTO = {
+	firstName: string;
+	lastName: string;
+	birthdate: string;
+	gender: GenderEnum;
+};
+
+export async function createUserDetailsRequest(
+	body: CreateUserDetailsRequestDTO,
+) {
+	return await serverRequest<UserResponseDTO, CreateUserDetailsRequestDTO>(
+		`${USER_CONTROLLER}/create-user-details`,
+		{
+			method: 'POST',
+			requestWithAuth: true,
+			body,
+		},
+	);
+}

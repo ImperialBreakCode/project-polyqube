@@ -1,25 +1,34 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useContext } from 'react';
+import { useRouter } from 'next/navigation';
 import z from 'zod';
+import { toDateOnlyString } from '@repo/utils/utilFuncs/dateUtils';
+import { AppForm, ErrorAlert, SelectFieldValue } from '@repo/ui/core';
 import { GENDER_LABELS, GenderEnum } from '@/shared/constants/genderEnum';
-import { AppForm } from '@repo/ui/core';
+import { AppButton } from '@/shared/elements/AppButton';
 import {
 	WebAppTextController,
 	WebSelectController,
 } from '@/shared/elements/FieldControllers';
-import { AppButton } from '@/shared/elements/AppButton';
-import { SelectFieldValue } from '@repo/ui/components/Fields/SelectField';
 import WebDateController from '@/shared/elements/FieldControllers/WebDateController';
+import { SessionContext } from '@/shared/contexts';
+import { ROUTE_PATHS, STATUS_CODES } from '@/shared/constants';
+import { useCreateUserDetails } from '../api';
 
 const userDetailsSetupFormSchema = z.object({
 	firstName: z.string(),
 	lastName: z.string(),
-	birthDate: z.date(),
+	birthdate: z.date(),
 	gender: z.enum(GenderEnum),
 });
 
 const UserDetailsSetupForm = () => {
+	const router = useRouter();
+	const { updateSession } = useContext(SessionContext);
+	const { createUserDetails, errorMessage, formErrors, loading } =
+		useCreateUserDetails();
+
 	const genderValues: SelectFieldValue[] = Object.entries(GENDER_LABELS).map(
 		([key, val]) => ({
 			label: val,
@@ -28,10 +37,25 @@ const UserDetailsSetupForm = () => {
 	);
 
 	const onSubmit = useCallback(
-		(data: z.infer<typeof userDetailsSetupFormSchema>) => {
-			console.log(data);
+		async ({
+			birthdate,
+			firstName,
+			gender,
+			lastName,
+		}: z.infer<typeof userDetailsSetupFormSchema>) => {
+			const { statusCode } = await createUserDetails({
+				firstName,
+				lastName,
+				gender,
+				birthdate: toDateOnlyString(birthdate),
+			});
+
+			if (statusCode === STATUS_CODES.created) {
+				router.push(ROUTE_PATHS.setup.profilePicture);
+				await updateSession();
+			}
 		},
-		[],
+		[createUserDetails, updateSession, router],
 	);
 
 	return (
@@ -44,7 +68,14 @@ const UserDetailsSetupForm = () => {
 					firstName: '',
 					lastName: '',
 				}}
+				errors={formErrors}
 			>
+				{errorMessage && (
+					<ErrorAlert title='Login error' className='mb-10 w-full'>
+						{errorMessage}
+					</ErrorAlert>
+				)}
+
 				<div className='space-y-10 mb-7'>
 					<WebAppTextController
 						label='First Name'
@@ -62,7 +93,7 @@ const UserDetailsSetupForm = () => {
 					>
 						<WebDateController
 							label='Birthdate'
-							name='birthDate'
+							name='birthdate'
 							placeholder='Select your birthdate'
 						/>
 						<WebSelectController
@@ -73,7 +104,9 @@ const UserDetailsSetupForm = () => {
 						/>
 					</div>
 				</div>
-				<AppButton type='submit'>Next</AppButton>
+				<AppButton disabled={loading} type='submit'>
+					{loading ? 'Please wait...' : 'Next'}
+				</AppButton>
 			</AppForm>
 		</div>
 	);

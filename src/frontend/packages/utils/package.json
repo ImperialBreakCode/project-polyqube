@@ -6,7 +6,8 @@
 	"exports": {
 		"./server/*": "./src/server/*.ts",
 		"./errors/*": "./src/errors/*.ts",
-		"./constants/*": "./src/constants/*.ts"
+		"./constants/*": "./src/constants/*.ts",
+		"./utilFuncs/*": "./src/utilFuncs/*.ts"
 	},
 	"devDependencies": {
 		"@repo/eslint-config": "workspace:*",
