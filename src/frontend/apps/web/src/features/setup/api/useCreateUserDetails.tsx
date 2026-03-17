@@ -1,14 +1,7 @@
 import { createUserDetailsRequest } from '@/server/userRequests';
 import { ProblemTypeFormNamePath, useFormApi } from '@/shared/hooks';
 
-const problemTypeMap: ProblemTypeFormNamePath = {
-	// [USER_PROBLEM_TYPES.emailAlreadyExists]: {
-	// 	fieldName: 'email',
-	// },
-	// [USER_PROBLEM_TYPES.usernameAlreadyExists]: {
-	// 	fieldName: 'username',
-	// },
-};
+const problemTypeMap: ProblemTypeFormNamePath = {};
 
 function useCreateUserDetails() {
 	const { fetchApi, errorMessage, formErrors, loading } = useFormApi(
