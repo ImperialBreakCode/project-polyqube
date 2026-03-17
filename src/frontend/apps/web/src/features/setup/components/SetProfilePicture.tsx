@@ -1,6 +1,8 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import {
 	Avatar,
 	AvatarFallback,
@@ -8,10 +10,14 @@ import {
 } from '@repo/ui/components/ui/Avatar';
 import SelectProfilePicture from './SelectProfilePicture';
 import { AppButton } from '@/shared/elements/AppButton';
-import { useCurrentUser } from '@/shared';
+import { ROUTE_PATHS } from '@/shared/constants/routes';
+import { STATUS_CODES } from '@/shared/constants/statusCodes';
+import { useCurrentUser, useSetProfilePicture } from '@/shared/api';
 
 const SetProfilePicture = () => {
+	const router = useRouter();
 	const { currentUser } = useCurrentUser();
+	const { setProfilePicture, loading } = useSetProfilePicture();
 
 	const [profilePic, setProfilePic] = useState<File | null | undefined>();
 
@@ -19,6 +25,17 @@ const SetProfilePicture = () => {
 		if (!profilePic) return null;
 		return URL.createObjectURL(profilePic);
 	}, [profilePic]);
+
+	const onSaveProfilePic = useCallback(async () => {
+		if (profilePic) {
+			const { statusCode } = await setProfilePicture(profilePic);
+
+			if (statusCode === STATUS_CODES.noContent) {
+				console.log('helloooo');
+				router.push(ROUTE_PATHS.userPanel.homeDashboard);
+			}
+		}
+	}, [setProfilePicture, profilePic, router]);
 
 	useEffect(() => {
 		return () => {
@@ -57,8 +74,15 @@ const SetProfilePicture = () => {
 			/>
 
 			<div className='flex gap-x-4'>
-				<AppButton disabled={!profilePic}>Save</AppButton>
-				<AppButton variant={'secondary'}>Skip</AppButton>
+				<AppButton
+					onClick={() => onSaveProfilePic()}
+					disabled={!profilePic || loading}
+				>
+					{loading ? 'Saving...' : 'Save'}
+				</AppButton>
+				<AppButton variant={'secondary'} asChild>
+					<Link href={ROUTE_PATHS.userPanel.homeDashboard}>Skip</Link>
+				</AppButton>
 			</div>
 		</div>
 	);

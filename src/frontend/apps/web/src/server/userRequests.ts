@@ -100,3 +100,14 @@ export async function createUserDetailsRequest(
 		},
 	);
 }
+
+export async function setProfilePictureRequest(file: File) {
+	const formData = new FormData();
+	formData.append('FormFile', file);
+
+	return await serverRequest<null>(`${USER_CONTROLLER}/set-profile-picture`, {
+		method: 'PUT',
+		requestWithAuth: true,
+		body: formData,
+	});
+}
