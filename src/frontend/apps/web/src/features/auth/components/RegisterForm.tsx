@@ -53,7 +53,6 @@ const RegisterForm = () => {
 	return (
 		<div>
 			<AppForm
-				resetAfterSubmit={false}
 				onSubmit={onSubmit}
 				name='register'
 				schema={registerFormSchema}

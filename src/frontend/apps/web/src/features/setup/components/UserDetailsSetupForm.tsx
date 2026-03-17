@@ -19,8 +19,8 @@ import { useCreateUserDetails } from '../api';
 const userDetailsSetupFormSchema = z.object({
 	firstName: z.string(),
 	lastName: z.string(),
-	birthdate: z.date(),
-	gender: z.enum(GenderEnum),
+	birthdate: z.date('birthdate is required'),
+	gender: z.enum(GenderEnum, 'Gender is required'),
 });
 
 const UserDetailsSetupForm = () => {

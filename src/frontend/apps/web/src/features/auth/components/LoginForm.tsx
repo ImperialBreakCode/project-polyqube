@@ -47,6 +47,7 @@ const LoginForm = () => {
 					username: '',
 				}}
 				errors={loginFormErrors}
+				resetAfterSubmit
 			>
 				{errorMessage && (
 					<ErrorAlert title='Login error' className='mb-10 w-full'>

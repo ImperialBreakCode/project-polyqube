@@ -52,7 +52,7 @@ const AppForm = <T extends FieldValues>({
 	schema,
 	defaultValues,
 	values,
-	resetAfterSubmit = true,
+	resetAfterSubmit = false,
 	errors = [],
 }: AppFormProps<T>) => {
 	const id = generateFormId(name);
