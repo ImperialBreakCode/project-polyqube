@@ -1,3 +1,5 @@
+'use client';
+
 import { Controller, FieldValues } from 'react-hook-form';
 import useExtendedAppFormContext from '../../../hooks/useExtendedAppFormContext';
 import { cn } from '@repo/ui/lib/utils';

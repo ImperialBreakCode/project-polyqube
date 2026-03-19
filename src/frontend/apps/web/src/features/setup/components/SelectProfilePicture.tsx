@@ -18,10 +18,12 @@ import CropProfilePictureDialog from '@/shared/elements/CropProfilePictureDialog
 
 interface SetProfilePictureProps {
 	onSelectedImageChange: (image?: File) => void;
+	onError: (message: string) => void;
 }
 
 const SelectProfilePicture = ({
 	onSelectedImageChange,
+	onError,
 }: SetProfilePictureProps) => {
 	const [files, setFiles] = React.useState<File[]>([]);
 	const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
@@ -78,9 +80,10 @@ const SelectProfilePicture = ({
 			<FileUpload
 				value={files}
 				onValueChange={onFilesChange}
-				accept='image/*'
+				accept='image/png,image/jpeg'
 				maxFiles={1}
 				maxSize={10 * 1024 * 1024}
+				onFileReject={(_, message) => onError(message)}
 				multiple
 				className='w-full'
 			>
@@ -96,7 +99,7 @@ const SelectProfilePicture = ({
 									Drop images here or click to upload
 								</p>
 								<p className='text-muted-foreground text-xs'>
-									PNG, JPG, WebP up to 10MB
+									PNG, JPG up to 10MB
 								</p>
 							</div>
 							<FileUploadTrigger asChild>

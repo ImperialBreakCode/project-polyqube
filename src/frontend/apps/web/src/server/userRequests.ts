@@ -80,3 +80,34 @@ export async function getCurrentUserRequest() {
 		},
 	);
 }
+
+export type CreateUserDetailsRequestDTO = {
+	firstName: string;
+	lastName: string;
+	birthdate: string;
+	gender: GenderEnum;
+};
+
+export async function createUserDetailsRequest(
+	body: CreateUserDetailsRequestDTO,
+) {
+	return await serverRequest<UserResponseDTO, CreateUserDetailsRequestDTO>(
+		`${USER_CONTROLLER}/create-user-details`,
+		{
+			method: 'POST',
+			requestWithAuth: true,
+			body,
+		},
+	);
+}
+
+export async function setProfilePictureRequest(file: File) {
+	const formData = new FormData();
+	formData.append('FormFile', file);
+
+	return await serverRequest<null>(`${USER_CONTROLLER}/set-profile-picture`, {
+		method: 'PUT',
+		requestWithAuth: true,
+		body: formData,
+	});
+}

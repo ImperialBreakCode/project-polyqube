@@ -104,7 +104,7 @@ namespace API.Accounts.Features.Users.Controllers.v1
         }
 
         [HttpPut("set-profile-picture")]
-        [RequestSizeLimit(100 * 1024 * 1024)]
+        [RequestSizeLimit(10 * 1024 * 1024)]
         [Authorize]
         [ImageUploadFilter]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

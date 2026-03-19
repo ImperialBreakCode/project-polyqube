@@ -27,6 +27,20 @@ function SessionProvider({ children }: { children: ReactNode }) {
 		) {
 			router.push(ROUTE_PATHS.setup.userDetails);
 		}
+
+		if (
+			state.authState !== 'forSetup' &&
+			pathname === ROUTE_PATHS.setup.userDetails
+		) {
+			router.push(ROUTE_PATHS.setup.profilePicture);
+		}
+
+		if (
+			state.authState === 'loggedIn' &&
+			pathname === ROUTE_PATHS.setup.profilePicture
+		) {
+			router.push(ROUTE_PATHS.userPanel.homeDashboard);
+		}
 	}, [pathname, state, router]);
 
 	useEffect(() => {

@@ -25,13 +25,28 @@ export async function fetchServer<Rs = unknown, Rq = unknown>(
 	{ method = 'GET', body, headers, ...rest }: FetchServerOptions<Rq>,
 ): Promise<FetchServerReturnType<Rs>> {
 	try {
+		const isFormData = body instanceof FormData;
+
+		const finalHeaders = {
+			...headers,
+			...(isFormData ? {} : { 'Content-Type': 'application/json' }),
+		};
+
+		if (isFormData) {
+			delete finalHeaders['Content-Type'];
+		}
+
 		const result = await fetch(getServerRoute(url), {
 			...rest,
 			method,
-			body: body ? JSON.stringify(body) : undefined,
+			body: body
+				? isFormData
+					? (body as BodyInit)
+					: JSON.stringify(body)
+				: undefined,
 			headers: {
 				...headers,
-				'Content-Type': 'application/json',
+				...(isFormData ? {} : { 'Content-Type': 'application/json' }),
 			},
 		});
 

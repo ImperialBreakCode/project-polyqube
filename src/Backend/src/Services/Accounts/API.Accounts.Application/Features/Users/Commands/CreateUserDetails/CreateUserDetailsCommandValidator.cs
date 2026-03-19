@@ -9,7 +9,9 @@ namespace API.Accounts.Application.Features.Users.Commands.CreateUserDetails
         {
             RuleFor(x => x.FirstName)
                 .NotEmpty()
+                .WithMessage(UserValidationErrorMessages.FIRST_LAST_NAMES_LENGTH_ERROR)
                 .MinimumLength(UserValidationConfiguration.FIRST_LAST_NAMES_MIN_LENGHT)
+                .WithMessage(UserValidationErrorMessages.FIRST_LAST_NAMES_LENGTH_ERROR)
                 .MaximumLength(UserValidationConfiguration.FIRST_LAST_NAMES_MAX_LENGHT)
                 .WithMessage(UserValidationErrorMessages.FIRST_LAST_NAMES_LENGTH_ERROR)
                 .Matches(UserValidationConfiguration.FIRST_LAST_NAMES_SYMBOLS_REGEX)
@@ -17,7 +19,9 @@ namespace API.Accounts.Application.Features.Users.Commands.CreateUserDetails
 
             RuleFor(x => x.LastName)
                 .NotEmpty()
+                .WithMessage(UserValidationErrorMessages.FIRST_LAST_NAMES_LENGTH_ERROR)
                 .MinimumLength(UserValidationConfiguration.FIRST_LAST_NAMES_MIN_LENGHT)
+                .WithMessage(UserValidationErrorMessages.FIRST_LAST_NAMES_LENGTH_ERROR)
                 .MaximumLength(UserValidationConfiguration.FIRST_LAST_NAMES_MAX_LENGHT)
                 .WithMessage(UserValidationErrorMessages.FIRST_LAST_NAMES_LENGTH_ERROR)
                 .Matches(UserValidationConfiguration.FIRST_LAST_NAMES_SYMBOLS_REGEX)
