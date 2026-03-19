@@ -13,12 +13,14 @@ import { AppButton } from '@/shared/elements/AppButton';
 import { ROUTE_PATHS } from '@/shared/constants/routes';
 import { STATUS_CODES } from '@/shared/constants/statusCodes';
 import { useCurrentUser, useSetProfilePicture } from '@/shared/api';
+import { ErrorAlert } from '@repo/ui/core';
 
 const SetProfilePicture = () => {
 	const router = useRouter();
 	const { currentUser } = useCurrentUser();
 	const { setProfilePicture, loading } = useSetProfilePicture();
 
+	const [frontEndError, setFronendError] = useState<string | null>(null);
 	const [profilePic, setProfilePic] = useState<File | null | undefined>();
 
 	const profileImageUrl = useMemo(() => {
@@ -31,7 +33,6 @@ const SetProfilePicture = () => {
 			const { statusCode } = await setProfilePicture(profilePic);
 
 			if (statusCode === STATUS_CODES.noContent) {
-				console.log('helloooo');
 				router.push(ROUTE_PATHS.userPanel.homeDashboard);
 			}
 		}
@@ -69,8 +70,20 @@ const SetProfilePicture = () => {
 				</div>
 			</div>
 
+			{frontEndError && (
+				<div>
+					<ErrorAlert title='Error' className='w-full'>
+						{frontEndError}
+					</ErrorAlert>
+				</div>
+			)}
+
 			<SelectProfilePicture
-				onSelectedImageChange={(val) => setProfilePic(val)}
+				onError={(message) => setFronendError(message)}
+				onSelectedImageChange={(val) => {
+					setProfilePic(val);
+					setFronendError(null);
+				}}
 			/>
 
 			<div className='flex gap-x-4'>

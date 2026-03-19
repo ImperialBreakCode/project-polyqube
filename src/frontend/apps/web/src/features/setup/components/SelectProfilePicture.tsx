@@ -18,10 +18,12 @@ import CropProfilePictureDialog from '@/shared/elements/CropProfilePictureDialog
 
 interface SetProfilePictureProps {
 	onSelectedImageChange: (image?: File) => void;
+	onError: (message: string) => void;
 }
 
 const SelectProfilePicture = ({
 	onSelectedImageChange,
+	onError,
 }: SetProfilePictureProps) => {
 	const [files, setFiles] = React.useState<File[]>([]);
 	const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
@@ -81,6 +83,7 @@ const SelectProfilePicture = ({
 				accept='image/*'
 				maxFiles={1}
 				maxSize={10 * 1024 * 1024}
+				onFileReject={(_, message) => onError(message)}
 				multiple
 				className='w-full'
 			>
