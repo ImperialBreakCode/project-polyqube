@@ -18,7 +18,7 @@ import { ErrorAlert } from '@repo/ui/core';
 const SetProfilePicture = () => {
 	const router = useRouter();
 	const { currentUser } = useCurrentUser();
-	const { setProfilePicture, loading } = useSetProfilePicture();
+	const { setProfilePicture, loading, error } = useSetProfilePicture();
 
 	const [frontEndError, setFronendError] = useState<string | null>(null);
 	const [profilePic, setProfilePic] = useState<File | null | undefined>();
@@ -70,13 +70,16 @@ const SetProfilePicture = () => {
 				</div>
 			</div>
 
-			{frontEndError && (
-				<div>
-					<ErrorAlert title='Error' className='w-full'>
-						{frontEndError}
-					</ErrorAlert>
-				</div>
-			)}
+			{frontEndError ||
+				(error && (
+					<div>
+						<ErrorAlert title='Error' className='w-full'>
+							{(frontEndError ?? error)
+								? 'Server error. Please try again'
+								: ''}
+						</ErrorAlert>
+					</div>
+				))}
 
 			<SelectProfilePicture
 				onError={(message) => setFronendError(message)}
