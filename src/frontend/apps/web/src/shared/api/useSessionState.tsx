@@ -12,7 +12,13 @@ function useSessionState(): SessionContextValues {
 	});
 
 	const state: SessionState = {
-		authState: !data ? 'guest' : data.userDetails ? 'loggedIn' : 'forSetup',
+		authState: !data
+			? 'guest'
+			: !data.userDetails
+				? 'forSetup'
+				: data.userDetails.profilePicturePath
+					? 'loggedIn'
+					: 'loggedInSetProfPicAccess',
 	};
 
 	const updateSession = useCallback(async () => {

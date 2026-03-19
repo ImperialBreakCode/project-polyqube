@@ -3,7 +3,7 @@
 import { createContext } from 'react';
 
 export interface SessionState {
-	authState: 'guest' | 'forSetup' | 'loggedIn';
+	authState: 'guest' | 'forSetup' | 'loggedInSetProfPicAccess' | 'loggedIn';
 }
 
 export interface SessionContextValues {

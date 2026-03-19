@@ -99,7 +99,7 @@ const SelectProfilePicture = ({
 									Drop images here or click to upload
 								</p>
 								<p className='text-muted-foreground text-xs'>
-									PNG, JPG, WebP up to 10MB
+									PNG, JPG up to 10MB
 								</p>
 							</div>
 							<FileUploadTrigger asChild>
