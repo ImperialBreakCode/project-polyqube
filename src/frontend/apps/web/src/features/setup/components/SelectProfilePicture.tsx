@@ -80,7 +80,7 @@ const SelectProfilePicture = ({
 			<FileUpload
 				value={files}
 				onValueChange={onFilesChange}
-				accept='image/*'
+				accept='image/png,image/jpeg'
 				maxFiles={1}
 				maxSize={10 * 1024 * 1024}
 				onFileReject={(_, message) => onError(message)}
