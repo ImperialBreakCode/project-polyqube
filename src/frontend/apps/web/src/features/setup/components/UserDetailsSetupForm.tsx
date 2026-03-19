@@ -1,7 +1,6 @@
 'use client';
 
 import { useCallback, useContext } from 'react';
-import { useRouter } from 'next/navigation';
 import z from 'zod';
 import { toDateOnlyString } from '@repo/utils/utilFuncs/dateUtils';
 import { AppForm, ErrorAlert, SelectFieldValue } from '@repo/ui/core';
@@ -13,7 +12,7 @@ import {
 } from '@/shared/elements/FieldControllers';
 import WebDateController from '@/shared/elements/FieldControllers/WebDateController';
 import { SessionContext } from '@/shared/contexts';
-import { ROUTE_PATHS, STATUS_CODES } from '@/shared/constants';
+import { STATUS_CODES } from '@/shared/constants';
 import { useCreateUserDetails } from '../api';
 
 const userDetailsSetupFormSchema = z.object({
@@ -24,7 +23,6 @@ const userDetailsSetupFormSchema = z.object({
 });
 
 const UserDetailsSetupForm = () => {
-	const router = useRouter();
 	const { updateSession } = useContext(SessionContext);
 	const { createUserDetails, errorMessage, formErrors, loading } =
 		useCreateUserDetails();
@@ -51,11 +49,11 @@ const UserDetailsSetupForm = () => {
 			});
 
 			if (statusCode === STATUS_CODES.created) {
-				router.push(ROUTE_PATHS.setup.profilePicture);
+				//router.push(ROUTE_PATHS.setup.profilePicture);
 				await updateSession();
 			}
 		},
-		[createUserDetails, updateSession, router],
+		[createUserDetails, updateSession],
 	);
 
 	return (
