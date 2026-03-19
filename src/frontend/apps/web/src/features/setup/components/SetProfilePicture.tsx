@@ -17,7 +17,7 @@ import { ErrorAlert } from '@repo/ui/core';
 
 const SetProfilePicture = () => {
 	const router = useRouter();
-	const { currentUser } = useCurrentUser();
+	const { currentUser, error: currentUserError } = useCurrentUser();
 	const { setProfilePicture, loading, error } = useSetProfilePicture();
 
 	const [frontEndError, setFronendError] = useState<string | null>(null);
@@ -48,58 +48,75 @@ const SetProfilePicture = () => {
 
 	return (
 		<div className='flex flex-col gap-y-10'>
-			<div
-				className='flex flex-col items-center gap-y-5 border rounded-sm
-					py-10'
-			>
-				<Avatar className='h-30 w-30 rounded-full'>
-					<AvatarImage
-						src={profileImageUrl ?? '...'}
-						alt={profilePic?.name}
-					/>
-					<AvatarFallback className='rounded-lg'>CN</AvatarFallback>
-				</Avatar>
-				<div className='text-center'>
-					<p className='text-2xl'>
-						{currentUser?.userDetails?.firstName}{' '}
-						{currentUser?.userDetails?.lastName}
-					</p>
-					<p className='text-md text-muted-foreground'>
-						{currentUser?.emails.find((x) => x.isPrimary)?.email}
-					</p>
+			{currentUserError ? (
+				<div>
+					<ErrorAlert title='Error' className='w-full'>
+						Server error. Please try again
+					</ErrorAlert>
 				</div>
-			</div>
-
-			{frontEndError ||
-				(error && (
-					<div>
-						<ErrorAlert title='Error' className='w-full'>
-							{(frontEndError ?? error)
-								? 'Server error. Please try again'
-								: ''}
-						</ErrorAlert>
+			) : (
+				<>
+					<div
+						className='flex flex-col items-center gap-y-5 border
+							rounded-sm py-10'
+					>
+						<Avatar className='h-30 w-30 rounded-full'>
+							<AvatarImage
+								src={profileImageUrl ?? '...'}
+								alt={profilePic?.name}
+							/>
+							<AvatarFallback className='rounded-lg'>
+								CN
+							</AvatarFallback>
+						</Avatar>
+						<div className='text-center'>
+							<p className='text-2xl'>
+								{currentUser?.userDetails?.firstName}{' '}
+								{currentUser?.userDetails?.lastName}
+							</p>
+							<p className='text-md text-muted-foreground'>
+								{
+									currentUser?.emails.find((x) => x.isPrimary)
+										?.email
+								}
+							</p>
+						</div>
 					</div>
-				))}
 
-			<SelectProfilePicture
-				onError={(message) => setFronendError(message)}
-				onSelectedImageChange={(val) => {
-					setProfilePic(val);
-					setFronendError(null);
-				}}
-			/>
+					{frontEndError ||
+						(error && (
+							<div>
+								<ErrorAlert title='Error' className='w-full'>
+									{(frontEndError ?? error)
+										? 'Server error. Please try again'
+										: ''}
+								</ErrorAlert>
+							</div>
+						))}
 
-			<div className='flex gap-x-4'>
-				<AppButton
-					onClick={() => onSaveProfilePic()}
-					disabled={!profilePic || loading}
-				>
-					{loading ? 'Saving...' : 'Save'}
-				</AppButton>
-				<AppButton variant={'secondary'} asChild>
-					<Link href={ROUTE_PATHS.userPanel.homeDashboard}>Skip</Link>
-				</AppButton>
-			</div>
+					<SelectProfilePicture
+						onError={(message) => setFronendError(message)}
+						onSelectedImageChange={(val) => {
+							setProfilePic(val);
+							setFronendError(null);
+						}}
+					/>
+
+					<div className='flex gap-x-4'>
+						<AppButton
+							onClick={() => onSaveProfilePic()}
+							disabled={!profilePic || loading}
+						>
+							{loading ? 'Saving...' : 'Save'}
+						</AppButton>
+						<AppButton variant={'secondary'} asChild>
+							<Link href={ROUTE_PATHS.userPanel.homeDashboard}>
+								Skip
+							</Link>
+						</AppButton>
+					</div>
+				</>
+			)}
 		</div>
 	);
 };
