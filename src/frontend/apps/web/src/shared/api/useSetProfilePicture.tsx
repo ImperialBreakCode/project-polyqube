@@ -1,11 +1,11 @@
 'use client';
 
 import { setProfilePictureRequest } from '@/server/userRequests';
-import { useApi } from '../hooks';
+import { useApi, useAuthWrapper } from '../hooks';
 
 function useSetProfilePicture() {
-	const { fetchApi, loading, statusCode, error } = useApi(
-		setProfilePictureRequest,
+	const { fetchApi, loading, statusCode, error } = useAuthWrapper(
+		useApi(setProfilePictureRequest),
 	);
 
 	return {
