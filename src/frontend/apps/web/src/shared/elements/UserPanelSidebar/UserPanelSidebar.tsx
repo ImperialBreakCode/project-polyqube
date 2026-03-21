@@ -22,7 +22,7 @@ const UserPanelSidebar = () => {
 					</h1>
 				</div>
 			</SidebarHeader>
-			<SidebarContent>
+			<SidebarContent className='px-2'>
 				<UserPanelMenu />
 			</SidebarContent>
 

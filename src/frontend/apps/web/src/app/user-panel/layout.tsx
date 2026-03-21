@@ -9,7 +9,14 @@ import { ModeToggle, UserPanelSidebar } from '@/shared/elements';
 function UserPanelLayout({ children }: { children: ReactNode }) {
 	return (
 		<div>
-			<SidebarProvider>
+			<SidebarProvider
+				style={
+					{
+						'--sidebar-width': '17rem',
+						'--sidebar-width-mobile': '17rem',
+					} as React.CSSProperties
+				}
+			>
 				<UserPanelSidebar />
 				<SidebarInset>
 					<header
