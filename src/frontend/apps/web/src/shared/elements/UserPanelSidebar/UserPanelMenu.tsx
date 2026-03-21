@@ -64,7 +64,10 @@ const UserPanelMenu = () => {
 											hover:border-t-[#d0d0d023]
 											hover:border-r-[#d0d0d023]
 											hover:border-b-[#d0d0d04a]
-											hover:border-l-[#d0d0d04a]`,
+											hover:border-l-[#d0d0d04a]
+											bg-linear-to-r
+											hover:from-[#4343434a]
+											hover:to-[#8f8f8f4a]`,
 								)}
 							>
 								{x.icon}
