@@ -2,7 +2,7 @@
 
 import { ReactNode } from 'react';
 import Link from 'next/link';
-import { House } from 'lucide-react';
+import { House, UserRound } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import {
 	SidebarGroup,
@@ -27,9 +27,9 @@ const routesData: RouteData[] = [
 		icon: <House />,
 	},
 	{
-		title: 'Second',
-		url: '#',
-		icon: <House />,
+		title: 'Personal info',
+		url: ROUTE_PATHS.userPanel.personalInfo,
+		icon: <UserRound />,
 	},
 ];
 
@@ -50,7 +50,7 @@ const UserPanelMenu = () => {
 								className={cn(
 									`py-5 px-5 border border-transparent
 									transition-colors`,
-									pathname.startsWith(x.url)
+									pathname === x.url
 										? `border-t-[#9459d823]
 											border-r-[#9459d823]
 											border-b-[#9459d8]

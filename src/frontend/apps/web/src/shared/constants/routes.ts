@@ -15,9 +15,9 @@ function setupRoute(page: string) {
 	return SETUP_PATH + `/${page}`;
 }
 
-// function userPanelRoute(page: string) {
-// 	return USER_PANEL_PATH + `/${page}`;
-// }
+function userPanelRoute(page: string) {
+	return USER_PANEL_PATH + `/${page}`;
+}
 
 export const ROUTE_PATHS = {
 	home: ROOT_URL,
@@ -29,6 +29,7 @@ export const ROUTE_PATHS = {
 	},
 	userPanel: {
 		homeDashboard: USER_PANEL_PATH,
+		personalInfo: userPanelRoute('personal-info'),
 	},
 	infoPanels: {
 		userRegistered: route('user-registered'),
