@@ -66,7 +66,8 @@ const SetProfilePicture = () => {
 								alt={profilePic?.name}
 							/>
 							<AvatarFallback className='rounded-lg'>
-								CN
+								{currentUser?.userDetails?.firstName[0]}
+								{currentUser?.userDetails?.lastName[0]}
 							</AvatarFallback>
 						</Avatar>
 						<div className='text-center'>

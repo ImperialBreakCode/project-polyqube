@@ -132,3 +132,7 @@ function useApi<Rs = unknown, Rq = unknown>(
 }
 
 export default useApi;
+
+export type UseApiReturnType<Rs = unknown, Rq = unknown> = ReturnType<
+	typeof useApi<Rs, Rq>
+>;

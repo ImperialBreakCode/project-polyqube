@@ -57,6 +57,7 @@ namespace API.Shared.Web.Auth.Authentication
             var claims = new[] {
                 CreateClaim(APIClaimNames.SubjectClaim, claimsDict),
                 CreateClaim(APIClaimNames.RoleClaim, claimsDict),
+                CreateClaim(APIClaimNames.SessionId, claimsDict)
             };
 
             var identity = new ClaimsIdentity(claims, Scheme.Name);

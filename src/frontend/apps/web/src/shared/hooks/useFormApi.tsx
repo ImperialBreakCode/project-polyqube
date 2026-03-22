@@ -16,8 +16,14 @@ function useFormApi<Rs = unknown, Rq = unknown>(
 		problemTypeMap: ProblemTypeFormNamePath;
 	},
 ) {
-	const { fetchApi, loading, problemDetails, error, validationErrors } =
-		useApi(request);
+	const {
+		fetchApi,
+		loading,
+		problemDetails,
+		error,
+		validationErrors,
+		statusCode,
+	} = useApi(request);
 
 	const formErrors = useMemo(() => {
 		if (validationErrors.length !== 0 || !problemDetails) {
@@ -38,7 +44,12 @@ function useFormApi<Rs = unknown, Rq = unknown>(
 		loading,
 		errorMessage: errorMessage ?? problemMessage,
 		formErrors,
+		statusCode,
 	};
 }
 
 export default useFormApi;
+
+export type UseFormApiReturnType<Rs = unknown, Rq = unknown> = ReturnType<
+	typeof useFormApi<Rs, Rq>
+>;

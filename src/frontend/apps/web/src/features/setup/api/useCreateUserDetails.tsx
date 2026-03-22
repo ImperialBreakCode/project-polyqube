@@ -1,12 +1,15 @@
 import { createUserDetailsRequest } from '@/server/userRequests';
-import { ProblemTypeFormNamePath, useFormApi } from '@/shared/hooks';
+import {
+	ProblemTypeFormNamePath,
+	useAuthWrapper,
+	useFormApi,
+} from '@/shared/hooks';
 
 const problemTypeMap: ProblemTypeFormNamePath = {};
 
 function useCreateUserDetails() {
-	const { fetchApi, errorMessage, formErrors, loading } = useFormApi(
-		createUserDetailsRequest,
-		{ problemTypeMap },
+	const { fetchApi, errorMessage, formErrors, loading } = useAuthWrapper(
+		useFormApi(createUserDetailsRequest, { problemTypeMap }),
 	);
 
 	return {
