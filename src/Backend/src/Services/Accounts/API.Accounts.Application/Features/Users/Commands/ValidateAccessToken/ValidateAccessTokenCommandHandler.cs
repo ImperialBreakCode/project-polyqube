@@ -25,18 +25,25 @@ namespace API.Accounts.Application.Features.Users.Commands.ValidateAccessToken
         {
             var payload = _tokenVerifier.VerifyToken(request.Token);
 
-            if (!payload.ContainsKey(APIClaimNames.TokenIdClaim) || !payload.ContainsKey(APIClaimNames.SubjectClaim))
+            if (!payload.ContainsKey(APIClaimNames.TokenIdClaim) 
+                || !payload.ContainsKey(APIClaimNames.SubjectClaim)
+                || !payload.ContainsKey(APIClaimNames.SessionId))
             {
                 throw new UnauthorizedException("Invalid token");
             }
 
-            if (_cacheSessionRepository
-                .GetSession(
-                    payload[APIClaimNames.TokenIdClaim].ToString()!, 
-                    payload[APIClaimNames.SubjectClaim].ToString()!) 
-                is null)
+            var session = _cacheSessionRepository.GetSession(
+                    payload[APIClaimNames.SessionId].ToString()!,
+                    payload[APIClaimNames.SubjectClaim].ToString()!);
+
+            if (session is null)
             {
                 throw new UnauthorizedException("Invalid session");
+            }
+
+            if (session.AccessTokenId != payload[APIClaimNames.TokenIdClaim].ToString()!)
+            {
+                throw new UnauthorizedException("Invalid token");
             }
 
             return Task.FromResult(_viewModelFactory.CreateTokenVerificationViewModel(payload));

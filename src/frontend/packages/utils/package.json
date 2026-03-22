@@ -1,0 +1,21 @@
+{
+	"name": "@repo/utils",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		"./server/*": "./src/server/*.ts",
+		"./errors/*": "./src/errors/*.ts",
+		"./constants/*": "./src/constants/*.ts",
+		"./utilFuncs/*": "./src/utilFuncs/*.ts"
+	},
+	"devDependencies": {
+		"@repo/eslint-config": "workspace:*",
+		"@repo/prettier-config": "workspace:*",
+		"@repo/typescript-config": "workspace:*",
+		"@types/node": "^20",
+		"eslint": "^9.39.1",
+		"prettier": "^3.6.2",
+		"typescript": "^5.9.2"
+	}
+}

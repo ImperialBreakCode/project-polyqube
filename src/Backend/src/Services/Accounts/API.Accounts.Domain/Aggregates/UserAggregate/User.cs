@@ -13,8 +13,6 @@ namespace API.Accounts.Domain.Aggregates.UserAggregate
             _emails = new List<UserEmail>();
             Username = username;
             PasswordHash = passwordHash;
-
-            RaiseDomainEvent(new UserCreatedDomainEvent(Id));
         }
 
         public string Username { get; internal set; }
@@ -57,12 +55,13 @@ namespace API.Accounts.Domain.Aggregates.UserAggregate
             }
 
             _emails.Add(email);
+
+            RaiseDomainEvent(new EmailAddedDomainEvent(Id, email.Email));
         }
 
         public void RemoveEmail(string email)
         {
-
-            if (_emails.Count == 1)
+            if (!_emails.Any(x => x.IsVerified && x.Email != email))
             {
                 throw new CannotRemoveEmailException();
             }
@@ -74,7 +73,7 @@ namespace API.Accounts.Domain.Aggregates.UserAggregate
 
                 if (userEmail.IsPrimary)
                 {
-                    _emails.First().IsPrimary = true;
+                    _emails.First(x => x.IsVerified && x.Email != email).IsPrimary = true;
                 }
             }
         }
@@ -85,6 +84,11 @@ namespace API.Accounts.Domain.Aggregates.UserAggregate
 
             if (userEmail is not null)
             {
+                if (!userEmail.IsVerified)
+                {
+                    throw new EmailNotVerified();
+                }
+
                 var oldPrimaryEmail = _emails.Where(x => x.IsPrimary == true).First();
                 oldPrimaryEmail.IsPrimary = false;
 

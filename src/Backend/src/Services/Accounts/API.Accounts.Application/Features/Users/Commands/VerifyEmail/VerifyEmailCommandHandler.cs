@@ -28,9 +28,9 @@ namespace API.Accounts.Application.Features.Users.Commands.VerifyEmail
 
             var email = token.User.Emails.First(x => x.Email == token.Email);
             token.User.VerifyEmail(email.Email);
-            _unitOfWork.Save();
 
-            email.IsVerified = true;
+            _unitOfWork.EmailVerificationToken.Delete(token);
+            _unitOfWork.Save();
 
             return _mapper.Map<UserEmailViewModel>(email);
         }

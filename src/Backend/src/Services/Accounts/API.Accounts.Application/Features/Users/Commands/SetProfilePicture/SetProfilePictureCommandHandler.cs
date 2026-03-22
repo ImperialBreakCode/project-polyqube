@@ -1,6 +1,7 @@
 ﻿using API.Accounts.Common.Features.Users.Exceptions;
 using API.Accounts.Domain;
 using API.Accounts.Domain.Aggregates.UserAggregate;
+using API.Shared.Application.Contracts.Base.Results;
 using API.Shared.Application.Contracts.FileStorage.Requests;
 using API.Shared.Application.Contracts.FileStorage.Results;
 using API.Shared.Application.Interfaces;
@@ -15,18 +16,21 @@ namespace API.Accounts.Application.Features.Users.Commands.SetProfilePicture
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMessageDataRepository _messageRepository;
         private readonly IRequestClient<SaveProfilePictureRequest> _requestClient;
+        private readonly IRequestClient<RemoveProfilePictureRequest> _removeProfPicClient;
         private readonly IMapper _mapper;
 
         public SetProfilePictureCommandHandler(
             IUnitOfWork unitOfWork,
             IMessageDataRepository messageRepository,
             IRequestClient<SaveProfilePictureRequest> requestClient,
-            IMapper mapper)
+            IMapper mapper,
+            IRequestClient<RemoveProfilePictureRequest> removeProfPicClient)
         {
             _unitOfWork = unitOfWork;
             _messageRepository = messageRepository;
             _requestClient = requestClient;
             _mapper = mapper;
+            _removeProfPicClient = removeProfPicClient;
         }
 
         public async Task Handle(SetProfilePictureCommand request, CancellationToken cancellationToken)
@@ -51,6 +55,12 @@ namespace API.Accounts.Application.Features.Users.Commands.SetProfilePicture
             if (result.Message.Path is null)
             {
                 throw new InternalServerError();
+            }
+
+            if (user.UserDetails.ProfilePicturePath is not null)
+            {
+                var removeOldPicRequest = _mapper.Map<RemoveProfilePictureRequest>(user.UserDetails);
+                await _removeProfPicClient.GetResponse<BasicOperationResult>(removeOldPicRequest, cancellationToken);
             }
 
             user.UserDetails.ProfilePicturePath = result.Message.Path;

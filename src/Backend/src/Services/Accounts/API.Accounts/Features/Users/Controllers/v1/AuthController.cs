@@ -96,5 +96,17 @@ namespace API.Accounts.Features.Users.Controllers.v1
 
             return NoContent();
         }
+
+        [HttpDelete("logout")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> Logout()
+        {
+            var userId = this.GetUserId();
+            var sessionId = this.GetSessionId();
+            await _sender.Send(_sessionCommandFactory.CreateRevokeSessionCommand(userId, sessionId));
+
+            return NoContent();
+        }
     }
 }
