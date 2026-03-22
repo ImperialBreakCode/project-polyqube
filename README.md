@@ -2,11 +2,11 @@
 
 This README is still under construction 🚧🚧🚧
 
-## Install backend on Docker (production)
+## Install Backend on Docker (production)
 
 1. Go to `src/Backend`
 
-2. Run the following command to create env file from the example (you only need to add ethereal email smtp creds)
+2. Create your .env file from the provided example. The only values you need to supply are the Ethereal Email SMTP credentials:
 
     ```bash
     cp env.example.txt .env
@@ -35,6 +35,74 @@ This README is still under construction 🚧🚧🚧
             }
             ```
     - Click **Save**. The backend installation is complete.
+
+### Frontend Installation (Production)
+
+#### Prerequisites
+
+Ensure you have the correct **Node.js** and **pnpm** versions installed.
+
+**Node.js** — use [nvm](https://github.com/nvm-sh/nvm) to install and switch to the project version:
+
+```bash
+nvm install 24.11.1
+nvm use 24.11.1
+```
+
+**pnpm** — install the exact version specified in `package.json`:
+
+```bash
+npm install -g pnpm@10.32.1
+```
+
+---
+
+#### Install Dependencies
+
+Navigate to the `src/frontend` directory and install dependencies using the lockfile:
+
+```bash
+cd src/frontend
+pnpm install --frozen-lockfile
+```
+
+---
+
+#### Environment Setup
+
+Copy the example env file for the web app:
+
+```bash
+cp apps/web/env.example.txt apps/web/.env
+```
+
+---
+
+### Build
+
+From the `frontend` directory, run the production build:
+
+```bash
+pnpm run build
+```
+
+---
+
+### Start
+
+**Main website** (`apps/web`):
+
+```bash
+cd apps/web
+npm start
+```
+
+**Admin panel** (`apps/admin`):
+
+```bash
+cd apps/admin
+npm start
+```
 
 ## Superuser credentials
 
