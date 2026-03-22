@@ -36,9 +36,9 @@ This README is still under construction 🚧🚧🚧
             ```
     - Click **Save**. The backend installation is complete.
 
-### Frontend Installation (Production)
+## Frontend Installation (Production)
 
-#### Prerequisites
+### Prerequisites
 
 Ensure you have the correct **Node.js** and **pnpm** versions installed.
 
@@ -57,7 +57,7 @@ npm install -g pnpm@10.32.1
 
 ---
 
-#### Install Dependencies
+### Install Dependencies
 
 Navigate to the `src/frontend` directory and install dependencies using the lockfile:
 
@@ -68,7 +68,7 @@ pnpm install --frozen-lockfile
 
 ---
 
-#### Environment Setup
+### Environment Setup
 
 Copy the example env file for the web app:
 
