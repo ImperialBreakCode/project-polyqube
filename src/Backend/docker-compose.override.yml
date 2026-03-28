@@ -1,4 +1,4 @@
-version: '3.4'
+version: "3.4"
 
 services:
     api.accounts:
@@ -35,6 +35,15 @@ services:
         ports:
             - 8010:8010
             - 8011:8011
+
+    api.chats:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_HTTP_PORTS=8050
+            - ASPNETCORE_HTTPS_PORTS=8051
+        ports:
+            - 8050:8050
+            - 8051:8051
 
     redis:
         ports:
