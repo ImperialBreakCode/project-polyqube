@@ -1,9 +1,9 @@
 ﻿using API.Chats.Common.Features.UserProfiles.Exceptions;
-using API.Shared.Domain.Interfaces.Entity;
+using API.Shared.Domain.Base;
 
 namespace API.Chats.Domain.Aggregates.UserProfilesAggregate
 {
-    public class BlockedProfile : ICreatedAtAuditable
+    public class BlockedProfile : CreatedAtAuditable
     {
         private BlockedProfile()
         {
@@ -20,18 +20,6 @@ namespace API.Chats.Domain.Aggregates.UserProfilesAggregate
 
         public string BlockedById { get; private set; }
         public UserProfile BlockedBy { get; private set; }
-
-        public DateTime CreatedAt { get; private set; }
-
-        public DateTime SetCreatedAtTimestamp()
-        {
-            if (CreatedAt == DateTime.MinValue)
-            {
-                CreatedAt = DateTime.UtcNow;
-            }
-
-            return CreatedAt;
-        }
 
         public static BlockedProfile Create(string blockedUserId, string blockedById)
         {
