@@ -1,7 +1,7 @@
 ﻿using API.Chats.Common.Features.UserProfiles.Exceptions;
 using API.Shared.Domain.Base;
 
-namespace API.Chats.Domain.Aggregates.UserProfiles
+namespace API.Chats.Domain.Aggregates.UserProfilesAggregate
 {
     public class UserProfile : AuditableSoftDeleteAggregateRoot
     {
