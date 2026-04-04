@@ -9,6 +9,12 @@ namespace API.Chats.Infrastructure.Features.Chats
         public void Configure(EntityTypeBuilder<Chat> builder)
         {
             builder.ToTable("chat");
+
+            builder
+                .HasMany<Message>()
+                .WithOne()
+                .HasForeignKey(m => m.ChatId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
