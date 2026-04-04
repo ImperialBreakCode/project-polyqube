@@ -391,13 +391,13 @@ namespace API.Chats.Infrastructure.Migrations
                     b.HasOne("API.Chats.Domain.Aggregates.UserProfilesAggregate.UserProfile", "BlockedBy")
                         .WithMany("BlockedProfiles")
                         .HasForeignKey("BlockedById")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("API.Chats.Domain.Aggregates.UserProfilesAggregate.UserProfile", "BlockedUser")
                         .WithMany()
                         .HasForeignKey("BlockedUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("BlockedBy");

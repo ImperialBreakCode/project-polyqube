@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Chats.Infrastructure.Migrations
 {
     [DbContext(typeof(ChatDbContext))]
-    [Migration("20260404163847_ChatsInitial")]
+    [Migration("20260404171639_ChatsInitial")]
     partial class ChatsInitial
     {
         /// <inheritdoc />
@@ -394,13 +394,13 @@ namespace API.Chats.Infrastructure.Migrations
                     b.HasOne("API.Chats.Domain.Aggregates.UserProfilesAggregate.UserProfile", "BlockedBy")
                         .WithMany("BlockedProfiles")
                         .HasForeignKey("BlockedById")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("API.Chats.Domain.Aggregates.UserProfilesAggregate.UserProfile", "BlockedUser")
                         .WithMany()
                         .HasForeignKey("BlockedUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("BlockedBy");

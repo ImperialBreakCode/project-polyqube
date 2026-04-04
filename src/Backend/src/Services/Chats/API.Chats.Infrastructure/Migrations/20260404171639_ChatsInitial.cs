@@ -112,14 +112,12 @@ namespace API.Chats.Infrastructure.Migrations
                         name: "FK_blocked_profile_user_profile_BlockedById",
                         column: x => x.BlockedById,
                         principalTable: "user_profile",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_blocked_profile_user_profile_BlockedUserId",
                         column: x => x.BlockedUserId,
                         principalTable: "user_profile",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(

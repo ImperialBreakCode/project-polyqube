@@ -18,13 +18,13 @@ namespace API.Chats.Infrastructure.Features.UserProfiles
                 .HasMany(up => up.BlockedProfiles)
                 .WithOne(bp => bp.BlockedBy)
                 .HasForeignKey(bp => bp.BlockedById)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .HasMany<BlockedProfile>()
                 .WithOne(bp => bp.BlockedUser)
                 .HasForeignKey(bp => bp.BlockedUserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
