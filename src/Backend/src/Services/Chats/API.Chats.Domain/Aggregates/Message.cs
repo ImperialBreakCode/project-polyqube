@@ -22,7 +22,7 @@ namespace API.Chats.Domain.Aggregates
         public string TextContent { get; set; }
         public MessageType MessageType { get; set; }
         public string? ParticipantId { get; set; }
-        public string ChatId { get; set; }
+        public string ChatId { get; private set; }
 
         public static Message Create(string textContent, string chatId)
         {

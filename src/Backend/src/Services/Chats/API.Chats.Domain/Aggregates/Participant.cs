@@ -13,18 +13,18 @@ namespace API.Chats.Domain.Aggregates
         {
             ChatId = chatId;
             UserProfileId = userProfileId;
-            ChatAgentid = agentId;
+            ChatAgentId = agentId;
         }
 
         public string? ChatNickname { get; set; }
 
-        public string? UserProfileId { get; set; }
-        public UserProfile? UserProfile { get; set; }
+        public string? UserProfileId { get; private set; }
+        public UserProfile? UserProfile { get; private set; }
 
-        public string ChatId { get; set; }
-        public Chat Chat { get; set; }
+        public string ChatId { get; private set; }
+        public Chat Chat { get; private set; }
 
-        public string? ChatAgentid { get; set; }
+        public string? ChatAgentId { get; set; }
         public ChatAgent? ChatAgent { get; set; }
 
         public static Participant CreateUserParticipant(string chatId, string userProfileId)
