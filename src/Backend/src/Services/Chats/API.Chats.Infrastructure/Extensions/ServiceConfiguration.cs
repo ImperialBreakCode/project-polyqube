@@ -9,7 +9,7 @@ namespace API.Chats.Infrastructure.Extensions
         public static IServiceCollection AddChatsInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             services
-                //.AddDatabase<...>(configuration)
+                .AddDatabase<ChatDbContext>(configuration)
                 //.AddReadOnlyFilePathCache()
                 .AddMediatRServices();
                 //.AddReddisServices(configuration)
