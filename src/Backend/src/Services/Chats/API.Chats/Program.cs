@@ -1,3 +1,4 @@
+using API.Chats.Application.Extensions;
 using API.Chats.Extensions;
 using API.Chats.Infrastructure.Extensions;
 using API.Shared.Common.Constants;
@@ -13,9 +14,12 @@ builder.ConfigureTelemetryLogging();
 
 builder.Services
     .AddChatsPresentationLayer(builder.Configuration)
+    .AddChatsApplicationLayer()
     .AddChatsInfrastructure(builder.Configuration);
 
 var app = builder.Build();
+
+await app.SeedDatabase();
 
 app.UseCors(CorsPolicies.CorsPolicy);
 

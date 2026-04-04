@@ -2,6 +2,10 @@
 
 # This stage is used when running from VS in fast mode (Default for Debug configuration)
 FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine AS base
+# Install ICU for full globalization support
+RUN apk add --no-cache icu-libs
+# Tell .NET to use ICU instead of invariant mode
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=0
 USER $APP_UID
 WORKDIR /app
 EXPOSE 8050
