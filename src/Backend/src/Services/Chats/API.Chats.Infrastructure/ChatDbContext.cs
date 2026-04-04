@@ -7,6 +7,11 @@ namespace API.Chats.Infrastructure
 {
     public class ChatDbContext : DbContext
     {
+        public ChatDbContext(DbContextOptions<ChatDbContext> options)
+            : base(options)
+        {
+        }
+
         public DbSet<UserProfile> UserProfile { get; set; }
         public DbSet<Chat> Chats { get; set; }
         public DbSet<ChatAgent> ChatAgents { get; set; }
