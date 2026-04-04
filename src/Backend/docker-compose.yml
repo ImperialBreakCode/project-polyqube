@@ -89,6 +89,11 @@ services:
             dockerfile: src/Services/Admin/API.Admin/Dockerfile
 
     api.chats:
+        environment:
+            - DatabaseOptions__ConnectionString=Server=sqlServer,1433;Database=PolyqubeChats;User Id=sa;Password=${DB_PASSWORD};TrustServerCertificate=True;
+            - TelemetryOptions__TempoEndpoint=http://grafana:4317
+            - TelemetryOptions__MetricsEndpoint=http://grafana:4317
+            - Serilog__WriteTo__1__Args__Endpoint=http://grafana:4317
         image: ${DOCKER_REGISTRY-}apichats
         networks:
             - polyqube

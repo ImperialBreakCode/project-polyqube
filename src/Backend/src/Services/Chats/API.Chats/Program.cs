@@ -1,22 +1,44 @@
+using API.Chats.Extensions;
+using API.Chats.Infrastructure.Extensions;
+using API.Shared.Common.Constants;
+using API.Shared.Web.Extensions;
+using Scalar.AspNetCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Host.AddLogging();
+builder.ConfigureTelemetryLogging();
+
+builder.Services
+    .AddChatsPresentationLayer(builder.Configuration)
+    .AddChatsInfrastructure(builder.Configuration);
 
 var app = builder.Build();
+
+app.UseCors(CorsPolicies.CorsPolicy);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
+    app.UseSwagger(options =>
+    {
+        options.RouteTemplate = "openapi/{documentName}.json";
+    });
+
     app.UseSwaggerUI();
+
+    app.MapScalarApiReference(options =>
+    {
+        options.Title = "API.Chats Docs";
+        options.DefaultHttpClient = new(ScalarTarget.CSharp, ScalarClient.HttpClient);
+        options.Theme = ScalarTheme.Purple;
+        //options.CustomCss = ScalarCSSThemes.CustomTheme;
+    });
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

@@ -26,7 +26,7 @@ namespace API.Chats.Infrastructure
             var currentAssembly = typeof(ChatDbContext).Assembly;
             modelBuilder.ApplyConfigurationsFromAssembly(currentAssembly);
 
-            modelBuilder.AddBusInboxOutbox();
+            //modelBuilder.AddBusInboxOutbox();
             modelBuilder.AddInternalOutbox();
         }
     }
