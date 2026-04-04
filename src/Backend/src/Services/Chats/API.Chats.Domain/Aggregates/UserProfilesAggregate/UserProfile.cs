@@ -16,7 +16,7 @@ namespace API.Chats.Domain.Aggregates.UserProfilesAggregate
             UserId = userId;
         }
 
-        public string UserId { get; set; }
+        public string UserId { get; private set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public string? ProfilePicture { get; set; }
