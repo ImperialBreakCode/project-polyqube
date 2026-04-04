@@ -8,6 +8,7 @@ namespace API.Chats.Domain.Aggregates
         {
         }
 
+        public string? ChatName { get; set; }
         public bool IsGroupChat { get; set; }
         public bool AIEnabled { get; set; }
 
