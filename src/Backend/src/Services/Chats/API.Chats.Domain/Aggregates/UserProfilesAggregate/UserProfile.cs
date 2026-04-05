@@ -17,8 +17,8 @@ namespace API.Chats.Domain.Aggregates.UserProfilesAggregate
         }
 
         public string UserId { get; private set; }
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string? ProfilePicture { get; set; }
         public bool LockedOut { get; set; }
         public bool Disabled { get; set; }
