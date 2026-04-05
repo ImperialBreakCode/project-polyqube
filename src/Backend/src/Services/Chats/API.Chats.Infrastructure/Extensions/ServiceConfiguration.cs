@@ -1,4 +1,6 @@
-﻿using API.Shared.Infrastructure.Extensions;
+﻿using API.Chats.Domain;
+using API.Chats.Infrastructure.Factories;
+using API.Shared.Infrastructure.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,8 +17,8 @@ namespace API.Chats.Infrastructure.Extensions
                 //.AddReddisServices(configuration)
                 //.AddMongoDbOptions();
 
-            //services.AddTransient<IUnitOfWork, UnitOfWork>();
-            //services.AddTransient<IRepositoryFactory, RepositoryFactory>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IRepositoryFactory, RepositoryFactory>();
 
             //services.AddTransient<IDomainServiceFactory, DomainServiceFactory>();
 
