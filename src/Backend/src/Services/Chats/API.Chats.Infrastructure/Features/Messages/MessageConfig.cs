@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace API.Chats.Infrastructure.Features.Messages
 {
-    internal class MessagesConfig : IEntityTypeConfiguration<Message>
+    internal class MessageConfig : IEntityTypeConfiguration<Message>
     {
         public void Configure(EntityTypeBuilder<Message> builder)
         {
