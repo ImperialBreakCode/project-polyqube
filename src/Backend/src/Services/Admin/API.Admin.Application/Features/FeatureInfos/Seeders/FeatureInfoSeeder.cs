@@ -1,5 +1,6 @@
 ﻿using API.Admin.Domain.Aggregates.FeatureInfoAggregate;
 using API.Admin.Domain.Repositories;
+using API.Shared.Common.Constants;
 
 namespace API.Admin.Application.Features.FeatureInfos.Seeders
 {
@@ -7,7 +8,7 @@ namespace API.Admin.Application.Features.FeatureInfos.Seeders
     {
         public async Task SeedFeatureInfos(IFeatureInfoRepository featureInfoRepository)
         {
-            await SeedFeatureInfo(featureInfoRepository, "test");
+            await SeedFeatureInfo(featureInfoRepository, FeatureInfoNames.CHAT_SERVICE);
         }
 
         private async Task SeedFeatureInfo(IFeatureInfoRepository featureInfoRepository, string featureName, FeatureMode featureMode = FeatureMode.On)
