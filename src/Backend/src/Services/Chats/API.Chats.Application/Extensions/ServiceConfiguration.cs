@@ -1,4 +1,5 @@
 ﻿using API.Chats.Application.DatabaseInit;
+using API.Chats.Application.Features.ChatAgents.Seeders;
 using API.Chats.Application.Features.ChatFeatures.Seeders;
 using API.Shared.Application.Extensions;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,7 +14,8 @@ namespace API.Chats.Application.Extensions
                 .AddDatabaseSeeder<DatabaseSeeder>();
 
             services
-                .AddChatFeatures();
+                .AddChatFeatures()
+                .AddChatAgents();
 
             return services;
         }
@@ -21,6 +23,13 @@ namespace API.Chats.Application.Extensions
         private static IServiceCollection AddChatFeatures(this IServiceCollection services)
         {
             services.AddTransient<IChatFeatureSeeder, ChatFeatureSeeder>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddChatAgents(this IServiceCollection services)
+        {
+            services.AddTransient<IChatAgentSeeder, ChatAgentSeeder>();
 
             return services;
         }
