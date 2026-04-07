@@ -92,8 +92,6 @@ namespace API.Shared.Web.Extensions
                     => policy.AddRequirements(
                         [.. accessNameForNames.Select(x => new ModuleAccessRequirement(x))]
                     ));
-
-                    options.DefaultPolicy = options.GetPolicy(AuthorizationPolices.MODULE_ACCESS_POLICY)!;
                 }
                 
             });
