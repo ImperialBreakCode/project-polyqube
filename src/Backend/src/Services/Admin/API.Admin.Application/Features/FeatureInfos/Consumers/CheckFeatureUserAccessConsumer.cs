@@ -6,7 +6,7 @@ using MassTransit;
 
 namespace API.Admin.Application.Features.FeatureInfos.Consumers
 {
-    public class CheckFeatureUserAccessConsumer : IConsumer<CheckFeatureUserAccess>
+    public class CheckFeatureUserAccessConsumer : IConsumer<CheckFeatureUserAccessRequest>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -15,7 +15,7 @@ namespace API.Admin.Application.Features.FeatureInfos.Consumers
             _unitOfWork = unitOfWork;
         }
 
-        public async Task Consume(ConsumeContext<CheckFeatureUserAccess> context)
+        public async Task Consume(ConsumeContext<CheckFeatureUserAccessRequest> context)
         {
             string userId = context.Message.UserId;
             var feature = await _unitOfWork.FeatureInfoRepository

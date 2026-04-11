@@ -3,17 +3,19 @@ using API.Chats.Application.Features.ChatAgents.Seeders;
 using API.Chats.Application.Features.ChatFeatures.Seeders;
 using API.Chats.Application.Features.UserProfiles.Factories;
 using API.Shared.Application.Extensions;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace API.Chats.Application.Extensions
 {
     public static class ServiceConfiguration
     {
-        public static IServiceCollection AddChatsApplicationLayer(this IServiceCollection services)
+        public static IServiceCollection AddChatsApplicationLayer(this IServiceCollection services, IConfiguration configuration)
         {
             services
                 .AddDatabaseSeeder<DatabaseSeeder>()
-                .AddMapper();
+                .AddMapper()
+                .AddMassTransitRabbitMq(configuration, typeof(ServiceConfiguration).Assembly);
 
             services
                 .AddChatFeatures()
