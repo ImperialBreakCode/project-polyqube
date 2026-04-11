@@ -22,6 +22,7 @@ namespace API.Chats.Application.Features.UserProfiles.Commands.CreateUserProfile
             // check admin if user can create account
 
             _unitOfWork.UserProfileRepository.Insert(UserProfile.Create(request.UserId));
+            _unitOfWork.Save();
 
             return Task.FromResult(_mapper.Map<UserProfileViewModel>(UserProfile.Create(request.UserId)));
         }
