@@ -12,7 +12,8 @@ namespace API.Chats.Application.Extensions
         public static IServiceCollection AddChatsApplicationLayer(this IServiceCollection services)
         {
             services
-                .AddDatabaseSeeder<DatabaseSeeder>();
+                .AddDatabaseSeeder<DatabaseSeeder>()
+                .AddMapper();
 
             services
                 .AddChatFeatures()
