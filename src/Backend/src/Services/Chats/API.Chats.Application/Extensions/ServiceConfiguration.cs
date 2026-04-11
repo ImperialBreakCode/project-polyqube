@@ -1,6 +1,7 @@
 ﻿using API.Chats.Application.DatabaseInit;
 using API.Chats.Application.Features.ChatAgents.Seeders;
 using API.Chats.Application.Features.ChatFeatures.Seeders;
+using API.Chats.Application.Features.UserProfiles.Factories;
 using API.Shared.Application.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,7 +16,15 @@ namespace API.Chats.Application.Extensions
 
             services
                 .AddChatFeatures()
-                .AddChatAgents();
+                .AddChatAgents()
+                .AddUserProfiles();
+
+            return services;
+        }
+
+        private static IServiceCollection AddUserProfiles(this IServiceCollection services)
+        {
+            services.AddTransient<IUserProfileCommandFactory, UserProfileCommandFactory>();
 
             return services;
         }
