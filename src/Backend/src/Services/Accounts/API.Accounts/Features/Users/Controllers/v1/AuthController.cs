@@ -78,6 +78,8 @@ namespace API.Accounts.Features.Users.Controllers.v1
         [HttpPost("request-module-access")]
         [AuthorizeUserScope]
         [ProducesResponseType<ModuleAccessResponseDTO>(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> RequestModuleAccess(ModuleAccessRequestDTO moduleAccessRequestDTO, CancellationToken cancellationToken)
         {
             var userId = this.GetUserId();
