@@ -1,8 +1,14 @@
 ﻿using API.Accounts.Application.Features.Users.Models;
 using API.Accounts.Domain.CacheEntities;
 using API.Accounts.Domain.Repositories;
+using API.Shared.Application.Contracts.Base.Results;
+using API.Shared.Application.Contracts.Chats.Requests;
+using API.Shared.Application.Contracts.FeatureInfos.Requests;
 using API.Shared.Application.Interfaces;
+using API.Shared.Common.Exceptions.Chats;
+using API.Shared.Common.Exceptions.FeatureInfos;
 using AutoMapper;
+using MassTransit;
 
 namespace API.Accounts.Application.Features.Users.Commands.RequestModuleAccess
 {
@@ -10,16 +16,36 @@ namespace API.Accounts.Application.Features.Users.Commands.RequestModuleAccess
     {
         private readonly IModuleAuthDataRepository _moduleAuthRepository;
         private readonly IMapper _mapper;
+        private readonly IRequestClient<CheckChatProfileExistsRequest> _chatRequestClient;
+        private readonly IRequestClient<CheckFeatureUserAccessRequest> _featureUserAccessRequestClient;
 
-        public RequestModuleAccessCommandHandler(IModuleAuthDataRepository moduleAuthRepository, IMapper mapper)
+        public RequestModuleAccessCommandHandler(
+            IModuleAuthDataRepository moduleAuthRepository, 
+            IMapper mapper, 
+            IRequestClient<CheckChatProfileExistsRequest> chatRequestClient, 
+            IRequestClient<CheckFeatureUserAccessRequest> featureUserAccessRequestClient)
         {
             _moduleAuthRepository = moduleAuthRepository;
             _mapper = mapper;
+            _chatRequestClient = chatRequestClient;
+            _featureUserAccessRequestClient = featureUserAccessRequestClient;
         }
 
-        public Task<ModuleAuthDataViewModel> Handle(RequestModuleAccessCommand request, CancellationToken cancellationToken)
+        public async Task<ModuleAuthDataViewModel> Handle(RequestModuleAccessCommand request, CancellationToken cancellationToken)
         {
-            // check chat and admin services
+            var hasAccessResponse = await _featureUserAccessRequestClient
+                .GetResponse<BasicOperationResult>(CheckFeatureUserAccessRequest.Create(request.UserId, request.ModuleName));
+            if (!hasAccessResponse.Message.Success)
+            {
+                throw new NoUserFeatureAccessException();
+            }
+
+            var chatResponse = await _chatRequestClient
+                .GetResponse<BasicOperationResult>(CheckChatProfileExistsRequest.Create(request.UserId));
+            if (!chatResponse.Message.Success)
+            {
+                throw new ChatProfileNotFoundException();
+            }
 
             var moduleData = ModuleAuthData.Create(
                 request.RefreshToken,
@@ -30,8 +56,7 @@ namespace API.Accounts.Application.Features.Users.Commands.RequestModuleAccess
 
             _moduleAuthRepository.SetAuthModuleData(moduleData);
             
-            var viewModel = _mapper.Map<ModuleAuthDataViewModel>(moduleData);
-            return Task.FromResult(viewModel);
+            return _mapper.Map<ModuleAuthDataViewModel>(moduleData);
         }
     }
 }
