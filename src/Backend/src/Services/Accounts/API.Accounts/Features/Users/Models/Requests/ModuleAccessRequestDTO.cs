@@ -5,12 +5,12 @@ namespace API.Accounts.Features.Users.Models.Requests
     public record ModuleAccessRequestDTO
     {
         [Required]
-        public string AccessToken { get; set; }
+        public string AccessToken { get; init; }
 
         [Required]
-        public string RefreshToken { get; set; }
+        public string RefreshToken { get; init; }
 
         [Required]
-        public string ModuleName { get; set; }
+        public string ModuleName { get; init; }
     }
 }

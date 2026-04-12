@@ -95,6 +95,20 @@ namespace API.Accounts.Features.Users.Controllers.v1
             var result = await _sender.Send(requestModuleAccessComamnd, cancellationToken);
             var responseDTO = _mapper.Map<ModuleAccessResponseDTO>(result);
 
+            return StatusCode(StatusCodes.Status201Created, responseDTO);
+        }
+
+        [HttpPost("module-login")]
+        [AuthorizeUserScope]
+        [ProducesResponseType<LoginResponseDTO>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> ModuleLogin(ModuleLoginRequestDTO moduleLoginRequest, CancellationToken cancellationToken)
+        {
+            var moduleLoginCommand = _sessionCommandFactory.CreateModuleLoginCommand(moduleLoginRequest.Code);
+            var result = await _sender.Send(moduleLoginCommand, cancellationToken);
+            var responseDTO = _mapper.Map<LoginResponseDTO>(result);
+
             return Ok(responseDTO);
         }
 
