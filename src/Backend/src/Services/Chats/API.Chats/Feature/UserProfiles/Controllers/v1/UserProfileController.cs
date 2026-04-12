@@ -29,6 +29,7 @@ namespace API.Chats.Feature.UserProfiles.Controllers.v1
         [AuthorizeUserScope]
         [ProducesResponseType<UserProfileResponseDTO>(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Register(CancellationToken cancellationToken)
         {
             string userId = this.GetUserId();

@@ -1,4 +1,5 @@
 ﻿using API.Accounts.Application.Features.Users.Commands.DeleteSessionsByUserId;
+using API.Accounts.Application.Features.Users.Commands.RequestModuleAccess;
 using API.Accounts.Application.Features.Users.Commands.RevokeSession;
 
 namespace API.Accounts.Application.Features.Users.Factories
@@ -7,5 +8,11 @@ namespace API.Accounts.Application.Features.Users.Factories
     {
         DeleteSessionsByUserIdCommand CreateDeleteSessionsByUserIdCommand(string userId);
         RevokeSessionCommand CreateRevokeSessionCommand(string userId, string sessionId);
+        RequestModuleAccessCommand CreateRequestModuleAccessCommand(
+            string userId, 
+            string sessionId,
+            string accessToken,
+            string refreshToken,
+            string moduleName);
     }
 }
