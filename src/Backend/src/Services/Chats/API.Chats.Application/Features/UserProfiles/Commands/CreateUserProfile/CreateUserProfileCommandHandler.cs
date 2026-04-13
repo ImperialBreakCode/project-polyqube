@@ -37,10 +37,11 @@ namespace API.Chats.Application.Features.UserProfiles.Commands.CreateUserProfile
                 throw new NoUserFeatureAccessException();
             }
 
-            _unitOfWork.UserProfileRepository.Insert(UserProfile.Create(request.UserId));
+            var userProfile = UserProfile.Create(request.UserId);
+            _unitOfWork.UserProfileRepository.Insert(userProfile);
             _unitOfWork.Save();
 
-            return _mapper.Map<UserProfileViewModel>(UserProfile.Create(request.UserId));
+            return _mapper.Map<UserProfileViewModel>(userProfile);
         }
     }
 }
