@@ -14,9 +14,9 @@ namespace API.Chats.Infrastructure.Extensions
             services
                 .AddDatabase<ChatDbContext>(configuration)
                 //.AddReadOnlyFilePathCache()
-                .AddMediatRServices();
+                .AddMediatRServices()
                 //.AddReddisServices(configuration)
-                //.AddMongoDbOptions();
+                .AddMongoDbOptions();
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IRepositoryFactory, RepositoryFactory>();
