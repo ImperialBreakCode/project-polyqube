@@ -43,5 +43,10 @@ namespace API.Chats.Infrastructure.Features.UserProfiles
 
             base.Insert(entity);
         }
+
+        public async Task<bool> UserProfileExists(string userProfileId)
+        {
+            return await DbSet.AnyAsync(x => x.Id == userProfileId);
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using API.Chats.Domain;
+using API.Chats.Domain.Factories;
 using API.Chats.Infrastructure.Factories;
 using API.Shared.Infrastructure.Extensions;
 using Microsoft.Extensions.Configuration;
@@ -20,7 +21,7 @@ namespace API.Chats.Infrastructure.Extensions
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IRepositoryFactory, RepositoryFactory>();
 
-            //services.AddTransient<IDomainServiceFactory, DomainServiceFactory>();
+            services.AddTransient<IDomainServiceFactory, DomainServiceFactory>();
 
             return services;
         }

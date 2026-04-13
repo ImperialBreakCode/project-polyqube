@@ -19,5 +19,15 @@ namespace API.Chats.Infrastructure.Features.Participants
                 .Where(x => x.ChatId == chatId)
                 .ToListAsync();
         }
+
+        public async Task<bool> PeerChatExistsForUsers(string firstProfileId, string secondProfileId)
+        {
+            return await DbSet
+                .Where(x =>
+                    !x.Chat.IsGroupChat
+                    && (x.UserProfileId == firstProfileId || x.UserProfileId == secondProfileId))
+                .GroupBy(x => x.ChatId)
+                .AnyAsync(x => x.Count() > 1);
+        }
     }
 }

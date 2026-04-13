@@ -2,7 +2,7 @@
 
 namespace API.Chats.Common.Features.ChatAgents.Exceptions
 {
-    public class AgentUsernameAlreadyExists : BadRequestException
+    public class AgentUsernameAlreadyExists : ConflictException
     {
         private const string MESSAGE = "This agent username is already taken";
 
