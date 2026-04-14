@@ -11,6 +11,18 @@ namespace API.Chats.Infrastructure.Features.Participants
         {
         }
 
+        public async Task<Participant?> GetChatParticipantByChatAgentId(string chatAgentId, string chatId)
+        {
+            return await DbSet
+                .FirstOrDefaultAsync(x => x.ChatAgentId == chatAgentId && x.ChatId == chatId);
+        }
+
+        public async Task<Participant?> GetChatParticipantByProfileId(string profileId, string chatId)
+        {
+            return await DbSet
+                .FirstOrDefaultAsync(x => x.UserProfileId == profileId && x.ChatId == chatId);
+        }
+
         public async Task<ICollection<Participant>> GetChatParticipants(string chatId)
         {
             return await DbSet
