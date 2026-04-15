@@ -31,6 +31,7 @@ namespace API.Chats.Feature.Chats.Controllers.v1
 
         [HttpPost("create-peer-chat")]
         [AuthorizeUserScope]
+        [AuthorizeModuleAccess]
         [ProducesResponseType<ChatResponseDTO>(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
