@@ -50,7 +50,7 @@ namespace API.Chats.Feature.Chats.Controllers.v1
             return StatusCode(StatusCodes.Status201Created, chatResponseDTO);
         }
 
-        [HttpPost("get-current-profile-chats")]
+        [HttpGet("get-current-profile-chats")]
         [AuthorizeUserScope]
         [AuthorizeModuleAccess]
         [ProducesResponseType<ICollection<ChatResponseDTO>>(StatusCodes.Status200OK)]
