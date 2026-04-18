@@ -2,8 +2,10 @@
 {
     public record ChatViewModel(
         string Id,
-        string? ChatName,
         bool IsGroupChat,
         bool AIEnabled
-    );
+    )
+    {
+        public string? ChatName { get; set; }
+    };
 }

@@ -21,7 +21,15 @@ namespace API.Chats.Application.Extensions
             services
                 .AddChatFeatures()
                 .AddChatAgents()
-                .AddUserProfiles();
+                .AddUserProfiles()
+                .AddChats();
+
+            return services;
+        }
+
+        private static IServiceCollection AddChats(this IServiceCollection services)
+        {
+            services.AddTransient<IChatQueryFactory, ChatQueryFactory>();
 
             return services;
         }

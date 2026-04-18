@@ -20,13 +20,15 @@ namespace API.Chats.Feature.Chats.Controllers.v1
         private readonly IMapper _mapper;
         private readonly IChatCommandFactory _chatCommandFactory;
         private readonly IUserProfileQueryFactory _userProfileQueryFactory;
+        private readonly IChatQueryFactory _chatQueryFactory;
 
-        public ChatController(ISender sender, IMapper mapper, IChatCommandFactory chatCommandFactory, IUserProfileQueryFactory userProfileQueryFactory)
+        public ChatController(ISender sender, IMapper mapper, IChatCommandFactory chatCommandFactory, IUserProfileQueryFactory userProfileQueryFactory, IChatQueryFactory chatQueryFactory)
         {
             _sender = sender;
             _mapper = mapper;
             _chatCommandFactory = chatCommandFactory;
             _userProfileQueryFactory = userProfileQueryFactory;
+            _chatQueryFactory = chatQueryFactory;
         }
 
         [HttpPost("create-peer-chat")]
@@ -35,7 +37,7 @@ namespace API.Chats.Feature.Chats.Controllers.v1
         [ProducesResponseType<ChatResponseDTO>(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Register(CreatePeerChatRequestDTO requestDTO, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreatePeerChat(CreatePeerChatRequestDTO requestDTO, CancellationToken cancellationToken)
         {
             string userId = this.GetUserId();
             var getProfileQuery = _userProfileQueryFactory.CreateGetProfileByUserIdQuery(userId);
@@ -46,6 +48,23 @@ namespace API.Chats.Feature.Chats.Controllers.v1
             var chatResponseDTO = _mapper.Map<ChatResponseDTO>(result);
 
             return StatusCode(StatusCodes.Status201Created, chatResponseDTO);
+        }
+
+        [HttpPost("get-current-profile-chats")]
+        [AuthorizeUserScope]
+        [AuthorizeModuleAccess]
+        [ProducesResponseType<ICollection<ChatResponseDTO>>(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetCurrentProfileChats(CancellationToken cancellationToken)
+        {
+            string userId = this.GetUserId();
+            var getProfileQuery = _userProfileQueryFactory.CreateGetProfileByUserIdQuery(userId);
+            var currentProfile = await _sender.Send(getProfileQuery, cancellationToken);
+
+            var chatQuery = _chatQueryFactory.CreateGetProfileChatsQuery(currentProfile.Id);
+            var result = await _sender.Send(chatQuery, cancellationToken);
+            var responseDTO = _mapper.Map<ICollection<ChatResponseDTO>>(result);
+
+            return Ok(responseDTO);
         }
     }
 }
