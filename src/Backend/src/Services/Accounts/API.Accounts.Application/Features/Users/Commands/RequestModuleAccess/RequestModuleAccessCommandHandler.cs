@@ -37,7 +37,7 @@ namespace API.Accounts.Application.Features.Users.Commands.RequestModuleAccess
                 .GetResponse<BasicOperationResult>(CheckFeatureUserAccessRequest.Create(request.UserId, request.ModuleName));
             if (!hasAccessResponse.Message.Success)
             {
-                throw new NoUserFeatureAccessException();
+                throw new NoFeatureAccessException();
             }
 
             var chatResponse = await _chatRequestClient

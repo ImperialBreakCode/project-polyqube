@@ -39,7 +39,7 @@ namespace API.Chats.Application.Features.UserProfiles.Commands.CreateUserProfile
             var hasAccessResult = await _featureAccessRequestClient.GetResponse<BasicOperationResult>(hasAccessRequest, cancellationToken);
             if (!hasAccessResult.Message.Success)
             {
-                throw new NoUserFeatureAccessException();
+                throw new NoFeatureAccessException();
             }
 
             var getDetailsRequest = GetUserDetailsByUserIdRequest.Create(request.UserId);

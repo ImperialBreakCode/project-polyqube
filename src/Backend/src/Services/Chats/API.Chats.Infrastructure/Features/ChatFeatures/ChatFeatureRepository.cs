@@ -14,9 +14,20 @@ namespace API.Chats.Infrastructure.Features.ChatFeatures
             _context = context;
         }
 
-        public async Task<bool> CheckIfProfileIsFeatureRestricted(string profileId)
+        public async Task<bool> CheckIfProfileIsFeatureRestricted(string profileId, string featureName)
         {
-            return await _context.FeatureRestrictedProfiles.AnyAsync(x => x.RestrictedProfileId == profileId);
+            return await _context.FeatureRestrictedProfiles
+                .AnyAsync(x => 
+                    x.RestrictedProfileId == profileId 
+                    && x.ChatFeature.FeatureName == featureName);
+        }
+
+        public async Task<bool> CheckIfProfileIsTestProfile(string profileId, string featureName)
+        {
+            return await _context.FeatureTestProfile
+                .AnyAsync(x =>
+                    x.TestProfileId == profileId
+                    && x.ChatFeature.FeatureName == featureName);
         }
 
         public async Task<ChatFeature?> GetByFeatureName(string name)

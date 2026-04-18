@@ -4,9 +4,9 @@ using AutoMapper;
 
 namespace API.Chats.Feature.Chats.Mappings
 {
-    public class ChatViewModelMapping : Profile
+    public class ChatResponseMapping : Profile
     {
-        public ChatViewModelMapping()
+        public ChatResponseMapping()
         {
             CreateMap<ChatViewModel, ChatResponseDTO>();
         }

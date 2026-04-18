@@ -7,6 +7,7 @@ namespace API.Chats.Domain.Repositories
     {
         Task<ChatFeature?> GetByFeatureName(string name);
 
-        Task<bool> CheckIfProfileIsFeatureRestricted(string profileId);
+        Task<bool> CheckIfProfileIsFeatureRestricted(string profileId, string featureName);
+        Task<bool> CheckIfProfileIsTestProfile(string profileId, string featureName);
     }
 }

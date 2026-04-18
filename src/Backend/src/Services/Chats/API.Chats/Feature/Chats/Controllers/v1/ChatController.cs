@@ -1,4 +1,5 @@
-﻿using API.Chats.Application.Features.Chats.Factories;
+﻿using API.Chats.Application.Features.Chats.Commands.UpdateChatSettings;
+using API.Chats.Application.Features.Chats.Factories;
 using API.Chats.Application.Features.UserProfiles.Factories;
 using API.Chats.Feature.Chats.Models.Requests;
 using API.Chats.Feature.Chats.Models.Responses;
@@ -65,6 +66,19 @@ namespace API.Chats.Feature.Chats.Controllers.v1
             var responseDTO = _mapper.Map<ICollection<ChatResponseDTO>>(result);
 
             return Ok(responseDTO);
+        }
+
+        [HttpPut("update-chat-settings")]
+        [AuthorizeUserScope]
+        [AuthorizeModuleAccess]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> UpdateChatSettings(UpdateChatSettingsRequestDTO chatSettingsRequestDTO, CancellationToken cancellationToken)
+        {
+            var updateCommand = _mapper.Map<UpdateChatSettingsCommand>(chatSettingsRequestDTO);
+            await _sender.Send(updateCommand, cancellationToken);
+
+            return NoContent();
         }
     }
 }
