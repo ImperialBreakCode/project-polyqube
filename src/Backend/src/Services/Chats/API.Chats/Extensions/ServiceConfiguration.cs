@@ -15,6 +15,8 @@ namespace API.Chats.Extensions
                 .AddCorsPolicies(configuration)
                 .AddTelemetry("api-chats", configuration);
 
+            services.AddSignalR();
+
             return services;
         }
     }
