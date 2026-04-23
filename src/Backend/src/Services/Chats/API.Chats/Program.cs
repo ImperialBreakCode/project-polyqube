@@ -14,7 +14,7 @@ builder.ConfigureTelemetryLogging();
 
 builder.Services
     .AddChatsPresentationLayer(builder.Configuration)
-    .AddChatsApplicationLayer()
+    .AddChatsApplicationLayer(builder.Configuration)
     .AddChatsInfrastructure(builder.Configuration);
 
 var app = builder.Build();

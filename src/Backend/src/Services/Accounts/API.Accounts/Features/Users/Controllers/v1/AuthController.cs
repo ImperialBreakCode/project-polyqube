@@ -4,6 +4,7 @@ using API.Accounts.Application.Features.Users.Commands.ValidateAccessToken;
 using API.Accounts.Application.Features.Users.Factories;
 using API.Accounts.Features.Users.Models.Requests;
 using API.Accounts.Features.Users.Models.Responses;
+using API.Shared.Web.Attributes;
 using API.Shared.Web.Extensions;
 using Asp.Versioning;
 using AutoMapper;
@@ -70,6 +71,43 @@ namespace API.Accounts.Features.Users.Controllers.v1
             var refreshTokensCommand = _mapper.Map<RefreshAuthTokensCommand>(refreshTokensRequestDTO);
             var result = await _sender.Send(refreshTokensCommand, cancellationToken);
             var responseDTO = _mapper.Map<RefreshAuthTokensResponseDTO>(result);
+
+            return Ok(responseDTO);
+        }
+
+        [HttpPost("request-module-access")]
+        [AuthorizeUserScope]
+        [ProducesResponseType<ModuleAccessResponseDTO>(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> RequestModuleAccess(ModuleAccessRequestDTO moduleAccessRequestDTO, CancellationToken cancellationToken)
+        {
+            var userId = this.GetUserId();
+            var sessionId = this.GetSessionId();
+            var requestModuleAccessComamnd = _sessionCommandFactory
+                .CreateRequestModuleAccessCommand(
+                    userId,
+                    sessionId,
+                    moduleAccessRequestDTO.AccessToken,
+                    moduleAccessRequestDTO.RefreshToken,
+                    moduleAccessRequestDTO.ModuleName);
+
+            var result = await _sender.Send(requestModuleAccessComamnd, cancellationToken);
+            var responseDTO = _mapper.Map<ModuleAccessResponseDTO>(result);
+
+            return StatusCode(StatusCodes.Status201Created, responseDTO);
+        }
+
+        [HttpPost("module-login")]
+        [AuthorizeUserScope]
+        [ProducesResponseType<LoginResponseDTO>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> ModuleLogin(ModuleLoginRequestDTO moduleLoginRequest, CancellationToken cancellationToken)
+        {
+            var moduleLoginCommand = _sessionCommandFactory.CreateModuleLoginCommand(moduleLoginRequest.Code);
+            var result = await _sender.Send(moduleLoginCommand, cancellationToken);
+            var responseDTO = _mapper.Map<LoginResponseDTO>(result);
 
             return Ok(responseDTO);
         }

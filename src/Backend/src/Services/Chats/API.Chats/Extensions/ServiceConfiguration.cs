@@ -1,4 +1,5 @@
-﻿using API.Shared.Web.Extensions;
+﻿using API.Shared.Common.Constants;
+using API.Shared.Web.Extensions;
 
 namespace API.Chats.Extensions
 {
@@ -8,8 +9,13 @@ namespace API.Chats.Extensions
         {
             services
                 .AddMainWebServices()
+                .AddHttpAuthenticationHandler()
+                .AddAuthorizationPolices(FeatureInfoNames.CHAT_SERVICE)
+                .AddVersioning()
                 .AddCorsPolicies(configuration)
                 .AddTelemetry("api-chats", configuration);
+
+            services.AddSignalR();
 
             return services;
         }

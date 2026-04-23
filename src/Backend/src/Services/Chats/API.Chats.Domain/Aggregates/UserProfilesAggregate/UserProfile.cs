@@ -1,4 +1,5 @@
-﻿using API.Chats.Common.Features.UserProfiles.Exceptions;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using API.Chats.Common.Features.UserProfiles.Exceptions;
 using API.Shared.Domain.Base;
 
 namespace API.Chats.Domain.Aggregates.UserProfilesAggregate
@@ -19,6 +20,10 @@ namespace API.Chats.Domain.Aggregates.UserProfilesAggregate
         public string UserId { get; private set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+
+        [NotMapped]
+        public string FullName => $"{FirstName} {LastName}";
+
         public string? ProfilePicture { get; set; }
         public bool LockedOut { get; set; }
         public bool Disabled { get; set; }
