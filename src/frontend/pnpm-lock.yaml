@@ -386,6 +386,12 @@ importers:
       prettier:
         specifier: ^3.6.2
         version: 3.6.2
+      prettier-plugin-classnames:
+        specifier: ^0.8.6
+        version: 0.8.6(prettier@3.6.2)
+      prettier-plugin-tailwindcss:
+        specifier: ^0.7.1
+        version: 0.7.1(prettier@3.6.2)
       tailwindcss:
         specifier: ^4
         version: 4.1.17
