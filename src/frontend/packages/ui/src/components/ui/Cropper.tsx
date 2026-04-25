@@ -1521,7 +1521,8 @@ function useMediaComputation<T extends HTMLImageElement | HTMLVideoElement>({
 }
 
 interface CropperImageProps
-	extends React.ComponentProps<'img'>,
+	extends
+		React.ComponentProps<'img'>,
 		VariantProps<typeof cropperMediaVariants> {
 	asChild?: boolean;
 	snapPixels?: boolean;
@@ -1655,7 +1656,8 @@ function CropperImage(props: CropperImageProps) {
 }
 
 interface CropperVideoProps
-	extends React.ComponentProps<'video'>,
+	extends
+		React.ComponentProps<'video'>,
 		VariantProps<typeof cropperMediaVariants> {
 	asChild?: boolean;
 	snapPixels?: boolean;
@@ -1811,8 +1813,7 @@ const cropperAreaVariants = cva(
 );
 
 interface CropperAreaProps
-	extends DivProps,
-		VariantProps<typeof cropperAreaVariants> {
+	extends DivProps, VariantProps<typeof cropperAreaVariants> {
 	snapPixels?: boolean;
 }
 
