@@ -1,9 +1,4 @@
-import {
-	Avatar,
-	AvatarFallback,
-	AvatarImage,
-} from '@repo/ui/components/ui/Avatar';
-import { Button } from '@repo/ui/components/ui/Button';
+import { ProfileResultButton } from '@/features/findChat';
 import { Input } from '@repo/ui/components/ui/Input';
 
 function MainPage() {
@@ -16,19 +11,11 @@ function MainPage() {
 				<Input placeholder='Search or Add Chat' />
 
 				<div className='mt-2 w-full'>
-					<Button
-						variant={'outline'}
-						className='w-full justify-start py-[30px!important]
-							cursor-pointer'
-					>
-						<Avatar className='h-8 w-8 rounded-full'>
-							<AvatarImage src={'...'} alt={'...'} />
-							<AvatarFallback className='rounded-full uppercase'>
-								TC
-							</AvatarFallback>
-						</Avatar>{' '}
-						Thomas Collin
-					</Button>
+					<ProfileResultButton
+						avatarFallback='TC'
+						name='Thomas Collin'
+						avatarSrc='...'
+					/>
 				</div>
 			</div>
 		</div>
