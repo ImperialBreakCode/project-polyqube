@@ -1,4 +1,4 @@
-import { ChatSidebar } from '@/shared';
+import { ChatListMenu, ChatSidebar } from '@/shared';
 import { SidebarInset, SidebarProvider } from '@repo/ui/components/ui/Sidebar';
 
 function MainLayout({ children }: { children: React.ReactNode }) {
@@ -7,7 +7,10 @@ function MainLayout({ children }: { children: React.ReactNode }) {
 			<SidebarProvider defaultOpen={false}>
 				<ChatSidebar />
 				<SidebarInset>
-					<div>{children}</div>
+					<div className='flex flex-row h-screen'>
+						<ChatListMenu />
+						<div>{children}</div>
+					</div>
 				</SidebarInset>
 			</SidebarProvider>
 		</div>

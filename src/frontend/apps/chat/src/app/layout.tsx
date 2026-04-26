@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { ThemeProvider } from 'next-themes';
+//import { ThemeProvider } from 'next-themes';
 import { Geist, Geist_Mono } from 'next/font/google';
 import '@/app/globals.css';
 
@@ -27,16 +27,17 @@ export default function RootLayout({
 		<html lang='en' suppressHydrationWarning>
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} h-full
-					antialiased`}
+					antialiased dark`}
 			>
-				<ThemeProvider
+				{/* <ThemeProvider
 					attribute='class'
 					defaultTheme='system'
 					enableSystem
 					disableTransitionOnChange
 				>
 					{children}
-				</ThemeProvider>
+				</ThemeProvider> */}
+				{children}
 			</body>
 		</html>
 	);
