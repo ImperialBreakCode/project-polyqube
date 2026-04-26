@@ -9,7 +9,7 @@ function MainLayout({ children }: { children: React.ReactNode }) {
 				<SidebarInset>
 					<div className='flex flex-row h-screen'>
 						<ChatListMenu />
-						<div>{children}</div>
+						<div className='w-full'>{children}</div>
 					</div>
 				</SidebarInset>
 			</SidebarProvider>
