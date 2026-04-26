@@ -1,12 +1,7 @@
-import {
-	Avatar,
-	AvatarFallback,
-	AvatarImage,
-} from '@repo/ui/components/ui/Avatar';
 import { Separator } from '@repo/ui/components/ui/Separator';
 import { Search } from 'lucide-react';
 import Link from 'next/link';
-import React from 'react';
+import ChatLink from './ChatLink';
 
 function ChatListMenu() {
 	return (
@@ -23,19 +18,12 @@ function ChatListMenu() {
 				<Search size={17} /> Start a new Chat
 			</Link>
 			<Separator className='my-2' />
-			<Link
-				href={'#'}
-				className='flex items-center gap-x-2 px-4 py-2 hover:bg-[#333]
-					rounded-md'
-			>
-				<Avatar className='h-8 w-8 rounded-full'>
-					<AvatarImage src={'...'} alt={'alt text'} />
-					<AvatarFallback className='rounded-full uppercase'>
-						TC
-					</AvatarFallback>
-				</Avatar>{' '}
-				Thomas Collin
-			</Link>
+			<ChatLink
+				avatarFallback='TC'
+				avatarSrc='...'
+				name='Thomas Collin'
+				href='#'
+			/>
 		</div>
 	);
 }
