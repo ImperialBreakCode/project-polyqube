@@ -6,5 +6,6 @@
 	],
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
 	"editor.formatOnSave": true,
-	"prettier.prettierPath": "./packages/prettier-config/node_modules/prettier"
+	"prettier.prettierPath": "./packages/prettier-config/node_modules/prettier",
+	"js/ts.tsdk.path": "node_modules\\typescript\\lib"
 }
