@@ -30,6 +30,7 @@ export const ROUTE_PATHS = {
 	userPanel: {
 		homeDashboard: USER_PANEL_PATH,
 		personalInfo: userPanelRoute('personal-info'),
+		services: userPanelRoute('services'),
 	},
 	infoPanels: {
 		userRegistered: route('user-registered'),

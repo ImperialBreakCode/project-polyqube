@@ -2,7 +2,7 @@
 
 import { ReactNode } from 'react';
 import Link from 'next/link';
-import { House, UserRound } from 'lucide-react';
+import { House, LayoutPanelLeft, UserRound } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import {
 	SidebarGroup,
@@ -25,6 +25,11 @@ const routesData: RouteData[] = [
 		title: 'Home dashboard',
 		url: ROUTE_PATHS.userPanel.homeDashboard,
 		icon: <House />,
+	},
+	{
+		title: 'Services',
+		url: ROUTE_PATHS.userPanel.services,
+		icon: <LayoutPanelLeft />,
 	},
 	{
 		title: 'Personal info',
