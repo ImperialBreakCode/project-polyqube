@@ -1,1 +1,2 @@
-export { default as ServicesList } from './ServicesList';
+export * from './components';
+export * from './api';

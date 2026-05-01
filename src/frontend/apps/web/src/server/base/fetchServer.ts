@@ -61,6 +61,12 @@ export async function fetchServer<Rs = unknown, Rq = unknown>(
 			};
 		}
 
+		if (result.status === 403) {
+			return {
+				statusCode: 403,
+			};
+		}
+
 		const bodyResponse = (await result.json()) as ApiServerProblemResponse;
 
 		return {
