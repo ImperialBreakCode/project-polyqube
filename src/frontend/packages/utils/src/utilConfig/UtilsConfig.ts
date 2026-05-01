@@ -8,6 +8,10 @@ class UtilsConfig extends BaseConfig {
 	public static get apiHost(): string {
 		return this.getNonNullableVar('API_BASE_HOST');
 	}
+
+	public static get chatAppHost(): string {
+		return this.getNonNullableVar('CHAT_APP_HOST');
+	}
 }
 
 export default UtilsConfig;

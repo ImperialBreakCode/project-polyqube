@@ -10,6 +10,7 @@ import {
 import { AppButton } from '@/shared';
 import { useCreateChatProfile, useGetCurrentChatProfile } from '../api';
 import { useCallback } from 'react';
+import Link from 'next/link';
 
 const ServicesList = () => {
 	const { loading, success, refetchProfile, chatProfile } =
@@ -56,6 +57,14 @@ const ServicesList = () => {
 							disabled={createLoading}
 						>
 							{createLoading ? 'Please wait...' : 'Enable'}
+						</AppButton>
+					)}
+
+					{success && (
+						<AppButton asChild>
+							<Link href={'http://localhost:3002'}>
+								Go to Chat
+							</Link>
 						</AppButton>
 					)}
 				</CardFooter>
