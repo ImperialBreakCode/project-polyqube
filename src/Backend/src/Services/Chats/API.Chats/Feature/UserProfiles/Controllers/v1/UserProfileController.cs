@@ -54,7 +54,7 @@ namespace API.Chats.Feature.UserProfiles.Controllers.v1
             var userProfile = await _sender.Send(createUserProfileCommand, cancellationToken);
             var userProfileDTO = _mapper.Map<UserProfileResponseDTO>(userProfile);
 
-            return StatusCode(StatusCodes.Status201Created, userProfileDTO);
+            return Ok(userProfileDTO);
         }
     }
 }

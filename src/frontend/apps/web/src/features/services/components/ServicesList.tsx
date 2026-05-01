@@ -8,10 +8,26 @@ import {
 	CardTitle,
 } from '@repo/ui/core';
 import { AppButton } from '@/shared';
-import { useGetCurrentChatProfile } from '../api';
+import { useCreateChatProfile, useGetCurrentChatProfile } from '../api';
+import { useCallback } from 'react';
 
 const ServicesList = () => {
-	const { loading, success } = useGetCurrentChatProfile();
+	const { loading, success, refetchProfile, chatProfile } =
+		useGetCurrentChatProfile();
+
+	const {
+		loading: createLoading,
+		success: createSuccess,
+		createProfile,
+	} = useCreateChatProfile();
+
+	const onProfileCreate = useCallback(async () => {
+		await createProfile();
+
+		if (createSuccess) {
+			await refetchProfile();
+		}
+	}, [createProfile, createSuccess, refetchProfile]);
 
 	return (
 		<div>
@@ -21,14 +37,27 @@ const ServicesList = () => {
 				</CardHeader>
 				<CardContent>
 					{loading && <p>loading...</p>}
-					{!loading && !success && (
+					{!loading && !chatProfile && (
 						<p>Enable service to create an account.</p>
 					)}
-					{!loading && success && <p>Visit the service and chat</p>}
+					{!loading && chatProfile && (
+						<p>
+							Hello{' '}
+							{chatProfile.firstName + ' ' + chatProfile.lastName}
+							. Visit the app to start chatting
+						</p>
+					)}
 				</CardContent>
 				<CardFooter>
 					{loading && <p>loading...</p>}
-					{!loading && !success && <AppButton>Enable</AppButton>}
+					{!loading && !success && (
+						<AppButton
+							onClick={onProfileCreate}
+							disabled={createLoading}
+						>
+							{createLoading ? 'Please wait...' : 'Enable'}
+						</AppButton>
+					)}
 				</CardFooter>
 			</Card>
 		</div>

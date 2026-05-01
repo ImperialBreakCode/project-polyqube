@@ -29,3 +29,14 @@ export async function getCurrentChatProfile() {
 		},
 	);
 }
+
+export async function createChatProfile() {
+	return await serverRequest<UserProfileResponseDTO, null>(
+		`${CHAT_PROFILE_CONTROLLER}/create-user-profile`,
+		{
+			method: 'POST',
+			requestWithAuth: true,
+			body: null,
+		},
+	);
+}

@@ -43,7 +43,7 @@ namespace API.Chats.Application.Features.UserProfiles.Commands.CreateUserProfile
             }
 
             var getDetailsRequest = GetUserDetailsByUserIdRequest.Create(request.UserId);
-            var userDetailsResult = await _getUserDetailsRequestClient.GetResponse<UserDetailsResult>(request, cancellationToken);
+            var userDetailsResult = await _getUserDetailsRequestClient.GetResponse<UserDetailsResult>(getDetailsRequest, cancellationToken);
             if (userDetailsResult.Message.UserDetailsResultData is null)
             {
                 throw new AccountDetailsNotFoundException();
