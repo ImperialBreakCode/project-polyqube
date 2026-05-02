@@ -6,7 +6,7 @@ import {
 	getTokenMaxAge,
 } from '../utilFuncs';
 
-interface CookieStore {
+export interface CookieStore {
 	get(name: string): { value: string } | undefined;
 	set(options: {
 		name: string;
@@ -86,3 +86,7 @@ export function createTokenService(cookieStore: CookieStore) {
 		tokenSessionCleanup,
 	};
 }
+
+export type CreateTokenServiceReturnType = ReturnType<
+	typeof createTokenService
+>;
