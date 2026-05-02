@@ -1,17 +1,8 @@
 'use server';
 import { STATUS_CODES } from '@/shared/constants/statusCodes';
-import {
-	fetchServer,
-	FetchServerOptions,
-	FetchServerReturnType,
-} from './fetchServer';
-import {
-	getAccessTokenCookie,
-	getRefreshTokenCookie,
-	setAccessTokenCookie,
-	setRefreshTokenCookie,
-	tokenSessionCleanup,
-} from './tokenCookies';
+import { fetchServer, FetchServerOptions } from './fetchServer';
+import { getTokenService } from './tokenCookies';
+import { FetchServerReturnType } from '@repo/utils/server/baseFetch';
 
 const REFRESH_AUTH_ROUTE = '/api/v1/account/auth/refresh';
 
@@ -28,6 +19,9 @@ export async function fetchServerWithAuth<Rs = unknown, Rq = unknown>(
 	url: string,
 	{ headers, ...restOptions }: FetchServerOptions<Rq>,
 ): Promise<FetchServerReturnType<Rs>> {
+	const { getAccessTokenCookie, getRefreshTokenCookie } =
+		await getTokenService();
+
 	let accessToken = (await getAccessTokenCookie())?.value;
 	let refreshToken = (await getRefreshTokenCookie())?.value;
 	let sessionRefreshed = false;
@@ -70,6 +64,9 @@ export async function fetchServerWithAuth<Rs = unknown, Rq = unknown>(
 //
 // helpers
 async function refreshTokenSession(refreshToken: string) {
+	const { setAccessTokenCookie, setRefreshTokenCookie } =
+		await getTokenService();
+
 	const refreshResponse = await fetchServer<
 		RefreshAuthTokensResponseDTO,
 		RefreshAuthTokensRequestDTO
@@ -93,6 +90,8 @@ async function refreshTokenSession(refreshToken: string) {
 }
 
 async function unauthorized<T = unknown>(): Promise<FetchServerReturnType<T>> {
+	const { tokenSessionCleanup } = await getTokenService();
+
 	await tokenSessionCleanup();
 	return {
 		statusCode: STATUS_CODES.unauthorized,

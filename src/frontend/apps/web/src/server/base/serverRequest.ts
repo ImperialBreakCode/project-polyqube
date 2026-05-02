@@ -1,10 +1,7 @@
 'use server';
 
-import {
-	fetchServer,
-	FetchServerOptions,
-	FetchServerReturnType,
-} from './fetchServer';
+import { FetchServerReturnType } from '@repo/utils/server/baseFetch';
+import { fetchServer, FetchServerOptions } from './fetchServer';
 import { fetchServerWithAuth } from './fetchServerWithAuth';
 
 type ServerRequestOptions<T = unknown> = FetchServerOptions<T> & {

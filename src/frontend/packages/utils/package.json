@@ -9,6 +9,9 @@
 		"./constants/*": "./src/constants/*.ts",
 		"./utilFuncs/*": "./src/utilFuncs/*.ts"
 	},
+	"dependencies": {
+		"jose": "^6.2.0"
+	},
 	"devDependencies": {
 		"@repo/eslint-config": "workspace:*",
 		"@repo/prettier-config": "workspace:*",

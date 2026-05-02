@@ -430,6 +430,10 @@ importers:
         version: 5.9.2
 
   packages/utils:
+    dependencies:
+      jose:
+        specifier: ^6.2.0
+        version: 6.2.2
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*

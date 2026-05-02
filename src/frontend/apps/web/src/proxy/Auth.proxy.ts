@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getRefreshTokenCookie } from '@/server/base/tokenCookies';
+import { getTokenService } from '@/server/base/tokenCookies';
 import { ROUTE_PATHS } from '@/shared/constants/routes';
 import BaseProxy from './Base.proxy';
 
@@ -10,6 +10,7 @@ class AuthProxy extends BaseProxy {
 	protected async execute(
 		request: NextRequest,
 	): Promise<NextResponse<unknown> | undefined | void> {
+		const { getRefreshTokenCookie } = await getTokenService();
 		const refreshTokenCookie = await getRefreshTokenCookie();
 
 		if (!refreshTokenCookie) {

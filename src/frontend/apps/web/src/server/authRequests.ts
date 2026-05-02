@@ -2,14 +2,8 @@
 
 import { ACCOUNT_SERVICE_ROUTE } from '@repo/utils/constants/apiRoutes';
 import { STATUS_CODES } from '@/shared/constants/statusCodes';
-import {
-	deleteAccessTokenCookie,
-	deleteRefreshTokenCookie,
-	FetchServerReturnType,
-	serverRequest,
-	setAccessTokenCookie,
-	setRefreshTokenCookie,
-} from './base';
+import { getTokenService, serverRequest } from './base';
+import { FetchServerReturnType } from '@repo/utils/server/baseFetch';
 
 const AUTH_CONTROLLER = `${ACCOUNT_SERVICE_ROUTE}/auth`;
 
@@ -26,6 +20,9 @@ type LoginResponseDTO = {
 export async function loginRequest(
 	body: LoginUserRequestDTO,
 ): Promise<FetchServerReturnType<null>> {
+	const { setAccessTokenCookie, setRefreshTokenCookie } =
+		await getTokenService();
+
 	const {
 		body: responseBody,
 		error,
@@ -54,6 +51,9 @@ export async function loginRequest(
 }
 
 export async function logoutRequest(): Promise<FetchServerReturnType<null>> {
+	const { deleteAccessTokenCookie, deleteRefreshTokenCookie } =
+		await getTokenService();
+
 	const response = await serverRequest<null, null>(
 		`${AUTH_CONTROLLER}/logout`,
 		{
