@@ -10,6 +10,6 @@ export async function checkForRefreshToken() {
 	return !!refreshToken;
 }
 
-export async function getChatAppHost() {
-	return UtilsConfig.chatAppHost;
+export async function getAppHosts() {
+	return { chatHost: UtilsConfig.chatAppHost };
 }

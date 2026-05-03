@@ -11,7 +11,7 @@ import {
 } from '@repo/ui/core';
 import { AppButton } from '@/shared';
 import { useCreateChatProfile, useGetCurrentChatProfile } from '../api';
-import { getChatAppHost } from '@/server';
+import { getAppHosts } from '@/server';
 
 const ServicesList = () => {
 	const { loading, success, refetchProfile, chatProfile } =
@@ -27,7 +27,7 @@ const ServicesList = () => {
 
 	useEffect(() => {
 		const loadChatHost = async () => {
-			const chatHost = await getChatAppHost();
+			const { chatHost } = await getAppHosts();
 			setChatHost(chatHost);
 		};
 
