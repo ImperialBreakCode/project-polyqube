@@ -50,6 +50,48 @@ export async function loginRequest(
 	};
 }
 
+type RequestModuleLoginBody = {
+	moduleName: string;
+};
+
+type ModuleAccessRequestDTO = {
+	accessToken: string;
+	refreshToken: string;
+	moduleName: string;
+};
+
+type ModuleAccessResponseDTO = {
+	code: string;
+	expiration: string;
+};
+
+export async function requestModuleLogin(
+	body: RequestModuleLoginBody,
+): Promise<FetchServerReturnType<ModuleAccessResponseDTO>> {
+	const { getAccessTokenCookie, getRefreshTokenCookie } =
+		await getTokenService();
+
+	const accessToken = (await getAccessTokenCookie())?.value;
+	const refreshToken = (await getRefreshTokenCookie())?.value;
+
+	const request: ModuleAccessRequestDTO = {
+		accessToken: accessToken ?? '',
+		refreshToken: refreshToken ?? '',
+		moduleName: body.moduleName,
+	};
+
+	const response = await serverRequest<
+		ModuleAccessResponseDTO,
+		ModuleAccessRequestDTO
+	>(`${AUTH_CONTROLLER}/request-module-access`, {
+		method: 'POST',
+		requestWithAuth: true,
+		body: request,
+	});
+
+	return response;
+}
+
 export async function logoutRequest(): Promise<FetchServerReturnType<null>> {
 	const { deleteAccessTokenCookie, deleteRefreshTokenCookie } =
 		await getTokenService();

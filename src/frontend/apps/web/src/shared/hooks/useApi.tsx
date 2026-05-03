@@ -1,9 +1,9 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { FetchServerReturnType } from '@/server/base';
 import { AppFormError } from '@repo/ui/components/AppForm/AppForm';
 import { ApiServerProblemResponse } from '@repo/utils/server/fetchServerApiUtils';
+import { FetchServerReturnType } from '@repo/utils/server/baseFetch';
 import { STATUS_CODES } from '../constants';
 
 type UseApiOptions<Rq = unknown> = {
