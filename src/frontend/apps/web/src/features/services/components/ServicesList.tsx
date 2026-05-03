@@ -1,5 +1,7 @@
 'use client';
 
+import { useCallback, useEffect, useState } from 'react';
+import Link from 'next/link';
 import {
 	Card,
 	CardContent,
@@ -9,8 +11,7 @@ import {
 } from '@repo/ui/core';
 import { AppButton } from '@/shared';
 import { useCreateChatProfile, useGetCurrentChatProfile } from '../api';
-import { useCallback } from 'react';
-import Link from 'next/link';
+import { getChatAppHost } from '@/server';
 
 const ServicesList = () => {
 	const { loading, success, refetchProfile, chatProfile } =
@@ -21,6 +22,17 @@ const ServicesList = () => {
 		success: createSuccess,
 		createProfile,
 	} = useCreateChatProfile();
+
+	const [chatHost, setChatHost] = useState<string | null>();
+
+	useEffect(() => {
+		const loadChatHost = async () => {
+			const chatHost = await getChatAppHost();
+			setChatHost(chatHost);
+		};
+
+		loadChatHost();
+	}, []);
 
 	const onProfileCreate = useCallback(async () => {
 		await createProfile();
@@ -62,9 +74,7 @@ const ServicesList = () => {
 
 					{success && (
 						<AppButton asChild>
-							<Link href={'http://localhost:3002'}>
-								Go to Chat
-							</Link>
+							<Link href={chatHost ?? '#'}>Go to Chat</Link>
 						</AppButton>
 					)}
 				</CardFooter>

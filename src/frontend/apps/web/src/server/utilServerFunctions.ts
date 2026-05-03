@@ -1,5 +1,6 @@
 'use server';
 
+import UtilsConfig from '@repo/utils/utilConfig/UtilsConfig';
 import { getTokenService } from './base';
 
 export async function checkForRefreshToken() {
@@ -7,4 +8,8 @@ export async function checkForRefreshToken() {
 
 	const refreshToken = await getRefreshTokenCookie();
 	return !!refreshToken;
+}
+
+export async function getChatAppHost() {
+	return UtilsConfig.chatAppHost;
 }

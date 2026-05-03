@@ -7,7 +7,8 @@
 		"./server/*": "./src/server/*.ts",
 		"./errors/*": "./src/errors/*.ts",
 		"./constants/*": "./src/constants/*.ts",
-		"./utilFuncs/*": "./src/utilFuncs/*.ts"
+		"./utilFuncs/*": "./src/utilFuncs/*.ts",
+		"./utilConfig/*": "./src/utilConfig/*.ts"
 	},
 	"dependencies": {
 		"jose": "^6.2.0"
