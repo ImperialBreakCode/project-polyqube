@@ -3,7 +3,10 @@ using API.Chats.Application.Features.ChatAgents.Seeders;
 using API.Chats.Application.Features.ChatFeatures.Seeders;
 using API.Chats.Application.Features.Chats.Factories;
 using API.Chats.Application.Features.UserProfiles.Factories;
+using API.Chats.Application.Features.UserProfiles.Models;
+using API.Chats.Application.Features.UserProfiles.UrlFileResponseTransforms;
 using API.Shared.Application.Extensions;
+using API.Shared.Common.MediatorResponse;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -38,6 +41,8 @@ namespace API.Chats.Application.Extensions
         {
             services.AddTransient<IUserProfileCommandFactory, UserProfileCommandFactory>();
             services.AddTransient<IUserProfileQueryFactory, UserProfileQueryFactory>();
+
+            services.AddTransient<IMediatorResponseInterceptor<UserProfileViewModel>, UserProfileViewModelTransform>();
 
             return services;
         }
