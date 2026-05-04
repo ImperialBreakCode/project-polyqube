@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
-import { FetchServerReturnType } from '@/server/base';
+import { FetchServerReturnType } from '@repo/utils/server/baseFetch';
 import useApi, {
 	getFormErrorsFromProblemDetails,
 	getProblemFormMessage,

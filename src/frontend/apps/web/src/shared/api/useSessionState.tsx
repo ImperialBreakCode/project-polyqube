@@ -2,8 +2,8 @@
 
 import { useCallback } from 'react';
 import { getCurrentUserRequest } from '@/server/userRequests';
-import { useApi } from '../hooks';
 import { SessionContextValues, SessionState } from '../contexts';
+import useApi from '@repo/ui/hooks/api/useApi';
 
 function useSessionState(): SessionContextValues {
 	const { data, fetchApi } = useApi(getCurrentUserRequest, {

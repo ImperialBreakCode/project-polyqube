@@ -2,7 +2,7 @@
 
 import { useCallback } from 'react';
 import { logoutRequest } from '@/server/authRequests';
-import { useApi } from '../hooks';
+import useApi from '@repo/ui/hooks/api/useApi';
 
 function useLogout() {
 	const { fetchApi, error, loading } = useApi(logoutRequest);

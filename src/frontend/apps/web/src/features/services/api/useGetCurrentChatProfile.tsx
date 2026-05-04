@@ -1,7 +1,8 @@
 'use client';
 
 import { getCurrentChatProfile } from '@/server';
-import { useApi, useAuthWrapper } from '@/shared';
+import { useAuthWrapper } from '@/shared';
+import useApi from '@repo/ui/hooks/api/useApi';
 import { STATUS_CODES } from '@repo/utils/constants/statusCodes';
 import { useCallback } from 'react';
 

@@ -2,7 +2,8 @@
 
 import { loginRequest } from '@/server/authRequests';
 import { AUTH_PROBLEM_TYPES } from '@/shared/constants/serverProblemTypes';
-import { ProblemTypeFormNamePath, useFormApi } from '@/shared/hooks';
+import { ProblemTypeFormNamePath } from '@repo/ui/hooks/api/useApi';
+import useFormApi from '@repo/ui/hooks/api/useFormApi';
 
 const problemTypeMap: ProblemTypeFormNamePath = {
 	[AUTH_PROBLEM_TYPES.invalidUsernameException]: {

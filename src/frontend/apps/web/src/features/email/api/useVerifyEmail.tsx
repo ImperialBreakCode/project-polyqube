@@ -1,5 +1,5 @@
 import { verifyEmailRequest } from '@/server/userRequests';
-import useApi from '@/shared/hooks/useApi';
+import useApi from '@repo/ui/hooks/api/useApi';
 import { STATUS_CODES } from '@repo/utils/constants/statusCodes';
 
 function useVerifyEmail({

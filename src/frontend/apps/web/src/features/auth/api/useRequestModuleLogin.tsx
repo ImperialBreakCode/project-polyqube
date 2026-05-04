@@ -1,7 +1,8 @@
 'use client';
 
 import { requestModuleLogin } from '@/server/authRequests';
-import { useApi, useAuthWrapper } from '@/shared/hooks';
+import useApi from '@repo/ui/hooks/api/useApi';
+import { useAuthWrapper } from '@/shared/hooks';
 
 function useRequestModuleLogin(moduleName: string) {
 	const { loading, data, statusCode } = useAuthWrapper(

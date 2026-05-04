@@ -1,8 +1,9 @@
 'use client';
 
 import { getCurrentUserRequest } from '@/server';
-import { useApi, useAuthWrapper } from '../hooks';
+import { useAuthWrapper } from '../hooks';
 import { useCallback } from 'react';
+import useApi from '@repo/ui/hooks/api/useApi';
 
 function useCurrentUser(fetchOnInit: boolean = true) {
 	const { data, error, problemDetails, loading, fetchApi } = useAuthWrapper(
