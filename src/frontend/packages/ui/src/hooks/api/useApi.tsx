@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ApiServerProblemResponse } from '@repo/utils/server/fetchServerApiUtils';
 import { FetchServerReturnType } from '@repo/utils/server/baseFetch';
 import { STATUS_CODES } from '@repo/utils/constants/statusCodes';
-import { AppFormError } from '@repo/ui/components';
+import { AppFormError } from '@repo/ui/components/AppForm/AppForm';
 
 type UseApiOptions<Rq = unknown> = {
 	initRequestData?: Rq;

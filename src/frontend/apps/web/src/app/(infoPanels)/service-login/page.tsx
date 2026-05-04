@@ -1,6 +1,7 @@
 'use client';
 
 import { useRequestModuleLogin } from '@/features/auth';
+import { getAppHosts } from '@/server';
 import { AppButton, ROUTE_PATHS } from '@/shared';
 import {
 	Card,
@@ -9,10 +10,27 @@ import {
 	CardHeader,
 	CardTitle,
 } from '@repo/ui/core';
+import { SHARED_URL_QUERY_KEYS } from '@repo/utils/constants/sharedUrlQueryKeys';
 import { Link } from 'lucide-react';
+import { useEffect } from 'react';
 
 function ServiceLoginPage() {
 	const { code, loading } = useRequestModuleLogin('chat-service');
+
+	useEffect(() => {
+		const redirectToChatApp = async (code: string) => {
+			const { chatHost } = await getAppHosts();
+
+			const url = new URL('/login', chatHost);
+			url.searchParams.set(SHARED_URL_QUERY_KEYS.code, code);
+
+			window.location.href = url.toString();
+		};
+
+		if (code) {
+			redirectToChatApp(code);
+		}
+	}, [code]);
 
 	return (
 		<Card className='dark:bg-[#171717] rounded-xl'>
