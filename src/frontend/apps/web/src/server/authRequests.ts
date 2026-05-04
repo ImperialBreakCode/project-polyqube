@@ -1,9 +1,9 @@
 'use server';
 
 import { ACCOUNT_SERVICE_ROUTE } from '@repo/utils/constants/apiRoutes';
-import { STATUS_CODES } from '@/shared/constants/statusCodes';
 import { getTokenService, serverRequest } from './base';
 import { FetchServerReturnType } from '@repo/utils/server/baseFetch';
+import { STATUS_CODES } from '@repo/utils/constants/statusCodes';
 
 const AUTH_CONTROLLER = `${ACCOUNT_SERVICE_ROUTE}/auth`;
 

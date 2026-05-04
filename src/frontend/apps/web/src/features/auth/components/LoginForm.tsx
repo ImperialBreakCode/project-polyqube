@@ -10,10 +10,10 @@ import {
 } from '@/shared/elements/FieldControllers';
 import { AppButton } from '@/shared/elements/AppButton';
 import { ROUTE_PATHS } from '@/shared/constants/routes';
-import { STATUS_CODES } from '@/shared/constants/statusCodes';
 import { SessionContext } from '@/shared/contexts';
 import { useUserLogin } from '../api';
 import { URL_QUERY_KEYS } from '@/shared';
+import { STATUS_CODES } from '@repo/utils/constants/statusCodes';
 
 const loginFormSchema = z.object({
 	username: z.string(),

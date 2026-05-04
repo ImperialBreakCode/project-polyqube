@@ -2,7 +2,8 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ROUTE_PATHS, STATUS_CODES } from '../constants';
+import { ROUTE_PATHS } from '../constants';
+import { STATUS_CODES } from '@repo/utils/constants/statusCodes';
 
 function useAuthWrapper<T extends { statusCode?: number }>(returnVals: T): T {
 	const router = useRouter();
