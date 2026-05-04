@@ -11,7 +11,7 @@ import {
 	CardTitle,
 } from '@repo/ui/core';
 import { SHARED_URL_QUERY_KEYS } from '@repo/utils/constants/sharedUrlQueryKeys';
-import { Link } from 'lucide-react';
+import Link from 'next/link';
 import { useEffect } from 'react';
 
 function ServiceLoginPage() {

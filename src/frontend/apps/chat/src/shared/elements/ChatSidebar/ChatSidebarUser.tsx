@@ -1,3 +1,5 @@
+'use client';
+
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -15,8 +17,11 @@ import {
 	SidebarMenuItem,
 } from '@repo/ui/components/ui/Sidebar';
 import { Ellipsis, LogOut } from 'lucide-react';
+import { useLogout } from '@/features/auth';
 
 const ChatSidebarUser = () => {
+	const { logout } = useLogout();
+
 	return (
 		<SidebarMenu>
 			<SidebarMenuItem>
@@ -55,7 +60,7 @@ const ChatSidebarUser = () => {
 						align='end'
 						sideOffset={4}
 					>
-						<DropdownMenuItem>
+						<DropdownMenuItem onClick={async () => await logout()}>
 							<LogOut />
 							Log out
 						</DropdownMenuItem>

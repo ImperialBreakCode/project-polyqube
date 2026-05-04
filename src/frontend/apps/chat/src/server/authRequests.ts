@@ -48,3 +48,28 @@ export async function chatLoginRequest(
 		statusCode,
 	};
 }
+
+type ModuleLogoutRequestDTO = {
+	serviceName: string;
+};
+
+export async function logoutRequest(): Promise<FetchServerReturnType<null>> {
+	const { deleteAccessTokenCookie, deleteRefreshTokenCookie } =
+		await getTokenService();
+
+	const response = await serverRequest<null, ModuleLogoutRequestDTO>(
+		`${AUTH_CONTROLLER}/module-logout`,
+		{
+			method: 'DELETE',
+			requestWithAuth: true,
+			body: {
+				serviceName: 'chat-service',
+			},
+		},
+	);
+
+	await deleteAccessTokenCookie();
+	await deleteRefreshTokenCookie();
+
+	return response;
+}
