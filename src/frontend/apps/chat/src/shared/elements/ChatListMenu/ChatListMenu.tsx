@@ -1,9 +1,14 @@
+'use client';
+
 import { Separator } from '@repo/ui/components/ui/Separator';
 import { Search } from 'lucide-react';
 import Link from 'next/link';
+import { useCurrentProfileChats } from '@/shared';
 import ChatLink from './ChatLink';
 
 function ChatListMenu() {
+	const { chats } = useCurrentProfileChats();
+
 	return (
 		<div className='border-r flex flex-col items-stretch p-4 w-64'>
 			<div className='mb-5'>
@@ -18,12 +23,13 @@ function ChatListMenu() {
 				<Search size={17} /> Start a new Chat
 			</Link>
 			<Separator className='my-2' />
-			<ChatLink
-				avatarFallback='TC'
-				avatarSrc='...'
-				name='Thomas Collin'
-				href='#'
-			/>
+			{chats.map((chat) => (
+				<ChatLink
+					key={chat.id}
+					name={chat.chatName ?? 'Untitled chat'}
+					href={`/${chat.id}`}
+				/>
+			))}
 		</div>
 	);
 }

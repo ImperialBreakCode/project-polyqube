@@ -1,28 +1,28 @@
 'use client';
 
-import { getCurrentUserRequest } from '@/server';
+import { getCurrentProfileChatsRequest } from '@/server';
 import { useCallback } from 'react';
 import useApi from '@repo/ui/hooks/api/useApi';
 import { useAuthWrapper } from '../hooks';
 
-function useCurrentProfile(fetchOnInit: boolean = true) {
+function useCurrentProfileChats(fetchOnInit: boolean = true) {
 	const { data, error, loading, fetchApi } = useAuthWrapper(
-		useApi(getCurrentUserRequest, {
+		useApi(getCurrentProfileChatsRequest, {
 			initRequestData: null,
 			requestOnInit: fetchOnInit,
 		}),
 	);
 
-	const getCurrentProfile = useCallback(async () => {
+	const getCurrentProfileChats = useCallback(async () => {
 		await fetchApi(null);
 	}, [fetchApi]);
 
 	return {
-		getCurrentProfile,
-		currentProfile: data,
+		getCurrentProfileChats,
+		chats: data ?? [],
 		loading,
 		error,
 	};
 }
 
-export default useCurrentProfile;
+export default useCurrentProfileChats;

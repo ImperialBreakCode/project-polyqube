@@ -16,6 +16,7 @@ namespace API.Chats.Infrastructure.Extensions
                 .AddReadOnlyFilePathCache()
                 .AddMediatRServices()
                 .AddReddisServices(configuration)
+                .AddReadonlySessionAccessInfo()
                 .AddMongoDbOptions();
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();

@@ -96,8 +96,13 @@ namespace API.Shared.Web.Extensions
                 
             });
 
-            services.AddSingleton<IAuthorizationHandler, RoleRequirementHandler>();
+            if (moduleAccessNames.Length != 0)
+            {
+                services.AddSingleton<IAuthorizationHandler, ModuleAccessRequirementHandler>();
+            }
 
+            services.AddSingleton<IAuthorizationHandler, RoleRequirementHandler>();
+          
             return services;
         }
 

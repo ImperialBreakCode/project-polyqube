@@ -1,6 +1,7 @@
 ﻿using API.Shared.Common.Constants;
 using API.Shared.Domain.Interfaces.CacheRepo.Accounts;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
 
 namespace API.Shared.Web.Auth.Authorization
 {
@@ -21,8 +22,10 @@ namespace API.Shared.Web.Auth.Authorization
                 return Task.CompletedTask;
             }
 
-            string userId = context.User.FindFirst(x => x.Type == APIClaimNames.SubjectClaim)!.Value;
-            string sessionId = context.User.FindFirst(x => x.Type == APIClaimNames.SessionId)!.Value;
+            string userIdJson = context.User.FindFirst(x => x.Type == APIClaimNames.SubjectClaim)!.Value;
+            string userId = JsonConvert.DeserializeObject<string>(userIdJson)!;
+            string sessionIdJson = context.User.FindFirst(x => x.Type == APIClaimNames.SessionId)!.Value;
+            string sessionId = JsonConvert.DeserializeObject<string>(sessionIdJson)!;
             var sessionAccessInfo = _sessionInfoRepository.GetSessionInfo(sessionId, userId);
             if (sessionAccessInfo == null)
             {
