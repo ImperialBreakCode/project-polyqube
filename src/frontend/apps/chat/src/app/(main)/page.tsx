@@ -2,12 +2,30 @@
 
 import { ProfileResultButton, useProfileSearch } from '@/features/findChat';
 import { UserProfileResponseDTO } from '@/server';
+import { Button } from '@repo/ui/components/ui/Button';
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+} from '@repo/ui/components/ui/Dialog';
 import { Input } from '@repo/ui/components/ui/Input';
+import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
+import { usePeerChat } from '@/features/findChat';
 
 function MainPage() {
 	const { profiles, searchProfiles } = useProfileSearch();
+	const { getPeerChat, createPeerChat, loading, createdPeerChat, peerChat } =
+		usePeerChat();
+	const router = useRouter();
 	const [searchValue, setSearchValue] = useState('');
+	const [selectedProfileId, setSelectedProfileId] = useState<string | null>(
+		null,
+	);
+	const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
 
 	useEffect(() => {
 		if (searchValue.trim().length < 2) {
@@ -22,6 +40,16 @@ function MainPage() {
 			clearTimeout(timeout);
 		};
 	}, [searchProfiles, searchValue]);
+
+	useEffect(() => {
+		if (peerChat?.id) {
+			router.push(`/${peerChat.id}`);
+		}
+
+		if (createdPeerChat?.id) {
+			router.push(`/${createdPeerChat.id}`);
+		}
+	}, [peerChat, createdPeerChat, router]);
 
 	const canShowResults = searchValue.trim().length >= 2;
 	const visibleProfiles = useMemo(() => {
@@ -39,7 +67,20 @@ function MainPage() {
 	};
 
 	const handleProfileClick = async (profileId: string) => {
-		console.log(profileId);
+		const { statusCode } = await getPeerChat(profileId);
+
+		if (statusCode === 404) {
+			setSelectedProfileId(profileId);
+			setIsCreateDialogOpen(true);
+		}
+	};
+
+	const handleCreateChatConfirm = async () => {
+		if (!selectedProfileId) {
+			return;
+		}
+
+		await createPeerChat(selectedProfileId);
 	};
 
 	return (
@@ -62,10 +103,41 @@ function MainPage() {
 							name={`${profile.firstName} ${profile.lastName}`}
 							avatarSrc={profile.profilePicture}
 							onClick={() => handleProfileClick(profile.id)}
+							disabled={loading}
 						/>
 					))}
 				</div>
 			</div>
+
+			<Dialog
+				open={isCreateDialogOpen}
+				onOpenChange={setIsCreateDialogOpen}
+			>
+				<DialogContent showCloseButton>
+					<DialogHeader>
+						<DialogTitle>Create a new chat?</DialogTitle>
+						<DialogDescription>
+							No existing peer chat was found with this user. Do
+							you want to create one now?
+						</DialogDescription>
+					</DialogHeader>
+					<DialogFooter>
+						<Button
+							variant='outline'
+							onClick={() => setIsCreateDialogOpen(false)}
+							disabled={loading}
+						>
+							Cancel
+						</Button>
+						<Button
+							onClick={handleCreateChatConfirm}
+							disabled={loading}
+						>
+							Create chat
+						</Button>
+					</DialogFooter>
+				</DialogContent>
+			</Dialog>
 		</div>
 	);
 }

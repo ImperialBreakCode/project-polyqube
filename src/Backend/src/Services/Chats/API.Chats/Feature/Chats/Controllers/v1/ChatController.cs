@@ -68,6 +68,24 @@ namespace API.Chats.Feature.Chats.Controllers.v1
             return Ok(responseDTO);
         }
 
+        [HttpGet("peer-chat/{peerProfileId}")]
+        [AuthorizeUserScope]
+        [AuthorizeModuleAccess]
+        [ProducesResponseType<ChatResponseDTO>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetPeerChat(string peerProfileId, CancellationToken cancellationToken)
+        {
+            string userId = this.GetUserId();
+            var getProfileQuery = _userProfileQueryFactory.CreateGetProfileByUserIdQuery(userId);
+            var currentProfile = await _sender.Send(getProfileQuery, cancellationToken);
+
+            var query = _chatQueryFactory.CreateGetPeerChatQuery(currentProfile.Id, peerProfileId);
+            var result = await _sender.Send(query, cancellationToken);
+            var responseDTO = _mapper.Map<ChatResponseDTO>(result);
+
+            return Ok(responseDTO);
+        }
+
         [HttpPut("update-chat-settings")]
         [AuthorizeUserScope]
         [AuthorizeModuleAccess]

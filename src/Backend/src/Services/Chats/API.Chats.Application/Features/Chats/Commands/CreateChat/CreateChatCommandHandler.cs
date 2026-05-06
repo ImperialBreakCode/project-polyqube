@@ -29,11 +29,13 @@ namespace API.Chats.Application.Features.Chats.Commands.CreateChat
             }
 
             var chatDomainService = _domainServiceFactory.CreateChatDomainService();
-            var chat = chatDomainService.CreatePeerChat(
+            var chat = await chatDomainService.CreatePeerChat(
                 request.InitiatorProfileId,
                 request.PeerProfileId,
                 _unitOfWork.ChatRepository,
                 _unitOfWork.ParticipantRepository);
+
+            _unitOfWork.Save();
 
             return _mapper.Map<ChatViewModel>(chat);
         }

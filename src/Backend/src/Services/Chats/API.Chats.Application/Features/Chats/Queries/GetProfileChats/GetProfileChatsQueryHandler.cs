@@ -31,9 +31,12 @@ namespace API.Chats.Application.Features.Chats.Queries.GetProfileChats
                     var topPartcipant = await _unitOfWork.ParticipantRepository
                         .GetChatParticipants(chatViewModel.Id, participantCount: 3);
 
-                    var participantNames = topPartcipant.Select(x => x.ChatNickname ?? x.UserProfile?.FullName ?? "Deleted User");
+                    var participantNames = topPartcipant
+                        .Where(x => x.UserProfileId != request.ProfileId || chatViewModel.IsGroupChat)
+                        .Select(x => x.ChatNickname ?? x.UserProfile?.FullName ?? "Deleted User");
 
                     chatViewModel.ChatName = string.Join(", ", participantNames);
+                    chatViewModels.Add(chatViewModel);
                 }
             }
 

@@ -4,6 +4,7 @@ using API.Chats.Infrastructure.Extensions;
 using API.Shared.Common.Constants;
 using API.Shared.Web.Extensions;
 using Scalar.AspNetCore;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,10 +45,14 @@ if (app.Environment.IsDevelopment())
 
 //app.UseHttpsRedirection();
 
+app.UseSerilogRequestLogging();
+
 app.UseAuthentication();
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseExceptionHandlers();
 
 app.Run();
