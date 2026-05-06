@@ -9,17 +9,23 @@ interface ProfileResultButtonProps {
 	avatarSrc: string;
 	avatarFallback: string;
 	name: string;
+	onClick: () => void;
+	disabled?: boolean;
 }
 
 const ProfileResultButton = ({
 	avatarSrc,
 	avatarFallback,
 	name,
+	onClick,
+	disabled = false,
 }: ProfileResultButtonProps) => {
 	return (
 		<Button
 			variant={'outline'}
 			className='w-full justify-start py-[30px!important] cursor-pointer'
+			onClick={onClick}
+			disabled={disabled}
 		>
 			<Avatar className='h-8 w-8 rounded-full'>
 				<AvatarImage src={avatarSrc} alt={name} />

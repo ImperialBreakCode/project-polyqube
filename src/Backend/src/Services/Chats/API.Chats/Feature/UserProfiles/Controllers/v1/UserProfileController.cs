@@ -1,4 +1,5 @@
 ﻿using API.Chats.Application.Features.UserProfiles.Factories;
+using API.Chats.Feature.UserProfiles.Models.Requests;
 using API.Chats.Feature.UserProfiles.Models.Responses;
 using API.Shared.Web.Attributes;
 using API.Shared.Web.Extensions;
@@ -55,6 +56,27 @@ namespace API.Chats.Feature.UserProfiles.Controllers.v1
             var userProfileDTO = _mapper.Map<UserProfileResponseDTO>(userProfile);
 
             return Ok(userProfileDTO);
+        }
+
+        [HttpGet("search-profiles")]
+        [AuthorizeUserScope]
+        [AuthorizeModuleAccess]
+        [ProducesResponseType<ICollection<UserProfileResponseDTO>>(StatusCodes.Status200OK)]
+        public async Task<IActionResult> SearchProfiles([FromQuery] SearchProfileRequestDTO requestDTO, CancellationToken cancellationToken)
+        {
+            string userId = this.GetUserId();
+            var currentProfileQuery = _userProfileQueryFactory.CreateGetProfileByUserIdQuery(userId);
+            var currentProfile = await _sender.Send(currentProfileQuery, cancellationToken);
+
+            var query = _userProfileQueryFactory.CreateSearchProfilesByFullNameQuery(
+                requestDTO.SearchTerm,
+                currentProfile.Id,
+                requestDTO.Count);
+
+            var result = await _sender.Send(query, cancellationToken);
+            var responseDTO = _mapper.Map<ICollection<UserProfileResponseDTO>>(result.Profiles);
+
+            return Ok(responseDTO);
         }
     }
 }

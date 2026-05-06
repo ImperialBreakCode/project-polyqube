@@ -4,6 +4,7 @@ using API.Chats.Application.Features.ChatFeatures.Seeders;
 using API.Chats.Application.Features.Chats.Factories;
 using API.Chats.Application.Features.UserProfiles.Factories;
 using API.Chats.Application.Features.UserProfiles.Models;
+using API.Chats.Application.Features.UserProfiles.Queries.SearchProfilesByFullName;
 using API.Chats.Application.Features.UserProfiles.UrlFileResponseTransforms;
 using API.Shared.Application.Extensions;
 using API.Shared.Common.MediatorResponse;
@@ -43,6 +44,7 @@ namespace API.Chats.Application.Extensions
             services.AddTransient<IUserProfileQueryFactory, UserProfileQueryFactory>();
 
             services.AddTransient<IMediatorResponseInterceptor<UserProfileViewModel>, UserProfileViewModelTransform>();
+            services.AddTransient<IMediatorResponseInterceptor<SearchProfilesByFullNameResponse>, SearchProfilesByFullNameResponseTransform>();
 
             return services;
         }

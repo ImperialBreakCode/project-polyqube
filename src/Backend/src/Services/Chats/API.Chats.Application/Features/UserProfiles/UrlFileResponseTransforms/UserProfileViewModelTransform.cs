@@ -11,10 +11,10 @@ namespace API.Chats.Application.Features.UserProfiles.UrlFileResponseTransforms
     {
         public override async Task InterceptAndProcessResponse(UserProfileViewModel model)
         {
-            if (model.ProfilePicture is not null)
-            {
+           if (model.ProfilePicture is not null)
+           {
                 model.ProfilePicture = await GetUrlPath(model.ProfilePicture);
-            }
+           }
         }
     }
 }

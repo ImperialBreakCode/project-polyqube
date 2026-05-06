@@ -29,3 +29,14 @@ export async function getCurrentUserRequest() {
 		},
 	);
 }
+
+export async function searchProfilesRequest(searchTerm: string) {
+	return await serverRequest<UserProfileResponseDTO[], null>(
+		`${USER_PROFILE_CONTROLLER}/search-profiles?searchTerm=${encodeURIComponent(searchTerm)}`,
+		{
+			method: 'GET',
+			requestWithAuth: true,
+			body: null,
+		},
+	);
+}
