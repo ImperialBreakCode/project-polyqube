@@ -10,8 +10,39 @@ export type ChatResponseDTO = {
 	aiEnabled: boolean;
 };
 
+export type ParticipantUserProfileResponseDTO = {
+	id: string;
+	fullName: string;
+	profilePicture: string | null;
+	createdAt: string;
+	updatedAt: string;
+};
+
+export type ParticipantChatAgentResponseDTO = {
+	id: string;
+	agentName: string;
+	agentUsername: string;
+	profilePicture: string | null;
+	createdAt: string;
+	updatedAt: string;
+};
+
+export type ParticipantResponseDTO = {
+	id: string;
+	chatNickname: string | null;
+	userProfile: ParticipantUserProfileResponseDTO | null;
+	chatAgent: ParticipantChatAgentResponseDTO | null;
+	createdAt: string;
+	updatedAt: string;
+};
+
 export type CreatePeerChatRequestDTO = {
 	peerProfileId: string;
+};
+
+export type GetChatParticipantsRequestDTO = {
+	participantCount?: number;
+	includeAgents: boolean;
 };
 
 export type UpdateChatSettingsRequestDTO = {
@@ -48,6 +79,31 @@ export async function createPeerChatRequest(requestDTO: CreatePeerChatRequestDTO
 			method: 'POST',
 			requestWithAuth: true,
 			body: requestDTO,
+		},
+	);
+}
+
+export async function getChatParticipantsRequest({
+	chatId,
+	requestDTO,
+}: {
+	chatId: string;
+	requestDTO: GetChatParticipantsRequestDTO;
+}) {
+	const searchParams = new URLSearchParams({
+		includeAgents: String(requestDTO.includeAgents),
+	});
+
+	if (requestDTO.participantCount !== undefined) {
+		searchParams.set('participantCount', String(requestDTO.participantCount));
+	}
+
+	return await serverRequest<ParticipantResponseDTO[], null>(
+		`${CHAT_SERVICE_ROUTE}/chats/${chatId}/participants?${searchParams.toString()}`,
+		{
+			method: 'GET',
+			requestWithAuth: true,
+			body: null,
 		},
 	);
 }

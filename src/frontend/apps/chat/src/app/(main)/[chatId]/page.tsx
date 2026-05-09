@@ -1,7 +1,12 @@
 'use client';
 
 import { BsThreeDots } from 'react-icons/bs';
-import { useCurrentProfileChats, useUpdateChatSettings } from '@/shared';
+import {
+	useChatParticipants,
+	useCurrentProfile,
+	useCurrentProfileChats,
+	useUpdateChatSettings,
+} from '@/shared';
 import {
 	Avatar,
 	AvatarFallback,
@@ -20,16 +25,49 @@ import { ScrollArea } from '@repo/ui/components/ui/ScrollArea';
 import { Switch } from '@repo/ui/components/ui/Switch';
 import { SendHorizontal, Sparkles } from 'lucide-react';
 import { useParams } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 function ChatPage() {
 	const { chatId } = useParams<{ chatId: string }>();
+	const { currentProfile } = useCurrentProfile();
 	const { chats, getCurrentProfileChats } = useCurrentProfileChats();
+	const { participants, getChatParticipants } = useChatParticipants();
 	const { updateChatSettings, loading: updatingChatSettings } =
 		useUpdateChatSettings();
 	const [isSettingsDialogOpen, setIsSettingsDialogOpen] = useState(false);
 	const [aiEnabled, setAiEnabled] = useState(false);
 	const currentChat = chats.find((chat) => chat.id === chatId);
+	const messageParticipants = useMemo(() => {
+		return participants.map((participant) => {
+			const profileName = participant.userProfile?.fullName ?? null;
+			const agentName = participant.chatAgent?.agentName ?? null;
+			const displayName =
+				participant.chatNickname ?? profileName ?? agentName ?? '';
+
+			return {
+				id: participant.id,
+				displayName,
+				userProfileId: participant.userProfile?.id ?? null,
+				profilePicture:
+					participant.userProfile?.profilePicture ??
+					participant.chatAgent?.profilePicture ??
+					null,
+				isBot: Boolean(participant.chatAgent),
+			};
+		});
+	}, [participants]);
+	const firstParticipant =
+		messageParticipants.find(
+			(participant) => participant.userProfileId !== currentProfile?.id,
+		) ?? messageParticipants[0];
+
+	useEffect(() => {
+		if (!chatId) {
+			return;
+		}
+
+		getChatParticipants(chatId, { includeAgents: true });
+	}, [chatId, getChatParticipants]);
 
 	const messages = [
 		{
@@ -167,14 +205,17 @@ function ChatPage() {
 			<div className='flex px-2 py-4 bg-[#28232d]'>
 				<div className='flex items-center gap-x-2'>
 					<Avatar className='h-8 w-8 rounded-full'>
-						<AvatarImage src={'...'} alt={''} />
+						<AvatarImage
+							src={firstParticipant?.profilePicture ?? '...'}
+							alt={firstParticipant?.displayName ?? ''}
+						/>
 						<AvatarFallback
 							className='rounded-full uppercase bg-transparent'
 						>
-							TC
+							{firstParticipant?.displayName?.slice(0, 2) ?? 'TC'}
 						</AvatarFallback>
 					</Avatar>{' '}
-					<p>Thomas Collin</p>
+					<p>{firstParticipant?.displayName ?? 'Thomas Collin'}</p>
 				</div>
 
 				<Button
