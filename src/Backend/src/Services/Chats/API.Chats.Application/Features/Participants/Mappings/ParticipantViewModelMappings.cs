@@ -1,5 +1,6 @@
 using API.Chats.Application.Features.Participants.Models;
 using API.Chats.Domain.Aggregates;
+using API.Chats.Domain.Aggregates.UserProfilesAggregate;
 using AutoMapper;
 
 namespace API.Chats.Application.Features.Participants.Mappings
@@ -8,7 +9,7 @@ namespace API.Chats.Application.Features.Participants.Mappings
     {
         public ParticipantViewModelMappings()
         {
-            CreateMap<Participant, ParticipantUserProfileViewModel>();
+            CreateMap<UserProfile, ParticipantUserProfileViewModel>();
             CreateMap<ChatAgent, ParticipantChatAgentViewModel>();
             CreateMap<Participant, ParticipantViewModel>();
         }
