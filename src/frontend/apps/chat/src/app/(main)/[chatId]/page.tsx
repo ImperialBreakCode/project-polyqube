@@ -17,13 +17,14 @@ import {
 } from '@repo/ui/components/ui/Dialog';
 import { Input } from '@repo/ui/components/ui/Input';
 import { ScrollArea } from '@repo/ui/components/ui/ScrollArea';
+import { Switch } from '@repo/ui/components/ui/Switch';
 import { SendHorizontal, Sparkles } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 
 function ChatPage() {
 	const { chatId } = useParams<{ chatId: string }>();
-	const { chats } = useCurrentProfileChats();
+	const { chats, getCurrentProfileChats } = useCurrentProfileChats();
 	const { updateChatSettings, loading: updatingChatSettings } =
 		useUpdateChatSettings();
 	const [isSettingsDialogOpen, setIsSettingsDialogOpen] = useState(false);
@@ -291,13 +292,10 @@ function ChatPage() {
 							className='flex items-center justify-between gap-3'
 						>
 							<span>AI enabled</span>
-							<input
+							<Switch
 								id='aiEnabled'
-								type='checkbox'
 								checked={aiEnabled}
-								onChange={(event) =>
-									setAiEnabled(event.target.checked)
-								}
+								onCheckedChange={setAiEnabled}
 								disabled={updatingChatSettings}
 							/>
 						</label>
@@ -320,6 +318,7 @@ function ChatPage() {
 									chatId,
 									aiEnabled,
 								});
+								await getCurrentProfileChats();
 								setIsSettingsDialogOpen(false);
 							}}
 							disabled={updatingChatSettings || !chatId}
