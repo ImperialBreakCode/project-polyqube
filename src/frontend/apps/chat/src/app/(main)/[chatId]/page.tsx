@@ -1,15 +1,35 @@
+'use client';
+
 import { BsThreeDots } from 'react-icons/bs';
+import { useCurrentProfileChats, useUpdateChatSettings } from '@/shared';
 import {
 	Avatar,
 	AvatarFallback,
 	AvatarImage,
 } from '@repo/ui/components/ui/Avatar';
 import { Button } from '@repo/ui/components/ui/Button';
+import {
+	Dialog,
+	DialogContent,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+} from '@repo/ui/components/ui/Dialog';
 import { Input } from '@repo/ui/components/ui/Input';
 import { ScrollArea } from '@repo/ui/components/ui/ScrollArea';
 import { SendHorizontal, Sparkles } from 'lucide-react';
+import { useParams } from 'next/navigation';
+import { useState } from 'react';
 
 function ChatPage() {
+	const { chatId } = useParams<{ chatId: string }>();
+	const { chats } = useCurrentProfileChats();
+	const { updateChatSettings, loading: updatingChatSettings } =
+		useUpdateChatSettings();
+	const [isSettingsDialogOpen, setIsSettingsDialogOpen] = useState(false);
+	const [aiEnabled, setAiEnabled] = useState(false);
+	const currentChat = chats.find((chat) => chat.id === chatId);
+
 	const messages = [
 		{
 			id: 1,
@@ -159,6 +179,10 @@ function ChatPage() {
 				<Button
 					className='rounded-full ms-auto hover:bg-[#84848445]'
 					variant={'ghost'}
+					onClick={() => {
+						setAiEnabled(currentChat?.aiEnabled ?? false);
+						setIsSettingsDialogOpen(true);
+					}}
 				>
 					<BsThreeDots />
 				</Button>
@@ -166,43 +190,69 @@ function ChatPage() {
 
 			<ScrollArea className='flex-1'>
 				<div className='min-h-full px-3 py-4'>
-					<div className='mx-auto flex w-full max-w-4xl flex-col gap-3'>
+					<div
+						className='mx-auto flex w-full max-w-4xl flex-col gap-3'
+					>
 						{messages.map((message) => {
 							const isCurrentUser = message.side === 'right';
 
 							return (
 								<div
 									key={message.id}
-									className={`flex w-full ${isCurrentUser ? 'justify-end' : 'justify-start'}`}
+									className={`flex w-full
+									${isCurrentUser ? 'justify-end' : 'justify-start'}`}
 								>
 									<div
-										className={`flex max-w-[78%] gap-2 ${isCurrentUser ? 'flex-row-reverse' : 'flex-row'}`}
+										className={`flex max-w-[78%] gap-2
+										${isCurrentUser ? 'flex-row-reverse' : 'flex-row'}`}
 									>
-										<Avatar className='mt-0.5 h-8 w-8 rounded-full border border-[#4a4a4a]'>
-											<AvatarImage src={'...'} alt={message.name} />
-											<AvatarFallback className='rounded-full bg-[#242129] text-xs uppercase text-[#d4d4d4]'>
+										<Avatar
+											className='mt-0.5 h-8 w-8
+												rounded-full border
+												border-[#4a4a4a]'
+										>
+											<AvatarImage
+												src={'...'}
+												alt={message.name}
+											/>
+											<AvatarFallback
+												className='rounded-full
+													bg-[#242129] text-xs
+													uppercase text-[#d4d4d4]'
+											>
 												{message.initials}
 											</AvatarFallback>
 										</Avatar>
 
 										<div
-											className={`rounded-2xl border px-3 py-2 ${
+											className={`rounded-2xl border px-3
+											py-2 ${
 												isCurrentUser
-													? 'border-[#4d4354] bg-[#3a3340]'
-													: 'border-[#464646] bg-[#2f2f2f]'
+													? `border-[#4d4354]
+														bg-[#3a3340]`
+													: `border-[#464646]
+														bg-[#2f2f2f]`
 											}`}
 										>
 											<div
-												className={`mb-1 flex items-center gap-2 text-xs text-[#b8b8b8] ${
-													isCurrentUser ? 'justify-end' : 'justify-start'
-												}`}
+												className={`mb-1 flex
+												items-center gap-2 text-xs
+												text-[#b8b8b8]
+												${isCurrentUser ? 'justify-end' : 'justify-start'}`}
 											>
-												<span className='font-medium text-[#e7e7e7]'>
+												<span
+													className='font-medium
+														text-[#e7e7e7]'
+												>
 													{message.name}
 												</span>
 												<span>{message.time}</span>
 											</div>
-											<p className='text-sm leading-relaxed text-[#ececec]'>
+											<p
+												className='text-sm
+													leading-relaxed
+													text-[#ececec]'
+											>
 												{message.text}
 											</p>
 										</div>
@@ -226,6 +276,59 @@ function ChatPage() {
 					<SendHorizontal />
 				</Button>
 			</div>
+
+			<Dialog
+				open={isSettingsDialogOpen}
+				onOpenChange={setIsSettingsDialogOpen}
+			>
+				<DialogContent showCloseButton>
+					<DialogHeader>
+						<DialogTitle>Chat settings</DialogTitle>
+					</DialogHeader>
+					<div className='py-2'>
+						<label
+							htmlFor='aiEnabled'
+							className='flex items-center justify-between gap-3'
+						>
+							<span>AI enabled</span>
+							<input
+								id='aiEnabled'
+								type='checkbox'
+								checked={aiEnabled}
+								onChange={(event) =>
+									setAiEnabled(event.target.checked)
+								}
+								disabled={updatingChatSettings}
+							/>
+						</label>
+					</div>
+					<DialogFooter>
+						<Button
+							variant='outline'
+							onClick={() => setIsSettingsDialogOpen(false)}
+							disabled={updatingChatSettings}
+						>
+							Cancel
+						</Button>
+						<Button
+							onClick={async () => {
+								if (!chatId) {
+									return;
+								}
+
+								await updateChatSettings({
+									chatId,
+									aiEnabled,
+								});
+								setIsSettingsDialogOpen(false);
+							}}
+							disabled={updatingChatSettings || !chatId}
+						>
+							Save
+						</Button>
+					</DialogFooter>
+				</DialogContent>
+			</Dialog>
 		</div>
 	);
 }

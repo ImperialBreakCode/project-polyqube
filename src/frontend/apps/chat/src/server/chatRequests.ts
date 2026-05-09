@@ -14,6 +14,11 @@ export type CreatePeerChatRequestDTO = {
 	peerProfileId: string;
 };
 
+export type UpdateChatSettingsRequestDTO = {
+	chatId: string;
+	aiEnabled?: boolean | null;
+};
+
 export async function getCurrentProfileChatsRequest() {
 	return await serverRequest<ChatResponseDTO[], null>(
 		`${CHAT_SERVICE_ROUTE}/chats/get-current-profile-chats`,
@@ -41,6 +46,19 @@ export async function createPeerChatRequest(requestDTO: CreatePeerChatRequestDTO
 		`${CHAT_SERVICE_ROUTE}/chats/create-peer-chat`,
 		{
 			method: 'POST',
+			requestWithAuth: true,
+			body: requestDTO,
+		},
+	);
+}
+
+export async function updateChatSettingsRequest(
+	requestDTO: UpdateChatSettingsRequestDTO,
+) {
+	return await serverRequest<null, UpdateChatSettingsRequestDTO>(
+		`${CHAT_SERVICE_ROUTE}/chats/update-chat-settings`,
+		{
+			method: 'PUT',
 			requestWithAuth: true,
 			body: requestDTO,
 		},
