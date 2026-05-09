@@ -3,6 +3,8 @@ namespace API.Chats.Feature.Chats.Models.Responses
     public record ParticipantUserProfileResponseDTO(
         string Id,
         string FullName,
-        string? ProfilePicture
+        string? ProfilePicture,
+        DateTime CreatedAt,
+        DateTime UpdatedAt
     );
 }

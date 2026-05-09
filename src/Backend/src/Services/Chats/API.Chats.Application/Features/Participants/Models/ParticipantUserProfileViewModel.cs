@@ -3,6 +3,8 @@ namespace API.Chats.Application.Features.Participants.Models
     public record ParticipantUserProfileViewModel(
         string Id,
         string FullName,
-        string? ProfilePicture
+        string? ProfilePicture,
+        DateTime CreatedAt,
+        DateTime UpdatedAt
     );
 }

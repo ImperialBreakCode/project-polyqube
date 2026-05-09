@@ -4,6 +4,8 @@ namespace API.Chats.Feature.Chats.Models.Responses
         string Id,
         string? ChatNickname,
         ParticipantUserProfileResponseDTO? UserProfile,
-        ParticipantChatAgentResponseDTO? ChatAgent
+        ParticipantChatAgentResponseDTO? ChatAgent,
+        DateTime CreatedAt,
+        DateTime UpdatedAt
     );
 }

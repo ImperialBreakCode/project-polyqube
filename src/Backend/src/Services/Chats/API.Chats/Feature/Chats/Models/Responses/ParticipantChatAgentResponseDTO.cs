@@ -4,6 +4,8 @@ namespace API.Chats.Feature.Chats.Models.Responses
         string Id,
         string AgentName,
         string AgentUsername,
-        string? ProfilePicture
+        string? ProfilePicture,
+        DateTime CreatedAt,
+        DateTime UpdatedAt
     );
 }

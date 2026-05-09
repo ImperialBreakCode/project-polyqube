@@ -8,14 +8,9 @@ namespace API.Chats.Application.Features.Participants.Mappings
     {
         public ParticipantViewModelMappings()
         {
-            CreateMap<Participant, ParticipantUserProfileViewModel>()
-                .ForCtorParam(nameof(ParticipantUserProfileViewModel.FullName), opt => opt.MapFrom(src => src.FullName));
-
+            CreateMap<Participant, ParticipantUserProfileViewModel>();
             CreateMap<ChatAgent, ParticipantChatAgentViewModel>();
-
-            CreateMap<Participant, ParticipantViewModel>()
-                .ForCtorParam(nameof(ParticipantViewModel.UserProfile), opt => opt.MapFrom(src => src.UserProfile))
-                .ForCtorParam(nameof(ParticipantViewModel.ChatAgent), opt => opt.MapFrom(src => src.ChatAgent));
+            CreateMap<Participant, ParticipantViewModel>();
         }
     }
 }

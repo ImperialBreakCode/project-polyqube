@@ -4,6 +4,8 @@ namespace API.Chats.Application.Features.Participants.Models
         string Id,
         string? ChatNickname,
         ParticipantUserProfileViewModel? UserProfile,
-        ParticipantChatAgentViewModel? ChatAgent
+        ParticipantChatAgentViewModel? ChatAgent,
+        DateTime CreatedAt,
+        DateTime UpdatedAt
     );
 }
