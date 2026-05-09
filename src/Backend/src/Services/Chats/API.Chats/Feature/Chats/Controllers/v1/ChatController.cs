@@ -86,6 +86,26 @@ namespace API.Chats.Feature.Chats.Controllers.v1
             return Ok(responseDTO);
         }
 
+        [HttpGet("{chatId}/participants")]
+        [AuthorizeUserScope]
+        [AuthorizeModuleAccess]
+        [ProducesResponseType<ICollection<ParticipantResponseDTO>>(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetChatParticipants(
+            string chatId,
+            [FromQuery] GetChatParticipantsRequestDTO requestDTO,
+            CancellationToken cancellationToken)
+        {
+            var query = _chatQueryFactory.CreateGetChatParticipantsQuery(
+                chatId,
+                requestDTO.ParticipantCount,
+                requestDTO.IncludeAgents);
+
+            var result = await _sender.Send(query, cancellationToken);
+            var responseDTO = _mapper.Map<ICollection<ParticipantResponseDTO>>(result);
+
+            return Ok(responseDTO);
+        }
+
         [HttpPut("update-chat-settings")]
         [AuthorizeUserScope]
         [AuthorizeModuleAccess]
