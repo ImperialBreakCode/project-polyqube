@@ -266,12 +266,14 @@ function ChatPage() {
 			</ScrollArea>
 
 			<div className='flex mt-auto pt-4 pb-10 px-2'>
-				<Button
-					variant={'outline'}
-					className='rounded-full border-[#686868]'
-				>
-					<Sparkles />
-				</Button>
+				{currentChat?.aiEnabled && (
+					<Button
+						variant={'outline'}
+						className='rounded-full border-[#686868]'
+					>
+						<Sparkles />
+					</Button>
+				)}
 				<Input className='rounded-full border-[#686868]' />
 				<Button className='rounded-full'>
 					<SendHorizontal />
