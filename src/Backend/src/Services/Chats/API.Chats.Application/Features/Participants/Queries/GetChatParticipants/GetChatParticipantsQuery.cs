@@ -1,4 +1,3 @@
-using API.Chats.Application.Features.Participants.Models;
 using API.Shared.Application.Interfaces;
 
 namespace API.Chats.Application.Features.Participants.Queries.GetChatParticipants
@@ -7,5 +6,5 @@ namespace API.Chats.Application.Features.Participants.Queries.GetChatParticipant
         string ChatId,
         int? ParticipantCount = null,
         bool IncludeAgents = false
-    ) : IQuery<ICollection<ParticipantViewModel>>;
+    ) : IQuery<GetChatParticipantsResponse>;
 }

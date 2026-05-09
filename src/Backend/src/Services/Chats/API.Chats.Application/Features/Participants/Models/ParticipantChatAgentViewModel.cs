@@ -4,8 +4,10 @@ namespace API.Chats.Application.Features.Participants.Models
         string Id,
         string AgentName,
         string AgentUsername,
-        string? ProfilePicture,
         DateTime CreatedAt,
         DateTime UpdatedAt
-    );
+    )
+    {
+        public string? ProfilePicture { get; set; }
+    }
 }

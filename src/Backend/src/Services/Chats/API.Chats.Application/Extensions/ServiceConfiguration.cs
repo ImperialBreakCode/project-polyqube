@@ -2,9 +2,10 @@
 using API.Chats.Application.Features.ChatAgents.Seeders;
 using API.Chats.Application.Features.ChatFeatures.Seeders;
 using API.Chats.Application.Features.Chats.Factories;
+using API.Chats.Application.Features.Participants.Queries.GetChatParticipants;
+using API.Chats.Application.Features.Participants.UrlFileResponseTransforms;
 using API.Chats.Application.Features.UserProfiles.Factories;
-using API.Chats.Application.Features.UserProfiles.Models;
-using API.Chats.Application.Features.UserProfiles.Queries.SearchProfilesByFullName;
+using API.Chats.Application.Features.UserProfiles.Models;using API.Chats.Application.Features.UserProfiles.Queries.SearchProfilesByFullName;
 using API.Chats.Application.Features.UserProfiles.UrlFileResponseTransforms;
 using API.Shared.Application.Extensions;
 using API.Shared.Common.MediatorResponse;
@@ -34,6 +35,7 @@ namespace API.Chats.Application.Extensions
         private static IServiceCollection AddChats(this IServiceCollection services)
         {
             services.AddTransient<IChatQueryFactory, ChatQueryFactory>();
+            services.AddTransient<IMediatorResponseInterceptor<GetChatParticipantsResponse>, GetChatParticipantsResponseTransform>();
 
             return services;
         }

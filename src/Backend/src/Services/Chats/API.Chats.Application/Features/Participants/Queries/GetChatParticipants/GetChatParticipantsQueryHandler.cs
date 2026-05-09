@@ -5,7 +5,7 @@ using AutoMapper;
 
 namespace API.Chats.Application.Features.Participants.Queries.GetChatParticipants
 {
-    internal class GetChatParticipantsQueryHandler : IQueryHandler<GetChatParticipantsQuery, ICollection<ParticipantViewModel>>
+    internal class GetChatParticipantsQueryHandler : IQueryHandler<GetChatParticipantsQuery, GetChatParticipantsResponse>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -16,14 +16,15 @@ namespace API.Chats.Application.Features.Participants.Queries.GetChatParticipant
             _mapper = mapper;
         }
 
-        public async Task<ICollection<ParticipantViewModel>> Handle(GetChatParticipantsQuery request, CancellationToken cancellationToken)
+        public async Task<GetChatParticipantsResponse> Handle(GetChatParticipantsQuery request, CancellationToken cancellationToken)
         {
             var participants = await _unitOfWork.ParticipantRepository.GetChatParticipants(
                 request.ChatId,
                 participantCount: request.ParticipantCount,
                 includeAgents: request.IncludeAgents);
 
-            return _mapper.Map<ICollection<ParticipantViewModel>>(participants);
+            var viewModels = _mapper.Map<ICollection<ParticipantViewModel>>(participants);
+            return new GetChatParticipantsResponse(viewModels);
         }
     }
 }

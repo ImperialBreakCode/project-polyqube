@@ -101,7 +101,7 @@ namespace API.Chats.Feature.Chats.Controllers.v1
                 requestDTO.IncludeAgents);
 
             var result = await _sender.Send(query, cancellationToken);
-            var responseDTO = _mapper.Map<ICollection<ParticipantResponseDTO>>(result);
+            var responseDTO = _mapper.Map<ICollection<ParticipantResponseDTO>>(result.Participants);
 
             return Ok(responseDTO);
         }
