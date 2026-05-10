@@ -2,6 +2,7 @@
 
 import { ProfileResultButton, useProfileSearch } from '@/features/findChat';
 import { UserProfileResponseDTO } from '@/server';
+import { CHAT_EVENTS } from '@/shared/constants';
 import { Button } from '@repo/ui/components/ui/Button';
 import {
 	Dialog,
@@ -47,6 +48,7 @@ function MainPage() {
 		}
 
 		if (createdPeerChat?.id) {
+			window.dispatchEvent(new Event(CHAT_EVENTS.chatCreated));
 			router.push(`/${createdPeerChat.id}`);
 		}
 	}, [peerChat, createdPeerChat, router]);
