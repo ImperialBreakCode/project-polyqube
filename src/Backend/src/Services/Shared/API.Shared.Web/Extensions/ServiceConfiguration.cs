@@ -151,7 +151,8 @@ namespace API.Shared.Web.Extensions
                     builder
                         .WithOrigins(corsOptions.AllowedOrigins)
                         .AllowAnyMethod()
-                        .AllowAnyHeader();
+                        .AllowAnyHeader()
+                        .AllowCredentials();
                 });
             });
 
