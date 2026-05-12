@@ -17,11 +17,7 @@ const ServicesList = () => {
 	const { loading, success, refetchProfile, chatProfile } =
 		useGetCurrentChatProfile();
 
-	const {
-		loading: createLoading,
-		success: createSuccess,
-		createProfile,
-	} = useCreateChatProfile();
+	const { loading: createLoading, createProfile } = useCreateChatProfile();
 
 	const [chatHost, setChatHost] = useState<string | null>();
 
@@ -36,11 +32,8 @@ const ServicesList = () => {
 
 	const onProfileCreate = useCallback(async () => {
 		await createProfile();
-
-		if (createSuccess) {
-			await refetchProfile();
-		}
-	}, [createProfile, createSuccess, refetchProfile]);
+		await refetchProfile();
+	}, [createProfile, refetchProfile]);
 
 	return (
 		<div>
