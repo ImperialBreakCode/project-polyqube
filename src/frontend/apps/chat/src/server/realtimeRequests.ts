@@ -9,7 +9,3 @@ export async function getSignalRAccessToken(): Promise<{
 	const token = (await getAccessTokenCookie())?.value ?? null;
 	return { token };
 }
-
-export async function getChatHost() {
-	return 'http://localhost:8050';
-}

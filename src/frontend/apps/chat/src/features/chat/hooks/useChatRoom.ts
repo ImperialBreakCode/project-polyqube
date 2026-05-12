@@ -7,11 +7,7 @@ import {
 	mapMessageParticipants,
 	mergeChatHistoryMessages,
 } from '../utils';
-import {
-	getChatHost,
-	getSignalRAccessToken,
-	type MessageResponseDTO,
-} from '@/server';
+import { getSignalRAccessToken, type MessageResponseDTO } from '@/server';
 import {
 	useChatParticipants,
 	useCurrentProfile,
@@ -33,7 +29,7 @@ import {
 } from 'react';
 
 /** Same-origin path; `next.config` rewrites `/api/*` to `API_BASE_HOST`. Must match Chats API `MapHub` path. */
-const CHAT_HUB_PATH = '/api/v1/hubs/chat';
+const CHAT_HUB_PATH = '/api/v1/chat/hubs/chat';
 
 function dtoToHistoryMessage(
 	dto: MessageResponseDTO,
@@ -129,10 +125,7 @@ export function useChatRoom(chatId: string | undefined) {
 
 		void (async () => {
 			const { token } = await getSignalRAccessToken();
-			const hubUrl = new URL(
-				CHAT_HUB_PATH,
-				await getChatHost(),
-			).toString();
+			const hubUrl = CHAT_HUB_PATH;
 
 			if (cancelled || !token) {
 				return;
