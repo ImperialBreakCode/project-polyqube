@@ -1,6 +1,6 @@
 import { verifyEmailRequest } from '@/server/userRequests';
-import { STATUS_CODES } from '@/shared/constants/statusCodes';
-import useApi from '@/shared/hooks/useApi';
+import useApi from '@repo/ui/hooks/api/useApi';
+import { STATUS_CODES } from '@repo/utils/constants/statusCodes';
 
 function useVerifyEmail({
 	emailVerificationToken,

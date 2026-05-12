@@ -1,1 +1,1 @@
-export * from './tokenUtils';
+export * from '@repo/utils/utilFuncs/tokenUtils';

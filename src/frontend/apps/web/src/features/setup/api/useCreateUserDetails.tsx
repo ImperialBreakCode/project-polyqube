@@ -1,9 +1,7 @@
 import { createUserDetailsRequest } from '@/server/userRequests';
-import {
-	ProblemTypeFormNamePath,
-	useAuthWrapper,
-	useFormApi,
-} from '@/shared/hooks';
+import { useAuthWrapper } from '@/shared/hooks';
+import { ProblemTypeFormNamePath } from '@repo/ui/hooks/api/useApi';
+import useFormApi from '@repo/ui/hooks/api/useFormApi';
 
 const problemTypeMap: ProblemTypeFormNamePath = {};
 

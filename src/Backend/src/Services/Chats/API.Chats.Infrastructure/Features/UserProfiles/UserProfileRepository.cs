@@ -48,5 +48,21 @@ namespace API.Chats.Infrastructure.Features.UserProfiles
         {
             return await DbSet.AnyAsync(x => x.Id == userProfileId);
         }
+
+        public async Task<ICollection<UserProfile>> SearchProfilesByFullName(string profileName, string currentProfileId, int count = 10)
+        {
+            string searchTerm = profileName.Trim().ToLower();
+
+            return await DbSet
+                .AsNoTracking()
+                .Where(x =>
+                    x.Id != currentProfileId
+                    && x.DeletedAt == null
+                    && (x.FirstName + " " + x.LastName).ToLower().Contains(searchTerm))
+                .OrderBy(x => x.FirstName)
+                .ThenBy(x => x.LastName)
+                .Take(count)
+                .ToListAsync();
+        }
     }
 }

@@ -68,5 +68,17 @@ namespace API.Chats.Infrastructure.Features.Participants
                 .GroupBy(x => x.ChatId)
                 .AnyAsync(x => x.Count() > 1);
         }
+
+        public async Task<Chat?> GetPeerChatByProfileIds(string firstProfileId, string secondProfileId)
+        {
+            return await DbSet
+                .Where(x =>
+                    !x.Chat.IsGroupChat
+                    && (x.UserProfileId == firstProfileId || x.UserProfileId == secondProfileId))
+                .GroupBy(x => x.ChatId)
+                .Where(x => x.Select(y => y.UserProfileId).Distinct().Count() == 2)
+                .Select(x => x.Select(y => y.Chat).FirstOrDefault())
+                .FirstOrDefaultAsync();
+        }
     }
 }

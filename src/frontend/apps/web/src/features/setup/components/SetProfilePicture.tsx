@@ -11,9 +11,9 @@ import {
 import SelectProfilePicture from './SelectProfilePicture';
 import { AppButton } from '@/shared/elements/AppButton';
 import { ROUTE_PATHS } from '@/shared/constants/routes';
-import { STATUS_CODES } from '@/shared/constants/statusCodes';
 import { useCurrentUser, useSetProfilePicture } from '@/shared/api';
 import { ErrorAlert } from '@repo/ui/core';
+import { STATUS_CODES } from '@repo/utils/constants/statusCodes';
 
 const SetProfilePicture = () => {
 	const router = useRouter();

@@ -15,5 +15,6 @@ namespace API.Chats.Domain.Repositories
         Task<ICollection<Participant>> GetParticipantsWithChatByProfileId(string profileId, bool includeDeleted = false);
         Task<Participant?> GetChatParticipantByChatAgentId(string chatAgentId, string chatId, bool includeDeleted = false);
         Task<bool> PeerChatExistsForUsers(string firstUserId, string secondUserId);
+        Task<Chat?> GetPeerChatByProfileIds(string firstProfileId, string secondProfileId);
     }
 }

@@ -1,0 +1,79 @@
+'use client';
+
+import { useCallback, useEffect, useState } from 'react';
+import Link from 'next/link';
+import {
+	Card,
+	CardContent,
+	CardFooter,
+	CardHeader,
+	CardTitle,
+} from '@repo/ui/core';
+import { AppButton } from '@/shared';
+import { useCreateChatProfile, useGetCurrentChatProfile } from '../api';
+import { getAppHosts } from '@/server';
+
+const ServicesList = () => {
+	const { loading, success, refetchProfile, chatProfile } =
+		useGetCurrentChatProfile();
+
+	const { loading: createLoading, createProfile } = useCreateChatProfile();
+
+	const [chatHost, setChatHost] = useState<string | null>();
+
+	useEffect(() => {
+		const loadChatHost = async () => {
+			const { chatHost } = await getAppHosts();
+			setChatHost(chatHost);
+		};
+
+		loadChatHost();
+	}, []);
+
+	const onProfileCreate = useCallback(async () => {
+		await createProfile();
+		await refetchProfile();
+	}, [createProfile, refetchProfile]);
+
+	return (
+		<div>
+			<Card>
+				<CardHeader>
+					<CardTitle>PolyQube Chat</CardTitle>
+				</CardHeader>
+				<CardContent>
+					{loading && <p>loading...</p>}
+					{!loading && !chatProfile && (
+						<p>Enable service to create an account.</p>
+					)}
+					{!loading && chatProfile && (
+						<p>
+							Hello{' '}
+							{chatProfile.firstName + ' ' + chatProfile.lastName}
+							. Visit the app to start chatting
+						</p>
+					)}
+				</CardContent>
+				<CardFooter>
+					{loading && <p>loading...</p>}
+					{!loading && !success && (
+						<AppButton
+							onClick={onProfileCreate}
+							disabled={createLoading}
+						>
+							{createLoading ? 'Please wait...' : 'Enable'}
+						</AppButton>
+					)}
+
+					{success && (
+						<AppButton asChild>
+							<Link href={chatHost ?? '#'}>Go to Chat</Link>
+						</AppButton>
+					)}
+				</CardFooter>
+			</Card>
+		</div>
+	);
+};
+
+export default ServicesList;

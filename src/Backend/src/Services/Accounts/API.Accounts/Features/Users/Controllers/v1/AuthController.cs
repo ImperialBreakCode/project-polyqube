@@ -146,5 +146,20 @@ namespace API.Accounts.Features.Users.Controllers.v1
 
             return NoContent();
         }
+
+        [HttpDelete("module-logout")]
+        [AuthorizeUserScope]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> ModuleLogout(ModuleLogoutRequestDTO moduleLogoutRequestDTO, CancellationToken cancellationToken)
+        {
+            var userId = this.GetUserId();
+            var sessionId = this.GetSessionId();
+            var moduleLogoutCommand = _sessionCommandFactory
+                .CreateModuleLogoutCommand(userId, sessionId, moduleLogoutRequestDTO.ServiceName);
+            await _sender.Send(moduleLogoutCommand, cancellationToken);
+
+            return NoContent();
+        }
     }
 }

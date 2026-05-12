@@ -1,3 +1,5 @@
+'use client';
+
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -15,8 +17,19 @@ import {
 	SidebarMenuItem,
 } from '@repo/ui/components/ui/Sidebar';
 import { Ellipsis, LogOut } from 'lucide-react';
+import { useLogout } from '@/features/auth';
+import { useCurrentProfile } from '@/shared';
+import { useRouter } from 'next/navigation';
 
 const ChatSidebarUser = () => {
+	const { logout } = useLogout();
+	const { currentProfile } = useCurrentProfile();
+	const router = useRouter();
+	const firstName = currentProfile?.firstName ?? '';
+	const lastName = currentProfile?.lastName ?? '';
+	const fullName = `${firstName} ${lastName}`.trim() || 'User';
+	const initials = `${firstName[0] ?? ''}${lastName[0] ?? ''}` || 'US';
+
 	return (
 		<SidebarMenu>
 			<SidebarMenuItem>
@@ -29,9 +42,12 @@ const ChatSidebarUser = () => {
 								cursor-pointer'
 						>
 							<Avatar className='h-8 w-8 rounded-lg'>
-								<AvatarImage src={'...'} alt={'alt text'} />
+								<AvatarImage
+									src={currentProfile?.profilePicture}
+									alt={fullName}
+								/>
 								<AvatarFallback className='rounded-lg uppercase'>
-									US
+									{initials}
 								</AvatarFallback>
 							</Avatar>
 							<div
@@ -39,10 +55,7 @@ const ChatSidebarUser = () => {
 									leading-tight'
 							>
 								<span className='truncate font-medium'>
-									name name
-								</span>
-								<span className='truncate text-xs'>
-									em@em.com
+									{fullName}
 								</span>
 							</div>
 							<Ellipsis className='ml-auto size-4' />
@@ -55,7 +68,12 @@ const ChatSidebarUser = () => {
 						align='end'
 						sideOffset={4}
 					>
-						<DropdownMenuItem>
+						<DropdownMenuItem
+							onClick={async () => {
+								await logout();
+								router.push('/');
+							}}
+						>
 							<LogOut />
 							Log out
 						</DropdownMenuItem>

@@ -1,31 +1,21 @@
-import {
-	Avatar,
-	AvatarFallback,
-	AvatarImage,
-} from '@repo/ui/components/ui/Avatar';
 import Link from 'next/link';
-import React from 'react';
 
 interface ChatLinkProps {
-	avatarSrc: string;
-	avatarFallback: string;
 	name: string;
 	href: string;
+	isActive?: boolean;
 }
 
-const ChatLink = ({ avatarSrc, avatarFallback, name, href }: ChatLinkProps) => {
+const ChatLink = ({ name, href, isActive = false }: ChatLinkProps) => {
 	return (
 		<Link
 			href={href}
-			className='flex items-center gap-x-2 px-4 py-2 hover:bg-[#333]
-				rounded-md'
+			className={`flex items-center gap-x-2 px-4 py-2 rounded-md transition-colors ${
+				isActive
+					? 'bg-[#4a3f52] text-white'
+					: 'text-[#d2d2d2] hover:bg-[#333] hover:text-white'
+			}`}
 		>
-			<Avatar className='h-8 w-8 rounded-full'>
-				<AvatarImage src={avatarSrc} alt={name} />
-				<AvatarFallback className='rounded-full uppercase'>
-					{avatarFallback}
-				</AvatarFallback>
-			</Avatar>{' '}
 			{name}
 		</Link>
 	);

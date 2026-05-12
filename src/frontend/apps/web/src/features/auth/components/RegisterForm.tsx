@@ -12,7 +12,7 @@ import { AppButton } from '@/shared/elements/AppButton';
 import { useUserRegister } from '../api';
 import { useRouter } from 'next/navigation';
 import { ROUTE_PATHS } from '@/shared/constants/routes';
-import { STATUS_CODES } from '@/shared/constants/statusCodes';
+import { STATUS_CODES } from '@repo/utils/constants/statusCodes';
 
 const registerFormSchema = z
 	.object({

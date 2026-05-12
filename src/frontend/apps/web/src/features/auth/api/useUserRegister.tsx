@@ -1,8 +1,9 @@
 'use client';
 
 import { registerRequest } from '@/server/userRequests';
-import { ProblemTypeFormNamePath } from '@/shared/hooks/useApi';
-import { useFormApi, USER_PROBLEM_TYPES } from '@/shared';
+import { USER_PROBLEM_TYPES } from '@/shared';
+import { ProblemTypeFormNamePath } from '@repo/ui/hooks/api/useApi';
+import useFormApi from '@repo/ui/hooks/api/useFormApi';
 
 const problemTypeMap: ProblemTypeFormNamePath = {
 	[USER_PROBLEM_TYPES.emailAlreadyExists]: {
