@@ -19,11 +19,12 @@ import {
 import { Ellipsis, LogOut } from 'lucide-react';
 import { useLogout } from '@/features/auth';
 import { useCurrentProfile } from '@/shared';
+import { useRouter } from 'next/navigation';
 
 const ChatSidebarUser = () => {
 	const { logout } = useLogout();
 	const { currentProfile } = useCurrentProfile();
-
+	const router = useRouter();
 	const firstName = currentProfile?.firstName ?? '';
 	const lastName = currentProfile?.lastName ?? '';
 	const fullName = `${firstName} ${lastName}`.trim() || 'User';
@@ -67,7 +68,12 @@ const ChatSidebarUser = () => {
 						align='end'
 						sideOffset={4}
 					>
-						<DropdownMenuItem onClick={async () => await logout()}>
+						<DropdownMenuItem
+							onClick={async () => {
+								await logout();
+								router.push('/');
+							}}
+						>
 							<LogOut />
 							Log out
 						</DropdownMenuItem>
