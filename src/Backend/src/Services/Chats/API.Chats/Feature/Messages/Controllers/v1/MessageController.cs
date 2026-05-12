@@ -27,7 +27,7 @@ namespace API.Chats.Feature.Messages.Controllers.v1
         [AuthorizeUserScope]
         [AuthorizeModuleAccess]
         [ProducesResponseType<ICollection<MessageResponseDTO>>(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetMessageHistory(MessageHistoryRequestDTO messageHistory, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetMessageHistory([FromQuery] MessageHistoryRequestDTO messageHistory, CancellationToken cancellationToken)
         {
             var messageHistoryQuery = _mapper.Map<GetMessageHistoryQuery>(messageHistory);
             var history = await _sender.Send(messageHistoryQuery, cancellationToken);
