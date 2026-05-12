@@ -10,9 +10,10 @@ import { ScrollArea } from '@repo/ui/components/ui/ScrollArea';
 
 type ChatMessagesProps = {
 	messages: ChatMessageViewModel[];
+	peerIsTyping?: boolean;
 };
 
-function ChatMessages({ messages }: ChatMessagesProps) {
+function ChatMessages({ messages, peerIsTyping }: ChatMessagesProps) {
 	return (
 		<ScrollArea className='flex-1'>
 			<div className='min-h-full px-3 py-4'>
@@ -64,6 +65,11 @@ function ChatMessages({ messages }: ChatMessagesProps) {
 							</div>
 						);
 					})}
+					{peerIsTyping && (
+						<div className='pl-11 text-sm italic text-[#9a9a9a]'>
+							Typing…
+						</div>
+					)}
 				</div>
 			</div>
 		</ScrollArea>

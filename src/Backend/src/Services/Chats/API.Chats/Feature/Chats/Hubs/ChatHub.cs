@@ -38,6 +38,22 @@ namespace API.Chats.Feature.Chats.Hubs
         }
 
         /// <summary>
+        ///     Notifies other connections in the chat that the current user is typing (no payload).
+        /// </summary>
+        public async Task NotifyTyping(string chatId)
+        {
+            if (string.IsNullOrWhiteSpace(chatId))
+            {
+                return;
+            }
+
+            await Clients.OthersInGroup(chatId).SendCoreAsync(
+                "UserTyping",
+                System.Array.Empty<object>(),
+                Context.ConnectionAborted);
+        }
+
+        /// <summary>
         ///     Persists a user message via <see cref="AddMessageCommand" /> (author = current user profile) and broadcasts it to the chat group.
         /// </summary>
         public async Task SendChatMessage(string chatId, string textContent)

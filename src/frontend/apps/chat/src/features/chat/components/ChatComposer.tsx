@@ -9,9 +9,15 @@ type ChatComposerProps = {
 	aiEnabled: boolean;
 	sendDisabled?: boolean;
 	onSend: (text: string) => void | Promise<void>;
+	onTyping?: () => void;
 };
 
-function ChatComposer({ aiEnabled, sendDisabled, onSend }: ChatComposerProps) {
+function ChatComposer({
+	aiEnabled,
+	sendDisabled,
+	onSend,
+	onTyping,
+}: ChatComposerProps) {
 	const [draft, setDraft] = useState('');
 
 	const handleSubmit = async (event: FormEvent) => {
@@ -38,7 +44,12 @@ function ChatComposer({ aiEnabled, sendDisabled, onSend }: ChatComposerProps) {
 				className='rounded-full border-[#686868] flex-1'
 				value={draft}
 				disabled={sendDisabled}
-				onChange={(event) => setDraft(event.target.value)}
+				onChange={(event) => {
+					setDraft(event.target.value);
+					if (event.target.value && !sendDisabled) {
+						onTyping?.();
+					}
+				}}
 				placeholder='Message'
 			/>
 			<Button type='submit' className='rounded-full' disabled={sendDisabled || !draft.trim()}>
