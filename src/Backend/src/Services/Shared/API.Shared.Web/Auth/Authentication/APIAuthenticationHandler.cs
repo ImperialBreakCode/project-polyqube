@@ -31,6 +31,11 @@ namespace API.Shared.Web.Auth.Authentication
         {
             var token = Request.Headers["Authorization"].ToString();
 
+            if (string.IsNullOrEmpty(token) && Request.Query.TryGetValue("access_token", out var accessTokenValues))
+            {
+                token = accessTokenValues.ToString();
+            }
+
             if (string.IsNullOrEmpty(token))
             {
                 _problemDetails = new ProblemDetails()

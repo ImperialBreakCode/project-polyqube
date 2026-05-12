@@ -11,6 +11,22 @@ type BuildMappedMessagesOptions = {
 	currentProfileId?: string;
 };
 
+export function mergeChatHistoryMessages(
+	historyMessages: ChatHistoryMessageApiModel[],
+	liveMessages: ChatHistoryMessageApiModel[],
+): ChatHistoryMessageApiModel[] {
+	const byId = new Map<string, ChatHistoryMessageApiModel>();
+	for (const message of historyMessages) {
+		byId.set(message.id, message);
+	}
+	for (const message of liveMessages) {
+		byId.set(message.id, message);
+	}
+	return Array.from(byId.values()).sort(
+		(a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+	);
+}
+
 export function mapMessageParticipants(
 	participants: ChatParticipantApiModel[],
 ): MessageParticipant[] {
@@ -49,7 +65,7 @@ export function buildMappedMessages({
 }: BuildMappedMessagesOptions): ChatMessageViewModel[] {
 	const participantsById = new Map(participants.map((participant) => [participant.id, participant]));
 
-	return historyMessages.map((message, index) => {
+	return historyMessages.map((message) => {
 		const participant = message.participantId
 			? participantsById.get(message.participantId)
 			: undefined;
@@ -63,7 +79,7 @@ export function buildMappedMessages({
 		const isBot = participant?.isBot ?? message.messageType === 1;
 
 		return {
-			id: `${message.participantId ?? 'none'}-${index}`,
+			id: message.id,
 			name,
 			initials,
 			side: isCurrentUser ? 'right' : 'left',

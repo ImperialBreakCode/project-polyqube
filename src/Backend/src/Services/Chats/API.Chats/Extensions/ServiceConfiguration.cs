@@ -12,7 +12,7 @@ namespace API.Chats.Extensions
                 .AddHttpAuthenticationHandler()
                 .AddAuthorizationPolices(FeatureInfoNames.CHAT_SERVICE)
                 .AddVersioning()
-                .AddCorsPolicies(configuration)
+                //.AddCorsPolicies(configuration)
                 .AddTelemetry("api-chats", configuration);
 
             services.AddSignalR();

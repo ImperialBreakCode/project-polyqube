@@ -1,5 +1,6 @@
 using API.Chats.Application.Extensions;
 using API.Chats.Extensions;
+using API.Chats.Feature.Chats.Hubs;
 using API.Chats.Infrastructure.Extensions;
 using API.Shared.Common.Constants;
 using API.Shared.Web.Extensions;
@@ -52,6 +53,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHub<ChatHub>("/api/v1/hubs/chat");
 
 app.UseExceptionHandlers();
 

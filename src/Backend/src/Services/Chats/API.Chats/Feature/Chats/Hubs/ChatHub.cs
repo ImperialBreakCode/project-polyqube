@@ -1,14 +1,34 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using API.Chats.Application.Features.Messages.Commands.AddMessage;
+using API.Chats.Application.Features.UserProfiles.Factories;
+using API.Chats.Feature.Messages.Models.Responses;
+using API.Shared.Web.Attributes;
+using API.Shared.Web.Extensions;
+using AutoMapper;
+using MediatR;
+using Microsoft.AspNetCore.SignalR;
 
 namespace API.Chats.Feature.Chats.Hubs
 {
-    // placeholder chat hub
+    [AuthorizeUserScope]
+    [AuthorizeModuleAccess]
     public class ChatHub : Hub
     {
+        private readonly ISender _sender;
+        private readonly IUserProfileQueryFactory _userProfileQueryFactory;
+        private readonly IMapper _mapper;
+
+        public ChatHub(
+            ISender sender,
+            IUserProfileQueryFactory userProfileQueryFactory,
+            IMapper mapper)
+        {
+            _sender = sender;
+            _userProfileQueryFactory = userProfileQueryFactory;
+            _mapper = mapper;
+        }
+
         public async Task JoinChat(string chatId)
         {
-            // check if chat exists, then connect
-
             await Groups.AddToGroupAsync(Context.ConnectionId, chatId);
         }
 
@@ -17,11 +37,35 @@ namespace API.Chats.Feature.Chats.Hubs
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, chatId);
         }
 
-        // Send message to a specific chat
-        public async Task SendMessageToChat(string chatId, string user, string message)
+        /// <summary>
+        ///     Persists a user message via <see cref="AddMessageCommand" /> (author = current user profile) and broadcasts it to the chat group.
+        /// </summary>
+        public async Task SendChatMessage(string chatId, string textContent)
         {
-            await Clients.Group(chatId)
-                .SendAsync("ReceiveMessage", chatId, user, message);
+            if (string.IsNullOrWhiteSpace(textContent))
+            {
+                return;
+            }
+
+            var userId = Context.User.GetUserId();
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new HubException("Unauthorized");
+            }
+
+            var profileQuery = _userProfileQueryFactory.CreateGetProfileByUserIdQuery(userId);
+            var profile = await _sender.Send(profileQuery, Context.ConnectionAborted);
+
+            var command = new AddMessageCommand(
+                chatId,
+                profile.Id,
+                textContent.Trim(),
+                AuthorType.UserProfile);
+
+            var message = await _sender.Send(command, Context.ConnectionAborted);
+            var dto = _mapper.Map<MessageResponseDTO>(message);
+
+            await Clients.Group(chatId).SendAsync("MessageReceived", dto, Context.ConnectionAborted);
         }
     }
 }

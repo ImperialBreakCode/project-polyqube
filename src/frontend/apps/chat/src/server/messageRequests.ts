@@ -4,10 +4,12 @@ import { CHAT_SERVICE_ROUTE } from '@repo/utils/constants/apiRoutes';
 import { serverRequest } from './base';
 
 export type MessageResponseDTO = {
+	id: string;
 	textContent: string;
 	messageType: number;
 	participantId: string | null;
 	chatId: string;
+	createdAt: string;
 };
 
 export type MessageHistoryRequestDTO = {

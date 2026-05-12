@@ -17,9 +17,12 @@ export type ChatParticipantApiModel = {
 };
 
 export type ChatHistoryMessageApiModel = {
+	id: string;
 	textContent: string;
 	messageType: number;
 	participantId: string | null;
+	chatId?: string;
+	createdAt: string;
 };
 
 export type MessageParticipant = {
