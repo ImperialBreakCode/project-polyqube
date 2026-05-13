@@ -1,1 +1,1 @@
-export { useChatRoom } from './useChatRoom';
+export { useChatRoom, type ChatSendOptions } from './useChatRoom';

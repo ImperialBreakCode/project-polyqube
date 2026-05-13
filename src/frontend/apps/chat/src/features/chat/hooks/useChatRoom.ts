@@ -28,6 +28,10 @@ import {
 	startTransition,
 } from 'react';
 
+export type ChatSendOptions = {
+	requestAgentReply?: boolean;
+};
+
 /** Same-origin path; `next.config` rewrites `/api/*` to `API_BASE_HOST`. Must match Chats API `MapHub` path. */
 const CHAT_HUB_PATH = '/api/v1/chat/hubs/chat';
 
@@ -230,7 +234,7 @@ export function useChatRoom(chatId: string | undefined) {
 	}, [chatId, chatDataReady, currentProfile?.id]);
 
 	const sendMessage = useCallback(
-		async (text: string) => {
+		async (text: string, options?: ChatSendOptions) => {
 			if (!chatId) {
 				return;
 			}
@@ -239,6 +243,17 @@ export function useChatRoom(chatId: string | undefined) {
 				return;
 			}
 			await hub.invoke('SendChatMessage', chatId, text);
+			if (options?.requestAgentReply) {
+				try {
+					await hub.invoke<MessageResponseDTO>(
+						'PromptChatAgent',
+						chatId,
+						text,
+					);
+				} catch (error) {
+					console.error('PromptChatAgent failed', error);
+				}
+			}
 		},
 		[chatId],
 	);

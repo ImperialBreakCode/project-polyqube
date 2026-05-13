@@ -3,12 +3,22 @@
 import { Button } from '@repo/ui/components/ui/Button';
 import { Input } from '@repo/ui/components/ui/Input';
 import { SendHorizontal, Sparkles } from 'lucide-react';
-import { FormEvent, useState } from 'react';
+import {
+	startTransition,
+	useEffect,
+	useState,
+	type SubmitEventHandler,
+} from 'react';
+
+import type { ChatSendOptions } from '../hooks';
 
 type ChatComposerProps = {
 	aiEnabled: boolean;
 	sendDisabled?: boolean;
-	onSend: (text: string) => void | Promise<void>;
+	onSend: (
+		text: string,
+		options?: ChatSendOptions,
+	) => void | Promise<void>;
 	onTyping?: () => void;
 };
 
@@ -19,15 +29,26 @@ function ChatComposer({
 	onTyping,
 }: ChatComposerProps) {
 	const [draft, setDraft] = useState('');
+	const [agentAssistOn, setAgentAssistOn] = useState(false);
 
-	const handleSubmit = async (event: FormEvent) => {
+	useEffect(() => {
+		if (!aiEnabled) {
+			startTransition(() => {
+				setAgentAssistOn(false);
+			});
+		}
+	}, [aiEnabled]);
+
+	const handleSubmit: SubmitEventHandler<HTMLFormElement> = async (event) => {
 		event.preventDefault();
 		const text = draft.trim();
 		if (!text || sendDisabled) {
 			return;
 		}
 		setDraft('');
-		await onSend(text);
+		await onSend(text, {
+			requestAgentReply: aiEnabled && agentAssistOn,
+		});
 	};
 
 	return (
@@ -36,7 +57,18 @@ function ChatComposer({
 			onSubmit={handleSubmit}
 		>
 			{aiEnabled && (
-				<Button type='button' variant='outline' className='rounded-full border-[#686868]'>
+				<Button
+					type='button'
+					variant={agentAssistOn ? 'default' : 'outline'}
+					className='rounded-full border-[#686868]'
+					aria-pressed={agentAssistOn}
+					title={
+						agentAssistOn
+							? 'Agent reply on: your next message will also go to the AI'
+							: 'Turn on to get an AI reply after your message'
+					}
+					onClick={() => setAgentAssistOn((previous) => !previous)}
+				>
 					<Sparkles />
 				</Button>
 			)}
