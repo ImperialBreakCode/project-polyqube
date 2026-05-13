@@ -45,6 +45,10 @@ services:
             - 8050:8050
             - 8051:8051
 
+    ollama:
+        ports:
+            - 11434:11434
+
     redis:
         ports:
             - 6379:6379

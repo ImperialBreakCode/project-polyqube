@@ -101,6 +101,7 @@ services:
             - RabbitMqOptions__Username=${RABBITMQ_DEFAULT_USER}
             - RabbitMqOptions__Password=${RABBITMQ_DEFAULT_PASS}
             - AuthValidationOptions__Authority=http://api.accounts:8080
+            - OllamaOptions__BaseUrl=http://ollama:11434
         image: ${DOCKER_REGISTRY-}apichats
         networks:
             - polyqube
@@ -233,6 +234,23 @@ services:
             - proxyData:/data
             - proxyLetEncrypt:/etc/letsencrypt
 
+    ollama:
+        networks:
+            - polyqube
+        image: ollama/ollama:latest
+        volumes:
+            - ollama:/root/.ollama
+        container_name: ollama
+        tty: true
+        restart: unless-stopped
+        deploy:
+            resources:
+                reservations:
+                    devices:
+                        - driver: nvidia
+                          capabilities: ["gpu"]
+                          count: all
+
 networks:
     polyqube:
 volumes:
@@ -246,3 +264,4 @@ volumes:
     mongoDataConfig:
     proxyData:
     proxyLetEncrypt:
+    ollama:

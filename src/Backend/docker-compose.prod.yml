@@ -39,6 +39,10 @@ services:
         ports:
             - "8050"
 
+    ollama:
+        expose:
+            - "11434"
+
     redis:
         expose:
             - "6379"
