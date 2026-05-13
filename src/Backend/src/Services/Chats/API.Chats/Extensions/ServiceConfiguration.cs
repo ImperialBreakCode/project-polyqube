@@ -1,4 +1,5 @@
-﻿using API.Shared.Common.Constants;
+﻿using API.Chats.Feature.Chats.Ollama;
+using API.Shared.Common.Constants;
 using API.Shared.Web.Extensions;
 
 namespace API.Chats.Extensions
@@ -16,6 +17,8 @@ namespace API.Chats.Extensions
                 .AddTelemetry("api-chats", configuration);
 
             services.AddSignalR();
+
+            services.AddSingleton<IOllamaHubConversationStore, OllamaHubConversationStore>();
 
             return services;
         }
