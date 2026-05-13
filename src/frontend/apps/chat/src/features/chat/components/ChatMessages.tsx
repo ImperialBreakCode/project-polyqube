@@ -1,12 +1,14 @@
 'use client';
 
 import type { ChatMessageViewModel } from '../types';
+import { formatMessageText } from '../utils';
 import {
 	Avatar,
 	AvatarFallback,
 	AvatarImage,
 } from '@repo/ui/components/ui/Avatar';
 import { ScrollArea } from '@repo/ui/components/ui/ScrollArea';
+import { useLayoutEffect, useRef } from 'react';
 
 type ChatMessagesProps = {
 	messages: ChatMessageViewModel[];
@@ -14,8 +16,20 @@ type ChatMessagesProps = {
 };
 
 function ChatMessages({ messages, peerIsTyping }: ChatMessagesProps) {
+	const scrollRootRef = useRef<HTMLDivElement>(null);
+
+	useLayoutEffect(() => {
+		const viewport = scrollRootRef.current?.querySelector<HTMLElement>(
+			'[data-radix-scroll-area-viewport]',
+		);
+		if (!viewport) {
+			return;
+		}
+		viewport.scrollTop = viewport.scrollHeight;
+	}, [messages, peerIsTyping]);
+
 	return (
-		<ScrollArea className='flex-1'>
+		<ScrollArea ref={scrollRootRef} className='flex-1'>
 			<div className='min-h-full px-3 py-4'>
 				<div className='mx-auto flex w-full max-w-4xl flex-col gap-3'>
 					{messages.map((message) => {
@@ -91,7 +105,7 @@ function ChatMessages({ messages, peerIsTyping }: ChatMessagesProps) {
 											className='text-sm leading-relaxed
 												text-[#ececec]'
 										>
-											{message.text}
+											{formatMessageText(message.text)}
 										</p>
 									</div>
 								</div>
