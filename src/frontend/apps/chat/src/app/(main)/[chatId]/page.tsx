@@ -14,8 +14,14 @@ function ChatPage() {
 	const { chats, getCurrentProfileChats } = useCurrentProfileChats();
 	const { updateChatSettings, loading: updatingChatSettings } =
 		useUpdateChatSettings();
-	const { firstParticipant, hubReady, mappedMessages, sendMessage } =
-		useChatRoom(chatId);
+	const {
+		firstParticipant,
+		hubReady,
+		mappedMessages,
+		notifyTyping,
+		peerIsTyping,
+		sendMessage,
+	} = useChatRoom(chatId);
 
 	const currentChat = chats.find((chat) => chat.id === chatId);
 	const [isSettingsDialogOpen, setIsSettingsDialogOpen] = useState(false);
@@ -41,11 +47,15 @@ function ChatPage() {
 				participant={firstParticipant}
 				onOpenSettings={handleOpenSettings}
 			/>
-			<ChatFeature.ChatMessages messages={mappedMessages} />
+			<ChatFeature.ChatMessages
+				messages={mappedMessages}
+				peerIsTyping={peerIsTyping}
+			/>
 			<ChatFeature.ChatComposer
 				aiEnabled={Boolean(currentChat?.aiEnabled)}
 				sendDisabled={!hubReady}
 				onSend={sendMessage}
+				onTyping={notifyTyping}
 			/>
 			<ChatFeature.ChatSettingsDialog
 				isOpen={isSettingsDialogOpen}

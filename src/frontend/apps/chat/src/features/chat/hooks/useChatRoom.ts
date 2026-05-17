@@ -28,6 +28,10 @@ import {
 	startTransition,
 } from 'react';
 
+export type ChatSendOptions = {
+	requestAgentReply?: boolean;
+};
+
 /** Same-origin path; `next.config` rewrites `/api/*` to `API_BASE_HOST`. Must match Chats API `MapHub` path. */
 const CHAT_HUB_PATH = '/api/v1/chat/hubs/chat';
 
@@ -55,7 +59,12 @@ export function useChatRoom(chatId: string | undefined) {
 		ChatHistoryMessageApiModel[]
 	>([]);
 	const [hubReady, setHubReady] = useState(false);
+	const [peerIsTyping, setPeerIsTyping] = useState(false);
 	const hubRef = useRef<HubConnection | null>(null);
+	const typingHideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
+		null,
+	);
+	const lastTypingNotifyRef = useRef(0);
 
 	const messageParticipants = useMemo(
 		() => mapMessageParticipants(participants),
@@ -115,6 +124,7 @@ export function useChatRoom(chatId: string | undefined) {
 		if (!chatId || !chatDataReady || !currentProfile?.id) {
 			startTransition(() => {
 				setHubReady(false);
+				setPeerIsTyping(false);
 			});
 			return;
 		}
@@ -158,6 +168,17 @@ export function useChatRoom(chatId: string | undefined) {
 				);
 			});
 
+			connection.on('UserTyping', () => {
+				setPeerIsTyping(true);
+				if (typingHideTimeoutRef.current) {
+					clearTimeout(typingHideTimeoutRef.current);
+				}
+				typingHideTimeoutRef.current = setTimeout(() => {
+					typingHideTimeoutRef.current = null;
+					setPeerIsTyping(false);
+				}, 2500);
+			});
+
 			if (cancelled) {
 				await connection.stop();
 				return;
@@ -181,8 +202,13 @@ export function useChatRoom(chatId: string | undefined) {
 
 		return () => {
 			cancelled = true;
+			if (typingHideTimeoutRef.current) {
+				clearTimeout(typingHideTimeoutRef.current);
+				typingHideTimeoutRef.current = null;
+			}
 			startTransition(() => {
 				setHubReady(false);
+				setPeerIsTyping(false);
 			});
 			hubRef.current = null;
 			const activeConnection = connection;
@@ -190,6 +216,7 @@ export function useChatRoom(chatId: string | undefined) {
 				return;
 			}
 			activeConnection.off('MessageReceived');
+			activeConnection.off('UserTyping');
 			void (async () => {
 				try {
 					if (
@@ -207,7 +234,7 @@ export function useChatRoom(chatId: string | undefined) {
 	}, [chatId, chatDataReady, currentProfile?.id]);
 
 	const sendMessage = useCallback(
-		async (text: string) => {
+		async (text: string, options?: ChatSendOptions) => {
 			if (!chatId) {
 				return;
 			}
@@ -216,14 +243,43 @@ export function useChatRoom(chatId: string | undefined) {
 				return;
 			}
 			await hub.invoke('SendChatMessage', chatId, text);
+			if (options?.requestAgentReply) {
+				try {
+					await hub.invoke<MessageResponseDTO>(
+						'PromptChatAgent',
+						chatId,
+						text,
+					);
+				} catch (error) {
+					console.error('PromptChatAgent failed', error);
+				}
+			}
 		},
 		[chatId],
 	);
+
+	const notifyTyping = useCallback(() => {
+		if (!chatId) {
+			return;
+		}
+		const hub = hubRef.current;
+		if (!hub || hub.state !== HubConnectionState.Connected) {
+			return;
+		}
+		const now = Date.now();
+		if (now - lastTypingNotifyRef.current < 1200) {
+			return;
+		}
+		lastTypingNotifyRef.current = now;
+		void hub.invoke('NotifyTyping', chatId);
+	}, [chatId]);
 
 	return {
 		firstParticipant,
 		hubReady,
 		mappedMessages,
+		peerIsTyping,
+		notifyTyping,
 		sendMessage,
 	};
 }
