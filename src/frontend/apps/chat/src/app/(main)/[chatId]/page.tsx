@@ -20,6 +20,7 @@ function ChatPage() {
 		mappedMessages,
 		notifyTyping,
 		peerIsTyping,
+		refetchParticipants,
 		sendMessage,
 	} = useChatRoom(chatId);
 
@@ -37,7 +38,10 @@ function ChatPage() {
 			return;
 		}
 		await updateChatSettings({ chatId, aiEnabled });
-		await getCurrentProfileChats();
+		await Promise.all([
+			getCurrentProfileChats(),
+			refetchParticipants(),
+		]);
 		setIsSettingsDialogOpen(false);
 	};
 

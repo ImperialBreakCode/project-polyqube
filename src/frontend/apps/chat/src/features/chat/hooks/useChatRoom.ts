@@ -274,12 +274,20 @@ export function useChatRoom(chatId: string | undefined) {
 		void hub.invoke('NotifyTyping', chatId);
 	}, [chatId]);
 
+	const refetchParticipants = useCallback(async () => {
+		if (!chatId) {
+			return;
+		}
+		await getChatParticipants(chatId, { includeAgents: true });
+	}, [chatId, getChatParticipants]);
+
 	return {
 		firstParticipant,
 		hubReady,
 		mappedMessages,
 		peerIsTyping,
 		notifyTyping,
+		refetchParticipants,
 		sendMessage,
 	};
 }
