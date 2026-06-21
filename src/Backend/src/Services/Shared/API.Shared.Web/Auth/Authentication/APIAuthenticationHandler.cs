@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System.Net;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
+using Microsoft.Extensions.Primitives;
 
 namespace API.Shared.Web.Auth.Authentication
 {
@@ -29,7 +30,12 @@ namespace API.Shared.Web.Auth.Authentication
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            var token = Request.Headers["Authorization"].ToString();
+            var token = NormalizeBearerToken(Request.Headers["Authorization"]);
+
+            if (string.IsNullOrEmpty(token) && Request.Query.TryGetValue("access_token", out var accessTokenValues))
+            {
+                token = NormalizeBearerToken(accessTokenValues);
+            }
 
             if (string.IsNullOrEmpty(token))
             {
@@ -78,6 +84,23 @@ namespace API.Shared.Web.Auth.Authentication
         private Claim CreateClaim(string claimName, IDictionary<string, object> claimValues)
         {
             return new Claim(claimName, JsonConvert.SerializeObject(claimValues[claimName]));
+        }
+
+        private static string NormalizeBearerToken(StringValues headerOrToken)
+        {
+            var value = headerOrToken.ToString();
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return string.Empty;
+            }
+
+            const string prefix = "Bearer ";
+            if (value.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+            {
+                return value.AsSpan(prefix.Length).Trim().ToString();
+            }
+
+            return value.Trim();
         }
     }
 }

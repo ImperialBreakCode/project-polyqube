@@ -21,3 +21,5 @@ export * from './Cropper';
 export * from './Alert';
 export * from './Card';
 export * from './Spinner';
+export * from './ScrollArea';
+export * from './Switch';

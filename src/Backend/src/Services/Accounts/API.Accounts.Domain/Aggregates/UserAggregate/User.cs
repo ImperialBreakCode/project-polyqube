@@ -17,14 +17,14 @@ namespace API.Accounts.Domain.Aggregates.UserAggregate
 
         public string Username { get; internal set; }
         public string PasswordHash { get; set; }
-        public bool LockedOut { get; set; }
+        public bool LockedOut { get; private set; }
         public bool SystemLock { get; set; }
-        public bool Disabled { get; set; }
+        public bool Disabled { get; private set; }
         public bool Suspended { get; set; }
 
         public IReadOnlyCollection<UserEmail> Emails => 
             _emails
-            .Select(x => x.Clone())
+            //.Select(x => x.Clone())
             .ToList();
 
         public UserDetails? UserDetails { get; set; }

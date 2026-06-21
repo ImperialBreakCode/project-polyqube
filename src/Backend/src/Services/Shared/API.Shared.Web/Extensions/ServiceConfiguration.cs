@@ -76,7 +76,7 @@ namespace API.Shared.Web.Extensions
             return services;
         }
 
-        public static IServiceCollection AddAuthorizationPolices(this IServiceCollection services, params string[] accessNameForNames)
+        public static IServiceCollection AddAuthorizationPolices(this IServiceCollection services, params string[] moduleAccessNames)
         {
             services.AddAuthorization(options =>
             {
@@ -86,20 +86,23 @@ namespace API.Shared.Web.Extensions
                 options.AddPolicy(AuthorizationPolices.ADMIN_SCOPE_POLICY, policy
                     => policy.AddRequirements(new RoleRequirement(AccountRoleNames.ADMIN_ROLE, AccountRoleNames.SUPERUSER_ROLE)));
 
-                if (accessNameForNames.Length != 0)
+                if (moduleAccessNames.Length != 0)
                 {
                     options.AddPolicy(AuthorizationPolices.MODULE_ACCESS_POLICY, policy
                     => policy.AddRequirements(
-                        [.. accessNameForNames.Select(x => new ModuleAccessRequirement(x))]
+                        [.. moduleAccessNames.Select(x => new ModuleAccessRequirement(x))]
                     ));
-
-                    options.DefaultPolicy = options.GetPolicy(AuthorizationPolices.MODULE_ACCESS_POLICY)!;
                 }
                 
             });
 
-            services.AddSingleton<IAuthorizationHandler, RoleRequirementHandler>();
+            if (moduleAccessNames.Length != 0)
+            {
+                services.AddSingleton<IAuthorizationHandler, ModuleAccessRequirementHandler>();
+            }
 
+            services.AddSingleton<IAuthorizationHandler, RoleRequirementHandler>();
+          
             return services;
         }
 
@@ -148,7 +151,8 @@ namespace API.Shared.Web.Extensions
                     builder
                         .WithOrigins(corsOptions.AllowedOrigins)
                         .AllowAnyMethod()
-                        .AllowAnyHeader();
+                        .AllowAnyHeader()
+                        .AllowCredentials();
                 });
             });
 

@@ -1,0 +1,68 @@
+﻿using API.Chats.Common.Features.UserProfiles.Exceptions;
+using API.Chats.Domain.Aggregates.UserProfilesAggregate;
+using API.Chats.Domain.Repositories;
+using API.Shared.Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore;
+
+namespace API.Chats.Infrastructure.Features.UserProfiles
+{
+    internal class UserProfileRepository : SoftDeleteRepository<UserProfile>, IUserProfileRepository
+    {
+        private readonly ChatDbContext _context;
+
+        public UserProfileRepository(ChatDbContext context) : base(context.UserProfile)
+        {
+            _context = context;
+        }
+
+        public async Task<ICollection<BlockedProfile>> GetBlockedProfilesByBlockedProfileId(string profileId)
+        {
+            return await _context.BlockedProfiles
+                .AsNoTracking()
+                .Include(x => x.BlockedBy)
+                .Where(x => x.BlockedUserId == profileId)
+                .ToListAsync();
+        }
+
+        public async Task<UserProfile?> GetProfileByUserId(string userId, bool includeDeleted = default)
+        {
+            if (includeDeleted)
+            {
+                return await DbSet.FirstOrDefaultAsync(x => x.UserId == userId);
+            }
+
+            return await DbSet.FirstOrDefaultAsync(x => x.UserId == userId && x.DeletedAt == null);
+        }
+
+        public override void Insert(UserProfile entity)
+        {
+            if (DbSet.Any(x => x.UserId == entity.UserId))
+            {
+                throw new ProfileAlreadyExistsException();
+            }
+
+            base.Insert(entity);
+        }
+
+        public async Task<bool> UserProfileExists(string userProfileId)
+        {
+            return await DbSet.AnyAsync(x => x.Id == userProfileId);
+        }
+
+        public async Task<ICollection<UserProfile>> SearchProfilesByFullName(string profileName, string currentProfileId, int count = 10)
+        {
+            string searchTerm = profileName.Trim().ToLower();
+
+            return await DbSet
+                .AsNoTracking()
+                .Where(x =>
+                    x.Id != currentProfileId
+                    && x.DeletedAt == null
+                    && (x.FirstName + " " + x.LastName).ToLower().Contains(searchTerm))
+                .OrderBy(x => x.FirstName)
+                .ThenBy(x => x.LastName)
+                .Take(count)
+                .ToListAsync();
+        }
+    }
+}

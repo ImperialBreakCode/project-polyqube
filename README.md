@@ -34,7 +34,21 @@ This README is still under construction 🚧🚧🚧
                 proxy_pass $forward_scheme://$server:$port$request_uri;
             }
             ```
-    - Click **Save**. The backend installation is complete.
+    - Click **Save**.
+
+5. Install the Ollama AI model used by the Chats API. With the backend containers running, open a shell in the Ollama container and pull the model:
+
+    ```bash
+    docker exec -it ollama /bin/bash
+    ```
+
+    Inside the container:
+
+    ```bash
+    ollama pull gemma3:1b
+    ```
+
+    The backend installation is complete.
 
 ## Frontend Installation (Production)
 
@@ -70,10 +84,11 @@ pnpm install --frozen-lockfile
 
 ### Environment Setup
 
-Copy the example env file for the web app:
+Copy the example env files for the web and chat apps:
 
 ```bash
 cp apps/web/env.example.txt apps/web/.env
+cp apps/chat/env.example.txt apps/chat/.env
 ```
 
 ---
@@ -101,6 +116,13 @@ npm start
 
 ```bash
 cd apps/admin
+npm start
+```
+
+**Chat web app** (`apps/chat`):
+
+```bash
+cd apps/chat
 npm start
 ```
 

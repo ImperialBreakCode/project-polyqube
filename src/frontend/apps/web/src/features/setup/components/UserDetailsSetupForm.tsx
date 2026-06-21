@@ -12,8 +12,8 @@ import {
 } from '@/shared/elements/FieldControllers';
 import WebDateController from '@/shared/elements/FieldControllers/WebDateController';
 import { SessionContext } from '@/shared/contexts';
-import { STATUS_CODES } from '@/shared/constants';
 import { useCreateUserDetails } from '../api';
+import { STATUS_CODES } from '@repo/utils/constants/statusCodes';
 
 const userDetailsSetupFormSchema = z.object({
 	firstName: z.string(),

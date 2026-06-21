@@ -1,0 +1,87 @@
+﻿using API.Chats.Application.DatabaseInit;
+using API.Chats.Application.Features.ChatAgents.Seeders;
+using API.Chats.Application.Features.ChatFeatures.Seeders;
+using API.Chats.Application.Features.Ollama.Client;
+using API.Chats.Application.Features.Ollama.Options;
+using API.Chats.Application.Features.Chats.Factories;
+using API.Chats.Application.Features.Participants.Queries.GetChatParticipants;
+using API.Chats.Application.Features.Participants.UrlFileResponseTransforms;
+using API.Chats.Application.Features.UserProfiles.Factories;
+using API.Chats.Application.Features.UserProfiles.Models;
+using API.Chats.Application.Features.UserProfiles.Queries.SearchProfilesByFullName;
+using API.Chats.Application.Features.UserProfiles.UrlFileResponseTransforms;
+using API.Shared.Application.Extensions;
+using API.Shared.Common.MediatorResponse;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+
+namespace API.Chats.Application.Extensions
+{
+    public static class ServiceConfiguration
+    {
+        public static IServiceCollection AddChatsApplicationLayer(this IServiceCollection services, IConfiguration configuration)
+        {
+            services
+                .AddDatabaseSeeder<DatabaseSeeder>()
+                .AddMapper()
+                .AddMassTransitRabbitMq(configuration, typeof(ServiceConfiguration).Assembly);
+
+            services
+                .AddOptions<OllamaOptions>()
+                .BindConfiguration(nameof(OllamaOptions))
+                .ValidateDataAnnotations()
+                .ValidateOnStart();
+
+            services
+                .AddHttpClient<IOllamaChatClient, OllamaChatClient>((sp, client) =>
+                {
+                    var opt = sp.GetRequiredService<IOptions<OllamaOptions>>().Value;
+                    client.BaseAddress = new Uri(opt.BaseUrl.TrimEnd('/') + "/");
+                    client.Timeout = TimeSpan.FromMinutes(3);
+                });
+
+            services
+                .AddChatFeatures()
+                .AddChatAgents()
+                .AddUserProfiles()
+                .AddChats();
+
+            return services;
+        }
+
+        private static IServiceCollection AddChats(this IServiceCollection services)
+        {
+            services.AddTransient<IChatQueryFactory, ChatQueryFactory>();
+            services.AddTransient<IMediatorResponseInterceptor<GetChatParticipantsResponse>, GetChatParticipantsResponseTransform>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddUserProfiles(this IServiceCollection services)
+        {
+            services.AddTransient<IUserProfileCommandFactory, UserProfileCommandFactory>();
+            services.AddTransient<IUserProfileQueryFactory, UserProfileQueryFactory>();
+
+            services.AddTransient<IMediatorResponseInterceptor<UserProfileViewModel>, UserProfileViewModelTransform>();
+            services.AddTransient<IMediatorResponseInterceptor<SearchProfilesByFullNameResponse>, SearchProfilesByFullNameResponseTransform>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddChatFeatures(this IServiceCollection services)
+        {
+            services.AddTransient<IChatFeatureSeeder, ChatFeatureSeeder>();
+            services.AddTransient<IChatCommandFactory, ChatCommandFactory>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddChatAgents(this IServiceCollection services)
+        {
+            services.AddTransient<IChatAgentSeeder, ChatAgentSeeder>();
+
+            return services;
+        }
+    }
+}

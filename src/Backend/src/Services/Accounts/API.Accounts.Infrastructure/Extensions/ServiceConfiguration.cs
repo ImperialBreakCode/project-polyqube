@@ -3,6 +3,7 @@ using API.Accounts.Domain.CacheEntities;
 using API.Accounts.Domain.Factories;
 using API.Accounts.Domain.Repositories;
 using API.Accounts.Infrastructure.Factories;
+using API.Accounts.Infrastructure.Features.ModuleAuthDatas;
 using API.Accounts.Infrastructure.Features.SessionAccessInfos;
 using API.Accounts.Infrastructure.Features.Sessions;
 using API.Shared.Domain.CacheEntities.Accounts;
@@ -35,6 +36,9 @@ namespace API.Accounts.Infrastructure.Extensions
 
             services.AddTransient<ICacheRepository<SessionAccessInfo>, CacheRepository<SessionAccessInfo>>();
             services.AddTransient<ISessionAccessInfoRepository, SessionAccessInfoRepoAdapter>();
+
+            services.AddTransient<ICacheRepository<ModuleAuthData>, CacheRepository<ModuleAuthData>>();
+            services.AddTransient<IModuleAuthDataRepository, ModuleAuthDataRepoAdapter>();
 
             return services;
         }

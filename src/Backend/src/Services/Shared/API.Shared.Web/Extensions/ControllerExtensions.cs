@@ -8,16 +8,7 @@ namespace API.Shared.Web.Extensions
     {
         public static string GetUserId(this ControllerBase controller)
         {
-            var subjectClaim = controller.HttpContext.User.FindFirst(APIClaimNames.SubjectClaim);
-
-            var id = string.Empty;
-
-            if (subjectClaim is not null)
-            {
-                id = JsonConvert.DeserializeObject<string>(subjectClaim.Value) ?? string.Empty;
-            }
-
-            return id;
+            return controller.HttpContext.User.GetUserId();
         }
 
         public static string GetSessionId(this ControllerBase controller)

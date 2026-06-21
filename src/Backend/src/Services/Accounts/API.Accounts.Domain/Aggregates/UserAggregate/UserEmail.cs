@@ -14,24 +14,24 @@ namespace API.Accounts.Domain.Aggregates.UserAggregate
             IsVerified = false;
         }
 
-        public string Email { get; set; }
-        public bool IsPrimary { get; set; }
-        public bool IsVerified { get; set; }
+        public string Email { get; private set; }
+        public bool IsPrimary { get; internal set; }
+        public bool IsVerified { get; internal set; }
 
         public DateTime UpdatedAt { get; set; }
 
-        public UserEmail Clone()
-        {
-            return new UserEmail()
-            {
-                Email = Email,
-                IsPrimary = IsPrimary,
-                UpdatedAt = UpdatedAt,
-                CreatedAt = CreatedAt,
-                IsVerified = IsVerified,
-                Id = Id
-            };
-        }
+        //public UserEmail Clone()
+        //{
+        //    return new UserEmail()
+        //    {
+        //        Email = Email,
+        //        IsPrimary = IsPrimary,
+        //        UpdatedAt = UpdatedAt,
+        //        CreatedAt = CreatedAt,
+        //        IsVerified = IsVerified,
+        //        Id = Id
+        //    };
+        //}
 
         internal static UserEmail Create(string email)
         {

@@ -9,6 +9,7 @@ namespace API.Accounts.Application.Features.Users.Mappings
         public SessionViewModelMapping()
         {
             CreateMap<UserSession, SessionViewModel>();
+            CreateMap<ModuleAuthData, ModuleAuthDataViewModel>();
         }
     }
 }

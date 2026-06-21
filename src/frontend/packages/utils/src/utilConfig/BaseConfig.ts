@@ -4,7 +4,7 @@ abstract class BaseConfig {
 	protected static getNonNullableVar(varName: string) {
 		const variable = this.getEnv(varName);
 
-		if (!variable) {
+		if (variable === undefined) {
 			throw new EnvVarsNotFound({
 				envVarName: varName,
 			});
